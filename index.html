@@ -4,7 +4,7 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v5.5.43 · Sentence Progress</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v5.5.44 · Sentence Progress</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -21750,7 +21750,7 @@ function navigate292(item){S292.lastTarget=item?.id||null;if(item.course==='day'
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v5.5.43 · Sentence Progress'}catch(e){}
+  try{document.title='SAYWARD v5.5.44 · Sentence Progress'}catch(e){}
   try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='MY VOCA v5.3.292')}catch(e){}
   try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v5.3.292'}catch(e){}
   try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v5.3.292')}catch(e){}
@@ -22046,7 +22046,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v5.5.43 · Sentence Progress'}catch(e){}
+  try{document.title='SAYWARD v5.5.44 · Sentence Progress'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -23025,7 +23025,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v5.5.43 · Sentence Progress';
+  document.title='SAYWARD v5.5.44 · Sentence Progress';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -26755,7 +26755,7 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
  }
  const pointTexts=feedback=>{const points=Array.isArray(feedback?.correction_points)?feedback.correction_points:[];return points.filter(p=>typeof p==='string'&&p.trim()).slice(0,20)};
  const officialGrade=g=>['Perfect','Review','Miss'].includes(g)?g:null;
- function renderTimeline(official,apps,history){
+ function renderTimeline(official,apps,history,legacyEvents=[]){
    const byAttempt=new Map(history.map(h=>[h.attempt_id,h]));
    const timeline=[];
    for(const a of official){
@@ -26764,17 +26764,21 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
      timeline.push({kind:'gpt',date:h?.created_at||a.submitted_at||a.issued_at,attempt:a,feedback:fb,grade:h?.grade||a.grade});
    }
    for(const a of apps)timeline.push({kind:'app',date:a.created_at,attempt:a});
+   for(const a of legacyEvents)timeline.push({kind:'legacy',date:a.studied_at,attempt:a});
    timeline.sort((a,b)=>{const t=Date.parse(a.date||0)-Date.parse(b.date||0);return t||String(a.attempt?.attempt_id||a.attempt?.practice_id||'').localeCompare(String(b.attempt?.attempt_id||b.attempt?.practice_id||''))});
    const group=el('sw5538Timeline');group.replaceChildren();
    if(!timeline.length){group.append(node('p','sw5538-help','이 패턴의 학습 기록이 없습니다.'));return;}
    timeline.forEach((x,i)=>{
      const item=node('article','sw5538-event');const head=node('div','sw5538-event-header');
-     const app=x.kind==='app',grade=app?({recalled:'혼자 성공',review:'복습 필요',learned:'정답 보고 학습'}[x.attempt.self_rating]||'앱 자기평가'):(officialGrade(x.grade)||'채점 전');
-     head.append(node('strong','',`${i+1}회 · ${app?'앱 연습':'GPT 공식'} · ${grade}`),node('small','',when(x.date)));item.append(head);
+     const legacy=x.kind==='legacy',app=x.kind==='app',grade=legacy?'이전 학습':app?({recalled:'혼자 성공',review:'복습 필요',learned:'정답 보고 학습'}[x.attempt.self_rating]||'앱 자기평가'):(officialGrade(x.grade)||'채점 전');
+     head.append(node('strong','',`${i+1}회 · ${legacy?'이전 학습':app?'앱 연습':'GPT 공식'} · ${grade}`),node('small','',when(x.date)));item.append(head);
      const field=(label,value,extra='')=>{const f=node('div','sw5538-data '+extra);f.append(node('b','',label),node('span','',safe(value,'내용 없음')));item.append(f)};
-     field('한국어 문제',app?x.attempt.prompt_ko:x.attempt.prompt_ko);
+     field('한국어 문제',x.attempt.prompt_ko);
      field('당시 내 영어 답안',x.attempt.user_answer,'answer');
-     if(app){
+     if(legacy){
+       field('이전 교정 영어',x.attempt.corrected_en,'corrected');
+       field('기록 출처',x.attempt.source==='practice_history'?'별도 문장 연습':'Legacy 이관');
+     }else if(app){
        field('저장 당시 DB 기준 예문 (유일한 정답 아님)',x.attempt.reference_en,'corrected');
        field('힌트 사용',x.attempt.hint_used?'예 — 독립 회상으로 계산하지 않음':'아니요');
      }else if(x.feedback.corrected_en){
@@ -26823,17 +26827,18 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
    for(const key of ['sw5538Summary','sw5538Trend','sw5538FirstLast','sw5538Timeline'])el(key).replaceChildren();
    setStatus('전체 공식 출제·채점·앱 연습 기록 조회 중…');
    try{
-     const [official,history,apps,pattern]=await Promise.all([
+     const [official,history,apps,legacy,pattern]=await Promise.all([
        allPages(c,'sayward_study_attempts','attempt_id,pattern_id,prompt_ko,user_answer,grade,status,issued_at,submitted_at',user,id,'issued_at'),
        allPages(c,'sayward_learning_history','attempt_id,pattern_id,grade,feedback,created_at',user,id,'created_at'),
        allPages(c,'sayward_app_sentence_practice','practice_id,pattern_id,prompt_ko,user_answer,self_rating,hint_used,reference_en,created_at',user,id,'created_at'),
+       allPages(c,'sayward_sentence_learning_unified','event_id,pattern_id,source,studied_at,prompt_ko,user_answer,corrected_en,grade',user,id,'studied_at'),
        c.from('sayward_patterns').select('pattern_id,canonical_pattern,pattern_ko').eq('pattern_id',id).maybeSingle()
      ]);
      if(!checked(user,ver))return;
      if(pattern?.data){selectedMeta=pattern.data;el('sw5538SelectedTitle').textContent=safe(pattern.data.canonical_pattern,'공식 패턴');el('sw5538SelectedMeaning').textContent=safe(pattern.data.pattern_ko,'뜻 정보 없음')}
-     renderSummary(official.rows,apps.rows,history.rows);renderTimeline(official.rows,apps.rows,history.rows);
-     const truncated=official.truncated||history.truncated||apps.truncated;
-     setStatus(`공식 출제 ${official.rows.length}회 · GPT 채점 ${history.rows.length}회 · 앱 연습 ${apps.rows.length}회${truncated?' · 기록이 매우 많아 일부만 조회됨':' · 전체 이력 조회 완료'}`);
+     renderSummary(official.rows,apps.rows,history.rows);renderTimeline(official.rows,apps.rows,history.rows,legacy.rows.filter(x=>x.source==='legacy'||x.source==='practice_history'));
+     const truncated=official.truncated||history.truncated||apps.truncated||legacy.truncated;
+     setStatus(`공식 출제 ${official.rows.length}회 · GPT 채점 ${history.rows.length}회 · 앱 연습 ${apps.rows.length}회 · 이전/별도 연습 ${legacy.rows.filter(x=>x.source==='legacy'||x.source==='practice_history').length}회${truncated?' · 기록이 매우 많아 일부만 조회됨':' · 전체 이력 조회 완료'}`);
    }catch(error){if(checked(user,ver)){setStatus('패턴별 이력 조회 실패 · 인터넷 연결과 로그인 상태를 확인하고 다시 조회해 주세요.');el('sw5538Timeline').replaceChildren();console.warn('SAYWARD_PATTERN_JOURNEY_FAILED',error?.message||error)}}
  }
  function reset(){++requestVersion;++searchSeq;chosen=null;selectedMeta=null;allPatterns=null;loadedUser=null;selectedUser=null;
@@ -26956,7 +26961,7 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
      if(mode==='latestWrong')result=n(a.last_grade==='Miss'?2:a.last_grade==='Review'?1:0,b.last_grade==='Miss'?2:b.last_grade==='Review'?1:0)||n(rtime(a.last_gpt_at),rtime(b.last_gpt_at));
      if(mode==='improved')result=n(diff(a),diff(b))||n(get(a.gpt_total),get(b.gpt_total));
      if(mode==='overdue')result=rtime(a.last_activity)-rtime(b.last_activity);
-     if(mode==='most')result=n(get(a.gpt_total)+get(a.app_total),get(b.gpt_total)+get(b.app_total));
+     if(mode==='most')result=n(get(a.gpt_total)+get(a.app_total)+get(a.legacy_total),get(b.gpt_total)+get(b.app_total)+get(b.legacy_total));
      if(mode==='recent')result=n(rtime(a.last_activity),rtime(b.last_activity));
      return mode==='name'?byName():(result||byName());
    };rows.sort(compare);
@@ -26965,22 +26970,59 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
      const card=el('button','sw5539-card sw5540-list-card');card.type='button';card.dataset.sw5538Pick=r.pattern_id;
      const left=el('span','sw5540-list-pattern');
      left.append(el('span','sw5540-list-name',`${i+1}. ${r.canonical_pattern||r.pattern_id}`),el('span','sw5540-list-meaning',r.pattern_ko||'뜻 미등록'));
-     const gpt=get(r.gpt_total),app=get(r.app_total),times=gpt+app;
+     const gpt=get(r.gpt_total),app=get(r.app_total),legacy=get(r.legacy_total),times=gpt+app+legacy;
      const wrongCell=el('span','sw5540-cell sw5540-wrong'+(wrong(r)>0?' is-weak':''),gpt?`${wrong(r)}회`:'—');
      const totalCell=el('span','sw5540-cell sw5540-total',`${times}회`);
      const top=el('span','sw5540-list-main');top.append(left,wrongCell,totalCell);
      card.append(top);
-     const details=el('span','sw5540-list-detail',`GPT ${gpt}회 · Miss ${get(r.miss_count)} / Review ${get(r.review_count)} / Perfect ${get(r.perfect_count)} · 앱 ${app}회${get(r.gpt_total)>=3?` · 비Perfect ${percent(r)}%`:''}`);
+     const details=el('span','sw5540-list-detail',`GPT ${gpt}회 · Miss ${get(r.miss_count)} / Review ${get(r.review_count)} / Perfect ${get(r.perfect_count)} · 이전 학습 ${legacy}회 · 앱 ${app}회${get(r.gpt_total)>=3?` · 비Perfect ${percent(r)}%`:''}`);
      if(diff(r)>0)details.append(el('b','sw5540-improved',' · 등급 개선 ↑'));
      if(due(r))details.append(el('b','sw5540-due',' · 복습 추천'));
      card.append(details);list.append(card);
    }
    if(!rows.length)list.append(el('p','sw5539-status','해당 조건의 학습 패턴이 없습니다. 다른 정렬·조회 조건을 선택해 보세요.'));
    const more=$('sw5539More');more.hidden=true;
-   status(`전체 학습 패턴 ${data.length}개 중 ${rows.length}개 표시 · GPT 공식 채점과 앱 자기평가를 구분해 집계`);
+   status(`전체 학습 패턴 ${data.length}개 중 ${rows.length}개 표시 · 공식·이전 학습·앱 연습을 구분해 집계`);
  }
  async function refresh(force=false){const a=auth();if(!a?.client){clear();return;}if(loading&&loadedUid===a.uid&&!force)return;if(!force&&loadedUid===a.uid&&data.length&&Date.now()-loadedAt<120000){render();return;}const uid=a.uid,token=++pending;loading=true;status('공식 History와 앱 연습 전체 집계 조회 중…');try{
-   const {data:rows,error}=await a.client.rpc('sayward_pattern_priority_summary');if(error)throw error;if(token!==pending||auth()?.uid!==uid)return;if(!Array.isArray(rows))throw new Error('INVALID_SUMMARY_RESULT');data=rows.filter(x=>x&&typeof x.pattern_id==='string');loadedUid=uid;loadedAt=Date.now();loading=false;showCount=Infinity;render();
+   const events=[];let page=0;const size=700;
+   while(true){
+     const {data:part,error}=await a.client.from('sayward_sentence_learning_unified')
+       .select('pattern_id,source,grade,studied_at').eq('user_id',uid)
+       .order('studied_at',{ascending:true}).range(page*size,(page+1)*size-1);
+     if(error)throw error;
+     events.push(...(part||[]));
+     if(!part||part.length<size)break;
+     if(++page>=100)throw new Error('HISTORY_PAGE_LIMIT');
+   }
+   const ids=[...new Set(events.map(e=>e.pattern_id).filter(Boolean))];
+   const meta=new Map();
+   for(let i=0;i<ids.length;i+=250){
+     const {data:part,error}=await a.client.from('sayward_patterns')
+       .select('pattern_id,canonical_pattern,pattern_ko').in('pattern_id',ids.slice(i,i+250));
+     if(error)throw error;
+     for(const p of part||[])meta.set(p.pattern_id,p);
+   }
+   const grouped=new Map();
+   for(const e of events){
+     if(!e.pattern_id)continue;
+     let r=grouped.get(e.pattern_id);
+     if(!r){r={pattern_id:e.pattern_id,...(meta.get(e.pattern_id)||{}),gpt_total:0,app_total:0,legacy_total:0,miss_count:0,review_count:0,perfect_count:0,last3_review_count:0,last_grade:null,first_grade:null,last_gpt_at:null,last_activity:null,last_app_rating:null,last_app_hint:false,_grades:[]};grouped.set(e.pattern_id,r)}
+     if(e.studied_at&&(!r.last_activity||Date.parse(e.studied_at)>Date.parse(r.last_activity)))r.last_activity=e.studied_at;
+     if(e.source==='official'){
+       r.gpt_total++;if(!r.first_grade)r.first_grade=e.grade;
+       r.last_grade=e.grade;r.last_gpt_at=e.studied_at;
+       if(e.grade==='Miss')r.miss_count++;
+       if(e.grade==='Review')r.review_count++;
+       if(e.grade==='Perfect')r.perfect_count++;
+       r._grades.push(e.grade);
+     }else if(e.source==='legacy')r.legacy_total++;
+     else {r.app_total++;r.last_app_rating=e.grade;r.last_app_hint=false}
+   }
+   const rows=[...grouped.values()].map(r=>{r.last3_review_count=r._grades.slice(-3).filter(g=>g==='Miss'||g==='Review').length;delete r._grades;return r});
+   if(token!==pending||auth()?.uid!==uid)return;
+   data=rows;loadedUid=uid;loadedAt=Date.now();loading=false;showCount=Infinity;render();
+   status(`통합 DB 이력 ${events.length}건 · 고유 패턴 ${data.length}개 (공식 / 이전 학습 / 앱 연습 구분)`);
  }catch(e){if(token===pending&&auth()?.uid===uid){data=[];loadedUid=null;loading=false;$('sw5539List')?.replaceChildren();status('정렬 통계를 불러오지 못했습니다. 로그인과 연결을 확인한 뒤 ↻ 재조회해 주세요.');console.warn('SAYWARD_PATTERN_PRIORITY_FAILED',e?.message||e)}}}
  const updated=e=>{if(e.target?.id==='sw5539Sort'||e.target?.id==='sw5539Filter'){showCount=Infinity;if(loadedUid)render()}};
  document.addEventListener('change',updated);document.addEventListener('input',e=>{if(e.target?.id==='sw5539Search'){showCount=Infinity;if(loadedUid)render()}});
