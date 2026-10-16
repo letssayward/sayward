@@ -1,11 +1,11 @@
-<!-- SAYWARD v6.0.1; v6.0 RC2 official baseline + opt-in legacy device preference import -->
+<!-- SAYWARD v6.0.2; v6.0 RC2 official baseline + live sentence stats + personal sync -->
 <!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.0.1 · Stable Due Review</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.0.2 · Stable Due Review</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -3269,7 +3269,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 .sw5522-day-wait-body small{font-size:11px}
 .sw5522-day-none{grid-column:1/-1;border:1px solid #dcd6ec;border-radius:14px;background:#faf9ff;color:#4e416f;padding:18px;font-size:13px;line-height:1.7}
 </style>
-<meta name="sayward-build" content="6.0.1-personal-sync"/>
+<meta name="sayward-build" content="6.0.2-live-sentence-drawer"/>
 <style id="sw5523-day-policy-ui">
 .sw5523-day-error{grid-column:1/-1;border:1px solid #e0c9c7;background:#fff8f6;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:9px;color:#68423d}
 .sw5523-day-error small{font-size:13px;word-break:break-word}
@@ -12292,7 +12292,7 @@ function mvSentenceEntryAudit182(){
 window.mvSentenceEntryAudit182=mvSentenceEntryAudit182;
 
 /* ===== V5.3.189 · STANDARD APP INFO / UPDATE HISTORY ===== */
-const MV_APP_VERSION='6.0.1';
+const MV_APP_VERSION='6.0.2';
 
 function mvCloseInfoOverlay(){
   const overlay=document.getElementById('mvInfoOverlay');
@@ -15836,7 +15836,7 @@ function installVisibleBuildBadge(){
   if(!badge){
     badge=document.createElement('div');
     badge.id='mvBuildBadge';
-    badge.textContent='v6.0.1';
+    badge.textContent='v6.0.2';
     badge.title='현재 실행 중인 MY VOCA 빌드';
     document.body.appendChild(badge);
   }
@@ -20686,8 +20686,8 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.0.1');
-  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.0.1';
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.0.2');
+  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.0.2';
   mv281SyncUI();
 },0);
 })();
@@ -20940,9 +20940,9 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.0.1')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.0.1'}catch(e){}
-  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.0.1'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.0.2')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.0.2'}catch(e){}
+  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.0.2'}catch(e){}
 },0);
 
 window.mvSwipeLifetimeAudit288=function(){
@@ -21112,9 +21112,9 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.0.1')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.0.1'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.0.1')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.0.2')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.0.2'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.0.2')}catch(e){}
   refreshPausedBrowseUI289();
 },0);
 
@@ -21348,10 +21348,10 @@ function navigate292(item){S292.lastTarget=item?.id||null;if(item.course==='day'
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v6.0.1 · Stable Due Review'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.0.1')}catch(e){}
-  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.0.1'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.0.1')}catch(e){}
+  try{document.title='SAYWARD v6.0.2 · Stable Due Review'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.0.2')}catch(e){}
+  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.0.2'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.0.2')}catch(e){}
 },0);
 window.mvUnifiedSearchAudit292=()=>({version:'v5.3.292',indexCount:buildIndex292().length,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'additive unified search only; existing playback/swipe/card logic unchanged'});
 })();
@@ -21644,7 +21644,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v6.0.1 · Stable Due Review'}catch(e){}
+  try{document.title='SAYWARD v6.0.2 · Stable Due Review'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -21665,7 +21665,7 @@ window.mvCleanAudit540=function(){
   const h=home(),bar=document.getElementById('sharedStudySelectBar');
   const cards=[...document.querySelectorAll('#homePage .myClassSection .myClassCard')].slice(0,4);
   return {
-    version:'v6.0.1',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
+    version:'v6.0.2',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
     sharedBar:!!bar,daySettings:!!document.getElementById('cleanDaySettings'),legacyModePanelVisible:!!document.getElementById('homeStudyModePanel')&&getComputedStyle(document.getElementById('homeStudyModePanel')).display!=='none',
     visibleSections:{day:getComputedStyle(document.querySelector('#homePage .daySection')||document.body).display,my:getComputedStyle(document.querySelector('#homePage .myClassSection')||document.body).display,sori:getComputedStyle(document.querySelector('#homePage .soriClassSection')||document.body).display,opic:getComputedStyle(document.querySelector('#homePage .opicClassSection')||document.body).display,friends:getComputedStyle(document.querySelector('#homePage .friendsClassSection')||document.body).display},
     myCards:cards.map(c=>({w:Math.round(c.getBoundingClientRect().width),h:Math.round(c.getBoundingClientRect().height)})),
@@ -21851,7 +21851,7 @@ window.mvCleanAudit540=function(){
 #cleanHeroMenuHit,#cleanHeroSearchHit{position:absolute!important;top:0!important;height:100%!important;width:18%!important;border:0!important;background:transparent!important;padding:0!important;z-index:8!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 #cleanHeroMenuHit{left:-5px!important} #cleanHeroSearchHit{right:0!important}
 #homePage .homeHero::before{
-  content:"v6.0.1"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
+  content:"v6.0.2"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
   min-width:54px!important;padding:2px 8px 3px!important;box-sizing:border-box!important;text-align:center!important;
   border:1.5px solid rgba(255,255,255,.92)!important;border-radius:999px!important;background:rgba(77,62,202,.96)!important;
   color:#fff!important;font-size:9px!important;line-height:1.1!important;font-weight:950!important;letter-spacing:.1px!important;
@@ -22684,7 +22684,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v6.0.1 · Stable Due Review';
+  document.title='SAYWARD v6.0.2 · Stable Due Review';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -25809,24 +25809,36 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
 <script id="sw5526-sentence-drawer-summary">
 (function(){'use strict';
   const get=id=>document.getElementById(id);
-  let cache=null;let cacheAt=0;let currentUid=null;let running=null;let serial=0;
-  const ids={stable:'sw5526Stable',learning:'sw5526Learning',focus:'sw5526Focus',new:'sw5526New'};
   const auth=()=>window.saywardAuth?.snapshot?.()||{};
+  const ids={stable:'sw5526Stable',learning:'sw5526Learning',focus:'sw5526Focus',new:'sw5526New'};
   const put=(id,value)=>{const e=get(id);if(e)e.textContent=String(value);};
+  let cache=null,lastSuccessAt=0,currentUid=null,serial=0;
+  // A separate, accessible status line keeps the cached figures/explanation visible
+  // while every menu opening requests a fresh, no-store Supabase result.
+  function installStatus(){
+    let meta=get('sw5526SentenceSyncStatus');if(meta)return meta;
+    const explanation=get('sw5526SentenceStatus');if(!explanation)return null;
+    meta=document.createElement('div');meta.id='sw5526SentenceSyncStatus';
+    meta.setAttribute('role','status');meta.setAttribute('aria-live','polite');
+    meta.style.cssText='font-size:11px;line-height:1.5;opacity:.85;margin-top:6px;overflow-wrap:anywhere';
+    explanation.insertAdjacentElement('afterend',meta);return meta;
+  }
+  const status=t=>{const e=installStatus();if(e)e.textContent=t;};
+  const fmt=ts=>ts?new Date(ts).toLocaleString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}):'없음';
   function clear(reason){
-    cache=null;cacheAt=0;
+    cache=null;lastSuccessAt=0;
     for(const id of Object.values(ids))put(id,'—');
     put('sw5526SentencePercent','—');put('sw5526SentenceTotal','—');put('sw5526SentenceTouched','—');
     const b=get('sw5526SentenceBar');if(b)b.style.width='0%';
     put('sw5526SentenceStatus',reason);put('sw5529DrawerAppSummary','앱 연습 기록 조회 대기 중');
+    status(reason);
   }
-  function show(data,remember=true){
-    const s=auth();if(!s.authenticated||!s.uid||s.uid!==data?.uid)return;
+  function show(data){
+    const s=auth();if(!s.authenticated||!s.uid||s.uid!==data?.uid)return false;
     const c=data.counts||{};
-    if(['stable','learning','focus','new'].some(k=>!Number.isSafeInteger(c[k])||c[k]<0))return;
-    const total=Object.values(c).reduce((a,b)=>a+b,0);
-    if(total!==data.total)return;
-    if(remember){cache={...data,uid:s.uid,total,counts:{...c}};cacheAt=Date.now();}
+    if(['stable','learning','focus','new'].some(k=>!Number.isSafeInteger(c[k])||c[k]<0))return false;
+    const total=c.stable+c.learning+c.focus+c.new;
+    if(total!==data.total)return false;
     for(const key of Object.keys(ids))put(ids[key],c[key]);
     const touched=c.stable+c.learning+c.focus;
     const latest=Array.isArray(data.appLatest)?data.appLatest:[];
@@ -25837,52 +25849,57 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     put('sw5526SentencePercent',total?progress.toFixed(1)+'%':'0%');
     put('sw5526SentenceTotal',total);put('sw5526SentenceTouched',experienced);
     const bar=get('sw5526SentenceBar');if(bar)bar.style.width=progress.toFixed(2)+'%';
-    put('sw5526SentenceStatus',data.appError?'GPT 공식 '+touched+'개 · 앱 자기평가 조회 실패 (표시는 공식 진도만 반영)':'GPT 공식 '+touched+'개 + 앱에서 처음 학습한 패턴 '+appOnly.size+'개 (중복 제외)');
-    const countsApp={recalled:0,review:0,learned:0};for(const x of latest){if(x.self_rating in countsApp)countsApp[x.self_rating]++;}
+    put('sw5526SentenceStatus','GPT 공식 '+touched+'개 + 앱에서 처음 학습한 패턴 '+appOnly.size+'개 (중복 제외)');
+    const countsApp={recalled:0,review:0,learned:0};
+    for(const x of latest){if(Object.prototype.hasOwnProperty.call(countsApp,x.self_rating))countsApp[x.self_rating]++;}
     put('sw5529DrawerAppSummary','✍️ 앱 연습 '+latest.length+'개 패턴 · 혼자 성공 '+countsApp.recalled+' / 복습 '+countsApp.review+' / 정답 확인 '+countsApp.learned+' · 공식 승급과 별도');
+    return true;
   }
-  async function request(){
+  async function request(reason){
     const s=auth();if(!s.authenticated||!s.uid)return;
-    if(cache?.uid===s.uid && Date.now()-cacheAt<30000)return show(cache,false);
-    if(running)return running;
     const uid=s.uid,ticket=++serial;
-    put('sw5526SentenceStatus','문장 학습 현황을 불러오는 중입니다…');
-    running=(async()=>{
-      try{
-        const [official,app]=await Promise.allSettled([window.saywardAuth.readSentenceCounts(),window.saywardAuth.readAppPracticeLatest()]);
-        if(ticket!==serial||auth().uid!==uid)return;
-        if(official.status!=='fulfilled')throw official.reason;
-        show({...official.value,appLatest:app.status==='fulfilled'?app.value:[],appError:app.status!=='fulfilled'});
-      }catch(e){
-        if(ticket===serial&&auth().uid===uid)
-          put('sw5526SentenceStatus','학습 현황 조회 지연 · 메뉴를 다시 열면 재시도합니다.');
-      }finally{if(ticket===serial)running=null;}
-    })();
-    return running;
-  }
-  window.saywardRefreshSentenceDrawer=()=>{
-    if(cache&&cache.uid===auth().uid){
-      const stale=Date.now()-cacheAt>=30000;
-      show(cache,false);
-      if(stale){cache=null;void request();}
-      return;
+    // Never skip a remote fetch because of a 30-second cache. Even if the previous
+    // request is still in flight, the newer request wins (account + serial guards).
+    if(cache?.uid===uid)show(cache);
+    status((reason==='save'?'학습 저장 확인 · ':'')+'Supabase 최신 현황 조회 중…'+(lastSuccessAt?' · 마지막 확인 '+fmt(lastSuccessAt):''));
+    try{
+      const [official,app]=await Promise.all([
+        window.saywardAuth.readSentenceCounts(),
+        window.saywardAuth.readAppPracticeLatest()
+      ]);
+      if(ticket!==serial||auth().uid!==uid||!auth().authenticated)return;
+      if(!show({...official,appLatest:app}))throw new Error('SENTENCE_DATA_INVALID');
+      cache={...official,appLatest:app,uid};lastSuccessAt=Date.now();
+      status('✓ 최신 DB 확인 '+fmt(lastSuccessAt));
+    }catch(err){
+      if(ticket!==serial||auth().uid!==uid||!auth().authenticated)return;
+      // Never substitute zeros or partial data on failure; old successful figures
+      // remain visible, and the timestamp explicitly says they are not current.
+      if(!cache)put('sw5526SentenceStatus','학습 현황을 불러오지 못했습니다. 다시 열면 재시도합니다.');
+      const code=String(err?.message||'NETWORK_ERROR').slice(0,65).replace(/[<>]/g,'');
+      status('⚠ 최신 DB 조회 실패 ('+code+') · 마지막 성공 '+fmt(lastSuccessAt)+' · 메뉴를 다시 열면 재시도');
     }
-    void request();
-  };
-  window.addEventListener('sayward:app-practice-updated',e=>{if(e.detail?.uid===auth().uid){cache=null;cacheAt=0;running=null;++serial;void request();}});
+  }
+  // Called by the existing core openDrawer() on every three-line-menu opening.
+  window.saywardRefreshSentenceDrawer=()=>{void request('menu');};
+  // Only verified persisted app study results emit this event, so read immediately.
+  window.addEventListener('sayward:app-practice-updated',e=>{
+    if(e.detail?.uid===auth().uid&&auth().authenticated)void request('save');
+  });
+  // Official DB-based sentence state refresh also invalidates the last cached view.
   window.addEventListener('sayward:sentence-progress',e=>{
-    if(e.detail?.uid===auth().uid){++serial;running=null;cache=null;void request();}
+    if(e.detail?.uid===auth().uid&&auth().authenticated)void request('save');
   });
   window.addEventListener('sayward:auth-state',e=>{
     const s=e.detail||{};
     if(!s.authenticated||!s.uid){
-      ++serial;currentUid=null;running=null;clear(s.sessionPresent?'계정 승인 확인 후 표시됩니다.':'로그인하면 문장 학습 현황을 표시합니다.');return;
+      ++serial;currentUid=null;clear(s.sessionPresent?'계정 승인 확인 후 표시됩니다.':'로그인하면 문장 학습 현황을 표시합니다.');return;
     }
-    if(currentUid!==s.uid){++serial;running=null;currentUid=s.uid;clear('문장 학습 현황을 불러오는 중입니다…');}
-    void request();
+    if(currentUid!==s.uid){++serial;currentUid=s.uid;clear('문장 학습 현황을 불러오는 중입니다…');}
+    void request('auth');
   });
-  const start=auth();
-  if(start.authenticated&&start.uid){currentUid=start.uid;void request();}
+  installStatus();
+  const start=auth();if(start.authenticated&&start.uid){currentUid=start.uid;void request('auth');}
 })();
 </script>
 <script id="sw5527-pattern-practice">
@@ -27218,7 +27235,7 @@ function saveIfRunning(){
 window.addEventListener('pagehide',saveIfRunning);
 window.addEventListener('beforeunload',saveIfRunning);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveIfRunning()});
-window.sw545ResumeAudit=()=>({version:'6.0.1',behavior:behavior(),overall:jparse(OVERALL_KEY)?.state||null,
+window.sw545ResumeAudit=()=>({version:'6.0.2',behavior:behavior(),overall:jparse(OVERALL_KEY)?.state||null,
   resumeKeys:Object.keys(jparse('sayward_playback_resume_v1')||{}),randomSeeds:Object.keys(jparse(RANDOM_KEY)||{}).length});
 })();
 </script>
