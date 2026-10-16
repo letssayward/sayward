@@ -1,10 +1,11 @@
+<!-- SAYWARD v6.0.1; v6.0 RC2 official baseline + opt-in legacy device preference import -->
 <!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v5.5.47 · Stable Due Review</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.0.1 · Stable Due Review</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -3268,7 +3269,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 .sw5522-day-wait-body small{font-size:11px}
 .sw5522-day-none{grid-column:1/-1;border:1px solid #dcd6ec;border-radius:14px;background:#faf9ff;color:#4e416f;padding:18px;font-size:13px;line-height:1.7}
 </style>
-<meta name="sayward-build" content="5.5.47-stable-review"/>
+<meta name="sayward-build" content="6.0.1-personal-sync"/>
 <style id="sw5523-day-policy-ui">
 .sw5523-day-error{grid-column:1/-1;border:1px solid #e0c9c7;background:#fff8f6;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:9px;color:#68423d}
 .sw5523-day-error small{font-size:13px;word-break:break-word}
@@ -12291,7 +12292,7 @@ function mvSentenceEntryAudit182(){
 window.mvSentenceEntryAudit182=mvSentenceEntryAudit182;
 
 /* ===== V5.3.189 · STANDARD APP INFO / UPDATE HISTORY ===== */
-const MV_APP_VERSION='5.5.47';
+const MV_APP_VERSION='6.0.1';
 
 function mvCloseInfoOverlay(){
   const overlay=document.getElementById('mvInfoOverlay');
@@ -15835,7 +15836,7 @@ function installVisibleBuildBadge(){
   if(!badge){
     badge=document.createElement('div');
     badge.id='mvBuildBadge';
-    badge.textContent='v5.5.47';
+    badge.textContent='v6.0.1';
     badge.title='현재 실행 중인 MY VOCA 빌드';
     document.body.appendChild(badge);
   }
@@ -17909,80 +17910,16 @@ window.mvOpicRegistryAudit202=function(){
 </script>
 
 
-<script id="v532211CrossCourseAudit">
-window.mvAllRepeatAudit211=function(){
-  const mode=typeof currentHomeStudyMode==='function'?currentHomeStudyMode():'day';
-  const selections={};
-  try{selections.day=[...document.querySelectorAll('.daySelectCheck:checked')].map(x=>Number(x.dataset.checkDay))}catch(e){selections.day=[]}
-  for(const c of ['my','sori','opic','friends']){
-    try{selections[c]=studyCourseSelectedLessons(c)}catch(e){selections[c]=[]}
-  }
-  return {
-    version:'v5.3.275',
-    currentMode:mode,
-    queue:typeof allRepeatQueue209==='function'?allRepeatQueue209(mode):[],
-    selections,
-    active:!!window.MV_ALL_REPEAT_209?.active,
-    current:window.MV_ALL_REPEAT_209?.current||''
-  };
-};
-</script>
 
 
-<script id="v532212AllRepeatAudit">
-window.mvAllRepeatAudit212=function(){
-  const mode=window.currentHomeStudyMode212?.()||window.MV_HOME_MODE_212||'day';
-  const selected={};
-  try{selected.day=[...document.querySelectorAll('.daySelectCheck:checked')].map(x=>Number(x.dataset.checkDay))}catch(e){selected.day=[]}
-  for(const c of ['my','sori','opic','friends']){
-    try{selected[c]=studyCourseSelectedLessons(c)}catch(e){selected[c]=[]}
-  }
-  return {
-    version:'v5.3.275',
-    startMode:mode,
-    active:!!window.MV_ALL_REPEAT_209?.active,
-    current:window.MV_ALL_REPEAT_209?.current||'',
-    queue:[...(window.MV_ALL_REPEAT_209?.queue||[])],
-    selected,
-    dayPass:typeof AUTO!=='undefined'?AUTO.pass:null,
-    dayRepeats:typeof AUTO!=='undefined'?AUTO.repeats:null
-  };
-};
-</script>
 
 
-<script id="v532213AllRepeatAudit">
-window.mvAllRepeatAudit213=function(){
-  const map={homeModeDay:'day',homeModeMy:'my',homeModeSori:'sori',homeModeOpic:'opic',homeModeFriends:'friends'};
-  const active=document.querySelector('#homeStudyModePanel .homeStudyModeBtn.active');
-  const selected={};
-  try{selected.day=JSON.parse(localStorage.getItem(selectedDaysKey())||'[]')}catch(e){selected.day=[]}
-  for(const c of ['my','sori','opic','friends']){try{selected[c]=studyCourseSelectedLessons(c)}catch(e){selected[c]=[]}}
-  return {version:'v5.3.275',visibleMode:map[active?.id]||null,savedMode:localStorage.getItem('mv_homeStudyMode212'),
-    queue:[...(window.MV_ALL_REPEAT_209?.queue||[])],current:window.MV_ALL_REPEAT_209?.current||'',
-    active:!!window.MV_ALL_REPEAT_209?.active,selected,dayActive:typeof AUTO!=='undefined'?AUTO.active:null,
-    dayPass:typeof AUTO!=='undefined'?AUTO.pass:null,dayRepeats:typeof AUTO!=='undefined'?AUTO.repeats:null};
-};
-</script>
 
 
-<script id="v532214AllRepeatAudit">
-window.mvAllRepeatAudit214=function(){
-  const a=document.querySelector('#homeStudyModePanel .homeStudyModeBtn.active');
-  const map={homeModeDay:'day',homeModeMy:'my',homeModeSori:'sori',homeModeOpic:'opic',homeModeFriends:'friends'};
-  return {
-    version:'v5.3.275',
-    visibleMode:map[a?.id]||null,
-    enabled:!!document.getElementById('homeAllRepeat209')?.checked,
-    active:!!window.MV_ALL_REPEAT_209?.active,
-    current:window.MV_ALL_REPEAT_209?.current||'',
-    queue:[...(window.MV_ALL_REPEAT_209?.queue||[])],
-    startFn:typeof window.startAllRepeat209,
-    stopFn:typeof window.allRepeatStop209,
-    toggleFn:typeof window.toggleAllRepeat214
-  };
-};
-</script>
+
+
+
+
 
 
 <script id="v532215DayHandoffWatch">
@@ -17999,16 +17936,7 @@ window.mvAllRepeatAudit214=function(){
 </script>
 
 
-<script id="v532215AllRepeatAudit">
-window.mvAllRepeatAudit215=function(){
-  const s=window.MV_ALL_REPEAT_215||{};
-  return {version:'v5.3.275',active:!!s.active,current:s.current||'',queue:[...(s.queue||[])],index:s.index||0,cycle:s.cycle||0,
-    advancing:!!s.advancing,snapshots:s.snapshots||null,dayActive:typeof AUTO!=='undefined'?AUTO.active:null,
-    dayPass:typeof AUTO!=='undefined'?AUTO.pass:null,dayRepeats:typeof AUTO!=='undefined'?AUTO.repeats:null,
-    m536Mode:typeof M536!=='undefined'?M536.mode:null,m536Course:typeof M536!=='undefined'?M536.course:null,
-    m536Cursor:typeof M536!=='undefined'?M536.cursor:null};
-};
-</script>
+
 
 
 <script id="v532216AllRepeatTrace">
@@ -18023,41 +17951,10 @@ window.mvAllRepeatTrace216=function(event,extra={}){
 </script>
 
 
-<script id="v532217DayAdvanceAudit">
-window.mvDayAdvanceAudit217=function(){
-  return {
-    version:'v5.3.275',
-    integrated:!!window.MV_ALL_REPEAT_215?.active,
-    currentCourse:window.MV_ALL_REPEAT_215?.current||'',
-    queue:[...(window.MV_ALL_REPEAT_215?.queue||[])],
-    queueIndex:window.MV_ALL_REPEAT_215?.index??null,
-    autoActive:typeof AUTO!=='undefined'?AUTO.active:null,
-    autoPass:typeof AUTO!=='undefined'?AUTO.pass:null,
-    autoRepeats:typeof AUTO!=='undefined'?AUTO.repeats:null,
-    cardIndex:typeof i!=='undefined'?i:null,
-    deckLength:typeof deck!=='undefined'?deck.length:null,
-    currentKey:(typeof cur==='function'&&cur())?cardKey(cur()):null,
-    renderedKey:typeof __renderedCardKey!=='undefined'?__renderedCardKey:null,
-    renderVersion:typeof __renderVersion!=='undefined'?__renderVersion:null
-  };
-};
-</script>
 
 
-<script id="v532219AllRepeatAudit">
-window.mvAllRepeatAudit219=function(){
-  const s=window.MV_ALL_REPEAT_219||{};
-  return {
-    version:'v5.3.275',active:!!s.active,current:s.current||'',queue:[...(s.queue||[])],
-    index:s.index??null,snapshot:s.snapshot||null,
-    dayHook:typeof window.MV_DAY_ONCE_COMPLETE_219,
-    courseHook:typeof window.MV_COURSE_ONCE_COMPLETE_219,
-    autoActive:typeof AUTO!=='undefined'?AUTO.active:null,
-    m536Mode:typeof M536!=='undefined'?M536.mode:null,
-    m536Course:typeof M536!=='undefined'?M536.course:null
-  };
-};
-</script>
+
+
 
 
 <script id="v532220AllRepeatTrace">
@@ -18083,47 +17980,10 @@ window.mvAllRepeatAudit219=function(){
 </script>
 
 
-<script id="v532221ControllerAudit">
-window.mvControllerAudit221=function(){
-  const b=document.getElementById('homeAllRepeatStart210');
-  return {
-    version:'v5.3.275',
-    buttonText:b?.textContent||'',
-    v209:!!window.MV_ALL_REPEAT_209?.active,
-    v215:!!window.MV_ALL_REPEAT_215?.active,
-    v219:!!window.MV_ALL_REPEAT_219?.active,
-    current219:window.MV_ALL_REPEAT_219?.current||'',
-    queue219:[...(window.MV_ALL_REPEAT_219?.queue||[])],
-    soriStored:(()=>{try{return JSON.parse(localStorage.getItem('mv_studySelected_sori')||'[]')}catch(e){return []}})(),
-    soriChecked:[...document.querySelectorAll('#homePage .soriClassSection .studySelectCheck[data-study-mode="sori"]:checked')].map(x=>Number(x.dataset.studyId)),
-    dayHook:typeof window.MV_DAY_ONCE_COMPLETE_219,
-    courseHook:typeof window.MV_COURSE_ONCE_COMPLETE_219,
-    m536Mode:typeof M536!=='undefined'?M536.mode:null,
-    m536Course:typeof M536!=='undefined'?M536.course:null
-  };
-};
-</script>
 
 
-<script id="v532222OverallIsolationAudit">
-window.mvOverallIsolationAudit222=function(){
-  const s=window.MV_ALL_REPEAT_219||{};
-  return {
-    version:'v5.3.275',
-    active:!!s.active,current:s.current||'',queue:[...(s.queue||[])],index:s.index??null,
-    snapshot:s.snapshot||null,
-    internalStart:!!window.MV_ALL_REPEAT_INTERNAL_START_222,
-    dayHook:typeof window.MV_DAY_ONCE_COMPLETE_219,
-    courseHook:typeof window.MV_COURSE_ONCE_COMPLETE_219,
-    lastError:window.MV_ALL_REPEAT_LAST_ERROR_222||'',
-    autoActive:typeof AUTO!=='undefined'?AUTO.active:null,
-    autoPass:typeof AUTO!=='undefined'?AUTO.pass:null,
-    autoRepeats:typeof AUTO!=='undefined'?AUTO.repeats:null,
-    m536Mode:typeof M536!=='undefined'?M536.mode:null,
-    m536Course:typeof M536!=='undefined'?M536.course:null
-  };
-};
-</script>
+
+
 
 
 <script id="v532239StudyFavoriteStandard">
@@ -18317,14 +18177,7 @@ window.mvStudyFavoriteAudit239=function(){
 
 
 
-<script id="v532241Sori3VisibilityAudit">
-window.mvSori3VisibilityAudit241=function(){
-  const card=document.getElementById('soriGroup3Card');
-  const sec=document.querySelector('.soriClassSection');
-  return {version:'v5.3.275',cardExists:!!card,insideSori:!!card&&card.closest('.soriClassSection')===sec,
-    lesson:studyCardCourseLesson(card)?.lesson||0,lessonCount:studyCourseLessonCount('sori')};
-};
-</script>
+
 
 
 
@@ -18563,104 +18416,30 @@ window.mvSwipePageAudit246=()=>({
 </script>
 
 
-<script id="v532247VerticalTiltAudit">
-window.mvSwipeVerticalTiltAudit247=function(){
-  return {
-    version:'v5.3.275',
-    verticalTilt:'opposite by dy sign',
-    upward:'rotateZ negative',
-    downward:'rotateZ positive',
-    finalThrowPreservesVerticalTilt:true,
-    scope:['my','sori','opic','friends']
-  };
-};
-</script>
 
 
-<script id="v532248BidirectionalTiltAudit">
-window.mvSwipeBidirectionalTiltAudit248=function(){
-  return {
-    version:'v5.3.275',
-    leftSwipe:'vertical tilt flips by up/down',
-    rightSwipe:'mirrored vertical tilt flips by up/down',
-    mirroredByHorizontalDirection:true,
-    finalThrowMirrored:true,
-    scope:['my','sori','opic','friends']
-  };
-};
-</script>
 
 
-<script id="v532249RightTiltVisualFixAudit">
-window.mvSwipeRightTiltVisualFix249=function(){
-  return {
-    version:'v5.3.275',
-    fix:'remove rotateY visual cancellation + quadrant transform-origin',
-    leftSwipe:{up:'opposite angle',down:'opposite angle'},
-    rightSwipe:{up:'mirrored angle',down:'mirrored angle'},
-    transformOrigin:'changes by horizontal direction and vertical direction',
-    scope:['my','sori','opic','friends']
-  };
-};
-</script>
 
 
-<script id="v532250SwipeCommitAudit">
-window.mvSwipeCommitAudit250=function(){
-  return {
-    version:'v5.3.275',
-    completion:'2D distance + velocity',
-    xThreshold:.10,
-    diagonalThreshold:.18,
-    finalTouchPointApplied:true,
-    navigation:'goMyClassTab on successful release',
-    destinationStartsAtTop:true,
-    scope:['my','sori','opic','friends']
-  };
-};
-</script>
 
 
-<script id="v532251SwipeCommitSamsungAudit">
-window.mvSwipeCommitSamsungAudit251=function(){
-  return {
-    version:'v5.3.275',
-    samsungTouchCancel:'uses normal commit thresholds instead of forced cancel',
-    destination:'resolved explicitly before render',
-    expected:'corrections left swipe -> chunks',
-    scope:['my','sori','opic','friends']
-  };
-};
-</script>
+
+
+
+
+
 
 
 <script id="v532252VerticalLessonSwipe">
-(function(){
-'use strict';
-let V=null;
-
-function topNow252(){
-  try{window.scrollTo({top:0,left:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
-  try{document.documentElement.scrollTop=0;document.body.scrollTop=0}catch(e){}
-}
-
-function canLesson252(dir){
-  const course=ACTIVE_STUDY_COURSE||'my';
-  const max=Math.max(1,Number(studyCourseLessonCount?.(course))||1);
-  const next=Number(myClassLessonNo||1)+(dir>0?1:-1);
-  return next>=1&&next<=max;
-}
-
-function snapshot252(){
-  const page=document.getElementById('myClassPage');
-  if(!page)return null;
+/* v6.0 Alpha 3 — shared swipe snapshot: one implementation for manual and auto transitions. */
+function saywardCreateSwipeSnapshot(root){
+  if(!root)return null;
   const scrollY=window.scrollY||document.documentElement.scrollTop||0;
-  const clone=page.cloneNode(true);
+  const clone=root.cloneNode(true);
   clone.removeAttribute('id');
   clone.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
   clone.querySelectorAll('button,input,select,textarea,a').forEach(el=>el.setAttribute('tabindex','-1'));
-  // Snapshot cleanup: fixed/floating controls are already present on the real destination page.
-  // Hiding only these duplicated overlay controls keeps the moving page edge clean.
   clone.querySelectorAll('[style*="position: fixed"],[style*="position:fixed"],.floatingControls,.fixedBottom,.bottomDock').forEach(el=>{
     el.style.visibility='hidden';
   });
@@ -18675,6 +18454,28 @@ function snapshot252(){
   return inner;
 }
 
+/* v6.0 Alpha 3 — shared viewport reset for manual and automatic page turns. */
+function saywardScrollToTop(){
+  try{window.scrollTo({top:0,left:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
+  try{document.documentElement.scrollTop=0;document.body.scrollTop=0}catch(e){}
+}
+
+
+(function(){
+'use strict';
+let V=null;
+
+
+
+function canLesson252(dir){
+  const course=ACTIVE_STUDY_COURSE||'my';
+  const max=Math.max(1,Number(studyCourseLessonCount?.(course))||1);
+  const next=Number(myClassLessonNo||1)+(dir>0?1:-1);
+  return next>=1&&next<=max;
+}
+
+
+
 function cleanup252(s=V){
   if(!s)return;
   try{s.stage?.remove()}catch(e){}
@@ -18684,7 +18485,7 @@ function cleanup252(s=V){
 
 function begin252(dir,x,y){
   if(V||!canLesson252(dir))return false;
-  const inner=snapshot252(); if(!inner)return false;
+  const inner=saywardCreateSwipeSnapshot(document.getElementById('myClassPage')); if(!inner)return false;
 
   const stage=document.createElement('div'); stage.className='mvSwipeStage246';
   const card=document.createElement('div'); card.className='mvSwipeCard246';
@@ -18766,7 +18567,7 @@ function commit252(dir){
   // Continuous vertical reading standard:
   // bottom + swipe up -> next lesson at TOP
   // top + swipe down -> previous lesson at BOTTOM
-  if(dir>0)topNow252();
+  if(dir>0)saywardScrollToTop();
   else bottomNow252();
   return true;
 }
@@ -18823,7 +18624,7 @@ function end252(cancel){
   });
   setTimeout(()=>{
     cleanup252(s);
-    if(s.dir>0)topNow252();
+    if(s.dir>0)saywardScrollToTop();
     else bottomNow252();
   },dur+50);
   return true;
@@ -18852,18 +18653,7 @@ window.mvVerticalLessonSwipeAudit252=()=>({
 </script>
 
 
-<script id="v532253SwipeCornerCleanupAudit">
-window.mvSwipeCornerCleanupAudit253=function(){
-  return {
-    version:'v5.3.275',
-    fix:'clean swipe-card corners and duplicate floating overlays',
-    cardRadius:0,
-    shadow:'reduced',
-    edge:'single subtle line',
-    scope:['horizontal tab swipe','vertical lesson swipe']
-  };
-};
-</script>
+
 
 
 <script id="v532254UniversalSwipeStandard">
@@ -18871,26 +18661,7 @@ window.mvSwipeCornerCleanupAudit253=function(){
 'use strict';
 let U=null;
 
-function snapshotRoot254(root){
-  if(!root)return null;
-  const scrollY=window.scrollY||document.documentElement.scrollTop||0;
-  const clone=root.cloneNode(true);
-  clone.removeAttribute('id');
-  clone.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
-  clone.querySelectorAll('button,input,select,textarea,a').forEach(el=>el.setAttribute('tabindex','-1'));
-  clone.querySelectorAll('[style*="position: fixed"],[style*="position:fixed"],.floatingControls,.fixedBottom,.bottomDock').forEach(el=>{
-    el.style.visibility='hidden';
-  });
-  clone.style.pointerEvents='none';
-  clone.style.margin='0';
-  clone.style.width='100vw';
 
-  const inner=document.createElement('div');
-  inner.className='mvSwipeCardInner246';
-  inner.style.top=(-scrollY)+'px';
-  inner.appendChild(clone);
-  return inner;
-}
 
 function cleanup254(s=U){
   if(!s)return;
@@ -18901,7 +18672,7 @@ function cleanup254(s=U){
 
 function begin254(opts){
   if(U||!opts?.root||typeof opts.onCommit!=='function')return false;
-  const inner=snapshotRoot254(opts.root); if(!inner)return false;
+  const inner=saywardCreateSwipeSnapshot(opts.root); if(!inner)return false;
   const dir=opts.dir>0?1:-1;
   const stage=document.createElement('div'); stage.className='mvSwipeStage246';
   const card=document.createElement('div'); card.className='mvSwipeCard246 '+(dir>0?'next':'prev');
@@ -19002,41 +18773,19 @@ window.mvSwipeStandardAudit254=()=>({
 'use strict';
 let busy=false;
 
-function clonePage255(root){
-  if(!root)return null;
-  const scrollY=window.scrollY||document.documentElement.scrollTop||0;
-  const clone=root.cloneNode(true);
-  clone.removeAttribute('id');
-  clone.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
-  clone.querySelectorAll('button,input,select,textarea,a').forEach(el=>el.setAttribute('tabindex','-1'));
-  clone.querySelectorAll('[style*="position: fixed"],[style*="position:fixed"],.floatingControls,.fixedBottom,.bottomDock').forEach(el=>{
-    el.style.visibility='hidden';
-  });
-  clone.style.pointerEvents='none';
-  clone.style.margin='0';
-  clone.style.width='100vw';
 
-  const inner=document.createElement('div');
-  inner.className='mvSwipeCardInner246';
-  inner.style.top=(-scrollY)+'px';
-  inner.appendChild(clone);
-  return inner;
-}
 
-function topNow255(){
-  try{window.scrollTo({top:0,left:0,behavior:'auto'})}catch(e){window.scrollTo(0,0)}
-  try{document.documentElement.scrollTop=0;document.body.scrollTop=0}catch(e){}
-}
+
 
 async function autoTurn255(commit,dir=1){
   if(typeof commit!=='function')return false;
   const root=document.getElementById('myClassPage');
   if(!root||root.classList.contains('hidden')||busy){
-    commit(); topNow255(); return true;
+    commit(); saywardScrollToTop(); return true;
   }
 
-  const inner=clonePage255(root);
-  if(!inner){commit();topNow255();return true}
+  const inner=saywardCreateSwipeSnapshot(root);
+  if(!inner){commit();saywardScrollToTop();return true}
 
   busy=true;
   const stage=document.createElement('div');
@@ -19050,7 +18799,7 @@ async function autoTurn255(commit,dir=1){
 
   // Render the destination at the top underneath the old-page snapshot.
   commit();
-  topNow255();
+  saywardScrollToTop();
 
   const w=Math.max(1,window.innerWidth);
   const h=Math.max(1,window.innerHeight);
@@ -19079,7 +18828,7 @@ async function autoTurn255(commit,dir=1){
   try{stage.remove()}catch(e){}
   document.body.classList.remove('mvSwipeActive246');
   busy=false;
-  topNow255();
+  saywardScrollToTop();
   return true;
 }
 
@@ -19102,15 +18851,7 @@ window.mvAutoDayPlaybackTurn255=async function(commit){
   const root=document.getElementById('dayAppPage');
   if(!root||root.classList.contains('hidden')){commit();return true}
 
-  const scrollY=window.scrollY||document.documentElement.scrollTop||0;
-  const clone=root.cloneNode(true);
-  clone.removeAttribute('id');
-  clone.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
-  clone.querySelectorAll('button,input,select,textarea,a').forEach(el=>el.setAttribute('tabindex','-1'));
-  clone.querySelectorAll('[style*="position: fixed"],[style*="position:fixed"],.floatingControls,.fixedBottom,.bottomDock').forEach(el=>el.style.visibility='hidden');
-  clone.style.pointerEvents='none';clone.style.margin='0';clone.style.width='100vw';
-
-  const inner=document.createElement('div');inner.className='mvSwipeCardInner246';inner.style.top=(-scrollY)+'px';inner.appendChild(clone);
+  const inner=saywardCreateSwipeSnapshot(root);
   const stage=document.createElement('div');stage.className='mvSwipeStage246';
   const card=document.createElement('div');card.className='mvSwipeCard246 next';
   const shade=document.createElement('div');shade.className='mvSwipeShade246';
@@ -19145,19 +18886,7 @@ window.mvAutoDayPlaybackTurn255=async function(commit){
 </script>
 
 
-<script id="v532256HumanAutoSwipeSpeedAudit">
-window.mvHumanAutoSwipeSpeedAudit256=function(){
-  return {
-    version:'v5.3.275',
-    automaticTurn:'human-like visible speed',
-    preHoldMs:140,
-    midSwipeMs:330,
-    finishSwipeMs:390,
-    totalVisualMs:'about 900ms',
-    dayTurn:'same slower two-phase standard'
-  };
-};
-</script>
+
 
 
 <script id="v532259PlaybackProgressStatusDriven">
@@ -19331,81 +19060,19 @@ window.mvPlaybackProgressAudit259=()=>({
 </script>
 
 
-<script id="v532261FavoriteProgressSafeAudit">
-window.mvFavoriteProgressSafeAudit261=function(){
-  return {
-    version:'v5.3.275',
-    base:'v5.3.275 visible progress implementation',
-    favoriteOnly:'counter uses filtered active playlist',
-    normalPlayback:'v259 logic preserved',
-    playbackEngineTouched:false
-  };
-};
-</script>
 
 
-<script id="v532262FavoriteDenominatorAudit">
-window.mvFavoriteDenominatorAudit262=function(){
- return {
-   version:'v5.3.275',
-   rule:'favorite-only 100% = actual filtered favorites in current lesson+tab',
-   example:'3 favorites among 12 => 1/3, 2/3, 3/3',
-   detection:['favorite-only setting','actual playlist smaller than full tab'],
-   base:'v5.3.275 / v5.3.259 visible progress path',
-   playbackEngineTouched:false
- };
-};
-</script>
 
 
-<script id="v532263FavoriteExactCountAudit">
-window.mvFavoriteExactCountAudit263=function(course=window.ACTIVE_STUDY_COURSE||'my',lesson=window.myClassLessonNo||1,tab=window.myClassTab||'corrections'){
-  let favoriteIndices=[];
-  try{
-    const d=window.studyCourseData?.(course,lesson)||{};
-    const rows=Array.isArray(d?.[tab])?d[tab]:[];
-    favoriteIndices=rows.map((_,idx)=>idx).filter(idx=>!!window.studyFavoriteHas239?.(course,lesson,tab,idx));
-  }catch(e){}
-  return {
-    version:'v5.3.275',
-    rule:'favorite denominator = exact favorite count in current lesson+tab',
-    favoriteIndices,
-    denominator:favoriteIndices.length,
-    example:'original cards 2,7,11 => progress 1/3,2/3,3/3',
-    playbackEngineTouched:false
-  };
-};
-</script>
 
 
-<script id="v532264ProgressLayoutAudit">
-window.mvProgressLayoutAudit264=function(){
-  return {
-    version:'v5.3.275',
-    change:'progress bar width reduced and right-aligned to protect status label',
-    mobileWidthPx:112,
-    maxWidthPx:154,
-    countAlwaysVisible:true,
-    countingLogicChanged:false,
-    playbackEngineTouched:false
-  };
-};
-</script>
 
 
-<script id="v532265OverallFavoriteSkipAudit">
-window.mvOverallFavoriteSkipAudit265=function(){
-  const s=window.MV_ALL_REPEAT_219||{};
-  return {
-    version:'v5.3.275',
-    rule:'overall repeat + favorite-only + zero favorites => skip course',
-    neverFallbackToAll:true,
-    favoriteOnlySnapshot:s.favoriteOnlySnapshot||null,
-    engineEmptyPlaylistGuard:true,
-    individualRepeatBehavior:'unchanged'
-  };
-};
-</script>
+
+
+
+
+
 
 
 <script id="v532266DayAutoPageTurnStandard">
@@ -19448,64 +19115,16 @@ window.mvDayAutoPageTurnAudit266=function(){
 </script>
 
 
-<script id="v532267DayTurnPlaybackTimingAudit">
-window.mvDayTurnPlaybackTimingAudit267=function(){
-  return {
-    version:'v5.3.275',
-    rule:'next DAY word audio starts only after page turn fully completes',
-    pageTurn:'human-speed two phase',
-    postTurnSettleMs:220,
-    finalPaintFrames:2,
-    fallbackSettleMs:120,
-    scope:['DAY automatic full playback','DAY repeat-pass restart']
-  };
-};
-</script>
 
 
-<script id="v532268ContinuousPageTurnAudit">
-window.mvContinuousPageTurnAudit268=function(){
-  return {
-    version:'v5.3.275',
-    fix:'remove mid-turn pause from automatic page transitions',
-    generalAutoTurnMs:720,
-    dayAutoTurnMs:700,
-    preHoldMs:110,
-    dayPostTurnAudioSettleMs:170,
-    motion:'single continuous transition',
-    applies:['DAY automatic word changes','MY/SORI/OPIC/FRIENDS automatic tab/lesson changes'],
-    manualSwipe:'unchanged'
-  };
-};
-</script>
 
 
-<script id="v532269Sori3FirsthandPatternAudit">
-window.mvSori3FirsthandPatternAudit269=function(){
-  const d=window.SORI_GROUP_3||SORI_GROUP_3;
-  return {
-    version:'v5.3.275',
-    correctionAdded:d.corrections.some(x=>x.en==='I know firsthand how difficult it is to make friends.'),
-    chunkExpanded:d.chunks.some(x=>x.id==='day_chunk_12'&&/how difficult it can be to make new friends/.test(x.example||'')),
-    opicVariant:true
-  };
-};
-</script>
 
 
-<script id="v532270MySentencePatternIsolationAudit">
-window.mvMySentencePatternIsolationAudit270=function(){
-  const lesson7=MY_CLASS_LESSON_7;
-  const sentence=lesson7.corrections[0]?.en||'';
-  return {
-    version:'v5.3.275',
-    lesson7Sentence:sentence,
-    invalidLesson2Pattern:/go out for drinks/i.test(sentence)?'unexpected':'excluded',
-    lesson7OwnPatterns:['be swamped','work through lunch'],
-    rule:'MY sentence pattern hints must come from the active lesson and the current sentence'
-  };
-};
-</script>
+
+
+
+
 
 
 <script id="v532271OpicSentenceSpeakingSource">
@@ -19597,17 +19216,8 @@ function addButton271(){
   if(b)b.onclick=()=>setSentenceSource('opic');
 }
 
-const prevBuild=buildQuizDeck;
-buildQuizDeck=function(){
-  if(quizMode==='sentence'&&sentenceSourceMode==='opic'){
-    quizAllWrongMode=false;
-    let pool=window.opicSentenceCards271(opicLesson271);
-    pool.forEach(q=>ensureSentenceStats(q));
-    if(quizFilterMode==='wrong')pool=pool.filter(isWeakSentence).sort((a,b)=>(ensureSentenceStats(b).sentenceWrong||0)-(ensureSentenceStats(a).sentenceWrong||0));
-    quizDeck=pool;quizIndex=0;quizSessionDone=false;quizSessionWrong=[];updateQuizFilterCount();return;
-  }
-  return prevBuild();
-};
+// OPIC quiz-deck routing is now owned solely by the final DB-backed buildQuizDeck.
+// The prior OPIC-only wrapper was unreachable on its target route.
 
 const prevCount=updateQuizFilterCount;
 updateQuizFilterCount=function(){
@@ -19657,16 +19267,8 @@ updateQuizDayNav=function(){
   return prevNav();
 };
 
-const prevDay=setQuizDay;
-setQuizDay=function(day){
-  if(quizMode==='sentence'&&sentenceSourceMode==='opic'){
-    stopSpeech();if('speechSynthesis' in window)window.speechSynthesis.cancel();
-    opicLesson271=Math.max(1,Math.min(opicSentenceLessonCount271(),Number(day)||1));
-    quizSelectedDay=opicLesson271;localStorage.setItem('mv_opicSentenceLesson271',String(opicLesson271));
-    updateQuizDayNav();buildQuizDeck();quizAnswered=false;newq();return;
-  }
-  return prevDay(day);
-};
+// The DB-backed setQuizDay handles all course lesson changes, including OPIC.
+// Keep older OPIC source/button compatibility wrappers below unchanged.
 
 const prevQuestion=newSentenceRecallQuestion;
 newSentenceRecallQuestion=function(){
@@ -19693,27 +19295,9 @@ window.mvOpicSentenceSpeakingAudit271=function(){
 </script>
 
 
-<script id="v532272MicPermissionGuideAudit">
-window.mvMicPermissionGuideAudit272=function(){
-  return {
-    version:'v5.3.275',
-    deniedGuide:'설정 → 앱 → Chrome → 권한 → 마이크 → 앱 사용 중에만 허용',
-    contentProtocolGuide:true,
-    warmPermissionGuide:true,
-    rule:'permission errors must tell the user exactly where to fix them'
-  };
-};
-</script>
 
-<script id="v532273Sori3LetAloneAudit">
-window.mvSori3LetAloneAudit273=function(){
- const d=window.SORI_GROUP_3||SORI_GROUP_3;
- return {version:'v5.3.275',
- chunk:d.chunks.some(x=>x.id==='day_chunk_25'),
- core:d.corrections.some(x=>/let alone travel abroad/.test(x.en||'')),
- speaking:d.speaking.some(x=>/let alone work out/.test(x.text||''))};
-};
-</script>
+
+
 
 <script id="v532274BackgroundButtonStateFix">
 (function(){
@@ -19838,6 +19422,22 @@ const MV_BG_SYNC_275={
 };
 window.MV_BG_SYNC_275=MV_BG_SYNC_275;
 
+// One owner for the four fields used by the resume button.
+// Called synchronously while backgrounding; no timers or DB writes.
+function mvRestoreSharedResume275(){
+  M536_TOGGLE_STATE.pausedMode=MV_BG_SYNC_275.mode;
+  M536_TOGGLE_STATE.pausedCourse=MV_BG_SYNC_275.course;
+  M536_TOGGLE_STATE.pausedCursor=MV_BG_SYNC_275.cursor;
+  M536_TOGGLE_STATE.pausedInfiniteItem=MV_BG_SYNC_275.infiniteItem?{...MV_BG_SYNC_275.infiniteItem}:null;
+}
+function mvHoldIdlePlayback275(){
+  M536.token++;
+  M536.mode='idle';
+  M536.busy=false;
+  MY_CLASS_PLAY.active=false;
+  MY_CLASS_PLAY.paused=true;
+}
+
 function mvCaptureBackgroundSync275(){
   const mode=(M536?.mode==='full'||M536?.mode==='infinite')?M536.mode:'idle';
   const active=mode!=='idle' || !!MY_CLASS_PLAY?.active;
@@ -19854,17 +19454,10 @@ function mvCaptureBackgroundSync275(){
   }catch(e){MV_BG_SYNC_275.itemKey=''}
 
   // Feed the SAME shared resume state used by the bottom button.
-  M536_TOGGLE_STATE.pausedMode=MV_BG_SYNC_275.mode;
-  M536_TOGGLE_STATE.pausedCourse=MV_BG_SYNC_275.course;
-  M536_TOGGLE_STATE.pausedCursor=MV_BG_SYNC_275.cursor;
-  M536_TOGGLE_STATE.pausedInfiniteItem=MV_BG_SYNC_275.infiniteItem?{...MV_BG_SYNC_275.infiniteItem}:null;
+  mvRestoreSharedResume275();
 
   // Stop synchronously. Android can suspend timers immediately after this event.
-  M536.token++;
-  M536.mode='idle';
-  M536.busy=false;
-  MY_CLASS_PLAY.active=false;
-  MY_CLASS_PLAY.paused=true;
+  mvHoldIdlePlayback275();
   try{stopSpeech()}catch(e){}
   try{window.speechSynthesis?.cancel()}catch(e){}
 
@@ -19881,16 +19474,9 @@ function mvShowPausedAfterReturn275(){
   if(!MV_BG_SYNC_275.suspended)return false;
 
   // Re-assert idle because pageshow/focus/older callbacks may have stale state.
-  M536.token++;
-  M536.mode='idle';
-  M536.busy=false;
-  MY_CLASS_PLAY.active=false;
-  MY_CLASS_PLAY.paused=true;
+  mvHoldIdlePlayback275();
 
-  M536_TOGGLE_STATE.pausedMode=MV_BG_SYNC_275.mode;
-  M536_TOGGLE_STATE.pausedCourse=MV_BG_SYNC_275.course;
-  M536_TOGGLE_STATE.pausedCursor=MV_BG_SYNC_275.cursor;
-  M536_TOGGLE_STATE.pausedInfiniteItem=MV_BG_SYNC_275.infiniteItem?{...MV_BG_SYNC_275.infiniteItem}:null;
+  mvRestoreSharedResume275();
 
   if(window.MV_BG_PLAYBACK_207)MV_BG_PLAYBACK_207.restorePending=false;
   try{myClassSyncButtons?.()}catch(e){}
@@ -19917,10 +19503,7 @@ const _toggle275=window.m536ToggleGlobalPlayback;
 window.m536ToggleGlobalPlayback=function(){
   if(MV_BG_SYNC_275.suspended && !m536IsPlaying()){
     // Re-assert resume checkpoint in case another UI sync touched it.
-    M536_TOGGLE_STATE.pausedMode=MV_BG_SYNC_275.mode;
-    M536_TOGGLE_STATE.pausedCourse=MV_BG_SYNC_275.course;
-    M536_TOGGLE_STATE.pausedCursor=MV_BG_SYNC_275.cursor;
-    M536_TOGGLE_STATE.pausedInfiniteItem=MV_BG_SYNC_275.infiniteItem?{...MV_BG_SYNC_275.infiniteItem}:null;
+    mvRestoreSharedResume275();
     const ok=m536ResumeGlobal();
     if(ok!==false)MV_BG_SYNC_275.suspended=false;
     return ok;
@@ -20291,24 +19874,7 @@ window.mvSwipeBoundaryStandardAudit278=function(){
 </script>
 
 
-<script id="v532279QuizDayBoundaryAudit">
-window.mvQuizDayBoundaryAudit279=function(){
-  try{
-    const s=window.MV_SWIPE_STANDARD_278;
-    return {
-      version:'v5.3.279',
-      quizSelectedDay:Number(quizSelectedDay||0),
-      quizIndex:Number(quizIndex||0),
-      quizTotal:Array.isArray(quizDeck)?quizDeck.length:0,
-      canLeft:s?.canQuiz?.(1)===true,
-      canRight:s?.canQuiz?.(-1)===true,
-      nextDay:s?.adjacentQuizDay?.(1),
-      prevDay:s?.adjacentQuizDay?.(-1),
-      rule:'DAY N last --left--> DAY N+1 first / DAY N first --right--> DAY N-1 last'
-    };
-  }catch(e){return {version:'v5.3.279',error:String(e)}}
-};
-</script>
+
 
 <script id="v532280SpeakingPairingStandard">
 (function(){
@@ -21120,27 +20686,15 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v5.5.47');
-  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v5.5.47';
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.0.1');
+  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.0.1';
   mv281SyncUI();
 },0);
 })();
 
 </script>
 
-<script id="v532285VerticalBoundarySwipeFixAudit">
-window.mvVerticalBoundarySwipeFixAudit285=function(){
-  const source=String(document.documentElement.innerHTML||'');
-  return {
-    version:'v5.3.286',
-    scope:['my','sori','opic','friends'],
-    verticalTouchstartReceivesEvent:!source.includes('cannot race with the shared standard. This does not prevent a normal tap.'),
-    nextFromBottom:'swipe up -> next lesson top',
-    previousFromTop:'swipe down -> previous lesson bottom',
-    horizontalSwipeStillOwnedAfterDirectionLock:true
-  };
-};
-</script>
+
 
 <script id="v53286CoursePositionAndCompactCards">
 (function(){
@@ -21295,16 +20849,19 @@ try{
 }catch(e){}
 
 /* Automatic page turns also render the destination underneath the snapshot.
-   protect the snapshot for the full async animation, otherwise renderMyClass()
-   would erase it at the first frame. */
+   One lifecycle owner for both course and DAY auto-turns; preserve their
+   public function signatures and the original callback invocation context. */
+async function mvProtectedAutoTurn288(original,args){
+  removeStages288(true);
+  autoSwipeDepth288++;
+  try{return await original(...args)}
+  finally{autoSwipeDepth288=Math.max(0,autoSwipeDepth288-1);multiCleanup288()}
+}
 try{
   const oldAuto=window.mvAutoPlaybackPageTurn255;
   if(oldAuto&&!oldAuto.__lifetimePatched288){
     const wrapped=async function(commit,dir){
-      removeStages288(true);
-      autoSwipeDepth288++;
-      try{return await oldAuto(commit,dir)}
-      finally{autoSwipeDepth288=Math.max(0,autoSwipeDepth288-1);multiCleanup288()}
+      return await mvProtectedAutoTurn288(oldAuto,[commit,dir]);
     };
     wrapped.__lifetimePatched288=true;
     window.mvAutoPlaybackPageTurn255=wrapped;
@@ -21314,10 +20871,7 @@ try{
   const oldDay=window.mvAutoDayPlaybackTurn255;
   if(oldDay&&!oldDay.__lifetimePatched288){
     const wrapped=async function(commit){
-      removeStages288(true);
-      autoSwipeDepth288++;
-      try{return await oldDay(commit)}
-      finally{autoSwipeDepth288=Math.max(0,autoSwipeDepth288-1);multiCleanup288()}
+      return await mvProtectedAutoTurn288(oldDay,[commit]);
     };
     wrapped.__lifetimePatched288=true;
     window.mvAutoDayPlaybackTurn255=wrapped;
@@ -21386,9 +20940,9 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v5.5.47')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v5.5.47'}catch(e){}
-  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v5.5.47'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.0.1')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.0.1'}catch(e){}
+  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.0.1'}catch(e){}
 },0);
 
 window.mvSwipeLifetimeAudit288=function(){
@@ -21558,9 +21112,9 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v5.5.47')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v5.5.47'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v5.5.47')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.0.1')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.0.1'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.0.1')}catch(e){}
   refreshPausedBrowseUI289();
 },0);
 
@@ -21794,10 +21348,10 @@ function navigate292(item){S292.lastTarget=item?.id||null;if(item.course==='day'
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v5.5.47 · Stable Due Review'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v5.5.47')}catch(e){}
-  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v5.5.47'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v5.5.47')}catch(e){}
+  try{document.title='SAYWARD v6.0.1 · Stable Due Review'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.0.1')}catch(e){}
+  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.0.1'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.0.1')}catch(e){}
 },0);
 window.mvUnifiedSearchAudit292=()=>({version:'v5.3.292',indexCount:buildIndex292().length,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'additive unified search only; existing playback/swipe/card logic unchanged'});
 })();
@@ -22090,7 +21644,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v5.5.47 · Stable Due Review'}catch(e){}
+  try{document.title='SAYWARD v6.0.1 · Stable Due Review'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -22111,7 +21665,7 @@ window.mvCleanAudit540=function(){
   const h=home(),bar=document.getElementById('sharedStudySelectBar');
   const cards=[...document.querySelectorAll('#homePage .myClassSection .myClassCard')].slice(0,4);
   return {
-    version:'v5.5.47',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
+    version:'v6.0.1',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
     sharedBar:!!bar,daySettings:!!document.getElementById('cleanDaySettings'),legacyModePanelVisible:!!document.getElementById('homeStudyModePanel')&&getComputedStyle(document.getElementById('homeStudyModePanel')).display!=='none',
     visibleSections:{day:getComputedStyle(document.querySelector('#homePage .daySection')||document.body).display,my:getComputedStyle(document.querySelector('#homePage .myClassSection')||document.body).display,sori:getComputedStyle(document.querySelector('#homePage .soriClassSection')||document.body).display,opic:getComputedStyle(document.querySelector('#homePage .opicClassSection')||document.body).display,friends:getComputedStyle(document.querySelector('#homePage .friendsClassSection')||document.body).display},
     myCards:cards.map(c=>({w:Math.round(c.getBoundingClientRect().width),h:Math.round(c.getBoundingClientRect().height)})),
@@ -22297,7 +21851,7 @@ window.mvCleanAudit540=function(){
 #cleanHeroMenuHit,#cleanHeroSearchHit{position:absolute!important;top:0!important;height:100%!important;width:18%!important;border:0!important;background:transparent!important;padding:0!important;z-index:8!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 #cleanHeroMenuHit{left:-5px!important} #cleanHeroSearchHit{right:0!important}
 #homePage .homeHero::before{
-  content:"v5.5.47"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
+  content:"v6.0.1"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
   min-width:54px!important;padding:2px 8px 3px!important;box-sizing:border-box!important;text-align:center!important;
   border:1.5px solid rgba(255,255,255,.92)!important;border-radius:999px!important;background:rgba(77,62,202,.96)!important;
   color:#fff!important;font-size:9px!important;line-height:1.1!important;font-weight:950!important;letter-spacing:.1px!important;
@@ -22607,7 +22161,13 @@ function hits(text,m){if(!m?.canonical||!text)return false;try{if(typeof studyFi
 function filterPlaylist(list,course){if(!on()||String(course)==='day')return list;if(!LIVE.ready)return [];const out=[];(list||[]).forEach(it=>{const c=String(it?.course||course||'my'),l=Number(it?.lesson)||1,t=String(it?.tab||''),ms=metas(c,l,t,it?.index);if(!ms.length)return;if(t!=='speaking'){out.push(Object.assign({},it,{mvSentenceTrained:true,mvSentenceTrainedIds:ms.map(m=>m.pattern_id)}));return}const z=getRow(c,l,t,it?.index),ens=(typeof myClassSplitSentences==='function'?myClassSplitSentences(z.row?.text||it?.text||''):[String(it?.text||'')]).filter(Boolean),kos=(typeof studySpeakingAlignedKoSentences280==='function'?studySpeakingAlignedKoSentences280(z.row,z.data):[]),pids=Array.isArray(z.row?.patternIds)?z.row.patternIds:[];ens.forEach((en,j)=>{let hs=ms.filter(m=>hits(en,m));if(!hs.length&&pids.length===ens.length){const m=byId(pids[j]);if(m)hs=[m]}if(hs.length)out.push(Object.assign({},it,{text:en,ko:String(kos[j]||''),paragraph:false,mvSentenceTrained:true,mvSpeakingSentenceIndex:j,mvSentenceTrainedIds:hs.map(m=>m.pattern_id)}))})});return out}
 window.mvSentenceTrainedFilterPlaylist5477=filterPlaylist;window.mvSentenceTrainedFilterPlaylist5476=filterPlaylist;
 function qmetas(q){const out=[],seen=new Set();explicit(q).forEach(m=>add(out,seen,m));const ps=[];if(Array.isArray(q?.practicePatterns))ps.push(...q.practicePatterns);if(Array.isArray(q?.practiceExtraPatterns))ps.push(...q.practiceExtraPatterns);try{if(typeof sentencePattern==='function')ps.push(sentencePattern(q))}catch(e){}ps.forEach(p=>add(out,seen,byPat(p)));const text=String(q?.example||q?.sentence||q?.paraphrase||'');if(text)Object.keys(META).forEach(id=>{if(!seen.has(id)){const m=byId(id);if(hits(text,m))add(out,seen,m)}});return out}
-const baseBQ=window.buildQuizDeck;if(typeof baseBQ==='function'){const w=function(){const r=baseBQ.apply(this,arguments);if(typeof quizMode!=='undefined'&&quizMode==='sentence'&&on()){quizDeck=(Array.isArray(quizDeck)?quizDeck:[]).filter(q=>qmetas(q).length);quizIndex=0;quizSessionDone=false;quizSessionWrong=[];const el=document.getElementById('quizFilterCount');if(el)el.textContent=`${quizDeck.length}문장 · ✓ 문장학습`}return r};window.buildQuizDeck=w;try{buildQuizDeck=w}catch(e){}}
+// Single, read-only trained-pattern filtering rule for both legacy and DB-driven quiz decks.
+function filterTrainedSentenceDeck5477(items){
+  const pool=Array.isArray(items)?items:[];
+  return on()?pool.filter(q=>qmetas(q).length>0):pool;
+}
+window.saywardFilterTrainedSentenceDeck5477=filterTrainedSentenceDeck5477;
+// Quiz deck filtering is applied exactly once in final DB/legacy dispatch (script 83).
 function badge(s='✓ 문장학습'){const b=document.createElement('span');b.className='mvSentenceTrainedBadge5476';b.textContent=s;return b}
 function decorate(){const c=String(typeof ACTIVE_STUDY_COURSE!=='undefined'?ACTIVE_STUDY_COURSE:'my'),l=Number(typeof myClassLessonNo!=='undefined'?myClassLessonNo:1)||1,d=typeof studyCourseData==='function'?studyCourseData(c,l):null;if(!d)return;[['corrections',d.corrections||[],'myCorrectionCard'],['chunks',d.chunks||[],'myChunkCard'],['speaking',d.speaking||[],'mySpeakBlock']].forEach(([t,a,p])=>a.forEach((_,i)=>{const card=document.getElementById(`${p}${i}`);if(!card)return;Array.from(card.children||[]).filter(x=>x.classList?.contains('mvSentenceTrainedBadge5476')).forEach(x=>x.remove());card.classList.remove('mvSentenceTrainedCard5476');const ms=metas(c,l,t,i);if(ms.length){card.classList.add('mvSentenceTrainedCard5476');card.appendChild(badge(ms.length>1?`✓ 문장학습 ${ms.length}`:'✓ 문장학습'))}}))}
 const baseRM=window.renderMyClass;if(typeof baseRM==='function'){const w=function(){const r=baseRM.apply(this,arguments);setTimeout(decorate,0);return r};window.renderMyClass=w;try{renderMyClass=w}catch(e){}}
@@ -23124,7 +22684,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v5.5.47 · Stable Due Review';
+  document.title='SAYWARD v6.0.1 · Stable Due Review';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -26885,17 +26445,28 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
  const when=stamp=>{try{return stamp?new Date(stamp).toLocaleString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'날짜 없음'}catch(_){return '날짜 없음'}};
  const setStatus=msg=>{if(el('sw5538LoadStatus'))el('sw5538LoadStatus').textContent=msg;};
  const addStat=(label,num)=>{const div=node('div','sw5538-stat');div.append(node('strong','',num),node('span','',label));el('sw5538Summary').append(div)};
- // Row-level security still applies. A filtered query pages over every owned row for the selected pattern.
- async function allPages(client,table,fields,uid,id,orderColumn){
-   const result=[],size=500,maxPages=40;
-   for(let page=0;page<maxPages;page++){
-     const {data,error}=await client.from(table).select(fields).eq('user_id',uid).eq('pattern_id',id).order(orderColumn,{ascending:true}).range(page*size,(page+1)*size-1);
-     if(error)throw error;
-     const rows=data||[];result.push(...rows);
-     if(rows.length<size)return {rows:result,truncated:false};
+
+ // Alpha5: shared read-only, RLS-aware paging for learning history views.
+ const swPager=window.saywardReadOnlyPager || (window.saywardReadOnlyPager=Object.freeze({
+   async read({client,table,fields,uid,patternId,orderColumn,size,maxPages,overflow}){
+     if(!client||!uid||!table||!fields||!orderColumn)throw new Error('INVALID_HISTORY_READ');
+     const rows=[];
+     for(let page=0;page<maxPages;page++){
+       let query=client.from(table).select(fields).eq('user_id',uid);
+       if(patternId!==undefined)query=query.eq('pattern_id',patternId);
+       const result=await query.order(orderColumn,{ascending:true}).range(page*size,(page+1)*size-1);
+       if(result.error)throw result.error;
+       const batch=result.data||[];rows.push(...batch);
+       if(batch.length<size)return {rows,truncated:false};
+     }
+     if(overflow==='throw')throw new Error('HISTORY_PAGE_LIMIT');
+     return {rows,truncated:true};
    }
-   return {rows:result,truncated:true};
- }
+ }));
+ // Row-level security still applies: the shared pager always filters by the logged-in user.
+ const allPages=(client,table,fields,uid,id,orderColumn)=>swPager.read({
+   client,table,fields,uid,patternId:id,orderColumn,size:500,maxPages:40,overflow:'truncate'
+ });
  const pointTexts=feedback=>{const points=Array.isArray(feedback?.correction_points)?feedback.correction_points:[];return points.filter(p=>typeof p==='string'&&p.trim()).slice(0,20)};
  const officialGrade=g=>['Perfect','Review','Miss'].includes(g)?g:null;
  function renderTimeline(official,apps,history,legacyEvents=[]){
@@ -27128,16 +26699,10 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
    status(`전체 학습 패턴 ${data.length}개 중 ${rows.length}개 표시 · 공식·이전 학습·앱 연습을 구분해 집계`);
  }
  async function refresh(force=false){const a=auth();if(!a?.client){clear();return;}if(loading&&loadedUid===a.uid&&!force)return;if(!force&&loadedUid===a.uid&&data.length&&Date.now()-loadedAt<120000){render();return;}const uid=a.uid,token=++pending;loading=true;status('공식 History와 앱 연습 전체 집계 조회 중…');try{
-   const events=[];let page=0;const size=700;
-   while(true){
-     const {data:part,error}=await a.client.from('sayward_sentence_learning_unified')
-       .select('pattern_id,source,grade,studied_at').eq('user_id',uid)
-       .order('studied_at',{ascending:true}).range(page*size,(page+1)*size-1);
-     if(error)throw error;
-     events.push(...(part||[]));
-     if(!part||part.length<size)break;
-     if(++page>=100)throw new Error('HISTORY_PAGE_LIMIT');
-   }
+   const {rows:events}=await window.saywardReadOnlyPager.read({
+     client:a.client,table:'sayward_sentence_learning_unified',fields:'pattern_id,source,grade,studied_at',
+     uid,orderColumn:'studied_at',size:700,maxPages:100,overflow:'throw'
+   });
    const ids=[...new Set(events.map(e=>e.pattern_id).filter(Boolean))];
    const meta=new Map();
    for(let i=0;i<ids.length;i+=250){
@@ -27401,17 +26966,38 @@ function refreshSource(){
  }
 }
 const previousDeck=buildQuizDeck;
+// One final dispatch for both legacy and DB-driven quiz sources.
+// Trained-only filtering must run AFTER the source-specific weak/wrong filter.
+function applyFinalTrainedDeck(deck){
+ const trained=window.mvSentenceTrainedOnlyEnabled5477?.()===true;
+ const filter=window.saywardFilterTrainedSentenceDeck5477;
+ return {items:typeof filter==='function'?filter(deck):deck,trained};
+}
 buildQuizDeck=function(){
  const c=dbSource(sentenceSourceMode);
- if(quizMode!=='sentence'||!c)return previousDeck();
+ if(quizMode!=='sentence'||!c){
+  const result=previousDeck.apply(this,arguments);
+  if(quizMode==='sentence'){
+   const final=applyFinalTrainedDeck(quizDeck);
+   if(final.trained){
+    quizDeck=final.items;quizIndex=0;quizSessionDone=false;quizSessionWrong=[];
+    const count=document.getElementById('quizFilterCount');
+    if(count)count.textContent=`${quizDeck.length}문장 · ✓ 문장학습`;
+   }
+  }
+  return result;
+ }
  if(!uid){quizDeck=[];quizIndex=0;status('문장 말하기는 SAYWARD 로그인 후 DB에서 출제됩니다.');return}
  const n=getLesson(c),pool=cards(c,n);
  quizAllWrongMode=false;
  let filtered=pool.filter(q=>q?.example&&q?.translation);
  filtered.forEach(q=>ensureSentenceStats(q));
  if(quizFilterMode==='wrong')filtered=filtered.filter(isWeakSentence).sort((a,b)=>(ensureSentenceStats(b).sentenceWrong||0)-(ensureSentenceStats(a).sentenceWrong||0));
- quizDeck=filtered;quizIndex=0;quizSessionDone=false;quizSessionWrong=[];
- const filter=document.getElementById('quizFilterCount');if(filter)filter.textContent=filtered.length+'문장';
+ // The final DB-backed deck must pass the same trained-history filter as legacy decks.
+ // Keeping this AFTER 'wrong' filtering prevents the later quiz wrapper from bypassing the setting.
+ const final=applyFinalTrainedDeck(filtered);
+ quizDeck=final.items;quizIndex=0;quizSessionDone=false;quizSessionWrong=[];
+ const filter=document.getElementById('quizFilterCount');if(filter)filter.textContent=quizDeck.length+'문장'+(final.trained?' · ✓ 문장학습':'');
  if(!pool.length&&uid&&!latestLoad[c+':'+n]){
   const ticket=serial;latestLoad[c+':'+n]=true;
   queueMicrotask(()=>void ensure(c,n,ticket).finally(()=>{delete latestLoad[c+':'+n]}));
@@ -27463,6 +27049,25 @@ window.addEventListener('sayward:content-auth',e=>{
  }
 });
 window.addEventListener('sayward:auth-out',()=>{serial++;uid='';PRACTICE_SENTENCES_MINIMAL=[];quizDeck=[];});
+// The trained-history query and lesson-content query complete independently.
+// An empty early deck must be rebuilt when verified history arrives, without
+// interrupting an active quiz or crossing an account/session boundary.
+window.addEventListener('sayward:trained-history-updated',event=>{
+ const who=event.detail?.uid||'';
+ if(!who||who!==uid||quizMode!=='sentence'||!dbSource(sentenceSourceMode)
+    ||window.mvSentenceTrainedOnlyEnabled5477?.()!==true
+    ||!Array.isArray(quizDeck)||quizDeck.length!==0)return;
+ const expectedSerial=serial,expectedUid=uid,course=dbSource(sentenceSourceMode),lesson=getLesson(course);
+ queueMicrotask(()=>{
+  if(serial!==expectedSerial||uid!==expectedUid||quizMode!=='sentence'
+    ||dbSource(sentenceSourceMode)!==course||getLesson(course)!==lesson
+    ||!Array.isArray(quizDeck)||quizDeck.length!==0||!cards(course,lesson).length)return;
+  buildQuizDeck();
+  updateQuizDayNav();
+  if(quizDeck.length){quizAnswered=false;newq();}
+ });
+});
+
 window.addEventListener('sayward:dynamic-course-catalog',e=>{
  const c=e.detail?.course;
  if(c&&dbSource(sentenceSourceMode)===c&&quizMode==='sentence'){
@@ -27613,8 +27218,264 @@ function saveIfRunning(){
 window.addEventListener('pagehide',saveIfRunning);
 window.addEventListener('beforeunload',saveIfRunning);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveIfRunning()});
-window.sw545ResumeAudit=()=>({version:'5.5.47',behavior:behavior(),overall:jparse(OVERALL_KEY)?.state||null,
+window.sw545ResumeAudit=()=>({version:'6.0.1',behavior:behavior(),overall:jparse(OVERALL_KEY)?.state||null,
   resumeKeys:Object.keys(jparse('sayward_playback_resume_v1')||{}),randomSeeds:Object.keys(jparse(RANDOM_KEY)||{}).length});
 })();
+</script>
+<script id="sayward-personal-cloud-sync-v601">
+/* SAYWARD v6.0.1 — Personal preferences cloud sync.
+ * Only allowlisted, non-secret localStorage preferences are synchronized.
+ * Official grades/history/learning state and server catalogs are NEVER modified.
+ */
+(function(){
+'use strict';
+const TABLE='sayward_user_preferences';
+const OWNER='sw_pref_owner_v1', DEVICE='sw_pref_device_v1', LEGACY='sw_pref_legacy_snapshot_v1';
+const ALLOWED=new Set([
+  'myVocaConfigurationV1','myVocaSpeechRate',
+  'mv_unified_favs','mv_unified_known','mv_study_favorites_239',
+  'mv_unified_selectedStudyDays','mv_unified_selectedStudyRepeat','mv_unified_selectedStudyMode',
+  'mv_myClassSelectedLessons','mv_studySelected_my','mv_studySelected_opic',
+  'mv_studySelected_sori','mv_studySelected_friends',
+  'mv_myClassFullRepeat','mv_allRepeat209','mv_myClassQuizLesson',
+  'mv_homeStudyMode212','mv_mainHomeStudyMode540',
+  'mv_unified_order','mv_unified_speech','mv_unified_quizFilterMode',
+  'mv_unified_sentenceSourceMode','mv_unified_quizPlaybackEnabled',
+  'mv_selected_auto_progress_v1','sayward_playback_resume_v1',
+  'sayward_v545_playback_mode','sayward_v545_overall_checkpoint',
+  'sayward_v545_random_session'
+]);
+const REGEX=[
+ /^mv_repeatParts206_(day|my|opic|sori|friends)$/,
+ /^mv_study_favorite_only_239_(day|my|opic|sori|friends)$/,
+ /^sw5543_quiz_(my|opic|sori|friends)$/,
+ /^mv_unified_sentenceQuizResume:\d+:[a-zA-Z_-]+:[a-zA-Z_-]+$/
+];
+function allowed(k){return typeof k==='string'&&(ALLOWED.has(k)||REGEX.some(r=>r.test(k)));}
+const nativeSet=Storage.prototype.setItem, nativeRemove=Storage.prototype.removeItem;
+const local=()=>{try{return window.localStorage}catch(e){return null}};
+const get=(k)=>{try{return local()?.getItem(k)??null}catch(e){return null}};
+const put=(k,v)=>{try{const x=local();if(x)nativeSet.call(x,k,String(v));return true}catch(e){return false}};
+const del=(k)=>{try{const x=local();if(x)nativeRemove.call(x,k);return true}catch(e){return false}};
+function snapshot(){
+ const out={};try{const x=local();if(!x)return out;
+ for(let i=0;i<x.length;i++){const k=x.key(i);if(allowed(k))out[k]=x.getItem(k);}
+ }catch(e){}return out;
+}
+const owner=()=>get(OWNER);
+// Legacy local-only learning counters are NOT cloud-synced: preserve by account on this device.
+const LOCAL_ONLY=['mv_unified_stats','mv_card_study_progress_v2','myVocaStudyTimeV1'];
+function localOnlyKey(id){return 'sw_pref_localonly_v1_'+id;}
+function stashLocalOnly(id){
+ if(!id)return;
+ let old={};try{old=JSON.parse(get(localOnlyKey(id))||'{}')||{};}catch(e){}
+ for(const k of LOCAL_ONLY){const v=get(k);if(v!==null){old[k]=v;del(k);}}
+ put(localOnlyKey(id),JSON.stringify(old));
+}
+function restoreLocalOnly(id,priorOwner){
+ if(priorOwner&&priorOwner!==id)stashLocalOnly(priorOwner);
+ if(!id)return;
+ let saved={};try{saved=JSON.parse(get(localOnlyKey(id))||'{}')||{};}catch(e){}
+ for(const k of LOCAL_ONLY)if(Object.prototype.hasOwnProperty.call(saved,k))put(k,saved[k]);
+}
+
+let uid=null,client=null,ready=false,booting=false,muted=false;
+let syncPromise=null,lastPull=0,lastSaved=null,lastError='',pullSerial=0;
+let pending={},timer=null,awaitingImport=false,lastNote='';
+let device=get(DEVICE);
+if(!device){device=typeof crypto!=='undefined'&&crypto.randomUUID?crypto.randomUUID():'d-'+Math.random().toString(36).slice(2);put(DEVICE,device);}
+const outboxKey=(id)=>'sw_pref_outbox_v1_'+id;
+function readOutbox(id){try{const x=JSON.parse(get(outboxKey(id))||'{}');return x&&typeof x==='object'&&!Array.isArray(x)?x:{}}catch(e){return {}}}
+function saveOutbox(){if(uid)put(outboxKey(uid),JSON.stringify(pending));}
+function guard(id,c){return uid===id&&client===c&&!!window.saywardAuth?.snapshot?.().authenticated&&window.saywardAuth.snapshot().uid===id;}
+function note(msg,error=false){
+ lastNote=msg;lastError=error?String(msg):'';const el=document.getElementById('swPrefSyncStatus');if(el)el.textContent=msg;
+ const btn=document.getElementById('swPrefImport');if(btn)btn.hidden=!(uid&&awaitingImport&&!booting);
+}
+function section(){
+ const parent=document.querySelector('#configPage .configShell');if(!parent||document.getElementById('swPrefSyncSection'))return;
+ const sec=document.createElement('section');sec.className='configSection';sec.id='swPrefSyncSection';
+ sec.innerHTML='<div class="configSectionTitle">☁️ 계정별 설정 동기화</div><p id="swPrefSyncStatus" role="status" aria-live="polite" style="line-height:1.6;margin:10px 0">로그인하면 개인 설정을 확인합니다.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="homeConfigBtn" id="swPrefImport" hidden>이 기기의 기존 설정 가져오기</button><button type="button" class="homeConfigBtn" id="swPrefRefresh">지금 동기화</button></div><p style="font-size:12px;opacity:.8;margin-top:10px">수업 선택·반복·즐겨찾기·Config·이어하기를 계정별로 저장합니다. 공식 채점과 학습 이력은 별도 DB로 관리합니다.</p>';
+ parent.appendChild(sec);
+ document.getElementById('swPrefImport').addEventListener('click',()=>{void importLegacy();});
+ document.getElementById('swPrefRefresh').addEventListener('click',()=>{void refresh(true);});
+}
+function takeBackup(who){
+ const old=snapshot();if(!Object.keys(old).length)return;
+ const backupKey=who?'sw_pref_previous_'+who:LEGACY;
+ if(!get(backupKey))put(backupKey,JSON.stringify(old));
+}
+function replaceLocal(cloud,id){
+ const wasOwner=owner();restoreLocalOnly(id,wasOwner);const present=snapshot();
+ if(wasOwner!==id)takeBackup(wasOwner);
+ const dirty=readOutbox(id);
+ let changed=false;
+ muted=true;
+ try{
+  for(const key of Object.keys(present)){
+   if(wasOwner!==id&&!Object.prototype.hasOwnProperty.call(cloud,key)&&!Object.prototype.hasOwnProperty.call(dirty,key)){
+     del(key);changed=true;
+   }
+  }
+  for(const [k,v] of Object.entries(cloud)){
+   if(!allowed(k)||Object.prototype.hasOwnProperty.call(dirty,k))continue;
+   if(v===null){if(get(k)!==null){del(k);changed=true;}}
+   else if(get(k)!==v){put(k,v);changed=true;}
+  }
+  put(OWNER,id);
+ }finally{muted=false;}
+ return changed;
+}
+function applyLivePreferences(){
+ // Never reload: some learners deliberately keep auth in memory only.
+ // Reloading after login would sign them out before they can study.
+ muted=true;
+ try{
+  try{if(typeof loadPackState==='function')loadPackState();}catch(e){}
+  try{
+   if(typeof loadAppSettings==='function'&&typeof appSettings!=='undefined'){
+    appSettings=loadAppSettings();
+    if(typeof speechRate!=='undefined')speechRate=Number(appSettings.speechRate)||1.1;
+   }
+   if(typeof fillConfigurationForm==='function')fillConfigurationForm();
+   if(typeof refreshHomeConfigSummary==='function')refreshHomeConfigSummary();
+  }catch(e){}
+  try{window.dispatchEvent(new CustomEvent('sayward:personal-sync-updated',{detail:{uid}}));}catch(e){}
+ }finally{muted=false;}
+}
+function refreshOnNextRender(changed,id,cloud){
+ if(changed)applyLivePreferences();
+}
+async function readCloud(id,c){
+ const {data,error}=await c.from(TABLE).select('pref_key,pref_value,updated_at').eq('user_id',id).limit(500);
+ if(error)throw error;
+ const map={};for(const row of data||[]){if(allowed(row.pref_key))map[row.pref_key]=row.pref_value;}
+ window.__swPrefCloudRows=Object.keys(map).length;
+ return map;
+}
+function schedule(){if(timer)clearTimeout(timer);timer=setTimeout(()=>{timer=null;void flush();},800);}
+function changedLocal(k,val){
+ if(!allowed(k)||muted||!uid||!ready)return;
+ if(Object.prototype.hasOwnProperty.call(pending,k)&&pending[k]===val)return;
+ pending[k]=val;saveOutbox();schedule();
+}
+try{
+ Storage.prototype.setItem=function(k,v){
+  const x=this;const old=(x===local()&&allowed(k))?get(k):null;
+  const result=nativeSet.call(x,k,v);
+  if(x===local()&&String(v)!==old)changedLocal(String(k),String(v));
+  return result;
+ };
+ Storage.prototype.removeItem=function(k){
+  const x=this;const old=(x===local()&&allowed(k))?get(k):null;
+  const result=nativeRemove.call(x,k);
+  if(x===local()&&old!==null)changedLocal(String(k),null);
+  return result;
+ };
+}catch(e){note('이 브라우저에서 설정 변경 감지가 제한됩니다.',true);}
+async function flush(){
+ if(syncPromise)return syncPromise;
+ const id=uid,c=client;if(!ready||!id||!c||!guard(id,c))return;
+ const changes={...pending};const keys=Object.keys(changes);if(!keys.length)return;
+ syncPromise=(async()=>{
+  const rows=keys.filter(k=>allowed(k)&& (changes[k]===null||typeof changes[k]==='string'&&new Blob([changes[k]]).size<=262144))
+   .map(k=>({user_id:id,pref_key:k,pref_value:changes[k],device_id:device}));
+  if(rows.length!==keys.length){note('일부 설정의 크기 또는 키가 제한을 초과했습니다.',true);return;}
+  try{
+   const {data,error}=await c.from(TABLE).upsert(rows,{onConflict:'user_id,pref_key'}).select('pref_key,pref_value');
+   if(error)throw error;
+   if(!guard(id,c))return;
+   const accepted=new Map((data||[]).map(r=>[r.pref_key,r.pref_value]));
+   if(rows.some(r=>!accepted.has(r.pref_key)||accepted.get(r.pref_key)!==r.pref_value))throw new Error('SYNC_VERIFY_FAILED');
+   for(const k of keys)if(pending[k]===changes[k])delete pending[k];
+   saveOutbox();lastSaved=new Date().toLocaleTimeString();note('계정별 설정 저장 완료 · '+lastSaved);
+   if(Object.keys(pending).length)schedule();
+  }catch(e){if(guard(id,c)){note('동기화 대기 · 연결 복구 후 재시도 ('+String(e.code||'network')+')',true);}}
+ })().finally(()=>{syncPromise=null;});
+ return syncPromise;
+}
+async function loadForUser(nextId,nextClient){
+ if(!nextId||!nextClient)return;
+ if(uid===nextId&&booting)return;
+ uid=nextId;client=nextClient;booting=true;ready=false;awaitingImport=false;pending=readOutbox(uid);
+ note('계정 설정을 불러오는 중…');
+ const id=uid,c=client;
+ try{
+  const cloud=await readCloud(id,c);
+  if(!guard(id,c))return;
+  const count=Object.keys(cloud).length;
+  if(count===0){
+   restoreLocalOnly(id,owner());
+   if(owner()===id){ready=true;for(const [k,v] of Object.entries(snapshot()))if(allowed(k)&&!Object.prototype.hasOwnProperty.call(pending,k))pending[k]=v;saveOutbox();schedule();note('기존 계정 설정을 DB에 등록하는 중…');}
+   else if(owner()&&owner()!==id){takeBackup(owner());muted=true;try{for(const k of Object.keys(snapshot()))del(k);put(OWNER,id);}finally{muted=false;}ready=true;note('새 계정의 기본 설정을 사용합니다.');}
+   else if(!Object.keys(snapshot()).length){put(OWNER,id);ready=true;note('개인 설정 동기화 준비 완료 · 새 계정');}
+   else {ready=false;awaitingImport=true;note('이 기기의 기존 설정을 계정에 가져올지 선택하세요.');}
+  }else{
+   const changed=replaceLocal(cloud,id);
+   ready=true;note('계정 설정 '+count+'개 불러오기 완료');
+   if(Object.keys(pending).length)schedule();
+   refreshOnNextRender(changed,id,cloud);
+  }
+  lastPull=Date.now();
+ }catch(e){if(guard(id,c))note('동기화 연결 실패 · 기기 설정은 유지됨 ('+String(e.code||'network')+')',true);}
+ finally{if(uid===id){booting=false;note(lastNote,!!lastError);}}
+}
+async function importLegacy(){
+ const id=uid,c=client;if(!id||!c||!guard(id,c))return;
+ const legacy=owner()&&owner()!==id?{}:snapshot();
+ note('이 기기의 기존 설정을 계정에 저장하는 중…');
+ try{
+  // Do not overwrite preferences another device may have created since the initial read.
+  const cloud=await readCloud(id,c);if(!guard(id,c))return;
+  if(Object.keys(cloud).length){const changed=replaceLocal(cloud,id);ready=true;note('이미 DB 설정이 있어 DB 기준으로 복원했습니다.');refreshOnNextRender(changed,id,cloud);return;}
+  const rows=Object.entries(legacy).filter(([k,v])=>allowed(k)&&typeof v==='string'&&new Blob([v]).size<=262144)
+   .map(([pref_key,pref_value])=>({user_id:id,pref_key,pref_value,device_id:device}));
+  if(rows.length){
+   const {data,error}=await c.from(TABLE).upsert(rows,{onConflict:'user_id,pref_key'}).select('pref_key,pref_value');
+   if(error)throw error;
+   if(!guard(id,c))return;
+   if((data||[]).length!==rows.length)throw new Error('IMPORT_VERIFY_FAILED');
+  }
+  put(OWNER,id);ready=true;awaitingImport=false;note('기존 설정 '+rows.length+'개 계정 저장 완료');
+ }catch(e){if(guard(id,c))note('기존 설정 가져오기 실패 · 기기 데이터 유지 ('+String(e.code||'network')+')',true);}
+}
+async function refresh(force=false){
+ const id=uid,c=client;if(!id||!c||!ready||!guard(id,c))return;
+ if(!force&&Date.now()-lastPull<10000)return;
+ await flush();if(Object.keys(pending).length)return;
+ try{
+  const cloud=await readCloud(id,c);if(!guard(id,c))return;
+  const changed=replaceLocal(cloud,id);lastPull=Date.now();note('계정 설정 업데이트 확인 · '+new Date().toLocaleTimeString());
+  if(changed){refreshOnNextRender(true,id,cloud);note('다른 기기의 설정을 이 기기에 적용했습니다. 변경된 수업 선택은 수업을 다시 열 때 반영됩니다.');}
+ }catch(e){if(guard(id,c))note('설정 새로고침 실패 · 로컬 설정 유지',true);}
+}
+function clearSession(){
+ const oldId=uid;
+ if(oldId&&!ready){takeBackup(null);uid=null;client=null;booting=false;awaitingImport=false;pending={};syncPromise=null;note('로그인하면 개인 설정을 동기화합니다.');return;}
+ if(oldId){
+  if(timer){clearTimeout(timer);timer=null;}
+  if(!Object.keys(pending).length&&ready){/* already committed */}
+  else saveOutbox();
+  takeBackup(oldId);stashLocalOnly(oldId);
+  muted=true;try{for(const k of Object.keys(snapshot()))del(k);del(OWNER);}finally{muted=false;}
+ }
+ uid=null;client=null;booting=false;ready=false;awaitingImport=false;pending={};syncPromise=null;window.__swPrefCloudRows=0;note('로그인하면 개인 설정을 동기화합니다.');
+}
+function onAuth(s){
+ if(s?.authenticated&&s.uid){
+  const c=window.saywardAuth?.getClient?.();
+  if(c&&(s.uid!==uid||!ready&&!booting&&!awaitingImport))void loadForUser(s.uid,c);
+ }else if(uid){clearSession();}
+}
+function init(){section();if(window.saywardAuth?.subscribe)window.saywardAuth.subscribe(onAuth);
+ else window.addEventListener('sayward:auth-state',e=>onAuth(e.detail));
+ window.addEventListener('online',()=>{if(uid&&!ready&&!awaitingImport)void loadForUser(uid,client);else{void flush();void refresh();}});
+ window.addEventListener('focus',()=>{if(uid&&!ready&&!awaitingImport)void loadForUser(uid,client);else void refresh();});
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')void refresh();else void flush();});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+window.saywardPreferenceSync={version:'6.0.1',supportedKeys:()=>[...ALLOWED],status:()=>({uid,ready,pending:Object.keys(pending).length,lastSaved,lastError}),sync:()=>refresh(true),importLegacy};
+})();
+
 </script>
 </body></html>
