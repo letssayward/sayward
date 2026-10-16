@@ -4,7 +4,7 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v5.5.44 · Sentence Progress</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v5.5.47 · Stable Due Review</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -1164,7 +1164,7 @@ body.practiceReadingMode #morePanel{
 .homeStudyModeTitle{font-size:13px;font-weight:950;color:#667085;margin:0 0 9px 2px}
 .homeStudyModeSwitch{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:5px;background:#eef2f7;border-radius:15px}
 .homeStudyModeBtn{border:0;border-radius:11px;padding:13px 9px;font-size:15px;font-weight:950;color:#667085;background:transparent;cursor:pointer}
-.homeStudyModeBtn.active{background:#fff;color:#3730a3;box-shadow:0 3px 10px rgba(15,23,42,.10)}
+.homeStudyModeBtn.active{background:#ede9fe;color:#3b278e;box-shadow:inset 0 0 0 2px #6554d1,0 4px 12px rgba(71,55,162,.18)}
 .homeStudyModeHelp{margin-top:9px;color:#667085;font-size:12px;font-weight:750;line-height:1.45}
 .myClassSection.v534MyMode{display:block}
 .myClassSection .v534MyControls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:11px 0 4px;padding:10px;background:#f7f5ff;border:1px solid #e4defc;border-radius:14px}
@@ -3268,7 +3268,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 .sw5522-day-wait-body small{font-size:11px}
 .sw5522-day-none{grid-column:1/-1;border:1px solid #dcd6ec;border-radius:14px;background:#faf9ff;color:#4e416f;padding:18px;font-size:13px;line-height:1.7}
 </style>
-<meta name="sayward-build" content="5.5.44-unified-history"/>
+<meta name="sayward-build" content="5.5.47-stable-review"/>
 <style id="sw5523-day-policy-ui">
 .sw5523-day-error{grid-column:1/-1;border:1px solid #e0c9c7;background:#fff8f6;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:9px;color:#68423d}
 .sw5523-day-error small{font-size:13px;word-break:break-word}
@@ -3725,7 +3725,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
     </section>
     <section class="configSection">
       <div class="configSectionTitle">🏷 문장 학습 패턴 필터</div>
-      <div class="configRow"><div class="configCopy"><b>내가 문장 학습한 패턴만 공부하기</b><span>UNIFIED MASTER의 실제 문장 만들기 학습 이력(problem_count &gt; 0)을 기준으로 전체 학습 반복과 문장 말하기를 필터링합니다. 현재 Master v21 기준 47개 패턴 · 기본값 OFF.</span></div><input id="cfgSentenceTrainedOnly" class="configCheck" type="checkbox"></div>
+      <div class="configRow"><div class="configCopy"><b>내가 문장 학습한 패턴만 공부하기</b><span>Supabase에서 확인한 공식·이전·앱 문장 학습 이력 중 활성 패턴을 기준으로 필터링합니다. 로그인 후 자동 동기화 · 기본값 OFF.</span></div><input id="cfgSentenceTrainedOnly" class="configCheck" type="checkbox"></div>
       <div class="configNotice">체크하면 전체 학습 반복에서 DAY VOCA는 건너뛰고, MY 수업·소리영어·OPIC·FRIENDS 중 문장 학습 이력이 있는 패턴이 포함된 항목만 재생합니다. 말하기 문단은 해당 패턴이 실제로 들어간 문장만 재생합니다. DAY VOCA를 단독으로 시작하는 학습은 그대로 사용할 수 있습니다.</div>
     </section>
     <section class="configSection">
@@ -11411,7 +11411,8 @@ function startSelectedAutoLearning(){
     .sort((a,b)=>a.newDay-b.newDay||a.newNo-b.newNo);
 
   // 홈 화면에서 선택한 학습 순서를 선택 DAY 반복 학습에도 동일하게 적용한다.
-  const selectedOrder=studyMode==='sentences'?'practiceSentence':($('orderMode')?.value||localStorage.getItem(packKey('order'))||'book');
+  const selectedOrder=studyMode==='sentences'?'practiceSentence':
+    ((window.sw545PlaybackBehavior?.()||'resume')==='random'?'random':($('orderMode')?.value||localStorage.getItem(packKey('order'))||'book'));
 
   if(!allEligible.length&&studyMode==='wrong'){
     alert('선택한 Day에 틀린 단어가 없습니다.');stopRepeatWakeSession();return;
@@ -11423,7 +11424,10 @@ function startSelectedAutoLearning(){
     alert('선택한 Day에 틀린 단어 또는 모르는 단어 단어가 없습니다.');stopRepeatWakeSession();return;
   }
 
-  const previous=readSelectedProgress();
+  const previous=(window.sw545PlaybackBehavior?.()==='restart')?null:readSelectedProgress();
+  if(window.sw545PlaybackBehavior?.()==='restart')clearSelectedProgress();
+  // Keep UI, persistent order setting and resume deck in agreement in random mode.
+  if(selectedOrder==='random'&&$('orderMode'))$('orderMode').value='random';
   let resumed=rebuildSelectedDeckForResume(allEligible,selectedOrder,previous,days);
   if(previous&&!days.includes(Number(previous.currentDay)))clearSelectedProgress();
   let selectedWords=resumed?resumed.deck:applyStudyOrder(allEligible,selectedOrder);
@@ -12287,7 +12291,7 @@ function mvSentenceEntryAudit182(){
 window.mvSentenceEntryAudit182=mvSentenceEntryAudit182;
 
 /* ===== V5.3.189 · STANDARD APP INFO / UPDATE HISTORY ===== */
-const MV_APP_VERSION='5.5.33';
+const MV_APP_VERSION='5.5.47';
 
 function mvCloseInfoOverlay(){
   const overlay=document.getElementById('mvInfoOverlay');
@@ -13530,6 +13534,7 @@ const M536={
   busy:false,
   course:'my'
 };
+window.sw545M536State=()=>({course:M536.course,cursor:M536.cursor,playlist:M536.playlist});
 
 /* ===== V5.3.189 · PLAYBACK COURSE SOURCE-OF-TRUTH ===== */
 function m536ActiveCourse(){
@@ -13746,7 +13751,7 @@ function m536BuildPlaylist(course=m536ActiveCourse()){
   if(c!=='day' && typeof window.mvSentenceTrainedFilterPlaylist5477==='function'){
     result=window.mvSentenceTrainedFilterPlaylist5477(result,c);
   }
-  return result;
+  return window.sw545OrderPlaylist?.(result,c) || result;
 }
 window.m536BuildPlaylist=m536BuildPlaylist;
 function m536ResolveEl(item){
@@ -13950,6 +13955,7 @@ async function m536RunFull(startAt=0,startRep=0){
     const item=M536.playlist[M536.cursor];
     if(!item)return;
     try{window.mv419TrackRunningItem?.(course,M536.cursor,item)}catch(e){}
+    try{window.sw545SaveOverallCheckpoint?.(course,M536.cursor,item)}catch(e){}
     const el=await m536RenderItemForFull255(item);
     if(token!==M536.token || hardEpoch!==MY_CLASS_HARD_STOP_EPOCH || M536.mode!=='full')return;
     const cfg=loadAppSettings();
@@ -15829,7 +15835,7 @@ function installVisibleBuildBadge(){
   if(!badge){
     badge=document.createElement('div');
     badge.id='mvBuildBadge';
-    badge.textContent='v5.3.286';
+    badge.textContent='v5.5.47';
     badge.title='현재 실행 중인 MY VOCA 빌드';
     document.body.appendChild(badge);
   }
@@ -20506,6 +20512,7 @@ function mv419SaveResume(kind,scope,lesson=null,cp=null,screen=null){
   if(!['course','single'].includes(String(kind||'')))return false;
   const c=String(scope||'');if(!['my','sori','opic','friends'].includes(c))return false;
   const normalized=mv419NormalizeCheckpoint(cp,c);if(!normalized)return false;
+  try{if(cp?.itemKey)normalized.itemKey=String(cp.itemKey)}catch(e){}
   const store=mv419ResumeStore();
   const id=mv419ResumeId(kind,c,lesson);
   store[id]={
@@ -20521,7 +20528,14 @@ function mv419LoadResume(kind,scope,lesson=null){
   const c=String(scope||'');
   const row=mv419ResumeStore()[mv419ResumeId(kind,c,lesson)];
   if(!row||row.kind!==kind||row.c!==c)return null;
-  if(kind==='course'&&row.selectionKey!==mv281SelectionKey(c))return null;
+  if(kind==='course'&&row.selectionKey!==mv281SelectionKey(c)){
+    // Selectors can be reconstructed asynchronously from Supabase. Match the
+    // persisted item identity against the hydrated playlist, not a stale checkbox string.
+    const itemKey=String(row.checkpoint?.itemKey||'');
+    let valid=false;
+    try{valid=!!itemKey&&(m536BuildPlaylist(c)||[]).some(item=>m536ItemKey(item)===itemKey)}catch(e){}
+    if(!valid)return null;
+  }
   if(kind==='single'&&Number(row.lesson)!==(Number(lesson)||1))return null;
   return row;
 }
@@ -20553,6 +20567,7 @@ function mv419TrackRunningItem(course,cursor,item){
 function mv419ResetAllPlaybackPositions(){
   try{localStorage.removeItem(MV_PLAYBACK_RESUME_KEY_419)}catch(e){}
   try{clearSelectedProgress?.()}catch(e){try{localStorage.removeItem('mv_selected_auto_progress_v1')}catch(x){}}
+  try{window.sw545ResetPlayback?.()}catch(e){}
   try{mv281AbortSession?.('playback-position-reset')}catch(e){}
   try{mv281ResetM536Resume?.()}catch(e){}
   try{learningPlaybackPaused=true;updateLearningPlaybackButton?.()}catch(e){}
@@ -20645,7 +20660,7 @@ function mv281ResolveResumeCursor(cp,course){
     const list=m536BuildPlaylist(course)||[];
     if(!list.length)return {cursor:0,rep:0};
     if(cp?.itemDone){cursor=Math.max(0,Math.min(list.length-1,Number(cp.nextCursor)||0));rep=0}
-    else if(cp?.itemKey){const hit=list.findIndex(x=>m536ItemKey(x)===cp.itemKey);if(hit>=0)cursor=hit}
+    else if(cp?.itemKey){const hit=list.findIndex(x=>m536ItemKey(x)===cp.itemKey);cursor=hit>=0?hit:0}
     cursor=Math.max(0,Math.min(list.length-1,cursor));
   }catch(e){}
   return {cursor,rep};
@@ -20695,6 +20710,7 @@ function mv281NavigateHome(){
       snapshot:outer.snapshot?JSON.parse(JSON.stringify(outer.snapshot)):null,
       favoriteOnlySnapshot:outer.favoriteOnlySnapshot?{...outer.favoriteOnlySnapshot}:null
     };
+    try{window.sw545SaveOverallCheckpoint?.(null,null,null,{pausedState:MV281.overallPause,pausedCp:MV281.m536Checkpoint,screen:MV281.screen})}catch(e){}
     outer.active=false;outer.token=(Number(outer.token)||0)+1;
     window.MV_DAY_ONCE_COMPLETE_219=null;window.MV_COURSE_ONCE_COMPLETE_219=null;
   }else if(typeof m536IsPlaying==='function'&&m536IsPlaying()){
@@ -20736,7 +20752,9 @@ function mv281StartFreshCourse(mode){
   }
   try{
     ACTIVE_STUDY_COURSE=mode;M536.course=mode;
-    const saved=mv419LoadResume('course',mode);
+    const behavior=window.sw545PlaybackBehavior?.()||'resume';
+    if(behavior==='restart')try{mv419ClearResume('course',mode)}catch(e){}
+    const saved=behavior==='restart'?null:mv419LoadResume('course',mode);
     if(saved?.checkpoint){
       MV281.reason='persistent-resume-course';
       MV281.screen=saved.screen||null;MV281.m536Checkpoint=saved.checkpoint;
@@ -20814,6 +20832,32 @@ function mv281ResumeOverall(){
 function mv281StartOverall(){
   ++mv281PendingDbStart5525; // cancel an unfinished per-course preload
   const mode=mv281Mode();
+  const behavior=window.sw545PlaybackBehavior?.()||'resume';
+  if(MV281.kind==='overall'&&MV281.status==='paused'&&MV281.overallPause&&MV281.scope===mode)return mv281ResumeOverall();
+  const last=behavior==='restart'?null:window.sw545LoadOverallCheckpoint?.(mode);
+  if(last?.state?.queue?.length && last.state?.current){
+    const course=String(last.state.current);
+    MV281.kind='overall';MV281.scope=course;MV281.status='paused';
+    MV281.overallPause=last.state;MV281.m536Checkpoint=last.cp||null;
+    MV281.screen=last.screen||null;MV281.reason='persistent-overall-resume';
+    const play=async()=>{
+      try{
+        if(course!=='day'){
+          await window.sw5525PreparePlayback?.(course,last.state.snapshot?.[course]||[],{
+            progress:(done,total)=>window.sw5525PlaybackLoading?.(course,done,total)
+          });
+        }
+        window.sw5525PlaybackLoading?.(null);
+        return mv281ResumeOverall();
+      }catch(e){
+        window.sw5525PlaybackLoading?.(null);MV281.status='paused';
+        alert('이전 학습을 복구할 수 없습니다. 콘텐츠 DB 연결을 확인해 주세요. ('+String(e?.message||e).slice(0,75)+')');
+        return false;
+      }
+    };
+    return play();
+  }
+  if(behavior==='restart')try{window.sw545ResetPlayback?.()}catch(e){}
   // v5.3.282: HOME keeps the checkpoint, but it is resumed only when the
   // learner starts again from the SAME visible study mode.  If the learner
   // changed DAY/MY/SORI/OPIC/FRIENDS and presses the top start button, that is a new
@@ -21076,8 +21120,8 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='MY VOCA v5.3.286');
-  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v5.3.286';
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v5.5.47');
+  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v5.5.47';
   mv281SyncUI();
 },0);
 })();
@@ -21342,9 +21386,9 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='MY VOCA v5.3.288')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v5.3.288'}catch(e){}
-  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v5.3.288'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v5.5.47')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v5.5.47'}catch(e){}
+  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v5.5.47'}catch(e){}
 },0);
 
 window.mvSwipeLifetimeAudit288=function(){
@@ -21514,9 +21558,9 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='MY VOCA v5.3.289')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v5.3.289'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v5.3.289')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v5.5.47')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v5.5.47'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v5.5.47')}catch(e){}
   refreshPausedBrowseUI289();
 },0);
 
@@ -21750,10 +21794,10 @@ function navigate292(item){S292.lastTarget=item?.id||null;if(item.course==='day'
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v5.5.44 · Sentence Progress'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='MY VOCA v5.3.292')}catch(e){}
-  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v5.3.292'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v5.3.292')}catch(e){}
+  try{document.title='SAYWARD v5.5.47 · Stable Due Review'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v5.5.47')}catch(e){}
+  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v5.5.47'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v5.5.47')}catch(e){}
 },0);
 window.mvUnifiedSearchAudit292=()=>({version:'v5.3.292',indexCount:buildIndex292().length,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'additive unified search only; existing playback/swipe/card logic unchanged'});
 })();
@@ -22046,7 +22090,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v5.5.44 · Sentence Progress'}catch(e){}
+  try{document.title='SAYWARD v5.5.47 · Stable Due Review'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -22067,7 +22111,7 @@ window.mvCleanAudit540=function(){
   const h=home(),bar=document.getElementById('sharedStudySelectBar');
   const cards=[...document.querySelectorAll('#homePage .myClassSection .myClassCard')].slice(0,4);
   return {
-    version:'v5.5.44',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
+    version:'v5.5.47',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
     sharedBar:!!bar,daySettings:!!document.getElementById('cleanDaySettings'),legacyModePanelVisible:!!document.getElementById('homeStudyModePanel')&&getComputedStyle(document.getElementById('homeStudyModePanel')).display!=='none',
     visibleSections:{day:getComputedStyle(document.querySelector('#homePage .daySection')||document.body).display,my:getComputedStyle(document.querySelector('#homePage .myClassSection')||document.body).display,sori:getComputedStyle(document.querySelector('#homePage .soriClassSection')||document.body).display,opic:getComputedStyle(document.querySelector('#homePage .opicClassSection')||document.body).display,friends:getComputedStyle(document.querySelector('#homePage .friendsClassSection')||document.body).display},
     myCards:cards.map(c=>({w:Math.round(c.getBoundingClientRect().width),h:Math.round(c.getBoundingClientRect().height)})),
@@ -22253,7 +22297,7 @@ window.mvCleanAudit540=function(){
 #cleanHeroMenuHit,#cleanHeroSearchHit{position:absolute!important;top:0!important;height:100%!important;width:18%!important;border:0!important;background:transparent!important;padding:0!important;z-index:8!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 #cleanHeroMenuHit{left:-5px!important} #cleanHeroSearchHit{right:0!important}
 #homePage .homeHero::before{
-  content:"v5.5.44"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
+  content:"v5.5.47"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
   min-width:54px!important;padding:2px 8px 3px!important;box-sizing:border-box!important;text-align:center!important;
   border:1.5px solid rgba(255,255,255,.92)!important;border-radius:999px!important;background:rgba(77,62,202,.96)!important;
   color:#fff!important;font-size:9px!important;line-height:1.1!important;font-weight:950!important;letter-spacing:.1px!important;
@@ -22549,7 +22593,8 @@ window.mvSaywardBackupAudit5463=function(){
 <style id="mvSentenceTrainedStyle5476">
 .mvSentenceTrainedBadge5476{display:inline-flex;align-items:center;gap:4px;width:max-content;max-width:100%;margin:0 0 7px 0;padding:3px 8px;border-radius:999px;background:#dcfce7;border:1px solid #86efac;color:#166534;font-size:11px;font-weight:900;line-height:1.25}.mvSentenceTrainedCard5476{box-shadow:inset 3px 0 0 #22c55e!important}.sentencePatternPair.mvSentenceTrainedPattern5476{border-left:3px solid #22c55e;padding-left:8px}.sentencePatternPair .mvSentenceTrainedInline5476{display:inline-flex;margin-left:6px;padding:2px 6px;border-radius:999px;background:#dcfce7;color:#166534;font-size:10px;font-weight:900;vertical-align:middle}.sentenceRecallBox>.mvSentenceTrainedBadge5476{margin-bottom:10px}#myClassContent .myStudyCard>.mvSentenceTrainedBadge5476,#myClassContent .mySpeakBlock>.mvSentenceTrainedBadge5476{position:absolute!important;top:56px!important;right:12px!important;z-index:7!important;margin:0!important;pointer-events:none!important}@media(max-width:520px){#myClassContent .myStudyCard>.mvSentenceTrainedBadge5476,#myClassContent .mySpeakBlock>.mvSentenceTrainedBadge5476{top:50px!important;right:10px!important}}
 </style><script id="mvSentenceTrainedFeature5476">(function(){'use strict';
-const VER='21',SHA='abe452698700d45ae0650309488cd2a2c6f3ef291f13d84684a2572871cae5eb',META={"P_071724fed86d7f78":{"canonical":"as I expected it to be","normalized":"as i expected it to be","status":"stable","problem_count":9},"P_4db8f7add1ea6b02":{"canonical":"as I thought it would be","normalized":"as i thought it would be","status":"stable","problem_count":1},"P_92f9c362b2b0df66":{"canonical":"as soon as ~","normalized":"as soon as ~","status":"learning","problem_count":1},"P_cb2b3a8d7f189f04":{"canonical":"Based on everything I've heard so far, ...","normalized":"based on everything i've heard so far,","status":"learning","problem_count":2},"P_010e649709ab64e2":{"canonical":"Based on everything I've heard so far, ~","normalized":"based on everything i've heard so far, ~","status":"learning","problem_count":1},"P_4a2a15583a0e9587":{"canonical":"based on these findings","normalized":"based on these findings","status":"stable","problem_count":6},"P_358babc13141e8f2":{"canonical":"be in the early stages of ~ing","normalized":"be in the early stages of ~ing","status":"stable","problem_count":5},"P_a078ec0157c20545":{"canonical":"be on the fence","normalized":"be on the fence","status":"learning","problem_count":2},"P_cf9e855c567bf9fa":{"canonical":"be out of breath","normalized":"be out of breath","status":"learning","problem_count":4},"P_9ef16e7105604dd0":{"canonical":"be used to ~ing","normalized":"be used to ~ing","status":"stable","problem_count":6},"P_309f007f8d43c5dd":{"canonical":"bridge the gap between A and B","normalized":"bridge the gap between a and b","status":"stable","problem_count":4},"P_a2cc4391f5ff62ef":{"canonical":"burn the candle at both ends","normalized":"burn the candle at both ends","status":"stable","problem_count":6},"P_d16dc9a091e7f11a":{"canonical":"catch someone off guard","normalized":"catch someone off guard","status":"learning","problem_count":1},"P_b45c9c60ab7e596b":{"canonical":"depend less on A and more on B","normalized":"depend less on a and more on b","status":"focus","problem_count":4},"P_e6adffd75b3e31d3":{"canonical":"despite the unexpected setback","normalized":"despite the unexpected setback","status":"learning","problem_count":2},"P_39b486720590dd83":{"canonical":"don't get as + adj + ... + as I used to","normalized":"don't get as + adj + ... + as i used to","status":"learning","problem_count":1},"P_35d5e2b0d40c8e51":{"canonical":"end up ~ing","normalized":"end up ~ing","status":"learning","problem_count":4},"P_5eb11889e6ff9dcf":{"canonical":"fall behind","normalized":"fall behind","status":"stable","problem_count":6},"P_e7233d69b3f1d2a6":{"canonical":"fundamentally change the way ~","normalized":"fundamentally change the way ~","status":"learning","problem_count":10},"P_0f7d5a7c2b5b9a26":{"canonical":"get something unblocked","normalized":"get something unblocked","status":"learning","problem_count":2},"P_214fbd05bb375be3":{"canonical":"get the hang of it","normalized":"get the hang of it","status":"stable","problem_count":8},"P_024de2a7192f63df":{"canonical":"have second thoughts about ~","normalized":"have second thoughts about ~","status":"stable","problem_count":7},"P_095936759fbef09f":{"canonical":"hit a plateau","normalized":"hit a plateau","status":"stable","problem_count":4},"P_5ad8f685fa391ad3":{"canonical":"hold myself to high standards","normalized":"hold myself to high standards","status":"stable","problem_count":6},"P_44345c349b95b8e0":{"canonical":"incorporate A into B","normalized":"incorporate a into b","status":"focus","problem_count":10},"P_b2a26f465dbe8122":{"canonical":"It took me + time + to ~","normalized":"it took me + time + to ~","status":"focus","problem_count":3},"P_ea1a56a2a4c8c89b":{"canonical":"keep up with the pace","normalized":"keep up with the pace","status":"stable","problem_count":5},"P_95bc2f0f06983a66":{"canonical":"make + 목적어 + easy to understand","normalized":"make + 목적어 + easy to understand","status":"learning","problem_count":5},"P_76ae10b8a0a30d1e":{"canonical":"make someone think that ~","normalized":"make someone think that ~","status":"focus","problem_count":1},"P_1727ff28fe401698":{"canonical":"move on to ~","normalized":"move on to ~","status":"stable","problem_count":4},"P_c718404ae55b8f63":{"canonical":"notice a significant improvement in ~","normalized":"notice a significant improvement in ~","status":"stable","problem_count":3},"P_bb0b4b815d050398":{"canonical":"prevent A from ~ing","normalized":"prevent a from ~ing","status":"focus","problem_count":1},"P_27371d0c592e1f33":{"canonical":"put together some materials","normalized":"put together some materials","status":"stable","problem_count":3},"P_90484e80b23d5464":{"canonical":"rather than ~","normalized":"rather than ~","status":"stable","problem_count":7},"P_06076257cdea9ea1":{"canonical":"regardless of whether A or B","normalized":"regardless of whether a or b","status":"focus","problem_count":1},"P_b16670846d16e8c6":{"canonical":"rely heavily on ~","normalized":"rely heavily on ~","status":"learning","problem_count":5},"P_5ffe73ffd0ea4d6f":{"canonical":"revise a document","normalized":"revise a document","status":"learning","problem_count":1},"P_b0a69d748d9b289c":{"canonical":"see A more as B than as C","normalized":"see a more as b than as c","status":"learning","problem_count":8},"P_1ebcb8e9dddb3d5a":{"canonical":"sleep on it","normalized":"sleep on it","status":"learning","problem_count":6},"P_b192fb70f7ec1e92":{"canonical":"suggest ~ing","normalized":"suggest ~ing","status":"stable","problem_count":5},"P_65111db86410849e":{"canonical":"turn A into B","normalized":"turn a into b","status":"learning","problem_count":2},"P_986372798141eacd":{"canonical":"turn out","normalized":"turn out","status":"learning","problem_count":3},"P_35dfb814c7f9c038":{"canonical":"used to rely heavily on ~","normalized":"used to rely heavily on ~","status":"focus","problem_count":1},"P_99b69a83b7d66a53":{"canonical":"walk someone through ~","normalized":"walk someone through ~","status":"stable","problem_count":4},"P_e13403155110dc26":{"canonical":"with the rise of generative AI","normalized":"with the rise of generative ai","status":"learning","problem_count":1},"P_4726a17abb619254":{"canonical":"should have + past participle","normalized":"should have + past participle","status":"focus","problem_count":1},"P_df7dd444e07c881f":{"canonical":"whether + subject + verb","normalized":"whether + subject + verb","status":"focus","problem_count":1}},NORM={"as i expected it to be":"P_071724fed86d7f78","as i thought it would be":"P_4db8f7add1ea6b02","as soon as ~":"P_92f9c362b2b0df66","based on everything i've heard so far,":"P_cb2b3a8d7f189f04","based on everything i've heard so far, ~":"P_010e649709ab64e2","based on these findings":"P_4a2a15583a0e9587","be in the early stages of ~ing":"P_358babc13141e8f2","be on the fence":"P_a078ec0157c20545","be out of breath":"P_cf9e855c567bf9fa","be used to ~ing":"P_9ef16e7105604dd0","bridge the gap between a and b":"P_309f007f8d43c5dd","burn the candle at both ends":"P_a2cc4391f5ff62ef","catch someone off guard":"P_d16dc9a091e7f11a","depend less on a and more on b":"P_b45c9c60ab7e596b","despite the unexpected setback":"P_e6adffd75b3e31d3","don't get as + adj + ... + as i used to":"P_39b486720590dd83","end up ~ing":"P_35d5e2b0d40c8e51","fall behind":"P_5eb11889e6ff9dcf","fundamentally change the way ~":"P_e7233d69b3f1d2a6","get something unblocked":"P_0f7d5a7c2b5b9a26","get the hang of it":"P_214fbd05bb375be3","have second thoughts about ~":"P_024de2a7192f63df","hit a plateau":"P_095936759fbef09f","hold myself to high standards":"P_5ad8f685fa391ad3","incorporate a into b":"P_44345c349b95b8e0","it took me + time + to ~":"P_b2a26f465dbe8122","keep up with the pace":"P_ea1a56a2a4c8c89b","make + 목적어 + easy to understand":"P_95bc2f0f06983a66","make someone think that ~":"P_76ae10b8a0a30d1e","move on to ~":"P_1727ff28fe401698","notice a significant improvement in ~":"P_c718404ae55b8f63","prevent a from ~ing":"P_bb0b4b815d050398","put together some materials":"P_27371d0c592e1f33","rather than ~":"P_90484e80b23d5464","regardless of whether a or b":"P_06076257cdea9ea1","rely heavily on ~":"P_b16670846d16e8c6","revise a document":"P_5ffe73ffd0ea4d6f","see a more as b than as c":"P_b0a69d748d9b289c","sleep on it":"P_1ebcb8e9dddb3d5a","suggest ~ing":"P_b192fb70f7ec1e92","turn a into b":"P_65111db86410849e","turn out":"P_986372798141eacd","used to rely heavily on ~":"P_35dfb814c7f9c038","walk someone through ~":"P_99b69a83b7d66a53","with the rise of generative ai":"P_e13403155110dc26","should have + past participle":"P_4726a17abb619254","whether + subject + verb":"P_df7dd444e07c881f"},IDS=new Set(Object.keys(META));
+const VER='Supabase-Live',SHA='live',META=Object.create(null),NORM=Object.create(null),IDS=new Set();
+const LIVE={uid:null,ready:false,loading:null,error:null,generation:0};
 function norm(v){return String(v||'').normalize('NFKC').replace(/[’‘]/g,"'").replace(/…/g,'...').replace(/\s+/g,' ').trim().toLowerCase()}
 function on(){try{return loadAppSettings().sentenceTrainedOnly===true}catch(e){return false}}
 function byId(id){const x=META[String(id||'')];return x?Object.assign({pattern_id:String(id)},x):null}
@@ -22559,7 +22604,7 @@ function explicit(row){const out=[],seen=new Set(),ids=[];if(row?.patternId)ids.
 function getRow(c,l,t,i){try{const d=studyCourseData(c,l)||{},a=t==='corrections'?(d.corrections||[]):t==='chunks'?(d.chunks||[]):t==='speaking'?(d.speaking||[]):[];return{data:d,row:a[Number(i)||0]||null}}catch(e){return{data:null,row:null}}}
 function metas(c,l,t,i){const z=getRow(c,l,t,i),out=[],seen=new Set();if(!z.row)return out;explicit(z.row).forEach(m=>add(out,seen,m));try{if(t==='corrections'&&typeof studyCoreChunkLinks==='function')studyCoreChunkLinks(z.row,z.data).forEach(x=>{add(out,seen,byId(x?.patternId||x?.pattern_id));add(out,seen,byPat(x?.pattern||x?.text))});if(t==='speaking'&&typeof studySpeakingPatterns==='function')studySpeakingPatterns(z.row,z.data).forEach(p=>add(out,seen,byPat(p)))}catch(e){}return out}
 function hits(text,m){if(!m?.canonical||!text)return false;try{if(typeof studyFindPatternHits==='function'&&studyFindPatternHits(String(text),m.canonical).length)return true}catch(e){}const f=norm(m.canonical).replace(/~\s*ing|~|\.\.\.|\+\s*(?:[a-z-]+|[a-z]+\s+[a-z]+)|\b(?:a|b|c)\b/gi,' ').replace(/\s+/g,' ').trim();return f.length>=4&&norm(text).includes(f)}
-function filterPlaylist(list,course){if(!on()||String(course)==='day')return list;const out=[];(list||[]).forEach(it=>{const c=String(it?.course||course||'my'),l=Number(it?.lesson)||1,t=String(it?.tab||''),ms=metas(c,l,t,it?.index);if(!ms.length)return;if(t!=='speaking'){out.push(Object.assign({},it,{mvSentenceTrained:true,mvSentenceTrainedIds:ms.map(m=>m.pattern_id)}));return}const z=getRow(c,l,t,it?.index),ens=(typeof myClassSplitSentences==='function'?myClassSplitSentences(z.row?.text||it?.text||''):[String(it?.text||'')]).filter(Boolean),kos=(typeof studySpeakingAlignedKoSentences280==='function'?studySpeakingAlignedKoSentences280(z.row,z.data):[]),pids=Array.isArray(z.row?.patternIds)?z.row.patternIds:[];ens.forEach((en,j)=>{let hs=ms.filter(m=>hits(en,m));if(!hs.length&&pids.length===ens.length){const m=byId(pids[j]);if(m)hs=[m]}if(hs.length)out.push(Object.assign({},it,{text:en,ko:String(kos[j]||''),paragraph:false,mvSentenceTrained:true,mvSpeakingSentenceIndex:j,mvSentenceTrainedIds:hs.map(m=>m.pattern_id)}))})});return out}
+function filterPlaylist(list,course){if(!on()||String(course)==='day')return list;if(!LIVE.ready)return [];const out=[];(list||[]).forEach(it=>{const c=String(it?.course||course||'my'),l=Number(it?.lesson)||1,t=String(it?.tab||''),ms=metas(c,l,t,it?.index);if(!ms.length)return;if(t!=='speaking'){out.push(Object.assign({},it,{mvSentenceTrained:true,mvSentenceTrainedIds:ms.map(m=>m.pattern_id)}));return}const z=getRow(c,l,t,it?.index),ens=(typeof myClassSplitSentences==='function'?myClassSplitSentences(z.row?.text||it?.text||''):[String(it?.text||'')]).filter(Boolean),kos=(typeof studySpeakingAlignedKoSentences280==='function'?studySpeakingAlignedKoSentences280(z.row,z.data):[]),pids=Array.isArray(z.row?.patternIds)?z.row.patternIds:[];ens.forEach((en,j)=>{let hs=ms.filter(m=>hits(en,m));if(!hs.length&&pids.length===ens.length){const m=byId(pids[j]);if(m)hs=[m]}if(hs.length)out.push(Object.assign({},it,{text:en,ko:String(kos[j]||''),paragraph:false,mvSentenceTrained:true,mvSpeakingSentenceIndex:j,mvSentenceTrainedIds:hs.map(m=>m.pattern_id)}))})});return out}
 window.mvSentenceTrainedFilterPlaylist5477=filterPlaylist;window.mvSentenceTrainedFilterPlaylist5476=filterPlaylist;
 function qmetas(q){const out=[],seen=new Set();explicit(q).forEach(m=>add(out,seen,m));const ps=[];if(Array.isArray(q?.practicePatterns))ps.push(...q.practicePatterns);if(Array.isArray(q?.practiceExtraPatterns))ps.push(...q.practiceExtraPatterns);try{if(typeof sentencePattern==='function')ps.push(sentencePattern(q))}catch(e){}ps.forEach(p=>add(out,seen,byPat(p)));const text=String(q?.example||q?.sentence||q?.paraphrase||'');if(text)Object.keys(META).forEach(id=>{if(!seen.has(id)){const m=byId(id);if(hits(text,m))add(out,seen,m)}});return out}
 const baseBQ=window.buildQuizDeck;if(typeof baseBQ==='function'){const w=function(){const r=baseBQ.apply(this,arguments);if(typeof quizMode!=='undefined'&&quizMode==='sentence'&&on()){quizDeck=(Array.isArray(quizDeck)?quizDeck:[]).filter(q=>qmetas(q).length);quizIndex=0;quizSessionDone=false;quizSessionWrong=[];const el=document.getElementById('quizFilterCount');if(el)el.textContent=`${quizDeck.length}문장 · ✓ 문장학습`}return r};window.buildQuizDeck=w;try{buildQuizDeck=w}catch(e){}}
@@ -22569,7 +22614,61 @@ const baseRM=window.renderMyClass;if(typeof baseRM==='function'){const w=functio
 function decorateSentence(q){const ms=qmetas(q),box=document.querySelector('#opts .sentenceRecallBox');if(box){Array.from(box.children||[]).filter(x=>x.classList?.contains('mvSentenceTrainedBadge5476')).forEach(x=>x.remove());if(ms.length)box.prepend(badge())}document.querySelectorAll('#opts .sentencePatternPair').forEach(pair=>{pair.classList.remove('mvSentenceTrainedPattern5476');pair.querySelectorAll('.mvSentenceTrainedInline5476').forEach(x=>x.remove());const p=pair.querySelector('.patternText');if(p&&byPat(p.textContent||'')){pair.classList.add('mvSentenceTrainedPattern5476');const b=document.createElement('span');b.className='mvSentenceTrainedInline5476';b.textContent='✓ 문장학습';p.insertAdjacentElement('afterend',b)}})}
 const baseRS=window.renderSentenceStage;if(typeof baseRS==='function'){const w=function(q){const r=baseRS.apply(this,arguments);decorateSentence(q);return r};window.renderSentenceStage=w;try{renderSentenceStage=w}catch(e){}}
 window.mvSentenceTrainedSettingsChanged5476=function(){try{if(typeof refreshHomeConfigSummary==='function')refreshHomeConfigSummary();if(typeof syncOverallProxy==='function')syncOverallProxy();decorate();if(typeof quizMode!=='undefined'&&quizMode==='sentence'){buildQuizDeck();quizAnswered=false;if(typeof newq==='function')newq()}}catch(e){console.warn('[v5.4.77 sentence-trained]',e)}};window.mvSentenceTrainedSettingsChanged5477=window.mvSentenceTrainedSettingsChanged5476;
-window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.innerHTML;return{version:'5.4.77',masterVersion:VER,masterSha256:SHA,criterion:'active && problem_count > 0',trainedCount:IDS.size,settingDefault:false,settingEnabled:on(),canonicalPlaylistHook:typeof window.mvSentenceTrainedFilterPlaylist5477==='function',overallRepeatSkipsDayWhenEnabled:true,badgePlacement:'below favorite',trainedIds:Object.keys(META),visibleTrainedIds:Object.keys(META).filter(id=>txt.includes(id))}};window.mvSentenceTrainedAudit5477=window.mvSentenceTrainedAudit5476;window.mvSentenceTrainedOnlyEnabled5476=on;window.mvSentenceTrainedOnlyEnabled5477=on;window.mvSentenceTrainedMeta5476=META;window.mvSentenceTrainedMeta5477=META;setTimeout(decorate,80);
+function clearLive(){
+  for(const key of Object.keys(META))delete META[key];
+  for(const key of Object.keys(NORM))delete NORM[key];
+  IDS.clear();LIVE.ready=false;LIVE.error=null;
+}
+async function refreshLive(force=false){
+  const snap=window.saywardAuth?.snapshot?.()||{};
+  if(!snap.authenticated||!snap.uid){LIVE.generation++;LIVE.uid=null;LIVE.loading=null;clearLive();return false}
+  if(!force&&LIVE.ready&&LIVE.uid===snap.uid)return true;
+  if(!force&&LIVE.loading&&LIVE.uid===snap.uid)return LIVE.loading;
+  const uid=snap.uid,ticket=++LIVE.generation;LIVE.uid=uid;LIVE.ready=false;
+  const task=(async()=>{
+    try{
+      const [masters,events]=await Promise.all([
+        window.saywardAuth.readPatternPractice(),window.saywardAuth.readTrainedEvents()
+      ]);
+      if(ticket!==LIVE.generation||window.saywardAuth?.snapshot?.().uid!==uid)return false;
+      // Read-only lesson history: Never manufacture a grade or promote a state.
+      const studied=new Set((events||[]).map(e=>e.pattern_id).filter(Boolean));
+      clearLive();
+      for(const p of masters||[]){
+        if(!p?.active||!p.pattern_id||!studied.has(p.pattern_id))continue;
+        const id=String(p.pattern_id), canonical=String(p.canonical_pattern||'').trim();
+        if(!canonical)continue;
+        META[id]={canonical,normalized:norm(canonical),status:'studied',problem_count:1};
+        IDS.add(id);
+        const normalized=norm(canonical);
+        if(normalized&&!NORM[normalized])NORM[normalized]=id;
+      }
+      LIVE.ready=true;LIVE.error=null;
+      try{decorate()}catch(e){}
+      try{window.dispatchEvent(new CustomEvent('sayward:trained-history-updated',{detail:{uid,count:IDS.size}}))}catch(e){}
+      return true;
+    }catch(e){
+      if(ticket!==LIVE.generation)return false;
+      clearLive();LIVE.error=String(e?.message||e||'TRAINED_HISTORY_READ_FAILED').slice(0,100);
+      throw new Error('TRAINED_HISTORY_NOT_READY: '+LIVE.error);
+    }finally{if(ticket===LIVE.generation)LIVE.loading=null}
+  })();
+  LIVE.loading=task;
+  return task;
+}
+window.saywardTrainedPatterns={
+  ensure:()=>refreshLive(false),refresh:()=>refreshLive(true),
+  snapshot:()=>({ready:LIVE.ready,uid:LIVE.uid,count:IDS.size,error:LIVE.error})
+};
+window.addEventListener('sayward:auth-state',e=>{
+  if(!e.detail?.authenticated){LIVE.generation++;LIVE.uid=null;LIVE.loading=null;clearLive();return}
+  if(LIVE.uid!==e.detail?.uid||!LIVE.ready)void refreshLive().catch(err=>console.warn('TRAINED_HISTORY_LOAD_FAILED',String(err?.message||err).slice(0,100)));
+});
+window.addEventListener('sayward:content-auth',()=>void refreshLive().catch(err=>console.warn('TRAINED_HISTORY_LOAD_FAILED',String(err?.message||err).slice(0,100))));
+window.addEventListener('sayward:app-practice-updated',()=>void refreshLive(true).catch(err=>console.warn('TRAINED_HISTORY_REFRESH_FAILED',String(err?.message||err).slice(0,100))));
+window.addEventListener('sayward:sentence-progress',()=>void refreshLive(true).catch(err=>console.warn('TRAINED_HISTORY_REFRESH_FAILED',String(err?.message||err).slice(0,100))));
+if(window.saywardAuth?.snapshot?.().authenticated)void refreshLive().catch(err=>console.warn('TRAINED_HISTORY_INIT_FAILED',String(err?.message||err).slice(0,100)));
+window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.innerHTML;return{version:'5.4.77',masterVersion:VER,masterSha256:SHA,criterion:'active && unified history event',liveReady:LIVE.ready,liveError:LIVE.error,trainedCount:IDS.size,settingDefault:false,settingEnabled:on(),canonicalPlaylistHook:typeof window.mvSentenceTrainedFilterPlaylist5477==='function',overallRepeatSkipsDayWhenEnabled:true,badgePlacement:'below favorite',trainedIds:Object.keys(META),visibleTrainedIds:Object.keys(META).filter(id=>txt.includes(id))}};window.mvSentenceTrainedAudit5477=window.mvSentenceTrainedAudit5476;window.mvSentenceTrainedOnlyEnabled5476=on;window.mvSentenceTrainedOnlyEnabled5477=on;window.mvSentenceTrainedMeta5476=META;window.mvSentenceTrainedMeta5477=META;setTimeout(decorate,80);
 })();</script>
 
 <!-- P2 VERIFIED HANDOFF: independent optional UI, not a direct DB connection. -->
@@ -23025,7 +23124,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v5.5.44 · Sentence Progress';
+  document.title='SAYWARD v5.5.47 · Stable Due Review';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -23551,7 +23650,7 @@ async function swDirectAdminDbRequest(spec={}){
 // supabase-js auth lock in Android content:// / local-file browsers.
 // Access is STILL checked on every request by PostgREST RLS.
 async function swDirectStudyGet(table, options={}){
-  const approved=new Set(['sayward_global_lesson_settings','sayward_user_lesson_overrides','sayward_day_units','sayward_day_items','sayward_user_pattern_state','sayward_patterns','sayward_app_practice_latest','sayward_app_sentence_practice']);
+  const approved=new Set(['sayward_global_lesson_settings','sayward_user_lesson_overrides','sayward_day_units','sayward_day_items','sayward_user_pattern_state','sayward_patterns','sayward_app_practice_latest','sayward_app_sentence_practice','sayward_sentence_learning_unified','sayward_stable_review_schedule']);
   if(!approved.has(table))throw new Error('STUDY_TABLE_NOT_ALLOWED');
   const who=activeUser?.id,token=activeSession?.access_token;
   if(!who||!token||sharedAuthState.phase!=='authenticated')throw new Error('STUDY_AUTH_REQUIRED');
@@ -23561,7 +23660,7 @@ async function swDirectStudyGet(table, options={}){
   if(options.limit!==undefined)q.set('limit',String(Math.max(1,Math.min(1000,Number(options.limit)||100))));
   if(options.offset!==undefined)q.set('offset',String(Math.max(0,Number(options.offset)||0)));
   if(table==='sayward_user_lesson_overrides')q.set('target_user_id','eq.'+who);
-  if(table==='sayward_user_pattern_state'||table==='sayward_app_practice_latest'||table==='sayward_app_sentence_practice')q.set('user_id','eq.'+who);
+  if(table==='sayward_user_pattern_state'||table==='sayward_app_practice_latest'||table==='sayward_app_sentence_practice'||table==='sayward_sentence_learning_unified'||table==='sayward_stable_review_schedule')q.set('user_id','eq.'+who);
   if(table==='sayward_day_items')q.set('visible','eq.true');
   if(table==='sayward_patterns')q.set('active','eq.true');
   const response=await fetchWithin(URL+'/rest/v1/'+table+'?'+q.toString(),{
@@ -23690,6 +23789,24 @@ window.saywardAuth={
     }
     return {uid:who,total:active.size,counts,touchedPatternIds};
   },
+  async readTrainedEvents(){
+    // Do not equate stage/status with prior sentence attempts. All four source types
+    // are in the unified view; all rows are scoped by auth.uid() and RLS.
+    const uid=activeUser?.id;
+    if(!uid||!authSnapshot().authenticated)throw new Error('TRAINED_AUTH_REQUIRED');
+    const rows=[];
+    for(let offset=0;offset<50000;offset+=1000){
+      const part=await swDirectStudyGet('sayward_sentence_learning_unified',{
+        select:'pattern_id,source',order:'studied_at.asc',limit:1000,offset
+      });
+      rows.push(...part);
+      if(part.length<1000){
+        if(activeUser?.id!==uid||!authSnapshot().authenticated)throw new Error('TRAINED_USER_CHANGED');
+        return rows;
+      }
+    }
+    throw new Error('TRAINED_HISTORY_PAGE_LIMIT');
+  },
   readPatternPractice:async()=>{
     const rows=[];
     for(let offset=0;offset<20000;offset+=1000){
@@ -23699,6 +23816,7 @@ window.saywardAuth={
     throw new Error('PATTERN_MASTER_PAGE_LIMIT');
   },
   readPatternPracticeStates:()=>swDirectStudyGet('sayward_user_pattern_state',{select:'pattern_id,status',limit:1000}),
+  readStableReviewSchedule:()=>swDirectStudyGet('sayward_stable_review_schedule',{select:'pattern_id,stage,next_review_at',order:'next_review_at.asc',limit:1000}),
   readAppPracticeLatest:()=>swDirectStudyGet('sayward_app_practice_latest',{select:'pattern_id,self_rating,hint_used,created_at',limit:1000}),
   readAppPracticeHistory:()=>swDirectStudyGet('sayward_app_sentence_practice',{select:'practice_id,pattern_id,self_rating,hint_used,created_at,prompt_ko,user_answer,reference_en,content_version',order:'created_at.desc',limit:40}),
   async saveAppPractice(payload){
@@ -24787,6 +24905,7 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
     if(!window.saywardAuth?.snapshot?.().authenticated)throw new Error('LOGIN_REQUIRED');
     if(!window.swStudioPolicyReady?.())await window.swVisibilityRefresh?.();
     if(!window.swStudioPolicyReady?.())throw new Error('POLICY_NOT_READY');
+    if(window.mvSentenceTrainedOnlyEnabled5477?.())await window.saywardTrainedPatterns?.ensure?.();
     const unique=[...new Set((lessons||[]).map(Number).filter(Number.isInteger))]
       .filter(n=>window.swLessonEnabled?.(course,n)!==false);
     if(!unique.length)return false; // no permitted lessons, not a network failure
@@ -26217,13 +26336,20 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
   const requestedTotal=()=>{const x=counts();return x.sentence+x.match;};
   function updateCountUI(){const x=counts();setText('sw5533RequestedTotal',`총 ${x.sentence+x.match}문제 · 문장 만들기 ${x.sentence} · 패턴 맞추기 ${x.match}${x.sentence+x.match>30?' (최대 30문제)':''}`);}
 
-  const state={uid:null,patterns:[],states:null,deck:[],index:0,results:new Map(),hint:false,latest:null,loading:false,saving:false,request:0,finished:false,visible:false};
+  const state={uid:null,patterns:[],states:null,due:null,deck:[],index:0,results:new Map(),hint:false,latest:null,loading:false,saving:false,request:0,finished:false,visible:false};
   const setText=(id,t)=>{const e=g(id);if(e)e.textContent=t;};
   const notice=t=>setText('sw5527Notice',t);
   const randomShuffle=a=>{const v=[...a];for(let i=v.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[v[i],v[j]]=[v[j],v[i]];}return v;};
   const isCurrent=()=>!!auth().authenticated&&auth().uid===state.uid;
   const getStatus=p=>state.states?.get(p.pattern_id)||'new';
   const isReviewed=p=>getStatus(p)!=='new'||!!state.latest?.has(p.pattern_id);
+  const dueInfo=p=>{
+    if(getStatus(p)!=='stable')return null;
+    const schedule=state.due?.get(p.pattern_id);
+    if(!schedule)return null;
+    const at=Date.parse(String(schedule.next_review_at||''));
+    return Number.isFinite(at)&&at<=Date.now()?schedule:null;
+  };
   const priority=p=>{const app=state.latest?.get(p.pattern_id);
     if(app?.self_rating==='review')return 0;
     if(app?.self_rating==='learned'||app?.hint_used)return 1;
@@ -26427,8 +26553,8 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     setText('sw5533PromptLabel',isMatch?'한국어 문장에 맞는 목표 패턴을 고르세요':'이 문장을 영어로 만들어 보세요');
     setText('sw5527Prompt',p.example_ko);setText('sw5527Pattern',p.canonical_pattern);setText('sw5527PatternKo',p.pattern_ko);
     setText('sw5527Source',String(p.courses||'공식 패턴').replaceAll('|',' · '));
-    const status=getStatus(p),self=state.latest?.get(p.pattern_id);
-    setText('sw5527State',(isMatch?'패턴 맞추기 · ':'')+(status==='new'?(self?'APP 복습 · 공식 NEW':'NEW · 새 패턴'):status.toUpperCase()+' · 공식 복습'));
+    const status=getStatus(p),self=state.latest?.get(p.pattern_id),due=dueInfo(p);
+    setText('sw5527State',(isMatch?'패턴 맞추기 · ':'')+(due?`STABLE 예정 복습 · ${due.stage}/6단계`:(status==='new'?(self?'APP 복습 · 공식 NEW':'NEW · 새 패턴'):status.toUpperCase()+' · 공식 복습')));
     g('sw5533MatchArea').hidden=!isMatch;g('sw5533WriteTitle').hidden=isMatch;g('sw5527Answer').hidden=isMatch;
     g('sw5527Answer').value=isMatch?'':(entry?.answer||'');
     g('sw5527PatternBody').hidden=isMatch||!done;
@@ -26449,10 +26575,25 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     const course=g('sw5527Course').value;
     const filtered=state.patterns.filter(p=>course==='all'||String(p.courses||'').toUpperCase().includes(course));
     if(match>0&&filtered.length<4){notice('패턴 맞추기는 서로 다른 공식 패턴 4개 이상이 필요합니다. 학습 영역을 바꿔 주세요.');return;}
-    const old=filtered.filter(isReviewed),fresh=filtered.filter(p=>!isReviewed(p));
+    // Every scheduled Stable pattern that is due today outranks Repair/Review/New.
+    // A not-yet-due Stable pattern remains available for *voluntary* practice,
+    // but cannot displace a due review. GPT's official grades remain separate.
+    if(!state.due){notice('Stable 예정일 조회 완료 전에는 새 문제를 출제하지 않습니다.');return;}
+    const dueCandidates=filtered.filter(p=>!!dueInfo(p)).sort((a,b)=>{
+      const x=Date.parse(state.due.get(a.pattern_id).next_review_at);
+      const y=Date.parse(state.due.get(b.pattern_id).next_review_at);
+      return x-y||String(a.pattern_id).localeCompare(String(b.pattern_id));
+    });
+    const mandatory=dueCandidates.slice(0,targetCount);
+    const mandatoryIds=new Set(mandatory.map(p=>p.pattern_id));
+    const remainder=filtered.filter(p=>!mandatoryIds.has(p.pattern_id));
+    const old=remainder.filter(isReviewed),fresh=remainder.filter(p=>!isReviewed(p));
     const priorityList=randomShuffle(old).sort((a,b)=>priority(a)-priority(b));
     const quota=Math.round(targetCount*Number(g('sw5527Mix').value)/100);
-    const chosen=[...priorityList.slice(0,quota),...randomShuffle(fresh).slice(0,targetCount-quota)];
+    const freeSlots=targetCount-mandatory.length;
+    const wantedReview=Math.max(0,quota-mandatory.length);
+    const pickedReview=priorityList.slice(0,Math.min(freeSlots,wantedReview));
+    const chosen=[...mandatory,...pickedReview,...randomShuffle(fresh).slice(0,freeSlots-pickedReview.length)];
     if(chosen.length<targetCount){const ids=new Set(chosen.map(p=>p.pattern_id));chosen.push(...randomShuffle(filtered.filter(p=>!ids.has(p.pattern_id))).slice(0,targetCount-chosen.length));}
     const unique=randomShuffle(chosen);
     // First partition into two practice modes; then shuffle the entire mixed question deck.
@@ -26472,28 +26613,30 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     setText('sw5527Shuffle','↻ 문제 출제');setText('sw5527Restart','↻ 다시 문제 출제');
     g('sw5527CopyPanel').hidden=true;
     const reviewCount=chosen.filter(isReviewed).length,actualSentence=assigned.filter(x=>x.mode==='sentence').length;
-    setText('sw5527TotalInfo',`${filtered.length}개 공식 패턴 · 복습 ${reviewCount} / 신규 ${chosen.length-reviewCount}`);
+    setText('sw5527TotalInfo',`${filtered.length}개 공식 패턴 · Stable 예정 복습 ${mandatory.length}개 우선 · 복습 ${reviewCount} / 신규 ${chosen.length-reviewCount}`);
     if(!chosen.length)notice('선택한 학습 영역에 예문이 없습니다. 전체 패턴을 선택해 보세요.');
     else if(chosen.length<targetCount)notice('공식 DB에서 이용 가능한 문제 수가 적어 '+chosen.length+'개만 출제합니다.');
+    else if(mandatory.length>quota)notice(`Stable 복습 예정 ${mandatory.length}개를 먼저 출제했습니다. 설정한 복습 비율보다 예정일을 우선합니다.`);
     else if(reviewCount!==quota)notice('복습/New 패턴 수가 부족해 출제 비율을 자동 보정했습니다.');
     else notice('문장 만들기와 패턴 맞추기 혼합 연습입니다. 앱 평가와 공식 GPT 채점·승급은 구분됩니다.');
     render();
   }
   async function load(){
     const s=auth();if(!s.authenticated||!s.uid){notice('활성 SAYWARD 회원으로 로그인해야 공식 패턴을 불러올 수 있습니다.');return;}
-    const ticket=++state.request,uid=s.uid;state.uid=uid;state.loading=true;state.patterns=[];state.states=null;state.latest=null;
+    const ticket=++state.request,uid=s.uid;state.uid=uid;state.loading=true;state.patterns=[];state.states=null;state.latest=null;state.due=null;
     g('sw5527Course').disabled=true;g('sw5527Mix').disabled=true;SCOUNT.disabled=true;MCOUNT.disabled=true;g('sw5527Shuffle').disabled=true;
     g('sw5527Card').hidden=true;g('sw5527Done').hidden=true;g('sw5527CopyPanel').hidden=true;
-    setText('sw5527Step','DB 조회 중');setText('sw5527TotalInfo','공식 문장과 개인 학습 상태 조회 중…');notice('회원별 상태에 따라 복습+New를 혼합하므로 두 조회가 모두 완료될 때까지 기다립니다.');
+    setText('sw5527Step','DB 조회 중');setText('sw5527TotalInfo','공식 문장과 개인 학습 상태 조회 중…');notice('회원별 학습 상태와 Stable 예정일을 DB에서 확인한 뒤 출제합니다.');
     try{
-      const [patterns,statuses,latest]=await Promise.all([window.saywardAuth.readPatternPractice(),window.saywardAuth.readPatternPracticeStates(),window.saywardAuth.readAppPracticeLatest()]);
+      const [patterns,statuses,latest,schedule]=await Promise.all([window.saywardAuth.readPatternPractice(),window.saywardAuth.readPatternPracticeStates(),window.saywardAuth.readAppPracticeLatest(),window.saywardAuth.readStableReviewSchedule()]);
       if(ticket!==state.request||!isCurrent())return;
       state.patterns=patterns.filter(x=>x?.pattern_id&&String(x.example_en||'').trim()&&String(x.example_ko||'').trim()&&String(x.canonical_pattern||'').trim()&&String(x.pattern_ko||'').trim());
       state.states=new Map(statuses.map(x=>[x.pattern_id,String(x.status||'new').toLowerCase()]));
       state.latest=new Map(latest.map(x=>[x.pattern_id,x]));
+      state.due=new Map(schedule.filter(x=>x?.pattern_id).map(x=>[x.pattern_id,x]));
       selectDeck();
     }catch(e){if(ticket!==state.request||!isCurrent())return;
-      state.patterns=[];state.states=null;state.latest=null;state.deck=[];g('sw5527Card').hidden=true;
+      state.patterns=[];state.states=null;state.latest=null;state.due=null;state.deck=[];g('sw5527Card').hidden=true;
       setText('sw5527TotalInfo','DB 연결 확인 필요');setText('sw5527Step','재조회 필요');setText('sw5527Counter','— / '+requestedTotal());notice('공식 DB 또는 학습 상태 조회 실패: '+String(e?.message||'NETWORK_ERROR').slice(0,90)+' · 새 문장 출제를 눌러 다시 시도하세요.');
     }finally{if(ticket===state.request){state.loading=false;g('sw5527Course').disabled=false;g('sw5527Mix').disabled=false;SCOUNT.disabled=false;MCOUNT.disabled=false;g('sw5527Shuffle').disabled=false;}}
   }
@@ -26652,7 +26795,7 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
   SCOUNT.addEventListener('change',onCountChange);MCOUNT.addEventListener('change',onCountChange);updateCountUI();
   g('sw5527Course').onchange=()=>{if(state.saving)return;if(state.patterns.length&&state.states&&state.latest)selectDeck();};
   g('sw5527Mix').onchange=()=>{if(state.saving)return;if(state.patterns.length&&state.states&&state.latest)selectDeck();};
-  g('sw5527Shuffle').onclick=()=>{if(state.saving)return;if(!state.patterns.length||!state.states||!state.latest)void load();else selectDeck();};
+  g('sw5527Shuffle').onclick=()=>{if(!state.saving)void load();};
   g('sw5527HintToggle').onclick=()=>{const entry=state.results.get(state.index)||{answer:g('sw5527Answer').value,submitted:false,hintUsed:false};state.hint=!state.hint;if(state.hint)entry.hintUsed=true;state.results.set(state.index,entry);showHint();};
   g('sw5527Primary').onclick=()=>{answerField.blur();leaveKeyboardMode();const p=state.deck[state.index];if(!p)return;
     const prev=state.results.get(state.index)||{};
@@ -26665,12 +26808,12 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
   g('sw5527Retry').onclick=()=>{if(state.saving)return;const prev=state.results.get(state.index)||{};if(prev.practiceKey&&!prev.selfSaved){notice('저장 확인이 Pending입니다. 같은 평가를 다시 눌러 확인한 뒤 재작성해 주세요.');return;}const isMatch=state.deck[state.index]?.mode==='match';state.results.set(state.index,isMatch?{answer:'',selected_id:null,submitted:false,hintUsed:false}:{answer:prev.answer||'',submitted:false,hintUsed:!!prev.hintUsed});render();if(!isMatch)g('sw5527Answer').focus();};
   g('sw5527Prev').onclick=()=>{if(state.saving)return;leaveKeyboardMode();saveDraft();state.index=Math.max(0,state.index-1);render();};
   g('sw5527Next').onclick=()=>{if(state.saving)return;leaveKeyboardMode();saveDraft();state.index++;render();};
-  g('sw5527Restart').onclick=()=>{if(!state.saving)selectDeck();};
+  g('sw5527Restart').onclick=()=>{if(!state.saving)void load();};
   g('sw5527Copy').onclick=()=>{void copyAll();};g('sw5527CopyAgain').onclick=()=>{void copyAll();};
   g('sw5532CopyOne').onclick=()=>{void copyOne();};
   g('sw5528TogglePattern').onclick=()=>{const el=g('sw5528PatternDetail');el.hidden=!el.hidden;const button=g('sw5528TogglePattern');button.setAttribute('aria-expanded',String(!el.hidden));button.textContent=el.hidden?'목표 패턴과 비교하기 ▾':'목표 패턴 숨기기 ▴';};
   g('sw5527Speak').onclick=()=>{const p=state.deck[state.index];if(!p||!window.speechSynthesis)return;try{window.speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(p.example_en);utterance.lang='en-US';utterance.rate=.85;window.speechSynthesis.speak(utterance);}catch(e){notice('이 브라우저에서는 문장 음성 읽기를 사용할 수 없습니다.');}};
-  window.addEventListener('sayward:auth-state',e=>{const s=e.detail||{};if(!s.authenticated||s.uid!==state.uid){leaveKeyboardMode();++state.request;state.uid=null;state.patterns=[];state.states=null;state.latest=null;state.deck=[];state.results.clear();view.classList.add('hidden');view.setAttribute('aria-hidden','true');}});
+  window.addEventListener('sayward:auth-state',e=>{const s=e.detail||{};if(!s.authenticated||s.uid!==state.uid){leaveKeyboardMode();++state.request;state.uid=null;state.patterns=[];state.states=null;state.latest=null;state.due=null;state.deck=[];state.results.clear();view.classList.add('hidden');view.setAttribute('aria-hidden','true');}});
 })();
 </script>
 <style id="sw5538Styles">
@@ -27339,4 +27482,139 @@ window.saywardDynamicQuiz={stats:()=>({loggedIn:!!uid,practiceItems:PRACTICE_SEN
 })();
 </script>
 
+<script id="sayward-v545-persistent-repeat-resume">
+/* SAYWARD v5.5.45: same UI; persistent cross-course checkpoints and configurable playback policy.
+   Supabase remains the single canonical lesson source. Nothing is seeded or written to the DB.
+   Persistence is device-local (localStorage). */
+(function(){
+'use strict';
+if(window.sw545PlaybackBehavior)return;
+const POLICY_KEY='sayward_v545_playback_mode';
+const OVERALL_KEY='sayward_v545_overall_checkpoint';
+const RANDOM_KEY='sayward_v545_random_session';
+const MODES=new Set(['resume','restart','random']);
+const COURSES=['my','sori','opic','friends'];
+const jparse=(key)=>{try{return JSON.parse(localStorage.getItem(key)||'null')}catch(e){return null}};
+const store=(key,val)=>{try{localStorage.setItem(key,JSON.stringify(val))}catch(e){}};
+const behavior=()=>{try{const m=localStorage.getItem(POLICY_KEY)||'resume';return MODES.has(m)?m:'resume'}catch(e){return 'resume'}};
+window.sw545PlaybackBehavior=behavior;
+window.sw545ResetPlayback=function(){
+  try{localStorage.removeItem(OVERALL_KEY);localStorage.removeItem(RANDOM_KEY)}catch(e){}
+};
+function getOverall(){return window.MV_ALL_REPEAT_219||null}
+function getSession(){return window.MV_PLAYBACK_SESSION_281||null}
+function selection(course){
+  try{
+    if(course==='day')return JSON.parse(localStorage.getItem(selectedDaysKey())||'[]');
+    const k={my:'mv_myClassSelectedLessons',sori:'mv_studySelected_sori',opic:'mv_studySelected_opic',friends:'mv_studySelected_friends'}[course];
+    const arr=JSON.parse(localStorage.getItem(k)||'[]');return Array.isArray(arr)?arr:[];
+  }catch(e){return []}
+}
+function stringifyKey(item){try{return m536ItemKey(item)}catch(e){return ''}}
+function currentCp(course,cursor,item){
+  if(course==='day')return null;
+  const engine=window.sw545M536State?.()||{};
+  const list=engine.playlist||[];
+  const at=Number.isFinite(Number(cursor))?Number(cursor):Number(engine.cursor)||0;
+  const row=item||list[at];
+  return {mode:'full',course,cursor:Math.max(0,at),rep:0,itemDone:false,
+    itemKey:row?stringifyKey(row):'',nextCursor:Math.max(0,at),infiniteItem:null};
+}
+function frozenState(s){
+  return {queue:[...(s.queue||[])],index:Number(s.index)||0,current:String(s.current||''),
+    snapshot:s.snapshot?JSON.parse(JSON.stringify(s.snapshot)):null,
+    favoriteOnlySnapshot:s.favoriteOnlySnapshot?{...s.favoriteOnlySnapshot}:null};
+}
+window.sw545SaveOverallCheckpoint=function(course=null,cursor=null,item=null,opt={}){
+  const s=getOverall();
+  const pending=opt.pausedState||null;
+  if(!pending && (!s||!s.active||!Array.isArray(s.queue)||!s.queue.length))return false;
+  const state=pending?frozenState(pending):frozenState(s);
+  if(!state.current||!state.queue.length)return false;
+  const c=String(course||state.current);
+  const cp=opt.pausedCp || (c==='day'?null:currentCp(c,cursor,item));
+  const session=getSession();
+  const engine=window.sw545M536State?.()||{};
+  const itemNow=item||engine.playlist?.[Number(cursor??engine.cursor)||0];
+  const sc=opt.screen || (itemNow?{course:c,lesson:Number(itemNow.lesson)||1,tab:String(itemNow.tab||'corrections')}:null) || session?.screen ||
+    jparse(OVERALL_KEY)?.screen || null;
+  const snap=state.snapshot||{};
+  const entry={version:1,startMode:state.queue[0],state,
+    cp,screen:sc,selection:Object.fromEntries(state.queue.map(x=>[x,[...(snap[x]||[])]])),
+    savedAt:Date.now()};
+  store(OVERALL_KEY,entry);
+  if(c==='day')try{saveSelectedProgress?.()}catch(e){}
+  return true;
+};
+window.sw545LoadOverallCheckpoint=function(mode){
+  const row=jparse(OVERALL_KEY);
+  if(!row||row.version!==1||!row.state?.queue?.length||!row.state.current)return null;
+  if(behavior()==='restart')return null;
+  if(row.startMode!==mode && row.state.current!==mode)return null;
+  // An edited scope may still resume if the current selection contains the bookmarked lesson.
+  const target=row.state.current;
+  if(!COURSES.includes(target)&&target!=='day')return null;
+  const selected=selection(target),expected=row.selection?.[target]||[];
+  if(!selected.length||!expected.some(x=>selected.includes(x)))return null;
+  return row;
+};
+// Random order is shuffled *deterministically* within each selected course and scope.
+// Persisting its seed and an item identity prevents a reload from silently reshuffling.
+function hash(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function stableRandomList(list,course){
+  if(list.length<2)return list;
+  const keys=list.map(stringifyKey).join('|');
+  const fingerprint=course+':'+hash(keys)+':'+list.length;
+  let seeds=jparse(RANDOM_KEY)||{};
+  let seed=Number(seeds[fingerprint]);
+  if(!Number.isSafeInteger(seed)||!seed){seed=(Math.random()*4294967295)>>>0;seeds[fingerprint]=seed;store(RANDOM_KEY,seeds)}
+  const result=[...list];let n=seed>>>0;
+  function step(){n^=n<<13;n^=n>>>17;n^=n<<5;return (n>>>0)/4294967296}
+  for(let i=result.length-1;i>0;i--){let j=Math.floor(step()*(i+1));[result[i],result[j]]=[result[j],result[i]]}
+  return result;
+}
+window.sw545OrderPlaylist=function(list,course){
+  if(behavior()!=='random'||!COURSES.includes(String(course||'')))return list;
+  return stableRandomList(list,String(course));
+};
+// Existing Config reset button and the main screen structure are retained. The new
+// selector lives beside the existing '재생 위치 리셋' setting.
+function installConfig(){
+  const reset=document.getElementById('cfgPlaybackPositionReset');
+  if(!reset||document.getElementById('sw545PlaybackMode'))return;
+  const parent=reset.closest('.configRow')||reset.parentElement;
+  const wrap=document.createElement('div');wrap.className='configRow';wrap.id='sw545PlaybackPolicy';
+  const copy=document.createElement('div');copy.className='configCopy';
+  copy.innerHTML='<b>전체 선택 학습 재생 방식</b><span>학습 이력과 별개로 중단 위치를 저장합니다. 랜덤도 순서를 유지하며 이어집니다.</span>';
+  const select=document.createElement('select');select.className='configSelect';
+  select.id='sw545PlaybackMode';select.setAttribute('aria-label','전체 선택 학습 재생 방식');
+  [['resume','이어서 재생 (기본)'],['restart','처음부터 재생'],['random','랜덤 · 이어서 재생']].forEach(([v,label])=>{
+    const option=document.createElement('option');option.value=v;option.textContent=label;select.append(option);
+  });
+  select.value=behavior();select.addEventListener('change',()=>{
+    try{localStorage.setItem(POLICY_KEY,select.value)}catch(e){}
+    // DAY uses its own existing order selector. Align it only if random was selected.
+    if(select.value==='random'){
+      const dayOrder=document.getElementById('orderMode');if(dayOrder)dayOrder.value='random';
+    }
+    try{window.showConfigSavedToast?.('재생 방식이 저장되었습니다 ✓')}catch(e){}
+  });
+  wrap.append(copy,select);parent.insertAdjacentElement('beforebegin',wrap);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installConfig,{once:true});
+else installConfig();
+// Save checkpoints when the app is backgrounded/closed without manually pressing pause.
+function saveIfRunning(){
+  const s=getOverall();if(s?.active&&s?.queue?.length){
+    const c=String(s.current||'');
+    window.sw545SaveOverallCheckpoint(c,Number(window.sw545M536State?.().cursor)||0,null);
+  }
+}
+window.addEventListener('pagehide',saveIfRunning);
+window.addEventListener('beforeunload',saveIfRunning);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveIfRunning()});
+window.sw545ResumeAudit=()=>({version:'5.5.47',behavior:behavior(),overall:jparse(OVERALL_KEY)?.state||null,
+  resumeKeys:Object.keys(jparse('sayward_playback_resume_v1')||{}),randomSeeds:Object.keys(jparse(RANDOM_KEY)||{}).length});
+})();
+</script>
 </body></html>
