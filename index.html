@@ -1,12 +1,12 @@
-<!-- SAYWARD v6.1.7 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
-<!-- SAYWARD v6.1.7; v6.0 RC2 official baseline + live sentence stats + personal sync -->
+<!-- SAYWARD v6.1.8 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
+<!-- SAYWARD v6.1.8; v6.0 RC2 official baseline + live sentence stats + personal sync -->
 <!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.1.7 · Persistent Studio Settings</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.1.8 · Persistent Studio Settings</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -3270,7 +3270,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 .sw5522-day-wait-body small{font-size:11px}
 .sw5522-day-none{grid-column:1/-1;border:1px solid #dcd6ec;border-radius:14px;background:#faf9ff;color:#4e416f;padding:18px;font-size:13px;line-height:1.7}
 </style>
-<meta name="sayward-build" content="6.1.7-standard-match-feedback"/>
+<meta name="sayward-build" content="6.1.8-standard-match-feedback"/>
 <style id="sw5523-day-policy-ui">
 .sw5523-day-error{grid-column:1/-1;border:1px solid #e0c9c7;background:#fff8f6;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:9px;color:#68423d}
 .sw5523-day-error small{font-size:13px;word-break:break-word}
@@ -4016,7 +4016,7 @@ body:has(#sw5527PracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButto
   <div class="sw5527-shell swStudio-shell">
     <header class="sw5527-top"><button type="button" id="sw5527Back" class="sw5527-back" aria-label="홈으로 돌아가기">‹</button><div class="sw5527-headtext"><div class="sw5527-eyebrow">SAYWARD  /  SENTENCE STUDIO</div><h1>패턴 문장 만들기</h1><p>복습과 새 패턴을 한 번에</p></div><span class="sw5527-trial">실전 연습</span></header>
     <div class="sw5527-filter-card">
-      <div class="sw5527-filter-line"><label>학습 영역<select id="sw5527Course"><option value="all">전체 패턴</option><option value="MY">MY 수업</option><option value="OPIC">OPIC</option><option value="SORI">소리영어</option><option value="FRIENDS" disabled>Friends · Master 연동 준비 중</option></select></label><label>출제 구성<select id="sw5527Mix"><option value="50">복습 50 · 신규 50</option><option value="70">복습 70 · 신규 30</option><option value="30">복습 30 · 신규 70</option></select></label></div>
+      <div class="sw5527-filter-line"><label>학습 영역<select id="sw5527Course"><option value="all">전체 패턴</option><option value="MY">MY 수업</option><option value="OPIC">OPIC</option><option value="SORI">소리영어</option><option value="FRIENDS" disabled>Friends · Master 연동 준비 중</option></select></label><label>출제 구성<select id="sw5527Mix"><option value="50">복습 50 · 신규 50</option><option value="70">복습 70 · 신규 30</option><option value="30">복습 30 · 신규 70</option><option value="100">복습 100 · 신규 0</option><option value="0">복습 0 · 신규 100</option></select></label></div>
       <div class="sw5533-toolbar" aria-label="유형별 출제 문항 수">
         <label class="sw5533-toolbar-item" for="sw5533SentenceCount"><span class="sw5533-toolbar-label">✍️ 문장 만들기</span><select id="sw5533SentenceCount" aria-label="문장 만들기 문제 수"></select></label>
         <label class="sw5533-toolbar-item" for="sw5533MatchCount"><span class="sw5533-toolbar-label">🧩 패턴 맞추기</span><select id="sw5533MatchCount" aria-label="패턴 맞추기 문제 수"></select></label>
@@ -12293,7 +12293,7 @@ function mvSentenceEntryAudit182(){
 window.mvSentenceEntryAudit182=mvSentenceEntryAudit182;
 
 /* ===== V5.3.189 · STANDARD APP INFO / UPDATE HISTORY ===== */
-const MV_APP_VERSION='6.1.7';
+const MV_APP_VERSION='6.1.8';
 
 function mvCloseInfoOverlay(){
   const overlay=document.getElementById('mvInfoOverlay');
@@ -15837,7 +15837,7 @@ function installVisibleBuildBadge(){
   if(!badge){
     badge=document.createElement('div');
     badge.id='mvBuildBadge';
-    badge.textContent='v6.1.7';
+    badge.textContent='v6.1.8';
     badge.title='현재 실행 중인 MY VOCA 빌드';
     document.body.appendChild(badge);
   }
@@ -20687,8 +20687,8 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.1.7');
-  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.1.7';
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.1.8');
+  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.1.8';
   mv281SyncUI();
 },0);
 })();
@@ -20941,9 +20941,9 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.1.7')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.1.7'}catch(e){}
-  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.1.7'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.1.8')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.1.8'}catch(e){}
+  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.1.8'}catch(e){}
 },0);
 
 window.mvSwipeLifetimeAudit288=function(){
@@ -21113,9 +21113,9 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.1.7')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.1.7'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.1.7')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.1.8')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.1.8'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.1.8')}catch(e){}
   refreshPausedBrowseUI289();
 },0);
 
@@ -21349,10 +21349,10 @@ function navigate292(item){S292.lastTarget=item?.id||null;if(item.course==='day'
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v6.1.7 · Persistent Studio Settings'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.1.7')}catch(e){}
-  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.1.7'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.1.7')}catch(e){}
+  try{document.title='SAYWARD v6.1.8 · Persistent Studio Settings'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.1.8')}catch(e){}
+  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.1.8'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.1.8')}catch(e){}
 },0);
 window.mvUnifiedSearchAudit292=()=>({version:'v5.3.292',indexCount:buildIndex292().length,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'additive unified search only; existing playback/swipe/card logic unchanged'});
 })();
@@ -21645,7 +21645,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v6.1.7 · Persistent Studio Settings'}catch(e){}
+  try{document.title='SAYWARD v6.1.8 · Persistent Studio Settings'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -21666,7 +21666,7 @@ window.mvCleanAudit540=function(){
   const h=home(),bar=document.getElementById('sharedStudySelectBar');
   const cards=[...document.querySelectorAll('#homePage .myClassSection .myClassCard')].slice(0,4);
   return {
-    version:'v6.1.7',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
+    version:'v6.1.8',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
     sharedBar:!!bar,daySettings:!!document.getElementById('cleanDaySettings'),legacyModePanelVisible:!!document.getElementById('homeStudyModePanel')&&getComputedStyle(document.getElementById('homeStudyModePanel')).display!=='none',
     visibleSections:{day:getComputedStyle(document.querySelector('#homePage .daySection')||document.body).display,my:getComputedStyle(document.querySelector('#homePage .myClassSection')||document.body).display,sori:getComputedStyle(document.querySelector('#homePage .soriClassSection')||document.body).display,opic:getComputedStyle(document.querySelector('#homePage .opicClassSection')||document.body).display,friends:getComputedStyle(document.querySelector('#homePage .friendsClassSection')||document.body).display},
     myCards:cards.map(c=>({w:Math.round(c.getBoundingClientRect().width),h:Math.round(c.getBoundingClientRect().height)})),
@@ -21852,7 +21852,7 @@ window.mvCleanAudit540=function(){
 #cleanHeroMenuHit,#cleanHeroSearchHit{position:absolute!important;top:0!important;height:100%!important;width:18%!important;border:0!important;background:transparent!important;padding:0!important;z-index:8!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 #cleanHeroMenuHit{left:-5px!important} #cleanHeroSearchHit{right:0!important}
 #homePage .homeHero::before{
-  content:"v6.1.7"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
+  content:"v6.1.8"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
   min-width:54px!important;padding:2px 8px 3px!important;box-sizing:border-box!important;text-align:center!important;
   border:1.5px solid rgba(255,255,255,.92)!important;border-radius:999px!important;background:rgba(77,62,202,.96)!important;
   color:#fff!important;font-size:9px!important;line-height:1.1!important;font-weight:950!important;letter-spacing:.1px!important;
@@ -22685,7 +22685,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v6.1.7 · Persistent Studio Settings';
+  document.title='SAYWARD v6.1.8 · Persistent Studio Settings';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -25919,7 +25919,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       const scope=localStorage.getItem(PAT_KEYS.course);
       g('sw5527Course').value=scope && [...g('sw5527Course').options].some(o=>o.value===scope&&!o.disabled)?scope:'all';
       const mix=localStorage.getItem(PAT_KEYS.mix);
-      g('sw5527Mix').value=['30','50','70'].includes(mix)?mix:'50';
+      g('sw5527Mix').value=['0','30','50','70','100'].includes(mix)?mix:'50';
       SCOUNT.value='5';MCOUNT.value='5';
       const raw=localStorage.getItem(PAT_KEYS.counts);
       if(raw){const x=JSON.parse(raw),a=x?.sentence,b=x?.match;
@@ -26138,7 +26138,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       });area.appendChild(button);
     }
   }
-  // v6.1.7: Match feedback uses the same clearly separated information-card order as TOEFL.
+  // v6.1.8: Match feedback uses the same clearly separated information-card order as TOEFL.
   // Pure DOM presentation: does not change answer validation, grading, IDs or DB writes.
   function renderMatchResult(p,entry){
     const el=g('sw5533MatchResult'),correct=entry.selected_id===p.pattern_id;
@@ -26224,12 +26224,23 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     const remainder=filtered.filter(p=>!mandatoryIds.has(p.pattern_id));
     const old=remainder.filter(isReviewed),fresh=remainder.filter(p=>!isReviewed(p));
     const priorityList=randomShuffle(old).sort((a,b)=>priority(a)-priority(b));
-    const quota=Math.round(targetCount*Number(g('sw5527Mix').value)/100);
-    const freeSlots=targetCount-mandatory.length;
-    const wantedReview=Math.max(0,quota-mandatory.length);
-    const pickedReview=priorityList.slice(0,Math.min(freeSlots,wantedReview));
-    const chosen=[...mandatory,...pickedReview,...randomShuffle(fresh).slice(0,freeSlots-pickedReview.length)];
-    if(chosen.length<targetCount){const ids=new Set(chosen.map(p=>p.pattern_id));chosen.push(...randomShuffle(filtered.filter(p=>!ids.has(p.pattern_id))).slice(0,targetCount-chosen.length));}
+    const mix=Number(g('sw5527Mix').value);
+    const quota=Math.round(targetCount*mix/100);
+    let chosen;
+    if(mix===100){
+      // Review-only: include due Stable first, then previously studied patterns. Never borrow from New.
+      chosen=[...mandatory,...priorityList].slice(0,targetCount);
+    }else if(mix===0){
+      // New-only is an explicit user-selected practice filter. Scheduled reviews stay due for later.
+      chosen=randomShuffle(filtered.filter(p=>!isReviewed(p))).slice(0,targetCount);
+    }else{
+      // Preserve 30/50/70 behavior, including the established scheduled-Stable priority.
+      const freeSlots=targetCount-mandatory.length;
+      const wantedReview=Math.max(0,quota-mandatory.length);
+      const pickedReview=priorityList.slice(0,Math.min(freeSlots,wantedReview));
+      chosen=[...mandatory,...pickedReview,...randomShuffle(fresh).slice(0,freeSlots-pickedReview.length)];
+      if(chosen.length<targetCount){const ids=new Set(chosen.map(p=>p.pattern_id));chosen.push(...randomShuffle(filtered.filter(p=>!ids.has(p.pattern_id))).slice(0,targetCount-chosen.length));}
+    }
     const unique=randomShuffle(chosen);
     // First partition into two practice modes; then shuffle the entire mixed question deck.
     const assigned=unique.map((p,i)=>{
@@ -26248,9 +26259,10 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     setText('sw5527Shuffle','↻ 문제 출제');setText('sw5527Restart','↻ 다시 문제 출제');
     g('sw5527CopyPanel').hidden=true;
     const reviewCount=chosen.filter(isReviewed).length,actualSentence=assigned.filter(x=>x.mode==='sentence').length;
-    setText('sw5527TotalInfo',`${filtered.length}개 공식 패턴 · Stable 예정 복습 ${mandatory.length}개 우선 · 복습 ${reviewCount} / 신규 ${chosen.length-reviewCount}`);
-    if(!chosen.length)notice('선택한 학습 영역에 예문이 없습니다. 전체 패턴을 선택해 보세요.');
-    else if(chosen.length<targetCount)notice('공식 DB에서 이용 가능한 문제 수가 적어 '+chosen.length+'개만 출제합니다.');
+    setText('sw5527TotalInfo',`${filtered.length}개 공식 패턴 · Stable 예정 복습 ${dueCandidates.length}개 · 복습 ${reviewCount} / 신규 ${chosen.length-reviewCount}`);
+    if(!chosen.length)notice(mix===100?'복습 100%: 복습할 패턴이 없습니다. 다른 구성 또는 영역을 선택해 주세요.':mix===0?'신규 100%: 아직 학습하지 않은 패턴이 없습니다. 다른 구성 또는 영역을 선택해 주세요.':'선택한 학습 영역에 예문이 없습니다. 전체 패턴을 선택해 보세요.');
+    else if(chosen.length<targetCount)notice(mix===100?`복습 100%: 복습 대상이 부족해 ${chosen.length}개만 출제했습니다. 신규는 포함하지 않았습니다.`:mix===0?`신규 100%: 신규 대상이 부족해 ${chosen.length}개만 출제했습니다. 복습은 포함하지 않았습니다.`:'공식 DB에서 이용 가능한 문제 수가 적어 '+chosen.length+'개만 출제합니다.');
+    else if(mix===100||mix===0)notice(mix===100?'복습 100%: 학습한 패턴만 출제했습니다.':'신규 100%: 처음 학습할 패턴만 출제했습니다. 예정된 Stable 복습은 계속 유지됩니다.');
     else if(mandatory.length>quota)notice(`Stable 복습 예정 ${mandatory.length}개를 먼저 출제했습니다. 설정한 복습 비율보다 예정일을 우선합니다.`);
     else if(reviewCount!==quota)notice('복습/New 패턴 수가 부족해 출제 비율을 자동 보정했습니다.');
     else notice('문장 만들기와 패턴 맞추기 혼합 연습입니다. 앱 평가와 공식 GPT 채점·승급은 구분됩니다.');
@@ -27314,12 +27326,12 @@ function saveIfRunning(){
 window.addEventListener('pagehide',saveIfRunning);
 window.addEventListener('beforeunload',saveIfRunning);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveIfRunning()});
-window.sw545ResumeAudit=()=>({version:'6.1.7',behavior:behavior(),overall:jparse(OVERALL_KEY)?.state||null,
+window.sw545ResumeAudit=()=>({version:'6.1.8',behavior:behavior(),overall:jparse(OVERALL_KEY)?.state||null,
   resumeKeys:Object.keys(jparse('sayward_playback_resume_v1')||{}),randomSeeds:Object.keys(jparse(RANDOM_KEY)||{}).length});
 })();
 </script>
 <script id="sayward-personal-cloud-sync-v601">
-/* SAYWARD v6.1.7 — Account preferences cloud sync with confirmed final-value writes.
+/* SAYWARD v6.1.8 — Account preferences cloud sync with confirmed final-value writes.
  * Only allowlisted, non-secret localStorage preferences are synchronized.
  * Official grades/history/learning state and server catalogs are NEVER modified.
  */
@@ -27628,7 +27640,7 @@ function init(){section();if(window.saywardAuth?.subscribe)window.saywardAuth.su
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')void refresh();else void flushAll();});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-window.saywardPreferenceSync={version:'6.1.7',supportedKeys:()=>[...ALLOWED],status:()=>({uid,ready,pending:Object.keys(pending).length,lastSaved,lastError}),sync:()=>refresh(true),commitKeys,importLegacy};
+window.saywardPreferenceSync={version:'6.1.8',supportedKeys:()=>[...ALLOWED],status:()=>({uid,ready,pending:Object.keys(pending).length,lastSaved,lastError}),sync:()=>refresh(true),commitKeys,importLegacy};
 })();
 
 </script>
@@ -27766,7 +27778,7 @@ window.saywardPreferenceSync={version:'6.1.7',supportedKeys:()=>[...ALLOWED],sta
 .swPrefPersistIndicator{font-size:12px;line-height:1.5;color:#64748b;margin-top:6px;min-height:16px}
 
 
-/* v6.1.7 shared matching result format: TOEFL card hierarchy is the visual standard. */
+/* v6.1.8 shared matching result format: TOEFL card hierarchy is the visual standard. */
 #sw5527PracticePage .sw5527-reveal.swStudio-is-match-result{background:transparent;border:0;box-shadow:none;padding:0;margin-top:14px}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result{font-size:14px;color:#34465d;line-height:1.7;overflow-wrap:anywhere}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result>strong{font-size:17px;line-height:1.55;display:block;margin:0 0 10px}
@@ -27810,7 +27822,7 @@ window.saywardPreferenceSync={version:'6.1.7',supportedKeys:()=>[...ALLOWED],sta
         </div>
       </div>
       <label class="swWordFilterField" for="swWordMix">출제 구성
-        <select id="swWordMix" aria-label="복습과 신규 단어 출제 비율"><option value="50">복습 50 · 신규 50</option><option value="70">복습 70 · 신규 30</option><option value="30">복습 30 · 신규 70</option></select>
+        <select id="swWordMix" aria-label="복습과 신규 단어 출제 비율"><option value="50">복습 50 · 신규 50</option><option value="70">복습 70 · 신규 30</option><option value="30">복습 30 · 신규 70</option><option value="100">복습 100 · 신규 0</option><option value="0">복습 0 · 신규 100</option></select>
       </label>
     </div>
     <div class="swWordQuizToolbar sw5533-toolbar" aria-label="유형별 출제 문항 수">
@@ -27864,8 +27876,8 @@ function updateDaySummary(){
 }
 function scopeLabel(daySet){const list=[...daySet].sort((a,b)=>a-b);return list.length?`DAY ${list.slice(0,2).join(' · ')}${list.length>2?' 외 '+(list.length-2)+'개':''}`:'DAY 선택 없음';}
 function toggleScope(open){const box=id('swWordSettings');box.hidden=!open;id('swWordSettingsToggle').setAttribute('aria-expanded',String(open));if(open){draft=new Set(selected);editing=false;renderDayList();}}
-function mixPercent(){return Number(id('swWordMix').value)||50;}
-function readMix(){let n=50;try{n=Number(localStorage.getItem(MIX_KEY));}catch(_){}return [30,50,70].includes(n)?n:50;}
+function mixPercent(){const n=Number(id('swWordMix').value);return [0,30,50,70,100].includes(n)?n:50;}
+function readMix(){let n=50;try{const v=localStorage.getItem(MIX_KEY);if(v!==null)n=Number(v);}catch(_){}return [0,30,50,70,100].includes(n)?n:50;}
 function persistMix(){try{localStorage.setItem(MIX_KEY,String(mixPercent()));}catch(_){}updateCountUI();wordPrefChanged();}
 
 function stats(){const filtered=rows.filter(r=>selected.has(r.day_no));const states={new:0,focus:0,learning:0,stable:0};for(const r of filtered){const s=progress.get(r.item_id)?.status||'new';states[s]=(states[s]||0)+1;}return {total:filtered.length,states};}
@@ -27964,15 +27976,16 @@ function buildDeck(){
  const other=eligible.filter(r=>!reviewed.includes(r)&&!fresh.includes(r));
  const reviewQuota=Math.round(total*mixPercent()/100),picked=[],seen=new Set();
  function add(pool,quota){for(const r of pool){if(picked.length>=quota)break;if(!seen.has(r.item_id)){seen.add(r.item_id);picked.push(r);}}}
- // Due reviews are mandatory before the selected review/new mix. When a bucket is short,
- // fill from the other bucket without synthesizing or duplicating any vocabulary items.
- add(due,total);add(recent,Math.max(reviewQuota,picked.length));add(fresh,total);add(recent,total);add(other,total);
+ // Exclusive 100% modes do not borrow from the opposite bucket; older mixed modes preserve fallback.
+ if(mixPercent()===100){add(due,total);add(recent,total);}
+ else if(mixPercent()===0){add(fresh,total);}
+ else{add(due,total);add(recent,Math.max(reviewQuota,picked.length));add(fresh,total);add(recent,total);add(other,total);}
  const sentence=picked.slice(0,n.sentence).map(r=>({...r,exerciseMode:'sentence'}));
  const match=picked.slice(n.sentence,n.sentence+n.word_pattern).map(r=>({...r,exerciseMode:'word_pattern',options:buildChoices(r,eligible)}));
  if(match.some(r=>!r.options)){setStatus('선택한 DAY에 4지선다 보기가 부족합니다. DAY 선택을 확인해 주세요.',true);return;}
  deck=[];while(sentence.length||match.length){if(sentence.length)deck.push(sentence.shift());if(match.length)deck.push(match.shift());}
  idx=0;renderCard();updateCountUI();
- if(deck.length<total&&eligible.length)setStatus(`출제 가능한 단어가 부족하여 ${total}문제 중 ${deck.length}문제만 출제했습니다.`);
+ if(deck.length<total&&eligible.length){const kind=mixPercent()===100?'복습':mixPercent()===0?'신규':'출제 가능한';setStatus(`${kind} 단어가 부족하여 ${total}문제 중 ${deck.length}문제만 출제했습니다.`+(mixPercent()===100?' 신규 단어는 포함하지 않았습니다.':mixPercent()===0?' 복습 단어는 포함하지 않았습니다.':''));}
 }
 function showPattern(){const c=current();if(!c||shown)return;hinted=true;
  const w=c.content||{};id('swWordHintBlock').hidden=false;
