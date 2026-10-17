@@ -1,12 +1,12 @@
-<!-- SAYWARD v6.4.2 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
-<!-- SAYWARD v6.4.2; v6.0 RC2 official baseline + live sentence stats + personal sync -->
+<!-- SAYWARD v6.4.3 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
+<!-- SAYWARD v6.4.3; v6.0 RC2 official baseline + live sentence stats + personal sync -->
 <!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.2 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.3 · Learning Dashboard</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -15842,7 +15842,7 @@ function installVisibleBuildBadge(){
   if(!badge){
     badge=document.createElement('div');
     badge.id='mvBuildBadge';
-    badge.textContent='v6.4.2';
+    badge.textContent='v6.4.3';
     badge.title='현재 실행 중인 MY VOCA 빌드';
     document.body.appendChild(badge);
   }
@@ -20692,8 +20692,8 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.2');
-  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.2';
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.3');
+  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.3';
   mv281SyncUI();
 },0);
 })();
@@ -20946,9 +20946,9 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.2')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.2'}catch(e){}
-  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.2'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.3')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.3'}catch(e){}
+  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.3'}catch(e){}
 },0);
 
 window.mvSwipeLifetimeAudit288=function(){
@@ -21118,9 +21118,9 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.2')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.2'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.2')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.3')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.3'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.3')}catch(e){}
   refreshPausedBrowseUI289();
 },0);
 
@@ -21354,10 +21354,10 @@ function navigate292(item){S292.lastTarget=item?.id||null;if(item.course==='day'
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v6.4.2 · Learning Dashboard'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.2')}catch(e){}
-  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.2'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.2')}catch(e){}
+  try{document.title='SAYWARD v6.4.3 · Learning Dashboard'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.3')}catch(e){}
+  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.3'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.3')}catch(e){}
 },0);
 window.mvUnifiedSearchAudit292=()=>({version:'v5.3.292',indexCount:buildIndex292().length,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'additive unified search only; existing playback/swipe/card logic unchanged'});
 })();
@@ -21650,7 +21650,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v6.4.2 · Learning Dashboard'}catch(e){}
+  try{document.title='SAYWARD v6.4.3 · Learning Dashboard'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -21671,7 +21671,7 @@ window.mvCleanAudit540=function(){
   const h=home(),bar=document.getElementById('sharedStudySelectBar');
   const cards=[...document.querySelectorAll('#homePage .myClassSection .myClassCard')].slice(0,4);
   return {
-    version:'v6.4.2',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
+    version:'v6.4.3',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
     sharedBar:!!bar,daySettings:!!document.getElementById('cleanDaySettings'),legacyModePanelVisible:!!document.getElementById('homeStudyModePanel')&&getComputedStyle(document.getElementById('homeStudyModePanel')).display!=='none',
     visibleSections:{day:getComputedStyle(document.querySelector('#homePage .daySection')||document.body).display,my:getComputedStyle(document.querySelector('#homePage .myClassSection')||document.body).display,sori:getComputedStyle(document.querySelector('#homePage .soriClassSection')||document.body).display,opic:getComputedStyle(document.querySelector('#homePage .opicClassSection')||document.body).display,friends:getComputedStyle(document.querySelector('#homePage .friendsClassSection')||document.body).display},
     myCards:cards.map(c=>({w:Math.round(c.getBoundingClientRect().width),h:Math.round(c.getBoundingClientRect().height)})),
@@ -21857,7 +21857,7 @@ window.mvCleanAudit540=function(){
 #cleanHeroMenuHit,#cleanHeroSearchHit{position:absolute!important;top:0!important;height:100%!important;width:18%!important;border:0!important;background:transparent!important;padding:0!important;z-index:8!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 #cleanHeroMenuHit{left:-5px!important} #cleanHeroSearchHit{right:0!important}
 #homePage .homeHero::before{
-  content:"v6.4.2"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
+  content:"v6.4.3"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
   min-width:54px!important;padding:2px 8px 3px!important;box-sizing:border-box!important;text-align:center!important;
   border:1.5px solid rgba(255,255,255,.92)!important;border-radius:999px!important;background:rgba(77,62,202,.96)!important;
   color:#fff!important;font-size:9px!important;line-height:1.1!important;font-weight:950!important;letter-spacing:.1px!important;
@@ -22374,6 +22374,25 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
   <p id="sw5513ApprovalStatus" class="p2-status" role="status">관리자 권한 확인 대기</p>
   <div id="sw5513ApplicantList" class="sw5513-applicants"></div>
 </section>
+<section id="sw643AdminLearning" hidden aria-label="관리자 회원별 학습 현황">
+  <div class="sw643-toolbar"><h3>📊 회원별 학습 현황</h3><button type="button" id="sw643RefreshMembers" class="sw643-action">↻ 회원 새로고침</button></div>
+  <p>회원의 학습 기록을 조회합니다. 통계와 이력은 읽기 전용이며 회원의 학습 상태를 변경하지 않습니다.</p>
+  <p id="sw643Status" role="status" aria-live="polite">관리자 인증 확인 중</p>
+  <label for="sw643Search" style="font-size:12px;font-weight:800">회원 찾기</label><input id="sw643Search" class="sw643-search" type="search" placeholder="이름 또는 이메일로 검색" autocomplete="off">
+  <div id="sw643Members" class="sw643-members" aria-label="회원 목록"></div>
+  <section id="sw643Detail" hidden aria-label="선택 회원의 학습 대시보드">
+    <div class="sw643-toolbar"><h3 id="sw643MemberName">선택한 회원</h3><button type="button" id="sw643RefreshDetail" class="sw643-action">↻ 통계 새로고침</button></div>
+    <div class="sw643-readonly">🔒 관리자 조회 전용 · 다른 회원의 학습 기록과 숙련도는 변경할 수 없습니다.</div>
+    <div class="sw643-tabs" role="tablist" aria-label="선택 회원 통계">
+      <button type="button" role="tab" data-sw643-tab="summary" aria-selected="true">종합</button>
+      <button type="button" role="tab" data-sw643-tab="pattern" aria-selected="false">패턴</button>
+      <button type="button" role="tab" data-sw643-tab="word" aria-selected="false">단어·패턴</button>
+      <button type="button" role="tab" data-sw643-tab="time" aria-selected="false">시간</button>
+    </div>
+    <div id="sw643Content" role="tabpanel" aria-live="polite"></div>
+  </section>
+</section>
+
 <div id="swStudioLauncher" hidden style="margin:14px 0;padding:14px;border:1px solid #d7cef7;border-radius:14px;background:#faf8ff">
   <div style="font-size:17px;font-weight:850;color:#373080">🎛️ Admin 관리 스튜디오 · 콘텐츠·학습 배정</div>
   <p style="font-size:12px;line-height:1.6;color:#555b70;margin:8px 0">관리 스튜디오에서 수업별 학습 박스의 공통·개인별 설정을 실제 DB에 저장하고 재조회할 수 있습니다. 콘텐츠 편집·발행과 기타 화면은 아직 시안입니다. 평가 사용자 3명은 별도 Supabase 시험 테이블에서 조회합니다.</p>
@@ -22748,7 +22767,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v6.4.2 · Learning Dashboard';
+  document.title='SAYWARD v6.4.3 · Learning Dashboard';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -26229,7 +26248,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       });area.appendChild(button);
     }
   }
-  // v6.4.2: Match feedback uses the same clearly separated information-card order as TOEFL.
+  // v6.4.3: Match feedback uses the same clearly separated information-card order as TOEFL.
   // Pure DOM presentation: does not change answer validation, grading, IDs or DB writes.
   function renderMatchResult(p,entry){
     const el=g('sw5533MatchResult'),correct=entry.selected_id===p.pattern_id;
@@ -27428,7 +27447,7 @@ window.sw545ResumeAudit=()=>({version:'6.1.9',behavior:behavior(),overall:jparse
 })();
 </script>
 <script id="sayward-personal-cloud-sync-v601">
-/* SAYWARD v6.4.2 — Account preferences cloud sync with confirmed final-value writes.
+/* SAYWARD v6.4.3 — Account preferences cloud sync with confirmed final-value writes.
  * Only allowlisted, non-secret localStorage preferences are synchronized.
  * Official grades/history/learning state and server catalogs are NEVER modified.
  */
@@ -27875,7 +27894,7 @@ window.saywardPreferenceSync={version:'6.1.9',supportedKeys:()=>[...ALLOWED],sta
 .swPrefPersistIndicator{font-size:12px;line-height:1.5;color:#64748b;margin-top:6px;min-height:16px}
 
 
-/* v6.4.2 shared matching result format: TOEFL card hierarchy is the visual standard. */
+/* v6.4.3 shared matching result format: TOEFL card hierarchy is the visual standard. */
 #sw5527PracticePage .sw5527-reveal.swStudio-is-match-result{background:transparent;border:0;box-shadow:none;padding:0;margin-top:14px}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result{font-size:14px;color:#34465d;line-height:1.7;overflow-wrap:anywhere}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result>strong{font-size:17px;line-height:1.55;display:block;margin:0 0 10px}
@@ -28549,7 +28568,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-swipe-v642">
-/* SAYWARD v6.4.2 — shared navigation gesture.
+/* SAYWARD v6.4.3 — shared navigation gesture.
  * Browser back edges, vertical scrolling, fields and interactive controls are reserved.
  * No grading, Supabase or study-state writes happen in the gesture layer.
  */
@@ -28595,6 +28614,94 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    if(next>=0&&next<order.length)window.saywardLearningDashboard?.openTab?.(order[next]);
  },()=>!!dashboard?.classList.contains('sw5513-progress')&&!dashboard.classList.contains('hidden'));
  window.saywardSwipeStatus={version:'6.4.2',direction:'left-next/right-previous',threshold:65};
+})();
+
+</script>
+
+<style id="sayward-admin-learning-css">
+#sw643AdminLearning{margin:14px 0;padding:15px;border:1px solid #d9d1ef;border-radius:17px;background:#fff;color:#24324b}
+#sw643AdminLearning[hidden],#sw643Detail[hidden]{display:none!important}
+#sw643AdminLearning h3{margin:0 0 7px;font-size:18px;color:#332778}
+#sw643AdminLearning p{font-size:12px;line-height:1.65;color:#647087}
+.sw643-toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.sw643-action{border:1px solid #bdb4e5;border-radius:10px;padding:10px 13px;background:#fff;color:#47358a;font-weight:800;cursor:pointer}
+.sw643-search{margin:10px 0;display:block;width:100%;padding:11px;border:1px solid #ccd0de;border-radius:12px;box-sizing:border-box;min-width:0;font-size:14px}
+.sw643-members{display:grid;gap:8px;max-height:290px;overflow:auto}
+.sw643-member{display:flex;align-items:center;text-align:left;gap:10px;justify-content:space-between;width:100%;padding:11px;border:1px solid #e4e5ee;border-radius:11px;background:#f9f9fd;cursor:pointer;min-width:0}
+.sw643-member[aria-current=true]{border:2px solid #7160b8;background:#f1ecff}
+.sw643-member strong,.sw643-member small{display:block;overflow-wrap:anywhere}.sw643-member strong{color:#29254a;font-size:13px}.sw643-member small{color:#647087;font-size:11px;line-height:1.6}
+.sw643-readonly{border:1px solid #b3c5e7;background:#eff6ff;color:#294878;padding:9px;border-radius:9px;font-size:12px;font-weight:700}
+.sw643-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin:12px 0}
+.sw643-tabs button{font-size:12px;font-weight:800;border:1px solid #dad6ec;border-radius:10px;padding:10px 2px;background:#fff;color:#655e76;cursor:pointer;min-width:0}
+.sw643-tabs button[aria-selected=true]{background:#513fa6;color:white}
+.sw643-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0}
+.sw643-stat{border:1px solid #e6e3f2;border-radius:11px;padding:12px;min-width:0;background:#f9f8fc}.sw643-stat small{font-size:11px;color:#5f6c83;display:block}.sw643-stat strong{display:block;color:#46338c;font-size:20px;margin-top:5px;overflow-wrap:anywhere}
+.sw643-section-title{font-size:14px;font-weight:900;margin:16px 0 8px;color:#2f2e5c}
+.sw643-row{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:10px;border-bottom:1px solid #e7e8ed;font-size:12px;overflow-wrap:anywhere}.sw643-row span{flex:1;min-width:0}.sw643-row b{color:#473588;white-space:nowrap}
+.sw643-barline{display:flex;gap:3px;height:13px;background:#e8e7f1;border-radius:8px;overflow:hidden;min-width:0}.sw643-barline span{display:block;height:100%}
+.sw643-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));align-items:end;gap:4px;min-height:115px;margin-top:8px}.sw643-day{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;min-width:0;gap:5px;font-size:10px;color:#637083}.sw643-day .sw643-stack{width:90%;height:75px;display:flex;flex-direction:column;justify-content:flex-end;gap:1px;background:#f5f4f9;border-radius:5px;overflow:hidden}.sw643-stack>span{width:100%;display:block}
+@media(max-width:375px){#sw643AdminLearning{padding:11px}.sw643-grid{gap:6px}.sw643-stat{padding:9px}.sw643-stat strong{font-size:18px}}
+
+</style>
+<script id="sayward-admin-learning-js">
+/* SAYWARD v6.4.3: secure admin-only, read-only member learning dashboard.
+ * All cross-user data MUST come from sayward_admin_learning_read RPC after DB admin verification.
+ * No raw cross-user table queries; no write calls. */
+(function(){'use strict';
+ const get=id=>document.getElementById(id),root=get('sw643AdminLearning'),panel=get('p2Panel');if(!root||!panel)return;
+ const status=get('sw643Status'),list=get('sw643Members'),detail=get('sw643Detail'),content=get('sw643Content');
+ let members=[],chosen=null,data=null,tab='summary',sequence=0,listBusy=false;
+ const snap=()=>window.saywardAuth?.snapshot?.()||{};
+ const authorised=()=>{const s=snap();return s.authenticated===true&&s.role==='admin'&&!!s.uid&&!!window.saywardAuth?.getClient?.()};
+ const t=(txt,tag='div',cl='')=>{const e=document.createElement(tag);e.textContent=String(txt==null?'':txt);if(cl)e.className=cl;return e};
+ const n=v=>Number.isFinite(Number(v))?Number(v):0;
+ const fmt=v=>n(v).toLocaleString('ko-KR');
+ const date=raw=>{try{return raw?new Date(raw).toLocaleDateString('ko-KR'):'기록 없음'}catch{return '기록 없음'}};
+ const setStatus=s=>{status.textContent=s};
+ async function rpc(uid){const client=window.saywardAuth?.getClient?.();if(!authorised()||!client)throw Error('관리자 로그인이 필요합니다.');const result=await client.rpc('sayward_admin_learning_read',{p_target:uid||null});if(result.error)throw result.error;return result.data;}
+ function wipe(){sequence++;members=[];chosen=null;data=null;list.replaceChildren();content.replaceChildren();detail.hidden=true;root.hidden=true;get('sw643Search').value='';}
+ function row(label,value,container=content){const r=t('','div','sw643-row');r.append(t(label,'span'),t(value,'b'));container.appendChild(r);return r}
+ function stat(label,value,container){const item=t('','div','sw643-stat');item.append(t(label,'small'),t(value,'strong'));container.appendChild(item)}
+ function stats(arr){const grid=t('','div','sw643-grid');for(const [k,v] of arr)stat(k,v,grid);content.appendChild(grid)}
+ function header(label){content.append(t(label,'div','sw643-section-title'))}
+ function pct(done,total){return n(total)?`${(100*n(done)/n(total)).toFixed(1)}%`:'—'}
+ function kstKey(day){const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(day);const p=Object.fromEntries(parts.map(x=>[x.type,x.value]));return `${p.year}-${p.month}-${p.day}`}
+ function days(){return Array.from({length:7},(_,i)=>{const d=new Date(Date.now()-(6-i)*86400000);return {key:kstKey(d),name:new Intl.DateTimeFormat('ko-KR',{weekday:'short',timeZone:'Asia/Seoul'}).format(d)}})}
+ function weekly(){const ds=days();const by=new Map(ds.map(x=>[x.key,{gpt:0,pattern:0,word:0}]));for(const r of data.recent7||[]){if(by.has(r.date)&&['gpt','pattern','word'].includes(r.kind))by.get(r.date)[r.kind]+=n(r.count)}return {days:ds,values:by}}
+ function weekChart(){const g=weekly(),root=t('','div','sw643-week');const max=Math.max(1,...g.days.map(x=>Object.values(g.values.get(x.key)).reduce((a,b)=>a+b,0)));for(const d of g.days){const day=t('','div','sw643-day'),stack=t('','div','sw643-stack'),obj=g.values.get(d.key);for(const [k,color] of [['word','#60b99a'],['pattern','#a68dde'],['gpt','#6356b8']]){const v=obj[k];if(!v)continue;const bar=t('','span');bar.style.height=(v/max*75)+'px';bar.style.background=color;stack.append(bar)}day.append(stack,t(d.name),t(String(obj.gpt+obj.pattern+obj.word)));root.append(day)}content.appendChild(root);content.append(t('■ GPT 공식  ■ 패턴 앱  ■ TOEFL 단어','p','sw62-note'))}
+ function unionSeconds(intervals){const sets=(intervals||[]).map(x=>[Date.parse(x.start),Date.parse(x.end)]).filter(x=>Number.isFinite(x[0])&&Number.isFinite(x[1])&&x[1]>x[0]).sort((a,b)=>a[0]-b[0]);let ms=0,last=null;for(const [a,b] of sets){if(!last){last=[a,b]}else if(a<=last[1])last[1]=Math.max(last[1],b);else{ms+=last[1]-last[0];last=[a,b]}}if(last)ms+=last[1]-last[0];return Math.floor(ms/1000)}
+ function duration(sec){const mins=Math.floor(n(sec)/60);return mins>=60?`${Math.floor(mins/60)}시간 ${mins%60}분`:`${mins}분`}
+ function stages(obj){const labels=['new','focus','learning','stable'];const g=t('','div','sw643-grid');for(const st of labels)stat(st==='new'?'New':st[0].toUpperCase()+st.slice(1),fmt(obj?.[st]||0),g);content.append(g)}
+ function render(){content.replaceChildren();if(!data)return;const d=data,wordObj=d.word_objective||{};
+  if(tab==='summary'){
+    stats([['패턴 학습 경험',pct(d.pattern_touched,d.patterns_total)],['단어 학습 경험',pct(d.word_touched,d.words_total)],['최근 7일 집중 시간',duration(unionSeconds(d.time_intervals))],['GPT 공식 채점',fmt(d.official_attempts)]]);
+    header('오늘까지 복습 예정');row('Stable 패턴',`${fmt(d.due_pattern)}개`);row('단어 문장 학습',`${fmt(d.due_word)}개`);header('최근 7일 학습량');weekChart();
+  }else if(tab==='pattern'){
+    stats([['학습 경험',`${fmt(d.pattern_touched)} / ${fmt(d.patterns_total)}`],['GPT 공식 채점',fmt(d.official_attempts)],['앱 학습 기록',fmt(d.pattern_app_attempts)],['복습 예정',fmt(d.due_pattern)]]);
+    header('숙련도 현황');stages(d.pattern_stages);header('GPT 공식 Perfect / Review / Miss');for(const k of ['Perfect','Review','Miss'])row(k,fmt(d.gpt_grades?.[k]??d.gpt_grades?.[k.toLowerCase()]));
+    header('많이 틀린 패턴');const a=d.pattern_weak||[];if(!a.length)content.append(t('DB에 기록된 공식 오답·Review가 없습니다.','p'));else for(const x of a)row(x.pattern||'패턴',`Miss ${fmt(x.miss)} · Review ${fmt(x.review)}`);
+  }else if(tab==='word'){
+    stats([['학습 경험',`${fmt(d.word_touched)} / ${fmt(d.words_total)}`],['단어 학습 기록',fmt(d.word_attempts)],['4지선다 정답',fmt(wordObj.correct)],['4지선다 오답',fmt(wordObj.wrong)]]);
+    header('단어 숙련도 현황');stages(d.word_stages);header('많이 틀린 단어');const a=d.word_weak||[];if(!a.length)content.append(t('기록된 단어 4지선다 오답이 없습니다. 기존 DAY 로컬 통계는 합산하지 않습니다.','p'));else for(const x of a)row(x.word||'단어',`${fmt(x.wrong)}회 오답`);
+  }else if(tab==='time'){
+    const intervals=d.time_intervals||[],today=kstKey(new Date()),todayIntervals=intervals.filter(x=>kstKey(new Date(x.start))===today);
+    stats([['최근 7일 집중 시간',duration(unionSeconds(intervals))],['오늘 집중 시간',duration(unionSeconds(todayIntervals))],['패턴',duration(unionSeconds(intervals.filter(x=>x.kind==='pattern')))],['TOEFL',duration(unionSeconds(intervals.filter(x=>x.kind==='toefl')))]]);
+    header('학습 시간 산정');content.append(t('계정의 클라우드 활성 학습 구간을 합산하고 기기 간 겹치는 구간은 한 번만 계산합니다. 과거 기기 로컬 시간은 합산하지 않습니다.','p'));
+  }
+  content.append(t('DB 확인 '+new Date(d.checked_at||Date.now()).toLocaleString('ko-KR')+' · 읽기 전용', 'p'));
+ }
+ function selectTab(next){if(!['summary','pattern','word','time'].includes(next))return;tab=next;root.querySelectorAll('[data-sw643-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.sw643Tab===tab)));render()}
+ function renderMembers(){const query=get('sw643Search').value.trim().toLowerCase();list.replaceChildren();for(const u of members){if(query&&!String(u.name||'').toLowerCase().includes(query)&&!String(u.email||'').toLowerCase().includes(query))continue;const b=t('','button','sw643-member');b.type='button';b.setAttribute('aria-current',String(chosen===u.id));const side=t('','span');side.append(t((u.name||'이름 없음')+' · '+(u.role==='admin'?'관리자':'학습자'),'strong'),t((u.email||'')+' · '+(u.status||'')+' · 패턴 '+fmt(u.patterns)+' / 단어 '+fmt(u.words),'small'));b.append(side,t('›','b'));b.addEventListener('click',()=>void selectMember(u));list.append(b)}if(!list.children.length)list.append(t('검색된 회원이 없습니다.','p'))}
+ async function selectMember(u){if(!authorised())return wipe();const serial=++sequence;chosen=u.id;data=null;detail.hidden=false;get('sw643MemberName').textContent=(u.name||'회원')+' · 학습 현황';content.replaceChildren(t('회원 DB 통계를 조회 중입니다…','p'));renderMembers();try{const response=await rpc(u.id);if(serial!==sequence||!authorised())return;if(response?.user?.id!==u.id)throw Error('조회 결과 회원 ID 검증 실패');data=response;setStatus('✓ '+(u.name||'회원')+' 학습 현황 조회 완료');selectTab('summary')}catch(error){if(serial!==sequence)return;data=null;content.replaceChildren(t('회원 통계를 읽을 수 없습니다. '+(error?.message||error),'p'));setStatus('조회 실패 · 새로고침 후 다시 시도해 주세요.')}}
+ async function loadMembers(){if(!authorised())return wipe();if(listBusy)return;listBusy=true;const serial=++sequence;setStatus('관리자 권한으로 회원 목록 조회 중…');try{const result=await rpc(null);if(serial!==sequence||!authorised())return;members=Array.isArray(result.members)?result.members:[];setStatus('✓ 회원 '+members.length+'명 · 읽기 전용 DB 조회 완료');renderMembers()}catch(error){if(serial===sequence){setStatus('회원 목록 조회 실패: '+(error?.message||error));list.replaceChildren(t('DB 관리자 권한을 확인해 주세요.','p'))}}finally{listBusy=false}}
+ function showIfAdmin(){const isAdmin=authorised()&&panel.classList.contains('sw5513-admin');root.hidden=!isAdmin;if(isAdmin&&!members.length&&!listBusy)void loadMembers();if(!authorised())wipe()}
+ new MutationObserver(showIfAdmin).observe(panel,{attributes:true,attributeFilter:['class']});
+ window.addEventListener('sayward:auth-state',()=>{if(!authorised())wipe();else showIfAdmin()});
+ get('sw643RefreshMembers').addEventListener('click',()=>{members=[];chosen=null;data=null;detail.hidden=true;void loadMembers()});
+ get('sw643RefreshDetail').addEventListener('click',()=>{const u=members.find(x=>x.id===chosen);if(u)void selectMember(u)});
+ get('sw643Search').addEventListener('input',renderMembers);
+ root.addEventListener('click',e=>{const b=e.target.closest('[data-sw643-tab]');if(b)selectTab(b.dataset.sw643Tab)});
+ showIfAdmin();
 })();
 
 </script>
