@@ -1,12 +1,12 @@
-<!-- SAYWARD v6.4.7 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
-<!-- SAYWARD v6.4.7; v6.0 RC2 official baseline + live sentence stats + personal sync -->
+<!-- SAYWARD v6.4.10 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
+<!-- SAYWARD v6.4.10; v6.0 RC2 official baseline + live sentence stats + personal sync -->
 <!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.7 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.10 · Learning Dashboard</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -12299,7 +12299,7 @@ function mvSentenceEntryAudit182(){
 window.mvSentenceEntryAudit182=mvSentenceEntryAudit182;
 
 /* ===== V5.3.189 · STANDARD APP INFO / UPDATE HISTORY ===== */
-const MV_APP_VERSION='6.1.9';
+const MV_APP_VERSION='6.4.10';
 
 function mvCloseInfoOverlay(){
   const overlay=document.getElementById('mvInfoOverlay');
@@ -15843,7 +15843,7 @@ function installVisibleBuildBadge(){
   if(!badge){
     badge=document.createElement('div');
     badge.id='mvBuildBadge';
-    badge.textContent='v6.4.4';
+    badge.textContent='v6.4.10';
     badge.title='현재 실행 중인 MY VOCA 빌드';
     document.body.appendChild(badge);
   }
@@ -16262,7 +16262,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     return bar;
   }
 
-  /* v6.4.4: new lessons become selected AFTER both the authorized catalog and
+  /* v6.4.10: new lessons become selected AFTER both the authorized catalog and
      the account preferences have loaded. A seen-ID ledger keeps explicit
      unchecked choices unchecked, even when a lesson is refreshed. */
   const LESSON_AUTO_KEYS={
@@ -20735,8 +20735,8 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.7');
-  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.4';
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.10');
+  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.10';
   mv281SyncUI();
 },0);
 })();
@@ -20989,9 +20989,9 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.7')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.4'}catch(e){}
-  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.4'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.10')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.10'}catch(e){}
+  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.10'}catch(e){}
 },0);
 
 window.mvSwipeLifetimeAudit288=function(){
@@ -21161,9 +21161,9 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.7')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.4'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.4')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.10')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.10'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.10')}catch(e){}
   refreshPausedBrowseUI289();
 },0);
 
@@ -21397,10 +21397,10 @@ function navigate292(item){S292.lastTarget=item?.id||null;if(item.course==='day'
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v6.4.7 · Learning Dashboard'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.7')}catch(e){}
-  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.4'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.4')}catch(e){}
+  try{document.title='SAYWARD v6.4.10 · Learning Dashboard'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.10')}catch(e){}
+  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.10'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.10')}catch(e){}
 },0);
 window.mvUnifiedSearchAudit292=()=>({version:'v5.3.292',indexCount:buildIndex292().length,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'additive unified search only; existing playback/swipe/card logic unchanged'});
 })();
@@ -21693,7 +21693,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v6.4.7 · Learning Dashboard'}catch(e){}
+  try{document.title='SAYWARD v6.4.10 · Learning Dashboard'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -21714,7 +21714,7 @@ window.mvCleanAudit540=function(){
   const h=home(),bar=document.getElementById('sharedStudySelectBar');
   const cards=[...document.querySelectorAll('#homePage .myClassSection .myClassCard')].slice(0,4);
   return {
-    version:'v6.4.4',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
+    version:'v6.4.10',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
     sharedBar:!!bar,daySettings:!!document.getElementById('cleanDaySettings'),legacyModePanelVisible:!!document.getElementById('homeStudyModePanel')&&getComputedStyle(document.getElementById('homeStudyModePanel')).display!=='none',
     visibleSections:{day:getComputedStyle(document.querySelector('#homePage .daySection')||document.body).display,my:getComputedStyle(document.querySelector('#homePage .myClassSection')||document.body).display,sori:getComputedStyle(document.querySelector('#homePage .soriClassSection')||document.body).display,opic:getComputedStyle(document.querySelector('#homePage .opicClassSection')||document.body).display,friends:getComputedStyle(document.querySelector('#homePage .friendsClassSection')||document.body).display},
     myCards:cards.map(c=>({w:Math.round(c.getBoundingClientRect().width),h:Math.round(c.getBoundingClientRect().height)})),
@@ -21900,7 +21900,7 @@ window.mvCleanAudit540=function(){
 #cleanHeroMenuHit,#cleanHeroSearchHit{position:absolute!important;top:0!important;height:100%!important;width:18%!important;border:0!important;background:transparent!important;padding:0!important;z-index:8!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 #cleanHeroMenuHit{left:-5px!important} #cleanHeroSearchHit{right:0!important}
 #homePage .homeHero::before{
-  content:"v6.4.4"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
+  content:"v6.4.10"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
   min-width:54px!important;padding:2px 8px 3px!important;box-sizing:border-box!important;text-align:center!important;
   border:1.5px solid rgba(255,255,255,.92)!important;border-radius:999px!important;background:rgba(77,62,202,.96)!important;
   color:#fff!important;font-size:9px!important;line-height:1.1!important;font-weight:950!important;letter-spacing:.1px!important;
@@ -22810,7 +22810,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v6.4.7 · Learning Dashboard';
+  document.title='SAYWARD v6.4.10 · Learning Dashboard';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -23274,10 +23274,9 @@ const sharedAuthState={phase:'initializing',uid:null,role:null};
 const SW_ADMIN_ALLOWED_TABLES=new Set([
   'sayward_profiles','sayward_my_lessons','sayward_course_lessons','sayward_day_units',
   'sayward_global_lesson_settings','sayward_eval_personas',
-  'sayward_eval_lesson_overrides','sayward_user_lesson_overrides',
-  'sayward_lesson_release_settings','sayward_pending_content'
+  'sayward_eval_lesson_overrides','sayward_user_lesson_overrides'
 ]);
-const SW_ADMIN_ALLOWED_RPC=new Set(['sayward_admin_set_account_status','sayward_admin_release_lesson_content']);
+const SW_ADMIN_ALLOWED_RPC=new Set(['sayward_admin_set_account_status','sayward_admin_category_release_catalog','sayward_admin_set_category_release','sayward_admin_publish_category']);
 async function swDirectAdminDbRequest(spec={}){
   if(!activeSession?.access_token || !activeUser?.id || sharedAuthState.role!=='admin'
     || sharedAuthState.phase!=='authenticated')throw new Error('ADMIN_AUTH_REQUIRED');
@@ -25528,13 +25527,13 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.7 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·콘텐츠 공개 설정 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습 박스 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.10 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습 박스 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
    <section class="panel">
      <h2>🎯 학습 박스 표시 설정</h2>
-     <p>수업마다 보여줄 <b>학습 박스</b>와 <b>새 콘텐츠 공개 방식</b>을 설정합니다. 신규·수정 콘텐츠는 수업별로 자동 공개하거나 승인 후 공개할 수 있습니다. 기존 학습 콘텐츠는 그대로 유지됩니다.</p>
+     <p>아래 <b>학습 박스 선택</b>은 수업별로, <b>신규 콘텐츠 공개</b>는 카테고리별로 설정합니다. 신규 수업과 단어 DAY는 카테고리 정책을 자동 상속합니다.</p>
      <div class="modes" role="group" aria-label="설정 모드">
        <button type="button" id="swModeCommon" class="sel">🌐 전체 사용자 공통</button>
        <button type="button" id="swModeOverride">👤 개인별 예외</button>
@@ -25547,6 +25546,13 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
      <div id="swPolicyStatus" role="status" aria-live="polite">Admin 권한 및 DB 조회 대기 중</div>
      <div class="notice" id="swPolicyNotice">공통 설정은 모든 사용자의 기본값입니다. 변경 저장 후 MY·OPIC·소리영어·Friends·DAY에 자동 반영됩니다. 접속 중인 기기도 자동 동기화합니다.</div>
    </section>
+    <section class="panel" id="swCategoryRelease" hidden>
+      <div class="course-list-head"><strong style="font-size:17px">🆕 카테고리별 신규 콘텐츠 공개</strong><button type="button" id="swCategoryRefresh" class="sw649-refresh">DB 다시 읽기</button></div>
+      <p>설정은 <b>MY · 소리영어 · OPIC · Friends · 단어 DAY</b> 5개 카테고리에 딱 한 번만 합니다. 앞으로 추가되는 모든 수업과 콘텐츠가 소속 카테고리 설정을 자동 상속합니다.</p>
+      <div id="swCategoryMsg" role="status" aria-live="polite">관리자 설정 조회 대기 중</div>
+      <div class="sw650-setting-box"><div id="swCategorySummary" class="sw650-summary">DB 설정 확인 중</div><div id="swCategoryCards" class="sw650-list"></div></div>
+      <p style="font-size:12px;color:#747b91">기존 공개 수업과 콘텐츠는 유지됩니다. 승인 후 공개에서는 신규 수업과 콘텐츠가 대기에 쌓이고, 승인 후 공개됩니다. 단어 DAY에는 TOEFL DAY와 OPIC 단어 DAY가 포함됩니다.</p>
+    </section>
    <section class="panel">
      <div class="course-list-head"><strong style="font-size:17px">수업별 학습 박스</strong><span id="swPolicyTotal" class="counter">—</span></div>
      <div class="range-tools" id="swRangeTools">
@@ -25563,8 +25569,8 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
      <p style="margin:13px 0 0;font-size:12px">※ 박스가 없는 수업은 해당 선택이 비활성화됩니다. 박스 안의 개별 카드는 숨기지 않습니다.</p>
    </section>
    <div class="savebar">
-     <div id="swPolicyDirty" class="info">변경 사항 없음</div>
-     <div class="save-actions"><button type="button" id="swPolicyReload">다시 읽기</button><button type="button" id="swPolicySave" class="prime" disabled>변경 저장</button></div>
+     <div id="swPolicyDirty" class="info">학습 박스 변경 사항 없음</div>
+     <div class="save-actions"><button type="button" id="swPolicyReload">다시 읽기</button><button type="button" id="swPolicySave" class="prime" disabled>학습 박스 저장</button></div>
    </div>
  </div>
 </div>
@@ -26293,7 +26299,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       });area.appendChild(button);
     }
   }
-  // v6.4.4: Match feedback uses the same clearly separated information-card order as TOEFL.
+  // v6.4.10: Match feedback uses the same clearly separated information-card order as TOEFL.
   // Pure DOM presentation: does not change answer validation, grading, IDs or DB writes.
   function renderMatchResult(p,entry){
     const el=g('sw5533MatchResult'),correct=entry.selected_id===p.pattern_id;
@@ -27506,7 +27512,7 @@ window.sw545ResumeAudit=()=>({version:'6.1.9',behavior:behavior(),overall:jparse
 })();
 </script>
 <script id="sayward-personal-cloud-sync-v601">
-/* SAYWARD v6.4.7 — Account preferences cloud sync with confirmed final-value writes.
+/* SAYWARD v6.4.10 — Account preferences cloud sync with confirmed final-value writes.
  * Only allowlisted, non-secret localStorage preferences are synchronized.
  * Official grades/history/learning state and server catalogs are NEVER modified.
  */
@@ -27955,7 +27961,7 @@ window.saywardPreferenceSync={version:'6.1.9',supportedKeys:()=>[...ALLOWED],sta
 .swPrefPersistIndicator{font-size:12px;line-height:1.5;color:#64748b;margin-top:6px;min-height:16px}
 
 
-/* v6.4.4 shared matching result format: TOEFL card hierarchy is the visual standard. */
+/* v6.4.10 shared matching result format: TOEFL card hierarchy is the visual standard. */
 #sw5527PracticePage .sw5527-reveal.swStudio-is-match-result{background:transparent;border:0;box-shadow:none;padding:0;margin-top:14px}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result{font-size:14px;color:#34465d;line-height:1.7;overflow-wrap:anywhere}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result>strong{font-size:17px;line-height:1.55;display:block;margin:0 0 10px}
@@ -28646,7 +28652,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-swipe-v642">
-/* SAYWARD v6.4.7 — shared navigation gesture.
+/* SAYWARD v6.4.10 — shared navigation gesture.
  * Browser back edges, vertical scrolling, fields and interactive controls are reserved.
  * No grading, Supabase or study-state writes happen in the gesture layer.
  */
@@ -28722,7 +28728,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-admin-learning-js">
-/* SAYWARD v6.4.7: secure admin-only, read-only member learning dashboard.
+/* SAYWARD v6.4.10: secure admin-only, read-only member learning dashboard.
  * All cross-user data MUST come from sayward_admin_learning_read RPC after DB admin verification.
  * No raw cross-user table queries; no write calls. */
 (function(){'use strict';
@@ -28872,7 +28878,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sw-unified-studio-js-v645">
-/* SAYWARD v6.4.7 — Single shared view layer for pattern/TOEFL x writing/matching.
+/* SAYWARD v6.4.10 — Single shared view layer for pattern/TOEFL x writing/matching.
  * Only presentation nodes are re-homed (not cloned); event handlers, answer state,
  * Supabase RPCs, official GPT policy and review scheduling stay with their owners.
  */
@@ -28990,111 +28996,141 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 })();
 
 </script>
-<style id="sw647ReleaseCss">
-#sw647ReleaseNote[hidden],.sw647-release-card[hidden]{display:none!important}
-#sw647ReleaseNote{padding:12px 14px;margin:10px 0;background:#f3f2ff;border-radius:12px;color:#51459b;font-size:12px;line-height:1.6}
-.sw647-release-card{margin-top:14px;padding:12px;border:1px solid #d8d8ee;border-radius:13px;background:#fcfbff}
-.sw647-release-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;font-size:12px;color:#493d8d}
-.sw647-release-heading small{font-size:11px;color:#796e9b}
-.sw647-release-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
-.sw647-release-actions button{border:1px solid #d7d2ed;border-radius:10px;background:#fff;padding:11px 5px;font-size:12px;font-weight:750;cursor:pointer;color:#514b74}
-.sw647-release-actions button[aria-pressed="true"]{background:#e7e2ff;color:#443096;border-color:#7160bf}
-.sw647-release-actions .sw647-release-open{color:#fff;background:#4f439e;border-color:#4f439e}
-.sw647-release-actions button:disabled{opacity:.4;cursor:default}
-@media(max-width:380px){.sw647-release-actions{grid-template-columns:1fr 1fr}.sw647-release-open{grid-column:1/-1}}
+<style id="sw650CategoryCss">
+#swCategoryRelease[hidden]{display:none!important}
+#swCategoryRelease{margin-bottom:12px}
+#swCategoryRelease #swCategoryMsg{font-size:12px;padding:11px 12px;border-radius:10px;margin:10px 0;line-height:1.5;background:#f1eff9;color:#51458c}
+#swCategoryRelease #swCategoryMsg[data-status="ok"]{background:#eaf7f0;color:#236043}
+#swCategoryRelease #swCategoryMsg[data-status="error"]{background:#fff1f0;color:#ae3736}
+#swCategoryRelease .sw649-refresh{border:1px solid #dad5f1;border-radius:10px;padding:9px 11px;background:#fff;color:#50439b;font-weight:750;cursor:pointer}
+.sw650-setting-box{border:1.5px solid #d7d3ec;background:#fff;border-radius:16px;overflow:hidden}
+.sw650-summary{background:#f0edfc;color:#453593;font-size:12px;font-weight:800;padding:12px 14px;border-bottom:1px solid #e4dff5}
+.sw650-row{padding:15px 14px;border-bottom:1px solid #edeaf5}
+.sw650-row:last-child{border-bottom:0}
+.sw650-row-heading{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.sw650-row-heading strong{font-size:15px;color:#25233a}
+.sw650-state{font-size:11px;color:#4f379e;font-weight:800}
+.sw650-state.is-manual{color:#8a4b29}
+.sw650-controls{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+#swRealPolicy #swCategoryRelease .sw650-choice{min-height:48px;border-radius:11px;border:1.5px solid #d9d6e8;background:white;color:#5a5475;padding:10px 7px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;transition:background .12s,border-color .12s,box-shadow .12s}
+.sw650-choice .sw650-check{display:inline-flex;width:18px;height:18px;border-radius:50%;align-items:center;justify-content:center;border:1.5px solid #b4afcf;color:transparent;font-size:13px;flex:none}
+#swRealPolicy #swCategoryRelease .sw650-choice.is-selected,#swRealPolicy #swCategoryRelease .sw650-choice[aria-pressed="true"]{color:white;background:#4934a7;border:2px solid #382290;box-shadow:0 2px 7px rgba(73,52,167,.22)}
+.sw650-choice.is-selected .sw650-check{background:white;color:#4934a7;border-color:white}
+.sw650-choice:focus-visible{outline:3px solid #b7aaff;outline-offset:2px}
+.sw650-choice:not(.is-selected):active{background:#f4f0ff}
+#swRealPolicy #swCategoryRelease .sw650-choice:disabled,#swRealPolicy #swCategoryRelease .sw650-publish:disabled{opacity:.48;cursor:default}
+.sw650-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:9px;font-size:11px;color:#727084}
+.sw650-meta small{font-size:11px;color:#8a8799}
+#swRealPolicy #swCategoryRelease .sw650-publish{border:1px solid #cfc9ef;background:#f5f2ff;color:#4934a7;border-radius:8px;padding:8px 10px;font-size:11px;font-weight:750;cursor:pointer}
+@media(max-width:390px){.sw650-row{padding:13px 10px}.sw650-choice{font-size:12px;gap:4px}.sw650-choice .sw650-check{width:16px;height:16px}}
 </style>
-<script id="sw647ReleaseScript">
-/* SAYWARD v6.4.7 - release controls within common admin lesson boxes.
-   Independent of lesson box show/hide configuration; no learner write privilege. */
+<script id="sw650CategoryReleaseScript">
+/* SAYWARD v6.4.10: persistent five-category publish policy. */
 (()=>{'use strict';
- const list=document.getElementById('swPolicyLessonList');
- const courseEl=document.getElementById('swPolicyCourse');
- if(!list||!courseEl)return;
- const info=document.createElement('div');info.id='sw647ReleaseNote';
- info.textContent='🆕 새 콘텐츠 공개: 「자동」은 콘텐츠 추가·수정 시 바로 표시, 「수동」은 관리자 승인 후 표시합니다. 기존 공개 콘텐츠는 그대로 유지됩니다. 공개 대기 자료만 「지금 공개」로 열 수 있습니다.';
- document.getElementById('swPolicyStatus')?.insertAdjacentElement('afterend',info);
- const state={course:'',policies:new Map(),pending:new Map(),busy:false,seq:0,lastError:''};
- const admin=()=>{const a=window.saywardAuth?.snapshot?.();return a?.authenticated&&a?.role==='admin'};
- const select=(table,fields,course)=>window.saywardAuth.requestDb({table,fields,filters:[['course',course]],limit:1000});
- function notice(message,error=false){info.textContent=message;info.style.background=error?'#fff1ed':'#f3f2ff';info.style.color=error?'#a23c33':'#51459b';}
- const escape=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- function display(){
-   const isCommon=document.getElementById('swModeCommon')?.classList.contains('sel');
-   const visible=isCommon&&admin();
-   info.hidden=!visible;
-   const boxes=[...list.querySelectorAll('.lesson-box')];
-   for(const box of boxes){
-     const input=box.querySelector('input[data-all]');const no=Number(input?.dataset.all);
-     if(!Number.isInteger(no)||no<1)continue;
-     let card=box.querySelector('.sw647-release-card');
-     if(!visible){if(card)card.hidden=true;continue;}
-     if(!card){card=document.createElement('div');card.className='sw647-release-card';box.appendChild(card);}
-     card.hidden=false;
-     const automatic=state.policies.has(no)?state.policies.get(no):true;
-     const pending=state.pending.get(no)||0;
-     const busy=state.busy||state.course!==courseEl.value;
-     card.innerHTML=`<div class="sw647-release-heading"><b>🆕 신규 콘텐츠 공개</b><small>${pending?'공개 대기 '+pending+'개':'기존 공개 자료 유지'}</small></div><div class="sw647-release-actions"><button type="button" data-sw647-mode="true" data-lesson="${no}" aria-pressed="${automatic}" ${busy?'disabled':''}>⚡ 자동 공개</button><button type="button" data-sw647-mode="false" data-lesson="${no}" aria-pressed="${!automatic}" ${busy?'disabled':''}>🔒 승인 후 공개</button><button type="button" class="sw647-release-open" data-sw647-publish="${no}" ${!pending||busy?'disabled':''}>대기 ${pending}개 공개</button></div>`;
-   }
+ const root=document.getElementById('swCategoryRelease');if(!root)return;
+ const rowsRoot=document.getElementById('swCategoryCards');
+ const feedback=document.getElementById('swCategoryMsg');
+ const reload=document.getElementById('swCategoryRefresh');
+ const categories=[['my','MY 수업'],['sori','소리영어'],['opic','OPIC'],['friends','Friends'],['day','단어 DAY']];
+ const state={rows:[],busy:false,epoch:0};
+ const auth=()=>window.saywardAuth?.snapshot?.()||{};
+ const isAdmin=()=>auth().authenticated && auth().role==='admin';
+ const request=(fn,body)=>window.saywardAuth.requestDb({table:'rpc/'+fn,method:'POST',body:body||{}});
+ const catName=id=>categories.find(v=>v[0]===id)?.[1]||id;
+ function note(txt,type='info'){
+   feedback.textContent=txt;feedback.dataset.status=type;
+ }
+ function render(){
+   const allowed=isAdmin();root.hidden=!allowed;if(!allowed)return;
+   reload.disabled=state.busy;
+   const complete=state.rows.length===categories.length;
+   const automatic=state.rows.filter(r=>r.auto_open===true).length;
+   document.getElementById('swCategorySummary').textContent=complete
+    ?`DB 적용: 자동 공개 ${automatic}개 · 승인 후 공개 ${categories.length-automatic}개`
+    :'DB 설정 확인 중';
+   rowsRoot.innerHTML=categories.map(([id,name])=>{
+     const row=state.rows.find(x=>x.category===id);
+     const hasData=!!row;
+     const auto=hasData && row.auto_open===true;
+     const manual=hasData && row.auto_open===false;
+     const pending=Math.max(0,Number(row?.pending||0));
+     const items=Math.max(0,Number(row?.pending_items||0));
+     const lessons=Math.max(0,Number(row?.pending_lessons_count||0));
+     const disabled=!hasData||state.busy?'disabled':'';
+     const b=(mode,label,selected)=>`<button type="button" class="sw650-choice${selected?' is-selected':''}" data-category="${id}" data-category-mode="${mode}" aria-pressed="${selected}" ${disabled}><span class="sw650-check" aria-hidden="true">${selected?'✓':''}</span>${label}</button>`;
+     return `<div class="sw650-row" data-category-row="${id}">
+       <div class="sw650-row-heading"><strong>${name}</strong><span class="sw650-state${manual?' is-manual':''}">${hasData?(auto?'● 자동 공개 적용 중':'● 승인 후 공개 적용 중'):'조회 중'}</span></div>
+       <div class="sw650-controls" role="group" aria-label="${name} 신규 콘텐츠 공개 설정">
+         ${b('auto','자동 공개',auto)}${b('manual','승인 후 공개',manual)}
+       </div>
+       <div class="sw650-meta"><span>대기 ${pending}건 <small>· 카드 ${items} / 신규 수업 ${lessons}</small></span><button type="button" class="sw650-publish" data-category-publish="${id}" ${!hasData||state.busy||!pending?'disabled':''}>대기 자료 공개</button></div>
+      </div>`;
+   }).join('');
  }
  async function refresh(){
-   if(!admin()){state.policies.clear();state.pending.clear();display();return;}
-   const course=courseEl.value,seq=++state.seq;state.course=course;state.busy=true;display();
+   if(!isAdmin()){state.rows=[];state.epoch++;render();return;}
+   const token=++state.epoch;state.busy=true;render();
    try{
-     const [settings,pending]=await Promise.all([
-       select('sayward_lesson_release_settings','course,lesson_no,auto_open',course),
-       select('sayward_pending_content','course,lesson_no,item_id,released_at',course)
-     ]);
-     if(seq!==state.seq||courseEl.value!==course)return;
-     state.policies=new Map(settings.map(x=>[Number(x.lesson_no),!!x.auto_open]));
-     state.pending=new Map();
-     for(const x of pending){if(x.released_at!==null)continue;const no=Number(x.lesson_no);state.pending.set(no,(state.pending.get(no)||0)+1);}
-     state.lastError='';notice('🆕 자동 공개: 새 콘텐츠가 즉시 표시됩니다. 승인 후 공개: 새 콘텐츠는 대기하며 관리자가 「대기 N개 공개」를 눌러야 표시됩니다. 기존 콘텐츠에는 영향이 없습니다.');
-   }catch(err){if(seq!==state.seq)return;state.lastError=String(err?.message||err);notice('공개 설정 DB 조회 실패 · '+state.lastError,true);}
-   finally{if(seq===state.seq){state.busy=false;display();}}
+     const rows=await request('sayward_admin_category_release_catalog');
+     if(token!==state.epoch)return;
+     if(!Array.isArray(rows)||rows.length!==categories.length||!categories.every(([id])=>rows.some(r=>r.category===id&&typeof r.auto_open==='boolean')))
+       throw Error('카테고리 5개 설정 조회 결과가 올바르지 않습니다.');
+     state.rows=rows;
+     note('✓ Supabase DB에서 저장된 공개 설정을 확인했습니다.','ok');
+   }catch(e){if(token===state.epoch){state.rows=[];note('DB 조회 실패 · '+String(e?.message||e),'error');}}
+   finally{if(token===state.epoch){state.busy=false;render();}}
  }
- async function setMode(no,auto){
-   if(state.busy||!admin())return;
-   const course=courseEl.value,old=state.policies.get(no)??true;
-   if(old===auto)return;
-   if(!auto&&!confirm(`${course.toUpperCase()} ${no}번 수업의 앞으로 추가·수정되는 콘텐츠를 승인 후 공개하시겠습니까?\n기존 공개 콘텐츠는 그대로 유지됩니다.`))return;
-   state.busy=true;display();
+ async function choose(id,newAuto){
+   if(!isAdmin()||state.busy)return;
+   const before=state.rows.find(r=>r.category===id);
+   if(!before||before.auto_open===newAuto)return;
+   if(!confirm(`${catName(id)} 카테고리의 신규 수업·콘텐츠를 '${newAuto?'자동 공개':'승인 후 공개'}'로 변경할까요?\n기존 공개 콘텐츠는 유지됩니다.`))return;
+   state.busy=true;render();note(`${catName(id)} 설정 DB 저장 및 검증 중…`,'info');
    try{
-     const uid=window.saywardAuth.snapshot().uid;
-     await window.saywardAuth.requestDb({table:'sayward_lesson_release_settings',method:'POST',onConflict:'course,lesson_no',body:{course,lesson_no:no,auto_open:auto,updated_by:uid,updated_at:new Date().toISOString()}});
-     const rows=await window.saywardAuth.requestDb({table:'sayward_lesson_release_settings',fields:'lesson_no,auto_open',filters:[['course',course],['lesson_no',no]]});
-     if(rows.length!==1||rows[0].auto_open!==auto)throw new Error('저장 후 재조회 불일치');
-     state.policies.set(no,auto);notice(`✅ ${course.toUpperCase()} ${no}번 수업 · ${auto?'새 콘텐츠 자동 공개':'새 콘텐츠 승인 후 공개'} 저장·재조회 완료`);
-   }catch(err){notice('❌ 공개 정책 저장 실패: '+String(err?.message||err),true);}
-   finally{state.busy=false;display();}
+     const result=await request('sayward_admin_set_category_release',{p_category:id,p_auto_open:newAuto});
+     if(result?.category!==id||result.auto_open!==newAuto)throw Error('DB 저장 응답 불일치');
+     const verified=await request('sayward_admin_category_release_catalog');
+     if(!Array.isArray(verified)||verified.length!==5||verified.find(r=>r.category===id)?.auto_open!==newAuto)
+       throw Error('저장 후 DB 재조회 검증 실패');
+     state.rows=verified;
+     note(`✓ ${catName(id)}: '${newAuto?'자동 공개':'승인 후 공개'}' 저장 완료 · DB 재조회 확인`,'ok');
+   }catch(e){note(`✕ ${catName(id)} 저장 실패 · ${String(e?.message||e)} · DB 다시 읽기로 확인해 주세요.`,'error');}
+   finally{state.busy=false;render();}
  }
- async function publish(no){
-   if(state.busy||!admin()||!(state.pending.get(no)>0))return;
-   const course=courseEl.value,count=state.pending.get(no);
-   if(!confirm(`${course.toUpperCase()} ${no}번 수업에서 공개 대기 중인 ${count}개 콘텐츠를 모든 승인 사용자에게 공개하시겠습니까?`))return;
-   state.busy=true;display();
+ async function publish(id){
+   if(!isAdmin()||state.busy)return;
+   const before=state.rows.find(r=>r.category===id);const pending=Number(before?.pending||0);
+   if(pending<1)return;
+   if(!confirm(`${catName(id)} 대기 자료 ${pending}건을 관리자 승인으로 공개할까요?`))return;
+   state.busy=true;render();note(`${catName(id)} 대기 자료 공개 중…`,'info');
    try{
-     const response=await window.saywardAuth.requestDb({table:'rpc/sayward_admin_release_lesson_content',method:'POST',body:{p_course:course,p_lesson:no}});
-     const released=Number(response?.released_count??response?.[0]?.released_count??0);
-     if(!Number.isFinite(released)||released!==count)throw new Error('공개 수와 대기 수가 다릅니다. DB를 다시 확인해 주세요.');
-     state.pending.set(no,0);
-     notice(`✅ ${course.toUpperCase()} ${no}번 수업 · 콘텐츠 ${released}개 공개 완료. 앱을 새로고침하면 표시됩니다.`);
+     const response=await request('sayward_admin_publish_category',{p_category:id});
+     if(response?.category!==id||response?.remaining!==0||
+        Number(response?.released_count||0)+Number(response?.released_lessons||0)!==pending)
+       throw Error('공개 건수 불일치');
+     const verified=await request('sayward_admin_category_release_catalog');
+     if(!Array.isArray(verified)||Number(verified.find(r=>r.category===id)?.pending)!==0)
+       throw Error('DB 재조회 시 승인 대기가 남아 있습니다');
+     state.rows=verified;
+     note(`✓ ${catName(id)}: 신규 수업 ${response.released_lessons}개, 카드 ${response.released_count}개 공개 완료`,'ok');
      window.dispatchEvent(new Event('sayward:visibility-refresh'));
-   }catch(err){notice('❌ 콘텐츠 공개 확인 실패: '+String(err?.message||err)+' · 다시 읽어 상태를 확인해 주세요.',true);}
-   finally{state.busy=false;display();}
+   }catch(e){note('✕ 공개 검증 실패 · '+String(e?.message||e)+' · DB 다시 읽기로 확인해 주세요','error');}
+   finally{state.busy=false;render();}
  }
- list.addEventListener('click',e=>{
-   const mode=e.target.closest('button[data-sw647-mode]');if(mode){e.preventDefault();e.stopPropagation();void setMode(Number(mode.dataset.lesson),mode.dataset.sw647Mode==='true');return;}
-   const pub=e.target.closest('button[data-sw647-publish]');if(pub){e.preventDefault();e.stopPropagation();void publish(Number(pub.dataset.sw647Publish));}
+ rowsRoot.addEventListener('click',e=>{
+   const mode=e.target.closest('button[data-category-mode]');
+   if(mode){void choose(mode.dataset.category,mode.dataset.categoryMode==='auto');return;}
+   const pub=e.target.closest('button[data-category-publish]');if(pub)void publish(pub.dataset.categoryPublish);
  });
- const mo=new MutationObserver(()=>display());
- mo.observe(list,{childList:true});
- courseEl.addEventListener('change',()=>{state.seq++;state.policies.clear();state.pending.clear();state.course='';setTimeout(()=>void refresh(),0)});
- for(const id of ['swPolicyReload','swModeCommon','swModeOverride','swModeAdmin','swStudioOpen'])document.getElementById(id)?.addEventListener('click',()=>setTimeout(()=>void refresh(),150));
- window.addEventListener('sayward:auth-state',()=>{if(!admin()){state.seq++;state.policies.clear();state.pending.clear();state.course='';display();}else void refresh();});
- window.saywardReleaseControls={refresh,status:()=>({course:state.course,count:state.pending.size,loading:state.busy})};
- setTimeout(()=>void refresh(),400);
+ reload.addEventListener('click',()=>void refresh());
+ for(const id of ['swStudioOpen','swPolicyReload','swStudioLiveBtn'])
+  document.getElementById(id)?.addEventListener('click',()=>setTimeout(()=>void refresh(),120));
+ window.addEventListener('sayward:auth-state',()=>{if(!isAdmin()){state.epoch++;state.rows=[];render();}else void refresh();});
+ window.addEventListener('sayward:auth-out',()=>{state.epoch++;state.rows=[];render();});
+ window.saywardCategoryRelease={refresh,status:()=>({count:state.rows.length,loading:state.busy,rows:state.rows.map(x=>({...x}))})};
+ render();setTimeout(()=>void refresh(),350);
 })();
 
 </script>
-<script id="sw647VersionSync">(()=>{const version='SAYWARD v6.4.7';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
+<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.10';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
 </body></html>
