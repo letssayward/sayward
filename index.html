@@ -1,12 +1,12 @@
-<!-- SAYWARD v6.4.3 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
-<!-- SAYWARD v6.4.3; v6.0 RC2 official baseline + live sentence stats + personal sync -->
+<!-- SAYWARD v6.4.6 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
+<!-- SAYWARD v6.4.6; v6.0 RC2 official baseline + live sentence stats + personal sync -->
 <!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.3 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.6 · Learning Dashboard</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -3714,6 +3714,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
     <section class="configSection">
       <div class="configSectionTitle">🔊 학습 모드 음성 설정</div>
       <div class="configRow"><div class="configCopy"><b>음성 읽기 속도</b><span>모든 영어·한국어 TTS에 공통 적용</span></div><select id="cfgSpeechRate" class="configSelect"><option value="0.8">0.8배</option><option value="0.9">0.9배</option><option value="1.0">1.0배</option><option value="1.1">1.1배</option><option value="1.2">1.2배</option><option value="1.3">1.3배</option><option value="1.5">1.5배</option></select></div>
+      <div class="configRow"><div class="configCopy"><b>🧩 문장 만들기·패턴 맞추기 정답 자동 듣기</b><span>답안 제출/선택 확인 후 자동 재생. 문장 만들기: 기준 문장 / 맞추기: 정답 패턴 → 기준 문장. 설정 횟수만큼 반복되며 계정별 DB에 동기화됩니다.</span></div><select id="cfgStudioAnswerRepeat" class="configSelect" aria-label="정답 자동 음성 반복 횟수"><option value="0">끔</option><option value="1">1회</option><option value="2">2회 (기본)</option><option value="3">3회</option><option value="5">5회</option></select></div>
       <div class="configRow"><div class="configCopy"><b>예문·패러프레이징 반복</b><span>학습 화면의 예문 듣기 반복 횟수</span></div><select id="cfgExampleRepeat" class="configSelect"><option value="1">1회</option><option value="2">2회</option><option value="3">3회</option><option value="4">4회</option><option value="5">5회</option></select></div>
       <div class="configRow"><div class="configCopy"><b>패턴 활용 예문 반복</b><span>패턴 활용 예문 각각의 읽기 횟수</span></div><select id="cfgPatternRepeat" class="configSelect"><option value="1">1회</option><option value="2">2회</option><option value="3">3회</option></select></div>
       <div class="configRow"><div class="configCopy"><b>Collocation 반복</b><span>각 Collocation의 읽기 횟수</span></div><select id="cfgCollocationRepeat" class="configSelect"><option value="1">1회</option><option value="2">2회</option><option value="3">3회</option></select></div>
@@ -7208,7 +7209,7 @@ const usedPattern=String(w.pattern||w.used_pattern||w.collocation||w.phrase||'')
 $('fav').textContent=favs.includes(w.word)?'★':'☆';$('fav').classList.toggle('is-favorite',favs.includes(w.word));updateLearningFavoriteButton();recordStudyView(w);if(AUTO.active)saveSelectedProgress();let st=stats[w.word];$('studyCountBadge').textContent='학습 '+(st.studyCount||0)+'회';let quizAttempts=(st.quizCorrect||0)+(st.quizWrong||0);$('learnQuizCountBadge').textContent='퀴즈 오답 '+(st.quizWrong||0)+'회 / 시도 '+quizAttempts+'회';let v=V[w.word]||{icon:'💬',phrase:w.collocation,ko:w.meaning,bg:'linear-gradient(135deg,#0891b2,#1d4ed8)'};$('visualScene').textContent=v.icon;$('memoryPhrase').textContent=v.phrase;$('memoryKo').textContent=v.ko;$('hero').style.background=v.bg;$('hero').classList.remove('flipped');st.lastSeen=Date.now();save();if(autoSpeak&&hasStarted&&!learningPlaybackPaused){updateAutoBadge();const scheduledKey=cardKey(w);requestAnimationFrame(()=>requestAnimationFrame(()=>{if(thisRender!==__renderVersion||cardKey(cur())!==scheduledKey)return;if(AUTO.active)autoReadAndAdvance(cur(),thisRender);else autoRead(cur(),thisRender)}))}}
 // Robust Web Speech API wrapper (Android Chrome / WebView friendly)
 const APP_SETTINGS_KEY='myVocaConfigurationV1';
-const APP_SETTINGS_DEFAULTS={speechRate:1.1,exampleRepeat:2,patternRepeat:1,collocationRepeat:1,synonymRepeat:1,recallDelay:3,sentenceRepeat:2,dayLoopSentenceRepeat:2,sentenceContinuous:true,sentencePause:700,wordReadRepeat:3,continuousStudyRepeat:1,quizWordRepeat:1,quizAutoNext:true,myClassAutoPlay:true,myClassSentenceRepeat:2,myClassPause:700,sentenceTrainedOnly:false};
+const APP_SETTINGS_DEFAULTS={speechRate:1.1,studioAnswerRepeat:2,exampleRepeat:2,patternRepeat:1,collocationRepeat:1,synonymRepeat:1,recallDelay:3,sentenceRepeat:2,dayLoopSentenceRepeat:2,sentenceContinuous:true,sentencePause:700,wordReadRepeat:3,continuousStudyRepeat:1,quizWordRepeat:1,quizAutoNext:true,myClassAutoPlay:true,myClassSentenceRepeat:2,myClassPause:700,sentenceTrainedOnly:false};
 function loadAppSettings(){
   try{return {...APP_SETTINGS_DEFAULTS,...JSON.parse(localStorage.getItem(APP_SETTINGS_KEY)||'{}')}}catch(e){return {...APP_SETTINGS_DEFAULTS}}
 }
@@ -11685,7 +11686,7 @@ function refreshHomeConfigSummary(){
 function fillConfigurationForm(){
   appSettings=loadAppSettings();
   const set=(id,v)=>{const el=$(id);if(el)el.value=String(v)};
-  set('cfgSpeechRate',appSettings.speechRate);set('cfgExampleRepeat',appSettings.exampleRepeat);set('cfgPatternRepeat',appSettings.patternRepeat);set('cfgCollocationRepeat',appSettings.collocationRepeat);set('cfgSynonymRepeat',appSettings.synonymRepeat);set('cfgRecallDelay',appSettings.recallDelay);set('cfgSentenceRepeat',appSettings.sentenceRepeat);set('cfgDayLoopSentenceRepeat',appSettings.dayLoopSentenceRepeat||2);set('cfgSentencePause',appSettings.sentencePause);set('cfgWordReadRepeat',appSettings.wordReadRepeat);set('cfgContinuousStudyRepeat',appSettings.continuousStudyRepeat);set('cfgQuizWordRepeat',appSettings.quizWordRepeat);set('cfgMyClassSentenceRepeat',appSettings.myClassSentenceRepeat||2);set('cfgMyClassPause',appSettings.myClassPause||700);
+  set('cfgStudioAnswerRepeat',appSettings.studioAnswerRepeat??2);set('cfgSpeechRate',appSettings.speechRate);set('cfgExampleRepeat',appSettings.exampleRepeat);set('cfgPatternRepeat',appSettings.patternRepeat);set('cfgCollocationRepeat',appSettings.collocationRepeat);set('cfgSynonymRepeat',appSettings.synonymRepeat);set('cfgRecallDelay',appSettings.recallDelay);set('cfgSentenceRepeat',appSettings.sentenceRepeat);set('cfgDayLoopSentenceRepeat',appSettings.dayLoopSentenceRepeat||2);set('cfgSentencePause',appSettings.sentencePause);set('cfgWordReadRepeat',appSettings.wordReadRepeat);set('cfgContinuousStudyRepeat',appSettings.continuousStudyRepeat);set('cfgQuizWordRepeat',appSettings.quizWordRepeat);set('cfgMyClassSentenceRepeat',appSettings.myClassSentenceRepeat||2);set('cfgMyClassPause',appSettings.myClassPause||700);
   if($('cfgSentenceContinuous'))$('cfgSentenceContinuous').checked=appSettings.sentenceContinuous!==false;
   if($('cfgQuizAutoNext'))$('cfgQuizAutoNext').checked=appSettings.quizAutoNext!==false;
   if($('cfgMyClassAutoPlay'))$('cfgMyClassAutoPlay').checked=appSettings.myClassAutoPlay!==false;
@@ -11902,7 +11903,7 @@ prepareSeparatedUsagePage();
 if($('openConfigBtn'))$('openConfigBtn').onclick=openConfiguration;
 if($('configBackBtn'))$('configBackBtn').onclick=closeConfiguration;
 if($('usageBackBtn'))$('usageBackBtn').onclick=closeUsagePage;
-if($('configSaveBtn'))$('configSaveBtn').onclick=()=>{saveAppSettings({speechRate:parseFloat($('cfgSpeechRate').value),exampleRepeat:parseInt($('cfgExampleRepeat').value),patternRepeat:parseInt($('cfgPatternRepeat').value),collocationRepeat:parseInt($('cfgCollocationRepeat').value),synonymRepeat:parseInt($('cfgSynonymRepeat').value),recallDelay:parseInt($('cfgRecallDelay').value),sentenceRepeat:parseInt($('cfgSentenceRepeat').value),dayLoopSentenceRepeat:parseInt($('cfgDayLoopSentenceRepeat').value),sentenceContinuous:$('cfgSentenceContinuous').checked,sentencePause:parseInt($('cfgSentencePause').value),wordReadRepeat:parseInt($('cfgWordReadRepeat').value),continuousStudyRepeat:parseInt($('cfgContinuousStudyRepeat').value),quizWordRepeat:parseInt($('cfgQuizWordRepeat').value),quizAutoNext:$('cfgQuizAutoNext').checked,myClassAutoPlay:$('cfgMyClassAutoPlay')?.checked!==false,myClassSentenceRepeat:parseInt($('cfgMyClassSentenceRepeat')?.value||'2'),myClassPause:parseInt($('cfgMyClassPause')?.value||'700'),sentenceTrainedOnly:$('cfgSentenceTrainedOnly')?.checked===true});if(typeof window.mvSentenceTrainedSettingsChanged5477==='function')window.mvSentenceTrainedSettingsChanged5477();else if(typeof window.mvSentenceTrainedSettingsChanged5476==='function')window.mvSentenceTrainedSettingsChanged5476();restoreConfigReturnState();showConfigSavedToast()};
+if($('configSaveBtn'))$('configSaveBtn').onclick=()=>{saveAppSettings({speechRate:parseFloat($('cfgSpeechRate').value),studioAnswerRepeat:parseInt($('cfgStudioAnswerRepeat').value,10),exampleRepeat:parseInt($('cfgExampleRepeat').value),patternRepeat:parseInt($('cfgPatternRepeat').value),collocationRepeat:parseInt($('cfgCollocationRepeat').value),synonymRepeat:parseInt($('cfgSynonymRepeat').value),recallDelay:parseInt($('cfgRecallDelay').value),sentenceRepeat:parseInt($('cfgSentenceRepeat').value),dayLoopSentenceRepeat:parseInt($('cfgDayLoopSentenceRepeat').value),sentenceContinuous:$('cfgSentenceContinuous').checked,sentencePause:parseInt($('cfgSentencePause').value),wordReadRepeat:parseInt($('cfgWordReadRepeat').value),continuousStudyRepeat:parseInt($('cfgContinuousStudyRepeat').value),quizWordRepeat:parseInt($('cfgQuizWordRepeat').value),quizAutoNext:$('cfgQuizAutoNext').checked,myClassAutoPlay:$('cfgMyClassAutoPlay')?.checked!==false,myClassSentenceRepeat:parseInt($('cfgMyClassSentenceRepeat')?.value||'2'),myClassPause:parseInt($('cfgMyClassPause')?.value||'700'),sentenceTrainedOnly:$('cfgSentenceTrainedOnly')?.checked===true});if(typeof window.mvSentenceTrainedSettingsChanged5477==='function')window.mvSentenceTrainedSettingsChanged5477();else if(typeof window.mvSentenceTrainedSettingsChanged5476==='function')window.mvSentenceTrainedSettingsChanged5476();restoreConfigReturnState();showConfigSavedToast()};
 if($('configResetBtn'))$('configResetBtn').onclick=()=>{appSettings={...APP_SETTINGS_DEFAULTS};localStorage.setItem(APP_SETTINGS_KEY,JSON.stringify(appSettings));setSpeechRate(appSettings.speechRate);fillConfigurationForm();syncContinuousStudyRepeatControl();refreshHomeConfigSummary()};
 if($('cfgPlaybackPositionReset'))$('cfgPlaybackPositionReset').onclick=()=>{
   if(!confirm('저장된 전체 재생 위치를 모두 처음으로 되돌릴까요?\n학습 선택과 다른 설정은 유지됩니다.'))return;
@@ -15842,7 +15843,7 @@ function installVisibleBuildBadge(){
   if(!badge){
     badge=document.createElement('div');
     badge.id='mvBuildBadge';
-    badge.textContent='v6.4.3';
+    badge.textContent='v6.4.4';
     badge.title='현재 실행 중인 MY VOCA 빌드';
     document.body.appendChild(badge);
   }
@@ -16261,6 +16262,43 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     return bar;
   }
 
+  /* v6.4.4: new lessons become selected AFTER both the authorized catalog and
+     the account preferences have loaded. A seen-ID ledger keeps explicit
+     unchecked choices unchecked, even when a lesson is refreshed. */
+  const LESSON_AUTO_KEYS={
+    my:'mv_myClassSelectedLessons',sori:STUDY_SELECT_KEYS.sori,
+    opic:STUDY_SELECT_KEYS.opic,friends:STUDY_SELECT_KEYS.friends
+  };
+  const autoSeenKey=mode=>'sw_seen_lessons_'+mode+'_v644';
+  function autoSelectNewLessons(mode){
+    const key=LESSON_AUTO_KEYS[mode];if(!key)return [];
+    const who=window.saywardAuth?.snapshot?.();
+    const prefs=window.saywardPreferenceSync?.status?.();
+    if(!who?.authenticated||!who.uid||prefs?.uid!==who.uid||prefs?.ready!==true)return [];
+    const visible=Object.keys(studyCourseMeta(mode)||{})
+      .map(Number).filter(n=>Number.isInteger(n)&&n>0)
+      .sort((a,b)=>a-b);
+    if(!visible.length)return [];
+    const ledger=autoSeenKey(mode),recorded=localStorage.getItem(ledger);
+    let known=[];
+    if(recorded!==null)known=readJson(ledger,[]).map(Number).filter(n=>Number.isInteger(n)&&n>0);
+    else {
+      // Upgrade existing users without rechecking deliberately unchecked lessons.
+      // OPIC 1–34 predate this feature; 35/36 are the first new DB lessons.
+      known=mode==='opic'?visible.filter(n=>n<=34):visible.slice();
+    }
+    const seen=new Set(known);
+    const added=visible.filter(n=>!seen.has(n));
+    if(added.length){
+      const was=readJson(key,[]).map(Number).filter(n=>Number.isInteger(n)&&n>0);
+      writeJson(key,[...new Set([...was,...added])].sort((a,b)=>a-b));
+    }
+    const next=[...new Set([...known,...visible])].sort((a,b)=>a-b);
+    if(recorded===null||JSON.stringify(readJson(ledger,[]))!==JSON.stringify(next))writeJson(ledger,next);
+    return added;
+  }
+  window.saywardAutoSelectNewLessons=autoSelectNewLessons;
+
   function ensureStandardCourseCheckbox(card,mode,id,label){
     if(!card)return null;
     let wrap=card.querySelector('.studySelectMini');
@@ -16567,6 +16605,8 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
   window.renderStudyRepeatParts206=renderStudyRepeatParts206;
 
   function syncSharedStudySelectionUI(mode=currentHomeStudyMode()){
+    // The catalog may arrive before (or after) the cloud preferences.
+    for(const course of ['my','sori','opic','friends'])autoSelectNewLessons(course);
     ensureSharedToolbar();
     normalizeMyCheckboxes();
     ensureSoriCheckbox();
@@ -17382,6 +17422,9 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
   window.studySelectionClearAll=studySelectionClearAll;
   window.studySelectionStart=studySelectionStart;
   window.syncSharedStudySelectionUI=syncSharedStudySelectionUI;
+  window.addEventListener('sayward:personal-sync-updated',()=>{
+    setTimeout(()=>syncSharedStudySelectionUI(currentHomeStudyMode()),0);
+  });
 
   setTimeout(initializeSharedSelection,220);
 
@@ -20692,8 +20735,8 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.3');
-  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.3';
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.6');
+  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.4';
   mv281SyncUI();
 },0);
 })();
@@ -20946,9 +20989,9 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.3')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.3'}catch(e){}
-  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.3'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.6')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.4'}catch(e){}
+  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.4'}catch(e){}
 },0);
 
 window.mvSwipeLifetimeAudit288=function(){
@@ -21118,9 +21161,9 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.3')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.3'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.3')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.6')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.4'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.4')}catch(e){}
   refreshPausedBrowseUI289();
 },0);
 
@@ -21354,10 +21397,10 @@ function navigate292(item){S292.lastTarget=item?.id||null;if(item.course==='day'
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v6.4.3 · Learning Dashboard'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.3')}catch(e){}
-  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.3'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.3')}catch(e){}
+  try{document.title='SAYWARD v6.4.6 · Learning Dashboard'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.6')}catch(e){}
+  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.4'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.4')}catch(e){}
 },0);
 window.mvUnifiedSearchAudit292=()=>({version:'v5.3.292',indexCount:buildIndex292().length,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'additive unified search only; existing playback/swipe/card logic unchanged'});
 })();
@@ -21650,7 +21693,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v6.4.3 · Learning Dashboard'}catch(e){}
+  try{document.title='SAYWARD v6.4.6 · Learning Dashboard'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -21671,7 +21714,7 @@ window.mvCleanAudit540=function(){
   const h=home(),bar=document.getElementById('sharedStudySelectBar');
   const cards=[...document.querySelectorAll('#homePage .myClassSection .myClassCard')].slice(0,4);
   return {
-    version:'v6.4.3',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
+    version:'v6.4.4',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
     sharedBar:!!bar,daySettings:!!document.getElementById('cleanDaySettings'),legacyModePanelVisible:!!document.getElementById('homeStudyModePanel')&&getComputedStyle(document.getElementById('homeStudyModePanel')).display!=='none',
     visibleSections:{day:getComputedStyle(document.querySelector('#homePage .daySection')||document.body).display,my:getComputedStyle(document.querySelector('#homePage .myClassSection')||document.body).display,sori:getComputedStyle(document.querySelector('#homePage .soriClassSection')||document.body).display,opic:getComputedStyle(document.querySelector('#homePage .opicClassSection')||document.body).display,friends:getComputedStyle(document.querySelector('#homePage .friendsClassSection')||document.body).display},
     myCards:cards.map(c=>({w:Math.round(c.getBoundingClientRect().width),h:Math.round(c.getBoundingClientRect().height)})),
@@ -21857,7 +21900,7 @@ window.mvCleanAudit540=function(){
 #cleanHeroMenuHit,#cleanHeroSearchHit{position:absolute!important;top:0!important;height:100%!important;width:18%!important;border:0!important;background:transparent!important;padding:0!important;z-index:8!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 #cleanHeroMenuHit{left:-5px!important} #cleanHeroSearchHit{right:0!important}
 #homePage .homeHero::before{
-  content:"v6.4.3"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
+  content:"v6.4.4"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
   min-width:54px!important;padding:2px 8px 3px!important;box-sizing:border-box!important;text-align:center!important;
   border:1.5px solid rgba(255,255,255,.92)!important;border-radius:999px!important;background:rgba(77,62,202,.96)!important;
   color:#fff!important;font-size:9px!important;line-height:1.1!important;font-weight:950!important;letter-spacing:.1px!important;
@@ -22767,7 +22810,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v6.4.3 · Learning Dashboard';
+  document.title='SAYWARD v6.4.6 · Learning Dashboard';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -22918,6 +22961,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     }
     for(const [n,row] of metaMap)homeCount(n,row.item_counts);
     ensureHomeRefreshButton();
+    try{window.syncSharedStudySelectionUI?.('my')}catch(e){console.warn('[MY selection sync]',e)}
     if(ACTIVE_STUDY_COURSE==='my'&&metaMap.has(Number(myClassLessonNo))){
       try{myClassUpdateHeader()}catch(e){}
     }
@@ -26248,10 +26292,22 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       });area.appendChild(button);
     }
   }
-  // v6.4.3: Match feedback uses the same clearly separated information-card order as TOEFL.
+  // v6.4.4: Match feedback uses the same clearly separated information-card order as TOEFL.
   // Pure DOM presentation: does not change answer validation, grading, IDs or DB writes.
   function renderMatchResult(p,entry){
     const el=g('sw5533MatchResult'),correct=entry.selected_id===p.pattern_id;
+    if(window.saywardUnifiedStudio?.renderFeedback){
+      window.saywardUnifiedStudio.renderFeedback(el,{
+        correct,correctLabel:'패턴을 정확하게 선택했습니다.',incorrectLabel:'패턴을 다시 복습해 보세요.',
+        summary:'정답 패턴: '+String(p.canonical_pattern||'—'),
+        cards:[
+          {label:'정답 패턴·의미',value:p.canonical_pattern,detail:p.pattern_ko,kind:'answer'},
+          {label:'공식 DB 기준 문장',value:p.example_en,kind:'reference'},
+          {label:'내가 선택한 패턴',value:entry.answer||'선택 기록 없음',kind:correct?'chosen':'wrong'},
+          {label:'이 예문에 사용된 표현·패턴',value:p.canonical_pattern,detail:p.pattern_ko,kind:'phrase'}
+        ]
+      });return;
+    }
     el.replaceChildren();
     const heading=document.createElement('strong');
     heading.className=correct?'sw5533-correct':'sw5533-incorrect';
@@ -26283,6 +26339,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     setText('sw5531KeyboardCounter',(state.index+1)+' / '+state.deck.length);
     setText('sw5531KeyboardText',p.example_ko);
     const isMatch=p.mode==='match';
+    window.saywardUnifiedStudio?.sync('pattern',isMatch,done);
     setText('sw5527Step',done?(isMatch?'패턴 정답 확인':'문장 차이 확인'):(isMatch?'패턴 맞추기':'영어 문장 작성'));
     g('sw5527Track').style.width=(100*state.index/state.deck.length).toFixed(1)+'%';
     setText('sw5533PromptLabel',isMatch?'한국어 문장에 맞는 목표 패턴을 고르세요':'이 문장을 영어로 만들어 보세요');
@@ -26314,6 +26371,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     if(done){if(isMatch)renderMatchResult(p,entry);else markDifferences(p,entry.answer);renderSelfRating(entry);} 
   }
   function selectDeck(){
+    window.saywardStudioAudio?.stop?.();
     if(!state.states||!state.latest){notice('학습 상태를 조회하지 못했습니다. 복습과 New 문장을 섞으려면 DB 재조회가 필요합니다.');return;}
     const {sentence,match}=counts(),targetCount=sentence+match;
     if(targetCount<1||targetCount>30){notice('문장 만들기와 패턴 맞추기를 합쳐 1~30개로 설정해 주세요. 현재 연습은 유지됩니다.');return;}
@@ -26453,7 +26511,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     if(state.uid===auth().uid&&state.patterns.length&&state.states&&state.latest){if(state.deck.length)render();else selectDeck();return;}
     void load();
   }
-  function close(){leaveKeyboardMode();if(state.saving){notice('연습 기록 저장 후 이동할 수 있습니다.');return;}++state.request;state.visible=false;saveDraft();view.classList.add('hidden');view.setAttribute('aria-hidden','true');window.speechSynthesis?.cancel?.();if(typeof goHome==='function')goHome();}
+  function close(){window.saywardStudioAudio?.stop?.();leaveKeyboardMode();if(state.saving){notice('연습 기록 저장 후 이동할 수 있습니다.');return;}++state.request;state.visible=false;saveDraft();view.classList.add('hidden');view.setAttribute('aria-hidden','true');window.speechSynthesis?.cancel?.();if(typeof goHome==='function')goHome();}
   const ratingLabels={recalled:'혼자 성공',review:'복습 필요',learned:'정답 확인 후 학습'};
   function renderSelfRating(entry){
     const status=g('sw5529RatingStatus'),saved=!!entry?.selfSaved;
@@ -26581,10 +26639,10 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
       state.results.set(state.index,{...prev,submitted:true,hintUsed:false,matchCorrect:prev.selected_id===p.pattern_id});
     }else{
       const answer=g('sw5527Answer').value.trim();state.results.set(state.index,{answer,submitted:true,hintUsed:!!prev.hintUsed});
-    }render();};
-  g('sw5527Retry').onclick=()=>{if(state.saving)return;const prev=state.results.get(state.index)||{};if(prev.practiceKey&&!prev.selfSaved){notice('저장 확인이 Pending입니다. 같은 평가를 다시 눌러 확인한 뒤 재작성해 주세요.');return;}const isMatch=state.deck[state.index]?.mode==='match';state.results.set(state.index,isMatch?{answer:'',selected_id:null,submitted:false,hintUsed:false}:{answer:prev.answer||'',submitted:false,hintUsed:!!prev.hintUsed});render();if(!isMatch)g('sw5527Answer').focus();};
-  g('sw5527Prev').onclick=()=>{if(state.saving)return;leaveKeyboardMode();saveDraft();state.index=Math.max(0,state.index-1);render();};
-  g('sw5527Next').onclick=()=>{if(state.saving)return;leaveKeyboardMode();saveDraft();state.index++;render();};
+    }render();window.saywardStudioAudio?.play?.(p.mode==='match'?'match':'sentence',p.canonical_pattern,p.example_en);};
+  g('sw5527Retry').onclick=()=>{if(state.saving)return;window.saywardStudioAudio?.stop?.();const prev=state.results.get(state.index)||{};if(prev.practiceKey&&!prev.selfSaved){notice('저장 확인이 Pending입니다. 같은 평가를 다시 눌러 확인한 뒤 재작성해 주세요.');return;}const isMatch=state.deck[state.index]?.mode==='match';state.results.set(state.index,isMatch?{answer:'',selected_id:null,submitted:false,hintUsed:false}:{answer:prev.answer||'',submitted:false,hintUsed:!!prev.hintUsed});render();if(!isMatch)g('sw5527Answer').focus();};
+  g('sw5527Prev').onclick=()=>{if(state.saving)return;window.saywardStudioAudio?.stop?.();leaveKeyboardMode();saveDraft();state.index=Math.max(0,state.index-1);render();};
+  g('sw5527Next').onclick=()=>{if(state.saving)return;window.saywardStudioAudio?.stop?.();leaveKeyboardMode();saveDraft();state.index++;render();};
   window.saywardPatternSwipeNavigate=delta=>{
     if(!state.visible||state.saving||!state.deck.length)return false;
     if(delta<0){if(state.index===0)return false;g('sw5527Prev').click();}
@@ -27447,7 +27505,7 @@ window.sw545ResumeAudit=()=>({version:'6.1.9',behavior:behavior(),overall:jparse
 })();
 </script>
 <script id="sayward-personal-cloud-sync-v601">
-/* SAYWARD v6.4.3 — Account preferences cloud sync with confirmed final-value writes.
+/* SAYWARD v6.4.6 — Account preferences cloud sync with confirmed final-value writes.
  * Only allowlisted, non-secret localStorage preferences are synchronized.
  * Official grades/history/learning state and server catalogs are NEVER modified.
  */
@@ -27462,6 +27520,8 @@ const ALLOWED=new Set([
   'mv_unified_selectedStudyDays','mv_unified_selectedStudyRepeat','mv_unified_selectedStudyMode',
   'mv_myClassSelectedLessons','mv_studySelected_my','mv_studySelected_opic',
   'mv_studySelected_sori','mv_studySelected_friends',
+  'sw_seen_lessons_my_v644','sw_seen_lessons_sori_v644',
+  'sw_seen_lessons_opic_v644','sw_seen_lessons_friends_v644',
   'mv_myClassFullRepeat','mv_allRepeat209','mv_myClassQuizLesson',
   'mv_homeStudyMode212','mv_mainHomeStudyMode540',
   'mv_unified_order','mv_unified_speech','mv_unified_quizFilterMode',
@@ -27894,7 +27954,7 @@ window.saywardPreferenceSync={version:'6.1.9',supportedKeys:()=>[...ALLOWED],sta
 .swPrefPersistIndicator{font-size:12px;line-height:1.5;color:#64748b;margin-top:6px;min-height:16px}
 
 
-/* v6.4.3 shared matching result format: TOEFL card hierarchy is the visual standard. */
+/* v6.4.4 shared matching result format: TOEFL card hierarchy is the visual standard. */
 #sw5527PracticePage .sw5527-reveal.swStudio-is-match-result{background:transparent;border:0;box-shadow:none;padding:0;margin-top:14px}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result{font-size:14px;color:#34465d;line-height:1.7;overflow-wrap:anywhere}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result>strong{font-size:17px;line-height:1.55;display:block;margin:0 0 10px}
@@ -28086,7 +28146,7 @@ function restoreCard(){
  id('swWordAnswer').value=saved.answer||'';
  selectedChoice=saved.selected||null;
  renderChoices(current());
- if(saved.shown){reveal();} // Answer and hint were already explicitly disclosed on this card.
+ if(saved.shown){reveal(false);} // Restore display only: no duplicate automatic playback.
  if(saved.hinted){
    hinted=true;
    id('swWordHintBlock').hidden=false;
@@ -28100,12 +28160,14 @@ function restoreCard(){
 }
 function moveCard(delta){
  if(busy||loading||!deck.length||pendingSubmission)return false;
+ window.saywardStudioAudio?.stop?.();
  const n=idx+delta;
  if(n<0||n>=deck.length)return false;
  captureCard();idx=n;renderCard();return true;
 }
-function renderCard(){const c=current();updateSummary();if(!c){id('swWordExercise').hidden=true;id('swWordProgress').hidden=true;setStatus('출제 가능한 한국어 예문이 없습니다. DAY 선택과 콘텐츠 준비 상태를 확인해 주세요.');return;}
+function renderCard(){window.saywardStudioAudio?.stop?.();const c=current();updateSummary();if(!c){id('swWordExercise').hidden=true;id('swWordProgress').hidden=true;setStatus('출제 가능한 한국어 예문이 없습니다. DAY 선택과 콘텐츠 준비 상태를 확인해 주세요.');return;}
  id('swWordExercise').hidden=false;resetCard();const w=c.content||{},state=progress.get(c.item_id),wordMode=c.exerciseMode==='word_pattern';
+ window.saywardUnifiedStudio?.sync('word',wordMode,false);
  id('swWordCounter').textContent=`${idx+1} / ${deck.length}`;id('swWordProgress').hidden=false;id('swWordProgressText').textContent=`${idx+1} / ${deck.length}`;id('swWordProgressBar').style.width=`${Math.min(100,100*(idx+1)/Math.max(1,deck.length))}%`;
  // Never expose answer word or its Korean meaning in the question header.
  id('swWordHead').textContent=`DAY ${c.day_no} · ${modeName(c.exerciseMode)}`;
@@ -28152,9 +28214,10 @@ function collectAnswer(){const c=current();if(!c)return null;
  }
  return id('swWordAnswer').value.trim()||null;
 }
-function reveal(){const c=current();if(!c||shown)return;const answer=collectAnswer();
+function reveal(autoPlay=true){const c=current();if(!c||shown)return;const answer=collectAnswer();
  if(!answer){setStatus(c.exerciseMode==='word_pattern'?'4개 보기 중 단어·패턴 조합을 하나 선택해 주세요.':'먼저 직접 영어 문장을 작성해 주세요.',true);return;}
  shown=true;const w=c.content||{};
+ window.saywardUnifiedStudio?.sync('word',c.exerciseMode==='word_pattern',true);
  id('swWordReveal').hidden=false;id('swWordRating').hidden=false;id('swWordAnswerInfo').hidden=false;id('swWordShow').hidden=true;
  id('swWordEnglish').textContent=safe(w.example);id('swWordMine').textContent=answer;
  const matched=c.exerciseMode==='word_pattern';
@@ -28164,15 +28227,29 @@ function reveal(){const c=current();if(!c||shown)return;const answer=collectAnsw
   renderChoices(c);
   const correct=selectedChoice===c.item_id;
   const result=id('swWordMatchResult');result.replaceChildren();
-  const heading=document.createElement('strong');heading.className=correct?'sw5533-correct':'sw5533-incorrect';heading.textContent=correct?'✓ 단어·패턴 조합을 정확하게 선택했습니다.':'↻ 단어·패턴 조합을 다시 복습해 보세요.';
-  const note=document.createElement('p');note.textContent='정답: '+safe(w.word)+'  |  패턴: '+safe(w.phrase);
-  result.append(heading,note);
+  const selectedOption=c.options?.find(o=>o.item_id===selectedChoice);
+  if(window.saywardUnifiedStudio?.renderFeedback){
+    window.saywardUnifiedStudio.renderFeedback(result,{
+      correct,correctLabel:'단어·패턴 조합을 정확하게 선택했습니다.',incorrectLabel:'단어·패턴 조합을 다시 복습해 보세요.',
+      summary:'정답: '+safe(w.word)+' | 패턴: '+safe(w.phrase),
+      cards:[
+        {label:'정답 단어·뜻',value:w.word,detail:w.meaning||w.ko,kind:'answer'},
+        {label:'TOEFL DAY 기준 문장',value:w.example,kind:'reference'},
+        {label:'내가 선택한 단어·패턴',value:selectedOption?(safe(selectedOption.word)+' / '+safe(selectedOption.phrase)):'선택 기록 없음',kind:correct?'chosen':'wrong'},
+        {label:'이 예문에 사용된 표현·패턴',value:w.phrase,detail:w.patternMeaning,kind:'phrase'}
+      ]
+    });
+  }else{
+    const heading=document.createElement('strong');heading.className=correct?'sw5533-correct':'sw5533-incorrect';heading.textContent=correct?'✓ 단어·패턴 조합을 정확하게 선택했습니다.':'↻ 단어·패턴 조합을 다시 복습해 보세요.';
+    const note=document.createElement('p');note.textContent='정답: '+safe(w.word)+'  |  패턴: '+safe(w.phrase);result.append(heading,note);
+  }
   id('swWordRating').querySelector('[data-rating="recalled"]').disabled=!correct;
  }
  id('swWordAnswerWord').textContent=safe(w.word);id('swWordAnswerMeaning').textContent=safe(w.meaning||w.ko);
  id('swWordPatternText').textContent=safe(w.phrase);id('swWordPatternKo').textContent=safe(w.patternMeaning||'');id('swWordPattern').hidden=false;
  for(const k of ['swWordAnswer','swWordHint','swWordShow'])id(k).disabled=true;
  setStatus(matched?(selectedChoice===c.item_id?'정답을 맞혔습니다. 자기평가 후 저장해 주세요.':'선택한 조합이 정답과 다릅니다. 복습 필요 또는 정답 보고 학습을 선택해 주세요.'):'작성한 문장과 기준 문장을 비교하고 자기평가해 주세요.');
+ if(autoPlay===true)window.saywardStudioAudio?.play?.(matched?'match':'sentence',w.phrase,w.example);
 }
 async function fetchData(){const a=auth();if(!a){setStatus('SAYWARD 로그인 후 이용할 수 있습니다.',true);throw Error('AUTH_REQUIRED');}const token=++ticket;uid=a.uid;loading=true;updateCountUI();setStatus('TOEFL DAY와 개인 학습 상태를 불러오는 중…');
  try{
@@ -28206,7 +28283,7 @@ async function saveDays(){if(loading||busy)return;const a=auth();if(!a){setStatu
  }catch(e){setStatus('DAY는 기기에 저장됐지만 DB 동기화를 확인하지 못했습니다. Config에서 「지금 동기화」를 실행해 주세요.',true);if(selected.size)try{await fetchSelected(serial,a)}catch(_){};toggleScope(false);}
  finally{busy=false;id('swWordSaveDays').disabled=false;updateCountUI();}
 }
-function next(){if(busy||pendingSubmission)return;
+function next(){if(busy||pendingSubmission)return;window.saywardStudioAudio?.stop?.();
  if(idx+1<deck.length){moveCard(1);}else{captureCard();deck=[];cardSnapshots.clear();id('swWordExercise').hidden=true;id('swWordProgress').hidden=true;setStatus('선택한 문제를 마쳤습니다. 「새 문제 출제」로 다시 시작하세요.');}}
 async function grade(value){if(busy||!shown||!current())return;const a=auth(),c=current();if(c.exerciseMode==='word_pattern'&&selectedChoice!==c.item_id&&value==='recalled'){setStatus('오답 보기 선택은 혼자 성공으로 저장할 수 없습니다. 복습 필요 또는 정답 보고 학습을 선택해 주세요.',true);return;}if(!a||uid!==a.uid){setStatus('로그인 계정이 변경되었습니다. 다시 불러와 주세요.',true);return;}const answer=id('swWordMine').textContent.trim();if(!pendingSubmission){const key=window.crypto?.randomUUID?.();if(!key){setStatus('보안 환경(HTTPS)에서 다시 시도해 주세요.',true);return;}pendingSubmission={key,rating:value,answer,hinted};}
  const {key,rating}=pendingSubmission; if(rating!==value)setStatus('앞선 저장 결과가 불확실하므로 최초 선택한 평가로 다시 확인합니다.');
@@ -28246,10 +28323,10 @@ async function startMakeup(ids){
  finally{if(version===ticket){loading=false;updateCountUI();}}
 }
 function open(){const a=auth();if(!a){document.querySelector('[data-drawer-action="accountLogin"]')?.click();return;}id('swWordPage').hidden=false;id('swWordNext').hidden=true;toggleScope(false);if(window.saywardPreferenceSync?.status?.().ready)void window.saywardPreferenceSync.sync();void fetchData().catch(()=>{});}
-function close(){ticket++;id('swWordPage').hidden=true;toggleScope(false);busy=false;editing=false;cardSnapshots.clear();}
+function close(){window.saywardStudioAudio?.stop?.();ticket++;id('swWordPage').hidden=true;toggleScope(false);busy=false;editing=false;cardSnapshots.clear();}
 function init(){for(const name of ['swWordSentenceCount','swWordMatchCount']){const el=id(name);for(let n=0;n<=30;n++){const opt=document.createElement('option');opt.value=String(n);opt.textContent=n+'개';el.appendChild(opt);}}const defaults=readCounts();id('swWordSentenceCount').value=String(defaults.sentence);id('swWordMatchCount').value=String(defaults.word_pattern);updateCountUI();const drawer=document.querySelector('[data-drawer-action="patternSentence"]');if(drawer&&!document.querySelector('[data-drawer-action="wordSentence"]'))drawer.insertAdjacentHTML('afterend','<button class="drawerItem" data-drawer-action="wordSentence" type="button"><span class="drawerIcon">📘</span><span class="drawerItemText">단어 문장 만들기<small>TOEFL · 선택한 DAY · 앱 전용 자기평가</small></span></button>');
  document.addEventListener('click',e=>{if(e.target?.closest?.('[data-drawer-action="wordSentence"]'))open();});
- id('swWordClose').addEventListener('click',close);id('swWordSettingsToggle').addEventListener('click',()=>toggleScope(id('swWordSettings').hidden));id('swWordMix').value=String(readMix());id('swWordMix').addEventListener('change',persistMix);id('swWordQuickDays').addEventListener('click',()=>{draft=new Set(units.filter(x=>x.day_no<=3).map(x=>x.day_no));editing=true;renderDayList();});id('swWordClearDays').addEventListener('click',()=>{draft.clear();editing=true;renderDayList();});id('swWordSaveDays').addEventListener('click',()=>void saveDays());id('swWordNew').addEventListener('click',()=>{if(!busy)buildDeck();});id('swWordHint').addEventListener('click',showPattern);id('swWordShow').addEventListener('click',reveal);id('swWordPrev').addEventListener('click',()=>moveCard(-1));id('swWordNext').addEventListener('click',()=>next());id('swWordRetry').addEventListener('click',()=>void fetchData().catch(()=>{}));document.addEventListener('pointerdown',e=>{if(!id('swWordSettings').hidden&&!e.target.closest('#swWordScopeField')&&!e.target.closest('.swWordScopeField'))toggleScope(false);});id('swWordSettings').addEventListener('keydown',e=>{if(e.key==='Escape'){toggleScope(false);id('swWordSettingsToggle').focus();}});for(const name of ['swWordSentenceCount','swWordMatchCount'])id(name).addEventListener('change',()=>{if(!busy)persistCounts();});
+ id('swWordClose').addEventListener('click',close);id('swWordSettingsToggle').addEventListener('click',()=>toggleScope(id('swWordSettings').hidden));id('swWordMix').value=String(readMix());id('swWordMix').addEventListener('change',persistMix);id('swWordQuickDays').addEventListener('click',()=>{draft=new Set(units.filter(x=>x.day_no<=3).map(x=>x.day_no));editing=true;renderDayList();});id('swWordClearDays').addEventListener('click',()=>{draft.clear();editing=true;renderDayList();});id('swWordSaveDays').addEventListener('click',()=>void saveDays());id('swWordNew').addEventListener('click',()=>{if(!busy)buildDeck();});id('swWordHint').addEventListener('click',showPattern);id('swWordShow').addEventListener('click',()=>reveal(true));id('swWordPrev').addEventListener('click',()=>moveCard(-1));id('swWordNext').addEventListener('click',()=>next());id('swWordRetry').addEventListener('click',()=>void fetchData().catch(()=>{}));document.addEventListener('pointerdown',e=>{if(!id('swWordSettings').hidden&&!e.target.closest('#swWordScopeField')&&!e.target.closest('.swWordScopeField'))toggleScope(false);});id('swWordSettings').addEventListener('keydown',e=>{if(e.key==='Escape'){toggleScope(false);id('swWordSettingsToggle').focus();}});for(const name of ['swWordSentenceCount','swWordMatchCount'])id(name).addEventListener('change',()=>{if(!busy)persistCounts();});
  id('swWordRating').querySelectorAll('[data-rating]').forEach(b=>b.addEventListener('click',()=>void grade(b.dataset.rating)));
  window.addEventListener('sayward:auth-out',()=>{close();uid='';rows=[];deck=[];units=[];progress.clear();selected.clear();draft.clear();});
  window.addEventListener('sayward:personal-sync-updated',e=>{if(e.detail?.uid!==auth()?.uid)return;wordPrefText('✓ 계정 DB 설정 불러오기 완료');const nextCounts=readCounts();if(!busy){id('swWordSentenceCount').value=String(nextCounts.sentence);id('swWordMatchCount').value=String(nextCounts.word_pattern);id('swWordMix').value=String(readMix());updateCountUI();}if(!editing){const known=new Set(units.map(u=>u.day_no));const oldDays=[...selected].sort((a,b)=>a-b).join(',');selected=new Set(readSelection().filter(x=>known.has(x)));draft=new Set(selected);renderDayList();
@@ -28568,7 +28645,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-swipe-v642">
-/* SAYWARD v6.4.3 — shared navigation gesture.
+/* SAYWARD v6.4.6 — shared navigation gesture.
  * Browser back edges, vertical scrolling, fields and interactive controls are reserved.
  * No grading, Supabase or study-state writes happen in the gesture layer.
  */
@@ -28644,7 +28721,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-admin-learning-js">
-/* SAYWARD v6.4.3: secure admin-only, read-only member learning dashboard.
+/* SAYWARD v6.4.6: secure admin-only, read-only member learning dashboard.
  * All cross-user data MUST come from sayward_admin_learning_read RPC after DB admin verification.
  * No raw cross-user table queries; no write calls. */
 (function(){'use strict';
@@ -28702,6 +28779,213 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  get('sw643Search').addEventListener('input',renderMembers);
  root.addEventListener('click',e=>{const b=e.target.closest('[data-sw643-tab]');if(b)selectTab(b.dataset.sw643Tab)});
  showIfAdmin();
+})();
+
+</script>
+
+<style id="sw-unified-studio-css-v645">
+/* v6.4.5: shared component stylesheet — both study engines use the same view tokens/layout. */
+.swUnifiedPage{--swu-ink:#18253d;--swu-primary:#5744ae;--swu-border:#e3e5ef;--swu-muted:#6e778c;--swu-bg:#f5f6fc;--swu-soft:#f7f8fc;--swu-radius:22px;color:var(--swu-ink);font-family:inherit}
+.swUnifiedPage [hidden]{display:none!important}
+.swUnifiedPage .swStudio-shell{max-width:940px!important;width:min(100% - 24px,940px)!important;margin:0 auto!important;padding:18px 0 32px!important;box-sizing:border-box}
+.swUnifiedPage .swUnifiedHeader{display:flex!important;gap:14px!important;align-items:center!important;margin:0 0 18px!important;padding:4px 0!important;min-height:76px}
+.swUnifiedPage .swUnifiedHeader h1,.swUnifiedPage .swUnifiedHeader h2{font-size:clamp(23px,3.4vw,28px)!important;line-height:1.25!important;font-weight:800!important;color:var(--swu-ink)!important;margin:3px 0!important}
+.swUnifiedPage .swUnifiedHeader button{width:48px!important;height:48px!important;border-radius:15px!important;background:#fff!important;border:1px solid var(--swu-border)!important;box-shadow:0 4px 18px rgba(42,38,70,.06)!important;color:var(--swu-ink)!important;flex:0 0 48px!important;cursor:pointer}
+.swUnifiedPage .swUnifiedHeader .sw5527-eyebrow,.swUnifiedPage .swUnifiedHeader .swWordTag{font-size:11px!important;color:#68618e!important;font-weight:700!important;letter-spacing:.05em!important}
+.swUnifiedPage .swUnifiedHeader p,.swUnifiedPage .swWordSubtitle{color:var(--swu-muted)!important;font-size:13px!important;font-weight:500!important;margin:4px 0 0!important}
+.swUnifiedPage .swUnifiedFilters,.swUnifiedPage .swUnifiedQuestion{background:#fff!important;border:1px solid var(--swu-border)!important;border-radius:var(--swu-radius)!important;box-shadow:0 7px 28px rgba(50,44,85,.055)!important;padding:clamp(16px,2.3vw,22px)!important;box-sizing:border-box!important}
+.swUnifiedPage .swUnifiedFilters{margin-bottom:24px!important}
+.swUnifiedPage .swUnifiedFilters .sw5527-filter-line,.swUnifiedPage .swUnifiedFilters .swWordFilterLine{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+.swUnifiedPage .swUnifiedFilters select,.swUnifiedPage .swWordSelectTrigger{min-height:45px!important;border:1px solid var(--swu-border)!important;border-radius:12px!important;background:var(--swu-soft)!important;font-size:14px!important;color:var(--swu-ink)!important;box-sizing:border-box!important;width:100%!important}
+.swUnifiedPage .sw5533-toolbar{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr)) minmax(145px,1fr)!important;gap:10px!important;align-items:end!important;margin:12px 0 8px!important}
+.swUnifiedPage .sw5533-toolbar-item{min-width:0!important;box-sizing:border-box!important}
+.swUnifiedPage .sw5533-toolbar-label{font-size:13px!important;font-weight:700!important}
+.swUnifiedPage .sw5533-toolbar button,.swUnifiedPage .sw5533-toolbar #sw5527Shuffle,.swUnifiedPage .sw5533-toolbar #swWordNew{width:100%!important;min-height:47px!important;border:0!important;border-radius:12px!important;background:var(--swu-primary)!important;color:white!important;font-weight:800!important;padding:10px!important}
+.swUnifiedPage .sw5533-total{background:#f2effb!important;border:1px solid #e9e2fb!important;border-radius:11px!important;padding:8px 12px!important;font-size:13px!important;color:#50426d!important;font-weight:700!important;margin:5px 0!important}
+.swUnifiedPage .swUnifiedProgressMeta{display:flex!important;justify-content:space-between!important;align-items:center!important;margin:0 3px 8px!important;color:#534b86!important;font-weight:800!important;font-size:14px!important}
+.swUnifiedPage .swUnifiedProgressTrack{height:7px!important;border-radius:10px!important;background:#e6e3f0!important;overflow:hidden!important;margin:0 0 19px!important}
+.swUnifiedPage .swUnifiedProgressTrack > div{height:100%!important;border-radius:10px!important;background:linear-gradient(90deg,#6253b5,#957bd3)!important}
+.swUnifiedPage .swWordProgress{padding:0!important;border:0!important;margin-bottom:0!important;background:transparent!important}
+.swUnifiedPage .swUnifiedQuestion{margin-bottom:14px!important}
+.swUnifiedPage .sw5527-meta,.swUnifiedPage .swWordBar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;margin:0 0 12px!important}
+.swUnifiedPage .sw5527-label,.swUnifiedPage .swWordBar #swWordHead{display:inline-flex!important;color:#59498d!important;background:#f1edfa!important;border-radius:999px!important;padding:5px 9px!important;font-size:12px!important;font-weight:800!important}
+.swUnifiedPage .sw5527-state,.swUnifiedPage #swWordCurrentState{font-size:12px!important;color:#725570!important;background:#f8f1f6!important;padding:5px 9px!important;border-radius:999px!important}
+.swUnifiedPage .sw5527-caption,.swUnifiedPage #swWordQuestionInstruction,.swUnifiedPage .sw5533-match-help{font-size:13px!important;color:var(--swu-muted)!important;font-weight:650!important;margin-bottom:12px!important}
+.swUnifiedPage .swUnifiedPrompt{font-size:clamp(19px,2.6vw,24px)!important;font-weight:850!important;line-height:1.5!important;letter-spacing:-.025em!important;color:var(--swu-ink)!important;margin:13px 0 18px!important;white-space:pre-wrap!important}
+.swUnifiedPage .swUnifiedChoices{margin:10px 0 0!important}
+.swUnifiedPage .sw5533-match-options{display:grid!important;grid-template-columns:1fr!important;gap:10px!important}
+.swUnifiedPage .sw5533-match-choice{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;width:100%!important;min-height:64px!important;text-align:left!important;border:1px solid #d9dce8!important;border-radius:15px!important;background:#fafaff!important;color:#29364b!important;padding:13px 16px!important;font-size:15px!important;line-height:1.45!important;font-weight:780!important;box-shadow:none!important;white-space:normal!important;overflow-wrap:anywhere!important;cursor:pointer}
+.swUnifiedPage .sw5533-match-choice .swWordMatchWord{font-weight:800!important;font-size:15px!important;color:inherit!important}
+.swUnifiedPage .sw5533-match-choice .swWordMatchPhrase{font-size:12px!important;opacity:.82!important;color:inherit!important;margin-top:2px!important}
+.swUnifiedPage .sw5533-match-choice.is-selected,.swUnifiedPage .sw5533-match-choice[aria-pressed=true]{background:#f0eafd!important;border:2px solid #7362b4!important;padding:12px 15px!important}
+.swUnifiedPage .sw5533-match-choice.is-correct{background:#e9f6ee!important;border:2px solid #399876!important;color:#175f47!important}
+.swUnifiedPage .sw5533-match-choice.is-wrong{background:#fff0f1!important;border:2px solid #d87d84!important;color:#8b363f!important}
+.swUnifiedPage .swUnifiedAnswer,.swUnifiedPage .swWordTextarea{width:100%!important;min-height:126px!important;resize:vertical!important;border:1px solid var(--swu-border)!important;background:#fafaff!important;border-radius:14px!important;padding:14px!important;box-sizing:border-box!important;font-size:16px!important;line-height:1.5!important;color:var(--swu-ink)!important}
+.swUnifiedPage .swUnifiedSubmit{display:flex!important;gap:10px!important;align-items:center!important;justify-content:flex-end!important;margin:14px 0 4px!important;flex-wrap:wrap!important}
+.swUnifiedPage .swUnifiedPrimary{min-height:50px!important;min-width:160px!important;flex:1 1 220px!important;border-radius:13px!important;padding:12px 18px!important;border:0!important;background:var(--swu-primary)!important;color:#fff!important;font-weight:800!important;font-size:15px!important;cursor:pointer}
+.swUnifiedPage .swUnifiedSubmit #swWordHint{background:#f2effb!important;color:#615096!important;border:1px solid #e2ddf0!important;min-height:50px!important;border-radius:13px!important}
+.swUnifiedPage .swUnifiedReveal{margin:22px 0 8px!important;padding:0!important;background:none!important;border:none!important;box-shadow:none!important}
+.swUnifiedPage .swStudioFeedbackCard,.swUnifiedPage .swWordReference,.swUnifiedPage .sw5527-reference-head,.swUnifiedPage .sw5528-insight{border-radius:15px!important;background:#f8f9fc!important;border:0!important;padding:16px!important;margin:12px 0!important;box-shadow:none!important;box-sizing:border-box!important}
+.swUnifiedPage .swStudioFeedbackCard .swStudioFeedbackLabel,.swUnifiedPage .swWordReference > b,.swUnifiedPage .sw5527-reference-caption{font-size:12px!important;color:#4a566c!important;font-weight:800!important;display:block!important;margin-bottom:8px!important}
+.swUnifiedPage .swStudioFeedbackCard .swStudioFeedbackValue,.swUnifiedPage .swWordReference > p{font-size:16px!important;line-height:1.55!important;margin:4px 0!important;font-weight:650!important;color:var(--swu-ink)!important}
+.swUnifiedPage .swStudioFeedbackCard .swStudioFeedbackDetail{font-size:13px!important;color:var(--swu-muted)!important;margin-top:7px!important}
+.swUnifiedPage .swStudioFeedbackCard.swStudioFeedback-answer{border-left:3px solid #2c76cc!important}
+.swUnifiedPage .swStudioFeedbackCard.swStudioFeedback-phrase{border-left:3px solid #d25ce4!important}
+.swUnifiedPage .swStudioFeedbackCard.swStudioFeedback-chosen{border-left:3px solid #4b9f86!important}
+.swUnifiedPage .swStudioFeedbackCard.swStudioFeedback-wrong{border-left:3px solid #d88387!important}
+.swUnifiedPage .sw5533-match-result{margin:6px 0 18px!important;display:block!important}
+.swUnifiedPage .sw5533-match-result strong{font-size:16px!important;line-height:1.45!important;display:block!important;margin:10px 0!important}
+.swUnifiedPage .swStudioFeedbackSummary{font-size:13px!important;line-height:1.5!important;color:#51617c!important;margin-bottom:12px!important}
+.swUnifiedPage .swUnifiedRating{background:#f8f9fc!important;border:1px solid var(--swu-border)!important;border-radius:16px!important;padding:18px!important;margin:18px 0!important;box-sizing:border-box!important}
+.swUnifiedPage .swUnifiedRating h3{font-size:18px!important;margin:0 0 10px!important;font-weight:800!important;color:var(--swu-ink)!important}
+.swUnifiedPage .swUnifiedRating p,.swUnifiedPage .swUnifiedRating .swWordFootnote{font-size:13px!important;line-height:1.6!important;color:var(--swu-muted)!important}
+.swUnifiedPage .sw5529-rating-actions,.swUnifiedPage .swWordRatings{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px!important;margin:14px 0 0!important}
+.swUnifiedPage .sw5529-rating-actions button,.swUnifiedPage .swWordRatings button{min-height:44px!important;border-radius:12px!important;padding:8px 6px!important;background:#fff!important;border:1px solid #d5d9e5!important;color:#313d52!important;font-weight:750!important;font-size:13px!important;white-space:normal!important}
+.swUnifiedPage .swUnifiedNav{display:flex!important;gap:12px!important;align-items:center!important;justify-content:space-between!important;flex-wrap:wrap!important;margin:19px 0 0!important;padding:0!important;border:0!important;background:none!important}
+.swUnifiedPage .swUnifiedNav > button,.swUnifiedPage .swUnifiedPrevious{min-height:45px!important;border-radius:12px!important;background:#f2effb!important;border:1px solid #e9e3f4!important;color:#55428b!important;font-weight:800!important;padding:10px 16px!important;font-size:14px!important}
+.swUnifiedPage .swUnifiedAfter{display:flex!important;gap:10px!important;flex:1 1 auto!important;justify-content:flex-end!important}
+.swUnifiedPage .swUnifiedNext,.swUnifiedPage #sw5527Next{background:var(--swu-primary)!important;color:#fff!important;border:0!important;border-radius:12px!important;min-height:46px!important;font-weight:800!important;padding:10px 18px!important}
+.swUnifiedPage .sw5527-export,.swUnifiedPage .sw5527-done{background:#f1eefb!important;border:1px solid #e2dbf6!important;border-radius:17px!important;padding:16px!important;margin:16px 0!important}
+.swUnifiedPage #swWordStatusRow{margin:10px 0!important;font-size:13px!important}
+.swUnifiedPage[data-sw-kind=word][data-sw-mode=match] #swWordReveal > .swWordReference,.swUnifiedPage[data-sw-kind=word][data-sw-mode=match] #swWordPattern{display:none!important}
+.swUnifiedPage .sw5533-match-hint{color:var(--swu-muted)!important;font-size:12px!important;line-height:1.5!important;margin:10px 0!important}
+.swUnifiedPage .sw5527-reference-en,.swUnifiedPage .sw5527-user-diff{line-height:1.6!important;font-size:16px!important;overflow-wrap:anywhere!important}
+@media(max-width:600px){
+ .swUnifiedPage .swStudio-shell{width:calc(100% - 24px)!important;padding:12px 0 26px!important}
+ .swUnifiedPage .swUnifiedHeader{gap:9px!important}
+ .swUnifiedPage .swUnifiedFilters .sw5527-filter-line,.swUnifiedPage .swUnifiedFilters .swWordFilterLine{grid-template-columns:1fr!important}
+ .swUnifiedPage .sw5533-toolbar{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .swUnifiedPage .sw5533-toolbar > button{grid-column:1 / -1!important}
+ .swUnifiedPage .swUnifiedQuestion,.swUnifiedPage .swUnifiedFilters{padding:15px!important;border-radius:17px!important}
+ .swUnifiedPage .swUnifiedHeader h1,.swUnifiedPage .swUnifiedHeader h2{font-size:23px!important}
+ .swUnifiedPage .swUnifiedSubmit{justify-content:stretch!important}
+ .swUnifiedPage .swUnifiedPrimary{width:100%!important}
+ .swUnifiedPage .sw5529-rating-actions,.swUnifiedPage .swWordRatings{gap:5px!important}
+ .swUnifiedPage .sw5529-rating-actions button,.swUnifiedPage .swWordRatings button{font-size:12px!important}
+ .swUnifiedPage .swUnifiedNav{gap:8px!important}
+ .swUnifiedPage .swUnifiedNav > button{min-width:0!important}
+}
+/* Highest-priority visibility invariant: CSS components must never reveal hidden
+ * solutions, rating buttons or navigation ahead of the source state machine. */
+.swUnifiedPage [hidden]{display:none!important}
+
+</style>
+<script id="sw-unified-studio-js-v645">
+/* SAYWARD v6.4.6 — Single shared view layer for pattern/TOEFL x writing/matching.
+ * Only presentation nodes are re-homed (not cloned); event handlers, answer state,
+ * Supabase RPCs, official GPT policy and review scheduling stay with their owners.
+ */
+(function(){'use strict';
+ const id=k=>document.getElementById(k);
+ const schema={
+  pattern:{page:'sw5527PracticePage',header:'.sw5527-top',filters:'.sw5527-filter-card',progress:'.sw5527-progress-row',track:'.sw5527-track',exercise:'sw5527Card',prompt:'sw5527Prompt',choices:'sw5533MatchArea',answer:'sw5527Answer',reveal:'sw5527Reveal',rating:'sw5529SelfRating',main:'sw5527Primary',prev:'sw5527Prev',next:'sw5527Next',result:'sw5533MatchResult'},
+  word:{page:'swWordPage',header:'.swWordTop',filters:'.swWordFilterCard',progress:'.swWordProgressMeta',track:'.swWordProgressTrack',exercise:'swWordExercise',prompt:'swWordPrompt',choices:'swWordMatchArea',answer:'swWordAnswer',reveal:'swWordReveal',rating:'swWordRating',main:'swWordShow',prev:'swWordPrev',next:'swWordNext',result:'swWordMatchResult'}
+ };
+ function addClass(el,...names){if(el)el.classList.add(...names);return el;}
+ function mount(kind){
+  const m=schema[kind],page=id(m.page);if(!page||page.dataset.swUnifiedReady==='1')return;
+  page.dataset.swUnifiedReady='1';page.classList.add('swUnifiedPage');page.dataset.swKind=kind;
+  const head=page.querySelector(m.header),filter=page.querySelector(m.filters),exercise=id(m.exercise);
+  addClass(head,'swUnifiedHeader');addClass(filter,'swUnifiedFilters');
+  addClass(exercise,'swUnifiedQuestion');addClass(id(m.prompt),'swUnifiedPrompt');
+  addClass(id(m.choices),'swUnifiedChoices');addClass(id(m.answer),'swUnifiedAnswer');
+  addClass(id(m.reveal),'swUnifiedReveal');addClass(id(m.rating),'swUnifiedRating');
+  addClass(id(m.main),'swUnifiedPrimary');addClass(id(m.prev),'swUnifiedPrevious');addClass(id(m.next),'swUnifiedNext');
+  addClass(id(m.result),'swUnifiedFeedback');
+  addClass(page.querySelector(m.progress),'swUnifiedProgressMeta');addClass(page.querySelector(m.track),'swUnifiedProgressTrack');
+  // Both apps use the same shared submit/action order: prompt, choices/typing, submit, feedback, self-rating, navigation.
+  if(kind==='pattern'){
+   const submit=id('sw5527Primary');const submitSlot=document.createElement('div');submitSlot.className='swUnifiedSubmit';
+   id('sw5527Answer').insertAdjacentElement('afterend',submitSlot);submitSlot.appendChild(submit);
+   const nav=id('sw5527Prev').parentElement;nav.classList.add('swUnifiedNav');
+   const after=id('sw5527After');after.classList.add('swUnifiedAfter');
+  }else{
+   const controls=id('swWordShow').parentElement;
+   controls.classList.add('swUnifiedSubmit');
+   const nav=document.createElement('div');nav.className='swUnifiedNav';
+   exercise.append(nav);nav.append(id('swWordPrev'),id('swWordNext'));
+   const status=id('swWordStatusRow') || page.querySelector('.swWordStatusRow');
+   if(status&&exercise.parentElement)exercise.insertAdjacentElement('afterend',status);
+   const rating=id('swWordRating');if(rating)rating.insertAdjacentElement('beforebegin',id('swWordPattern'));
+   // Preserve original DOM identifiers and listeners; only make word/pattern textareas share styling.
+  }
+  sync(kind,false,false);
+ }
+ function sync(kind,isMatch,done){
+  const page=id(schema[kind]?.page);if(!page)return;
+  if(page.dataset.swUnifiedReady!=='1'){mount(kind);if(page.dataset.swUnifiedReady!=='1')return;}
+  page.dataset.swMode=isMatch?'match':'writing';page.dataset.swRevealed=done?'yes':'no';
+  const h=page.querySelector('.swUnifiedHeader h1,.swUnifiedHeader h2');if(h){h.textContent=kind==='pattern'?(isMatch?'패턴 맞추기':'패턴 문장 만들기'):(isMatch?'단어·패턴 맞추기':'단어 문장 만들기');}
+  const sub=page.querySelector('.sw5527-headtext p,.swWordSubtitle');if(sub){sub.textContent=kind==='pattern'?'공식 패턴 · 복습과 신규 혼합':'TOEFL DAY · 복습과 신규 혼합';}
+ }
+ function renderFeedback(target,config){
+  if(!target)return;
+  target.replaceChildren();
+  const heading=document.createElement('strong');heading.className=config.correct?'sw5533-correct':'sw5533-incorrect';
+  heading.textContent=config.correct?'✓ '+config.correctLabel:'↻ '+config.incorrectLabel;target.append(heading);
+  const summary=document.createElement('p');summary.className='swStudioFeedbackSummary';summary.textContent=config.summary;target.append(summary);
+  for(const card of config.cards){
+    const node=document.createElement('section');node.className='swStudioFeedbackCard swStudioFeedback-'+(card.kind||'reference');
+    const label=document.createElement('b');label.className='swStudioFeedbackLabel';label.textContent=card.label;
+    const main=document.createElement('p');main.className='swStudioFeedbackValue';main.textContent=String(card.value??'—');node.append(label,main);
+    if(card.detail){const small=document.createElement('p');small.className='swStudioFeedbackDetail';small.textContent=String(card.detail);node.append(small);}
+    target.append(node);
+  }
+  const disclaimer=document.createElement('p');disclaimer.className='sw5533-match-hint';disclaimer.textContent=config.disclaimer||'앱 연습 판정 및 자기평가는 공식 GPT 채점·Stable 승급과 별도로 관리됩니다.';target.append(disclaimer);
+ }
+ window.saywardUnifiedStudio={mount,sync,renderFeedback};
+ function ready(){mount('pattern');mount('word');}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready,{once:true});else ready();
+})();
+
+</script>
+<script id="sayward-studio-audio-v646">
+/* SAYWARD 6.4.6 — shared answer-confirmation TTS; client-side only.
+ * The repeat preference is stored in the preexisting authenticated settings sync
+ * allowlist via myVocaConfigurationV1. Never writes grade/history/learning state.
+ */
+(function(){'use strict';
+ const KEY='myVocaConfigurationV1';
+ let generation=0,active=false,utterance=null;
+ const synth=()=>window.speechSynthesis;
+ const supported=()=>!!synth()&&typeof window.SpeechSynthesisUtterance==='function';
+ function count(){
+  try{const raw=JSON.parse(localStorage.getItem(KEY)||'{}');const n=Number(raw.studioAnswerRepeat);
+   return [0,1,2,3,5].includes(n)?n:2;
+  }catch(e){return 2;}
+ }
+ function rate(){try{const x=JSON.parse(localStorage.getItem(KEY)||'{}');return Math.max(.7,Math.min(1.35,Number(x.speechRate)||1));}catch(e){return 1;}}
+ function text(s){return String(s||'').replace(/\s*~\s*/g,' something ').replace(/\s*\+\s*/g,' ').replace(/[<>]/g,' ').replace(/\s+/g,' ').trim();}
+ function stop(){const wasActive=active;generation++;active=false;utterance=null;if(wasActive)try{synth()?.cancel()}catch(e){}}
+ function play(mode,pattern,reference){
+  stop();const n=count();if(!n||!supported())return false;
+  const sentence=text(reference),phrase=text(pattern);
+  const units=(mode==='match'?[phrase,sentence]:[sentence]).filter(Boolean);
+  if(!units.length)return false;
+  const serial=++generation;active=true;let i=0;
+  function next(){
+   if(serial!==generation)return;
+   if(i>=units.length*n){active=false;utterance=null;return;}
+   // n repetitions of the complete pair: pattern → sentence → pattern → sentence.
+   const t=units[i%units.length];i++;
+   let u;
+   try{
+    u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=rate();
+    const voices=synth().getVoices?.()||[];
+    const english=voices.find(v=>/^en-US$/i.test(v.lang)&&v.localService)||voices.find(v=>/^en/i.test(v.lang));
+    if(english)u.voice=english;
+    let advanced=false;const advance=()=>{if(advanced)return;advanced=true;if(serial===generation)next();};
+    u.onend=advance;u.onerror=advance;utterance=u;
+    synth().speak(u);
+    if(synth().paused)synth().resume();
+   }catch(e){active=false;utterance=null;}
+  }
+  next();return true;
+ }
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});
+ window.addEventListener('pagehide',stop);
+ window.addEventListener('sayward:auth-out',stop);
+ window.saywardStudioAudio={play,stop,count,supported};
 })();
 
 </script>
