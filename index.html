@@ -1,12 +1,12 @@
-<!-- SAYWARD v6.4.13 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
-<!-- SAYWARD v6.4.13; v6.0 RC2 official baseline + live sentence stats + personal sync -->
+<!-- SAYWARD v6.4.14 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
+<!-- SAYWARD v6.4.14; v6.0 RC2 official baseline + live sentence stats + personal sync -->
 <!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.13 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.14 · Learning Dashboard</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -15844,7 +15844,7 @@ function installVisibleBuildBadge(){
   if(!badge){
     badge=document.createElement('div');
     badge.id='mvBuildBadge';
-    badge.textContent='v6.4.13';
+    badge.textContent='v6.4.14';
     badge.title='현재 실행 중인 MY VOCA 빌드';
     document.body.appendChild(badge);
   }
@@ -16263,7 +16263,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     return bar;
   }
 
-  /* v6.4.13: new lessons become selected AFTER both the authorized catalog and
+  /* v6.4.14: new lessons become selected AFTER both the authorized catalog and
      the account preferences have loaded. A seen-ID ledger keeps explicit
      unchecked choices unchecked, even when a lesson is refreshed. */
   const LESSON_AUTO_KEYS={
@@ -20736,8 +20736,8 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.13');
-  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.13';
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.14');
+  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.14';
   mv281SyncUI();
 },0);
 })();
@@ -20990,9 +20990,9 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.13')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.13'}catch(e){}
-  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.13'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.14')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.14'}catch(e){}
+  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.14'}catch(e){}
 },0);
 
 window.mvSwipeLifetimeAudit288=function(){
@@ -21162,9 +21162,9 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.13')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.13'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.13')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.14')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.14'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.14')}catch(e){}
   refreshPausedBrowseUI289();
 },0);
 
@@ -21398,10 +21398,10 @@ function navigate292(item){S292.lastTarget=item?.id||null;if(item.course==='day'
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v6.4.13 · Learning Dashboard'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.13')}catch(e){}
-  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.13'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.13')}catch(e){}
+  try{document.title='SAYWARD v6.4.14 · Learning Dashboard'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.14')}catch(e){}
+  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.14'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.14')}catch(e){}
 },0);
 window.mvUnifiedSearchAudit292=()=>({version:'v5.3.292',indexCount:buildIndex292().length,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'additive unified search only; existing playback/swipe/card logic unchanged'});
 })();
@@ -21694,7 +21694,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v6.4.13 · Learning Dashboard'}catch(e){}
+  try{document.title='SAYWARD v6.4.14 · Learning Dashboard'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -21715,7 +21715,7 @@ window.mvCleanAudit540=function(){
   const h=home(),bar=document.getElementById('sharedStudySelectBar');
   const cards=[...document.querySelectorAll('#homePage .myClassSection .myClassCard')].slice(0,4);
   return {
-    version:'v6.4.13',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
+    version:'v6.4.14',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
     sharedBar:!!bar,daySettings:!!document.getElementById('cleanDaySettings'),legacyModePanelVisible:!!document.getElementById('homeStudyModePanel')&&getComputedStyle(document.getElementById('homeStudyModePanel')).display!=='none',
     visibleSections:{day:getComputedStyle(document.querySelector('#homePage .daySection')||document.body).display,my:getComputedStyle(document.querySelector('#homePage .myClassSection')||document.body).display,sori:getComputedStyle(document.querySelector('#homePage .soriClassSection')||document.body).display,opic:getComputedStyle(document.querySelector('#homePage .opicClassSection')||document.body).display,friends:getComputedStyle(document.querySelector('#homePage .friendsClassSection')||document.body).display},
     myCards:cards.map(c=>({w:Math.round(c.getBoundingClientRect().width),h:Math.round(c.getBoundingClientRect().height)})),
@@ -21901,7 +21901,7 @@ window.mvCleanAudit540=function(){
 #cleanHeroMenuHit,#cleanHeroSearchHit{position:absolute!important;top:0!important;height:100%!important;width:18%!important;border:0!important;background:transparent!important;padding:0!important;z-index:8!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 #cleanHeroMenuHit{left:-5px!important} #cleanHeroSearchHit{right:0!important}
 #homePage .homeHero::before{
-  content:"v6.4.13"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
+  content:"v6.4.14"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
   min-width:54px!important;padding:2px 8px 3px!important;box-sizing:border-box!important;text-align:center!important;
   border:1.5px solid rgba(255,255,255,.92)!important;border-radius:999px!important;background:rgba(77,62,202,.96)!important;
   color:#fff!important;font-size:9px!important;line-height:1.1!important;font-weight:950!important;letter-spacing:.1px!important;
@@ -22811,7 +22811,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v6.4.13 · Learning Dashboard';
+  document.title='SAYWARD v6.4.14 · Learning Dashboard';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -25538,7 +25538,7 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.13 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.14 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
@@ -26360,7 +26360,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       });area.appendChild(button);
     }
   }
-  // v6.4.13: Match feedback uses the same clearly separated information-card order as TOEFL.
+  // v6.4.14: Match feedback uses the same clearly separated information-card order as TOEFL.
   // Pure DOM presentation: does not change answer validation, grading, IDs or DB writes.
   function renderMatchResult(p,entry){
     const el=g('sw5533MatchResult'),correct=entry.selected_id===p.pattern_id;
@@ -27573,7 +27573,7 @@ window.sw545ResumeAudit=()=>({version:'6.1.9',behavior:behavior(),overall:jparse
 })();
 </script>
 <script id="sayward-personal-cloud-sync-v601">
-/* SAYWARD v6.4.13 — Account preferences cloud sync with confirmed final-value writes.
+/* SAYWARD v6.4.14 — Account preferences cloud sync with confirmed final-value writes.
  * Only allowlisted, non-secret localStorage preferences are synchronized.
  * Official grades/history/learning state and server catalogs are NEVER modified.
  */
@@ -28022,7 +28022,7 @@ window.saywardPreferenceSync={version:'6.1.9',supportedKeys:()=>[...ALLOWED],sta
 .swPrefPersistIndicator{font-size:12px;line-height:1.5;color:#64748b;margin-top:6px;min-height:16px}
 
 
-/* v6.4.13 shared matching result format: TOEFL card hierarchy is the visual standard. */
+/* v6.4.14 shared matching result format: TOEFL card hierarchy is the visual standard. */
 #sw5527PracticePage .sw5527-reveal.swStudio-is-match-result{background:transparent;border:0;box-shadow:none;padding:0;margin-top:14px}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result{font-size:14px;color:#34465d;line-height:1.7;overflow-wrap:anywhere}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result>strong{font-size:17px;line-height:1.55;display:block;margin:0 0 10px}
@@ -28713,7 +28713,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-swipe-v642">
-/* SAYWARD v6.4.13 — shared navigation gesture.
+/* SAYWARD v6.4.14 — shared navigation gesture.
  * Browser back edges, vertical scrolling, fields and interactive controls are reserved.
  * No grading, Supabase or study-state writes happen in the gesture layer.
  */
@@ -28789,7 +28789,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-admin-learning-js">
-/* SAYWARD v6.4.13: secure admin-only, read-only member learning dashboard.
+/* SAYWARD v6.4.14: secure admin-only, read-only member learning dashboard.
  * All cross-user data MUST come from sayward_admin_learning_read RPC after DB admin verification.
  * No raw cross-user table queries; no write calls. */
 (function(){'use strict';
@@ -28939,7 +28939,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sw-unified-studio-js-v645">
-/* SAYWARD v6.4.13 — Single shared view layer for pattern/TOEFL x writing/matching.
+/* SAYWARD v6.4.14 — Single shared view layer for pattern/TOEFL x writing/matching.
  * Only presentation nodes are re-homed (not cloned); event handlers, answer state,
  * Supabase RPCs, official GPT policy and review scheduling stay with their owners.
  */
@@ -29086,7 +29086,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 @media(max-width:390px){.sw650-row{padding:13px 10px}.sw650-choice{font-size:12px;gap:4px}.sw650-choice .sw650-check{width:16px;height:16px}}
 </style>
 <script id="sw650CategoryReleaseScript">
-/* SAYWARD v6.4.13: persistent five-category publish policy. */
+/* SAYWARD v6.4.14: persistent five-category publish policy. */
 (()=>{'use strict';
  const root=document.getElementById('swCategoryRelease');if(!root)return;
  const rowsRoot=document.getElementById('swCategoryCards');
@@ -29193,7 +29193,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 })();
 
 </script>
-<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.13';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
+<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.14';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
 <style id="sw231CardStyles">
 .sw231LevelInfo{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:9px 0 10px}
 .sw231LevelInfo span{font-size:11px;font-weight:850;border-radius:8px;padding:5px 8px;border:1px solid #e5ddf6;color:#5b4194;background:#f8f5ff}
@@ -29203,65 +29203,111 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 .sw231SentenceKo[hidden]{display:none!important}
 #myClassContent .myStudyActions .sw231Toggle,#myClassContent .myStudyActions .sw231Next{font-size:12px;white-space:nowrap}
 
-/* v6.4.13 — displayed sentence level immediately before Favorite, never based on guessed pattern level */
+/* v6.4.14: ONE anchored top-right action row. Level and Favorite share 44px height. */
+#myClassContent .myStudyCard[data-sw-v23-item]{position:relative!important}
 #myClassContent .myStudyCard[data-sw-v23-item] .myStudyNum{
-  padding-right:0!important;
   display:flex!important;
-  flex-wrap:wrap!important;
-  column-gap:7px!important;
-  row-gap:7px!important;
-  min-height:46px!important;
-  height:auto!important;
-}
-#myClassContent .myStudyCard[data-sw-v23-item] .sw6413LevelFavoriteGroup{
-  display:inline-flex!important;
+  flex-wrap:nowrap!important;
   align-items:center!important;
-  justify-content:flex-end!important;
-  gap:6px!important;
-  flex-shrink:0!important;
-  margin-left:auto!important;
-  white-space:nowrap!important;
-  min-height:38px;
+  justify-content:flex-start!important;
+  min-height:46px!important;
+  padding-right:0!important;
+  margin-bottom:8px!important;
 }
-#myClassContent .myStudyCard[data-sw-v23-item] .sw6413LevelFavoriteGroup>.studyFavoriteBtn239{
-  position:static!important;
-  top:auto!important;
-  right:auto!important;
-  bottom:auto!important;
+#myClassContent .myStudyCard[data-sw-v23-item] > .sw6413LevelFavoriteGroup{
+  position:absolute!important;
+  top:12px!important;
+  right:12px!important;
   left:auto!important;
+  bottom:auto!important;
+  z-index:30!important;
+  display:flex!important;
+  align-items:stretch!important;
+  justify-content:flex-end!important;
+  flex-direction:row!important;
+  flex-wrap:nowrap!important;
+  gap:6px!important;
+  width:max-content!important;
+  height:44px!important;
+  min-height:44px!important;
+  max-height:44px!important;
   margin:0!important;
-  flex:0 0 auto!important;
+  padding:0!important;
+  white-space:nowrap!important;
+  isolation:isolate;
 }
-#myClassContent .myStudyCard[data-sw-v23-item] .sw6413SentenceLevelBadge{
+#myClassContent .myStudyCard[data-sw-v23-item] > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge{
+  position:static!important;
   display:inline-flex!important;
+  flex:0 0 44px!important;
   align-items:center!important;
   justify-content:center!important;
   box-sizing:border-box!important;
-  min-width:34px;
-  min-height:32px;
-  padding:5px 7px!important;
-  border-radius:10px!important;
-  border:1px solid #cbd5e1;
-  font-size:12px!important;
+  width:44px!important;
+  min-width:44px!important;
+  max-width:44px!important;
+  height:44px!important;
+  min-height:44px!important;
+  max-height:44px!important;
+  padding:0!important;
+  border:1px solid #cbd5e1!important;
+  border-radius:12px!important;
+  font-size:14px!important;
+  font-weight:950!important;
   line-height:1!important;
-  font-weight:900!important;
   letter-spacing:0!important;
-  font-variant-numeric:tabular-nums;
+  font-variant-numeric:tabular-nums!important;
   white-space:nowrap!important;
+  visibility:visible!important;
+  opacity:1!important;
+  transform:none!important;
+  overflow:hidden!important;
+}
+#myClassContent .myStudyCard[data-sw-v23-item] > .sw6413LevelFavoriteGroup > .studyFavoriteBtn239{
+  position:static!important;
+  inset:auto!important;
+  display:inline-flex!important;
+  flex:0 0 auto!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:4px!important;
+  width:auto!important;
+  height:44px!important;
+  min-height:44px!important;
+  max-height:44px!important;
+  margin:0!important;
+  padding:0 10px!important;
+  box-sizing:border-box!important;
+  border-radius:12px!important;
+  white-space:nowrap!important;
+  line-height:1!important;
 }
 #myClassContent .sw6413SentenceLevel1{background:#f1f5f9!important;color:#475569!important;border-color:#cbd5e1!important}
 #myClassContent .sw6413SentenceLevel2{background:#dbeafe!important;color:#1d4ed8!important;border-color:#93c5fd!important}
 #myClassContent .sw6413SentenceLevel3{background:#f3e8ff!important;color:#7e22ce!important;border-color:#d8b4fe!important}
 #myClassContent .sw6413SentenceLevel4{background:#ffedd5!important;color:#9a3412!important;border-color:#fdba74!important}
 #myClassContent .sw6413SentenceLevelUnknown{background:#f5f5f7!important;color:#64748b!important;border-color:#d5d8e0!important}
-@media(max-width:520px){
-  #myClassContent .myStudyCard[data-sw-v23-item] .myStudyNum{padding-right:0!important;}
-  #myClassContent .myStudyCard[data-sw-v23-item] .myStudyNum>.myTitleInfinityBtn{
-    padding-left:12px!important;padding-right:12px!important;
+@media(max-width:420px){
+  /* Keep the long Infinity pill clear of the right-hand action group. */
+  #myClassContent .myStudyCard[data-sw-v23-item] .myStudyNum > .myTitleInfinityBtn{
+    padding-left:10px!important;
+    padding-right:10px!important;
+    font-size:12px!important;
+    gap:5px!important;
+    max-width:calc(100% - 138px)!important;
   }
-  #myClassContent .myStudyCard[data-sw-v23-item] .sw6413LevelFavoriteGroup>.studyFavoriteBtn239{
-    padding:6px 7px!important;
+  #myClassContent .myStudyCard[data-sw-v23-item] .myTitleInfinityBtn .myInfSymbol{
+    font-size:19px!important;
   }
+  #myClassContent .myStudyCard[data-sw-v23-item] .myTitleInfinityBtn .myInfFocus{
+    font-size:12px!important;
+  }
+}
+@media(max-width:345px){
+  /* Even on narrow screens both controls stay adjacent; move the pair together. */
+  #myClassContent .myStudyCard[data-sw-v23-item] .myStudyNum{min-height:100px!important;align-items:flex-start!important}
+  #myClassContent .myStudyCard[data-sw-v23-item] > .sw6413LevelFavoriteGroup{top:67px!important}
+  #myClassContent .myStudyCard[data-sw-v23-item] .myStudyNum > .myTitleInfinityBtn{max-width:100%!important}
 }
 </style>
 <script id="sw231AdaptiveCardModule">
@@ -29278,8 +29324,10 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  function placeSentenceLevelBeforeFavorite(element,chosen){
    const header=element.querySelector('.myStudyNum');
    if(!header)return;
-   let group=header.querySelector('.sw6413LevelFavoriteGroup');
-   if(!group){group=mk('div','sw6413LevelFavoriteGroup');header.append(group);}
+   // Anchor controls to the card itself, NOT the wrapping/overflowing .myStudyNum title row.
+   let group=element.querySelector('.sw6413LevelFavoriteGroup');
+   if(!group){group=mk('div','sw6413LevelFavoriteGroup');}
+   if(group.parentElement!==element)element.append(group);
    let badge=group.querySelector('.sw6413SentenceLevelBadge');
    if(!badge){badge=mk('span','sw6413SentenceLevelBadge');group.prepend(badge);}
    const level=Number(chosen?.level);
