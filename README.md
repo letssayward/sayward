@@ -1,34 +1,26 @@
-# SAYWARD v5.5.47 · Stable Due Review + Live History
+# SAYWARD v6.4.13 — Adaptive Level Cards · FINAL PACKAGE
 
-Release date: 2026-10-16 (KST)
-Base: SAYWARD_V5_5_46_LIVE_HISTORY_AUDIT.zip (which was rebuilt from the user's v5.5.44 archive)
+## Included
+- index.html: ready-to-upload single-file SAYWARD web app.
+- Level L1–L4 on authenticated published MY, SORI, OPIC, Friends Chunk cards; original curriculum sentences are retained.
+- When a pattern Level increases, show a verified at-or-below-Level sentence; choose a distinct sentence for duplicate cards if available.
+- Supports original/current-Level toggle, variant rotation, and TTS of the currently displayed text.
+- When a card has no verified pattern mapping, displays '패턴 L? · 미분류' rather than assigning a false Level.
+- Existing per-lesson auto-publish/admin override and playback functions are retained.
 
-## Changes
-- Connects the **existing** `public.sayward_stable_review_schedule` to the app's mixed sentence-writing and pattern-matching quiz. Only the logged-in user’s schedule is queried through their authenticated JWT; Supabase RLS confines access to user_id = auth.uid().
-- Requires a successful schedule read before issuing a new app-practice deck. No guessed due dates, no fallback silently treating errors as zero due patterns.
-- Stable patterns whose `next_review_at` is due receive **highest selection priority**. Earliest due date first; each target pattern is unique; if more are due than the requested quiz count, only the earliest are selected.
-- If due Stable patterns exceed the chosen Review/New mixing quota, the due Stable patterns take precedence. Voluntary practice of not-yet-due Stable patterns remains possible if no due candidate displaces them.
-- Shows a Stable due label/stage during app practice and the number of due Stable items in the quiz composition summary.
-- Re-queries learning states, app-practice state, master patterns, and Stable schedule when the user explicitly presses New Questions / Restart. Clears due schedule on account change/logout.
-- Retains v5.5.46 live unified study-history filter and v5.5.45 overall playback resume.
+## Important
+- Supabase card RPCs sayward_lesson_card_sync_v23 and sayward_lesson_card_catalog_v23 must be present (already installed in the user's project).
+- This is a packaged final deliverable, NOT a claim that remote GitHub Pages or native Android distribution was updated.
+- Only Chunk cards with verifiable published pattern mapping can display numeric Level. Other cards keep their original text.
+- If the DB call is rejected or offline, the original card remains visible.
+- No service-role key or secret has been added to the HTML.
+- No official Session, Attempt, History, or Stable rule changed by this package.
 
-## Supabase changes performed
-- Confirmed existing RLS policy `sayward_stable_review_read_own` only permits `user_id = auth.uid()` for signed-in users.
-- Granted *SELECT only* on `public.sayward_stable_review_schedule` to the `authenticated` role, leaving anon without SELECT. Verified these permissions after the grant.
-- No history, user pattern states, schedules, sessions, or grading records were modified.
-- Existing official planner `sayward_plan_candidates_v2` already prioritizes due Stable patterns as priority 1, and `sayward_stable_review_due` already exists; neither function was changed.
-- Existing stable review trigger implements 7,14,21,30,40,60-day stages; it was not changed.
 
-## Verification
-- JS syntax: all 84 inline scripts passed `node --check`.
-- Unit test: due-first precedence even when Review quota is 0%; earliest-due selection; not-yet-due handling; account-specific schedule read filter; fail-closed on missing schedule.
-- ZIP CRC verified.
-- Live Supabase read-only check at testing time: 21 schedules exist, 0 currently due. Thus a real due-event end-to-end test is not yet possible without fabricating or changing legitimate learner data.
-
-## Explicit limits
-- In-browser app login and Android speech/playback could not be exercised in the restricted headless environment; the attempted Chromium smoke test timed out.
-- The app practice quiz **is not official GPT grading**; only verified official issued attempts and grading can advance the Stable review stage. This release does not make app self-ratings official.
-- The code package is not automatically deployed to the live SAYWARD site. Deploy this ZIP's `index.html` using the existing deployment process, then validate on the actual mobile browser.
-- The monolithic legacy HTML/CSS structure has not undergone a complete refactor.
-- Existing unrelated Supabase security advisory warnings were noted but left untouched; this release did not introduce a new SECURITY DEFINER RPC or loosen RLS.
-- Removed legacy v5.3.286/288/289/292 asynchronous assignments that overwrote the displayed home and menu build badges after page initialization, replacing them in the original code paths with v5.5.47.
+## v6.4.13 카드 상단 레벨 위치 조정
+- MY/소리영어/OPIC/FRIENDS Chunk 카드의 **현재 표시된 문장 Level**을 즐겨찾기 버튼 왼쪽에 표시합니다 (L1 회색, L2 파랑, L3 보라, L4 주황).
+- DB Level 미분류 문장은 L? 회색으로 표시하며 승급 Level을 추정하지 않습니다.
+- 화면이 좁으면 Level+즐겨찾기 한 묶음이 다음 줄로 내려가 겹침을 방지합니다.
+- 패턴 숙달도와 문장 난이도를 혼동하지 않고, 원문/현재 Level/다른 문장 전환 시 배지가 해당 문장을 따라갑니다.
+- 기존 즐겨찾기, 문장 학습, 듣기, 수업별 공개 여부, Supabase RPC는 변경하지 않습니다.
+- 이 파일은 앱 ZIP입니다. 기존 배포된 사이트/휴대폰 앱을 자동 업데이트하지 않습니다.
