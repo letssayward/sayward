@@ -1,12 +1,12 @@
-<!-- SAYWARD v6.4.16 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
-<!-- SAYWARD v6.4.16; v6.0 RC2 official baseline + live sentence stats + personal sync -->
+<!-- SAYWARD v6.4.17 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
+<!-- SAYWARD v6.4.17; v6.0 RC2 official baseline + live sentence stats + personal sync -->
 <!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.16 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.17 · Learning Dashboard</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -15845,7 +15845,7 @@ function installVisibleBuildBadge(){
   if(!badge){
     badge=document.createElement('div');
     badge.id='mvBuildBadge';
-    badge.textContent='v6.4.16';
+    badge.textContent='v6.4.17';
     badge.title='현재 실행 중인 MY VOCA 빌드';
     document.body.appendChild(badge);
   }
@@ -16264,7 +16264,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     return bar;
   }
 
-  /* v6.4.16: new lessons become selected AFTER both the authorized catalog and
+  /* v6.4.17: new lessons become selected AFTER both the authorized catalog and
      the account preferences have loaded. A seen-ID ledger keeps explicit
      unchecked choices unchecked, even when a lesson is refreshed. */
   const LESSON_AUTO_KEYS={
@@ -20737,8 +20737,8 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.16');
-  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.16';
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.17');
+  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.17';
   mv281SyncUI();
 },0);
 })();
@@ -20991,9 +20991,9 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.16')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.16'}catch(e){}
-  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.16'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.17')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.17'}catch(e){}
+  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.17'}catch(e){}
 },0);
 
 window.mvSwipeLifetimeAudit288=function(){
@@ -21163,9 +21163,9 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.16')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.16'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.16')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.17')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.17'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.17')}catch(e){}
   refreshPausedBrowseUI289();
 },0);
 
@@ -21399,10 +21399,10 @@ function navigate292(item){S292.lastTarget=item?.id||null;if(item.course==='day'
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v6.4.16 · Learning Dashboard'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.16')}catch(e){}
-  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.16'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.16')}catch(e){}
+  try{document.title='SAYWARD v6.4.17 · Learning Dashboard'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.17')}catch(e){}
+  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.17'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.17')}catch(e){}
 },0);
 window.mvUnifiedSearchAudit292=()=>({version:'v5.3.292',indexCount:buildIndex292().length,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'additive unified search only; existing playback/swipe/card logic unchanged'});
 })();
@@ -21695,7 +21695,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v6.4.16 · Learning Dashboard'}catch(e){}
+  try{document.title='SAYWARD v6.4.17 · Learning Dashboard'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -21716,7 +21716,7 @@ window.mvCleanAudit540=function(){
   const h=home(),bar=document.getElementById('sharedStudySelectBar');
   const cards=[...document.querySelectorAll('#homePage .myClassSection .myClassCard')].slice(0,4);
   return {
-    version:'v6.4.16',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
+    version:'v6.4.17',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
     sharedBar:!!bar,daySettings:!!document.getElementById('cleanDaySettings'),legacyModePanelVisible:!!document.getElementById('homeStudyModePanel')&&getComputedStyle(document.getElementById('homeStudyModePanel')).display!=='none',
     visibleSections:{day:getComputedStyle(document.querySelector('#homePage .daySection')||document.body).display,my:getComputedStyle(document.querySelector('#homePage .myClassSection')||document.body).display,sori:getComputedStyle(document.querySelector('#homePage .soriClassSection')||document.body).display,opic:getComputedStyle(document.querySelector('#homePage .opicClassSection')||document.body).display,friends:getComputedStyle(document.querySelector('#homePage .friendsClassSection')||document.body).display},
     myCards:cards.map(c=>({w:Math.round(c.getBoundingClientRect().width),h:Math.round(c.getBoundingClientRect().height)})),
@@ -21902,7 +21902,7 @@ window.mvCleanAudit540=function(){
 #cleanHeroMenuHit,#cleanHeroSearchHit{position:absolute!important;top:0!important;height:100%!important;width:18%!important;border:0!important;background:transparent!important;padding:0!important;z-index:8!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 #cleanHeroMenuHit{left:-5px!important} #cleanHeroSearchHit{right:0!important}
 #homePage .homeHero::before{
-  content:"v6.4.16"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
+  content:"v6.4.17"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
   min-width:54px!important;padding:2px 8px 3px!important;box-sizing:border-box!important;text-align:center!important;
   border:1.5px solid rgba(255,255,255,.92)!important;border-radius:999px!important;background:rgba(77,62,202,.96)!important;
   color:#fff!important;font-size:9px!important;line-height:1.1!important;font-weight:950!important;letter-spacing:.1px!important;
@@ -22812,7 +22812,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v6.4.16 · Learning Dashboard';
+  document.title='SAYWARD v6.4.17 · Learning Dashboard';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -25539,7 +25539,7 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.16 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.17 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
@@ -26361,7 +26361,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       });area.appendChild(button);
     }
   }
-  // v6.4.16: Match feedback uses the same clearly separated information-card order as TOEFL.
+  // v6.4.17: Match feedback uses the same clearly separated information-card order as TOEFL.
   // Pure DOM presentation: does not change answer validation, grading, IDs or DB writes.
   function renderMatchResult(p,entry){
     const el=g('sw5533MatchResult'),correct=entry.selected_id===p.pattern_id;
@@ -27574,7 +27574,7 @@ window.sw545ResumeAudit=()=>({version:'6.1.9',behavior:behavior(),overall:jparse
 })();
 </script>
 <script id="sayward-personal-cloud-sync-v601">
-/* SAYWARD v6.4.16 — Account preferences cloud sync with confirmed final-value writes.
+/* SAYWARD v6.4.17 — Account preferences cloud sync with confirmed final-value writes.
  * Only allowlisted, non-secret localStorage preferences are synchronized.
  * Official grades/history/learning state and server catalogs are NEVER modified.
  */
@@ -28023,7 +28023,7 @@ window.saywardPreferenceSync={version:'6.1.9',supportedKeys:()=>[...ALLOWED],sta
 .swPrefPersistIndicator{font-size:12px;line-height:1.5;color:#64748b;margin-top:6px;min-height:16px}
 
 
-/* v6.4.16 shared matching result format: TOEFL card hierarchy is the visual standard. */
+/* v6.4.17 shared matching result format: TOEFL card hierarchy is the visual standard. */
 #sw5527PracticePage .sw5527-reveal.swStudio-is-match-result{background:transparent;border:0;box-shadow:none;padding:0;margin-top:14px}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result{font-size:14px;color:#34465d;line-height:1.7;overflow-wrap:anywhere}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result>strong{font-size:17px;line-height:1.55;display:block;margin:0 0 10px}
@@ -28714,7 +28714,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-swipe-v642">
-/* SAYWARD v6.4.16 — shared navigation gesture.
+/* SAYWARD v6.4.17 — shared navigation gesture.
  * Browser back edges, vertical scrolling, fields and interactive controls are reserved.
  * No grading, Supabase or study-state writes happen in the gesture layer.
  */
@@ -28790,7 +28790,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-admin-learning-js">
-/* SAYWARD v6.4.16: secure admin-only, read-only member learning dashboard.
+/* SAYWARD v6.4.17: secure admin-only, read-only member learning dashboard.
  * All cross-user data MUST come from sayward_admin_learning_read RPC after DB admin verification.
  * No raw cross-user table queries; no write calls. */
 (function(){'use strict';
@@ -28940,7 +28940,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sw-unified-studio-js-v645">
-/* SAYWARD v6.4.16 — Single shared view layer for pattern/TOEFL x writing/matching.
+/* SAYWARD v6.4.17 — Single shared view layer for pattern/TOEFL x writing/matching.
  * Only presentation nodes are re-homed (not cloned); event handlers, answer state,
  * Supabase RPCs, official GPT policy and review scheduling stay with their owners.
  */
@@ -29087,7 +29087,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 @media(max-width:390px){.sw650-row{padding:13px 10px}.sw650-choice{font-size:12px;gap:4px}.sw650-choice .sw650-check{width:16px;height:16px}}
 </style>
 <script id="sw650CategoryReleaseScript">
-/* SAYWARD v6.4.16: persistent five-category publish policy. */
+/* SAYWARD v6.4.17: persistent five-category publish policy. */
 (()=>{'use strict';
  const root=document.getElementById('swCategoryRelease');if(!root)return;
  const rowsRoot=document.getElementById('swCategoryCards');
@@ -29194,9 +29194,9 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 })();
 
 </script>
-<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.16';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
+<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.17';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
 <style id="sw231CardStyles">
-/* v6.4.16 — one visible header group for ALL study-card types.
+/* v6.4.17 — one visible header group for ALL study-card types.
    Favorite is physically inside the same row as Level, so overlap is impossible. */
 .sw231LevelInfo{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:9px 0 10px}
 .sw231LevelInfo span{font-size:11px;font-weight:850;border-radius:8px;padding:5px 8px;border:1px solid #e5ddf6;color:#5b4194;background:#f8f5ff}
@@ -29452,6 +29452,121 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  }).observe(root,{childList:true,subtree:true});}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();
  window.addEventListener('sayward:study-lesson-render',()=>setTimeout(run,0));
+})();
+</script>
+
+<script id="sw6417KokoroPrivateMp3Pilot">
+/* SAYWARD 6.4.17 — private Storage pilot. Only previously generated Kokoro MP3s.
+ * Signed URLs use the authenticated Supabase client; no secret key or public bucket.
+ * Available for active admin only (matches current Storage RLS). All misses and
+ * errors fall back to original speechSynthesis. No DB or learning-state writes.
+ */
+(function(){'use strict';
+ const BUCKET='sayward-audio', FOLDER='audio/af_heart', VOICE='af_heart', MODEL='kokoro-v1.0', SPEED='1.00';
+ const initialSpeak=window.speakOne, initialStop=window.stopSpeech;
+ if(typeof initialSpeak!=='function'||typeof initialStop!=='function')return;
+ let sessionId='', inventory=null, inventoryWork=null, player=null, settleCurrent=null, generation=0;
+ const urlCache=new Map();
+ const norm=s=>String(s||'').normalize('NFC').trim().replace(/\s+/gu,' ');
+ function canUse(){const s=window.saywardAuth?.snapshot?.();return !!(s?.authenticated&&s?.uid&&s.role==='admin'&&window.saywardAuth?.getClient?.());}
+ function reset(){generation++;stopAudio();sessionId='';inventory=null;inventoryWork=null;urlCache.clear();}
+ function stopAudio(){try{player?.pause();if(player)player.currentTime=0;}catch(e){} player=null;
+  if(settleCurrent){const finish=settleCurrent;settleCurrent=null;finish(true);}}
+ function client(){return window.saywardAuth?.getClient?.();}
+ async function available(){
+  if(!canUse())return null;
+  const uid=window.saywardAuth.snapshot().uid;
+  if(uid!==sessionId){sessionId=uid;inventory=null;inventoryWork=null;urlCache.clear();}
+  if(inventory)return inventory;
+  if(inventoryWork)return inventoryWork;
+  const ticket=generation;
+  inventoryWork=(async()=>{
+   const names=new Set();
+   const sb=client();if(!sb)return null;
+   for(let offset=0;offset<10000;offset+=1000){
+    const {data,error}=await sb.storage.from(BUCKET).list(FOLDER,{limit:1000,offset,sortBy:{column:'name',order:'asc'}});
+    if(error||!Array.isArray(data))return null;
+    for(const item of data)if(/^[a-f0-9]{24}\.mp3$/.test(item?.name||''))names.add(item.name);
+    if(data.length<1000)break;
+   }
+   if(ticket!==generation||!canUse()||window.saywardAuth?.snapshot?.().uid!==uid)return null;
+   inventory=names;
+   return names;
+  })().catch(()=>null).finally(()=>{inventoryWork=null;});
+  return inventoryWork;
+ }
+ async function filename(sentence){
+  if(!globalThis.crypto?.subtle||typeof TextEncoder==='undefined')return '';
+  const text=norm(sentence);
+  if(!text||text.length>1800||/[가-힣]/.test(text))return '';
+  // Python json.dumps(..., ensure_ascii=False) default separator is ', '.
+  const payload='['+[MODEL,VOICE,SPEED,text].map(x=>JSON.stringify(x)).join(', ')+']';
+  const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(payload));
+  return [...new Uint8Array(digest)].map(x=>x.toString(16).padStart(2,'0')).join('').slice(0,24)+'.mp3';
+ }
+ async function signedUrl(path){
+  const c=urlCache.get(path);if(c&&c.until>Date.now())return c.url;
+  if(!canUse())return '';
+  const {data,error}=await client().storage.from(BUCKET).createSignedUrl(path,3600);
+  if(error||!data?.signedUrl)return '';
+  urlCache.set(path,{url:data.signedUrl,until:Date.now()+30*60*1000});
+  return data.signedUrl;
+ }
+ async function mp3Play(text,rate,lang,preferredEl,ticket){
+  if(!/^en(?:-|$)/i.test(lang||'en-US')||!canUse())return false;
+  const names=await available();
+  if(ticket!==generation)return true;
+  if(!names||!names.size)return false;
+  const file=await filename(text);
+  if(ticket!==generation)return true;
+  if(!file||!names.has(file))return false;
+  const path=FOLDER+'/'+file;
+  const url=await signedUrl(path);
+  if(ticket!==generation)return true;
+  if(!url)return false;
+  let p;
+  try {p=new Audio(url);p.preload='auto';p.playbackRate=Math.max(.7,Math.min(1.4,Number(rate)||1));
+    if('preservesPitch' in p)p.preservesPitch=true;}catch(e){return false;}
+  player=p;
+  let finished=false;
+  let timer=null;
+  let isPlaying=false;
+  const outcome=await new Promise(resolve=>{
+   const done=(ok)=>{if(finished)return;finished=true;if(timer)clearTimeout(timer);p.removeEventListener('ended',onEnd);p.removeEventListener('error',onError);
+     if(player===p)player=null; if(settleCurrent===done)settleCurrent=null;
+     try{window.mvDomClearHighlight?.()}catch(e){} resolve(ok);};
+   const onEnd=()=>done(true),onError=()=>done(false);
+   settleCurrent=done;
+   p.addEventListener('ended',onEnd,{once:true});p.addEventListener('error',onError,{once:true});
+   timer=setTimeout(()=>done(false),Math.max(45000,norm(text).length*950));
+   try{window.mvDomStartHighlight?.(norm(text),preferredEl);}catch(e){}
+   Promise.resolve(p.play()).then(()=>{isPlaying=true;}).catch(()=>done(false));
+  });
+  if(!outcome&&!isPlaying){try{p.pause()}catch(e){}}
+  return outcome||ticket!==generation;
+ }
+ window.speakOne=async function(text,rate,lang,preferredEl){
+  const ticket=generation;
+  const en=norm(text), language=lang||'en-US';
+  const actualRate=rate===undefined||rate===null ? (typeof window.getSpeechRate==='function'?window.getSpeechRate():1.0) : rate;
+  if(en&&/^en(?:-|$)/i.test(language)){
+   let ok=false;
+   try{ok=await mp3Play(en,actualRate,language,preferredEl,ticket);}catch(e){console.warn('[SAYWARD MP3 pilot] fallback',String(e?.message||e).slice(0,100));}
+   if(ticket!==generation)return;
+   if(ok)return;
+  }
+  if(ticket!==generation)return;
+  return initialSpeak.call(this,text,rate,lang,preferredEl);
+ };
+ window.stopSpeech=function(...args){generation++;stopAudio();return initialStop.apply(this,args);};
+ window.addEventListener('sayward:auth-out',reset);
+ window.addEventListener('pagehide',()=>{generation++;stopAudio();});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden){generation++;stopAudio();}});
+ window.addEventListener('sayward:auth-role',()=>{reset();if(canUse())void available();});
+ // On a cached login the event may have fired before this script was loaded.
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if(canUse())void available();},{once:true});
+ else if(canUse())void available();
+ window.saywardKokoroPilot={status:()=>({active:canUse(),cached:inventory?.size||0,ready:!!inventory}),refresh:()=>{inventory=null;inventoryWork=null;urlCache.clear();return available();},fileForText:filename,stop:stopAudio};
 })();
 </script>
 </body></html>
