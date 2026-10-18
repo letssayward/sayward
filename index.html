@@ -12301,7 +12301,7 @@ function mvSentenceEntryAudit182(){
 window.mvSentenceEntryAudit182=mvSentenceEntryAudit182;
 
 /* ===== V5.3.189 · STANDARD APP INFO / UPDATE HISTORY ===== */
-const MV_APP_VERSION='6.4.12';
+const MV_APP_VERSION='6.4.20';
 
 function mvCloseInfoOverlay(){
   const overlay=document.getElementById('mvInfoOverlay');
@@ -22413,8 +22413,8 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     <div id="swSbSigned" hidden>
       
 <section id="sw5513ApprovalPanel" hidden class="sw5513-approvals" aria-label="사용자 가입 승인">
-  <h3>👥 가입 신청 승인</h3>
-  <p class="p2-note">이름·이메일·가입 상태를 확인한 뒤 승인하거나 거절할 수 있습니다. 비밀번호는 표시되지 않습니다.</p>
+  <h3>👥 가입 승인 · 사용자별 MP3 제공</h3>
+  <p class="p2-note">이름·이메일·가입 상태를 확인한 뒤 승인하거나 거절할 수 있습니다. 활성 회원의 MP3 음성 제공을 개별 설정합니다. OFF 회원은 기존 TTS를 사용합니다.</p>
   <button id="sw5513ReloadApplicants" type="button">↻ 가입 신청 새로고침</button>
   <p id="sw5513ApprovalStatus" class="p2-status" role="status">관리자 권한 확인 대기</p>
   <div id="sw5513ApplicantList" class="sw5513-applicants"></div>
@@ -23278,7 +23278,7 @@ const SW_ADMIN_ALLOWED_TABLES=new Set([
   'sayward_global_lesson_settings','sayward_eval_personas',
   'sayward_eval_lesson_overrides','sayward_user_lesson_overrides'
 ]);
-const SW_ADMIN_ALLOWED_RPC=new Set(['sayward_admin_set_account_status','sayward_admin_category_release_catalog','sayward_admin_set_category_release','sayward_admin_publish_category']);
+const SW_ADMIN_ALLOWED_RPC=new Set(['sayward_admin_set_mp3_access','sayward_admin_set_account_status','sayward_admin_category_release_catalog','sayward_admin_set_category_release','sayward_admin_publish_category']);
 async function swDirectAdminDbRequest(spec={}){
   if(!activeSession?.access_token || !activeUser?.id || sharedAuthState.role!=='admin'
     || sharedAuthState.phase!=='authenticated')throw new Error('ADMIN_AUTH_REQUIRED');
@@ -24105,7 +24105,7 @@ async function init(){
     const state=elem('sw5513ApprovalStatus');state.textContent='가입 신청 목록 조회 중…';
     try{
       const rows=await swDirectAdminDbRequest({table:'sayward_profiles',
-        fields:'user_id,display_name,email,app_role,account_status,created_at',
+        fields:'user_id,display_name,email,app_role,account_status,mp3_audio_enabled,created_at',
         filters:[['app_role','user']],order:['created_at',false],limit:200});
       state.textContent='등록된 일반 사용자 '+rows.length+'명 · 승인 대기 '+rows.filter(x=>x.account_status==='pending').length+'명';
       if(!rows.length){const p=document.createElement('p');p.textContent='아직 가입 신청자가 없습니다.';list.append(p);}
@@ -24131,7 +24131,36 @@ async function init(){
               state.textContent=labelText+' 완료 · 서버 재조회 성공';
             }catch(err){button.disabled=false;state.textContent=String(err?.message||'').includes('EMAIL_NOT_CONFIRMED')?'승인 불가: 사용자가 먼저 이메일 인증을 완료해야 합니다.':'상태 변경 실패 · '+String(err?.message||'UNKNOWN').slice(0,80); }
           });actions.append(button);
-        }box.append(actions);list.append(box);
+        }
+        // MP3 entitlement is stored in Supabase, not browser settings.
+        const mp3Wrap=document.createElement('label');mp3Wrap.className='sw6420-mp3-setting';
+        const mp3Check=document.createElement('input');mp3Check.type='checkbox';
+        mp3Check.checked=row.mp3_audio_enabled===true;
+        mp3Check.disabled=row.account_status!=='active';
+        const mp3Text=document.createElement('span');mp3Text.className='sw6420-mp3-label';
+        const mp3Caption=()=>{mp3Text.textContent='🎧 MP3 음성 '+(mp3Check.checked?'ON':'OFF')+(row.account_status!=='active'?' · 비활성 계정':'');
+          mp3Wrap.classList.toggle('sw6420-mp3-on',mp3Check.checked);};
+        mp3Caption();mp3Wrap.append(mp3Check,mp3Text);
+        mp3Check.setAttribute('aria-label',(row.display_name||row.email||'사용자')+' MP3 제공');
+        mp3Check.addEventListener('change',async()=>{
+          const desired=mp3Check.checked;mp3Check.disabled=true;
+          state.textContent='MP3 권한을 서버에 저장하는 중…';
+          try{
+            const updated=await swDirectAdminDbRequest({table:'rpc/sayward_admin_set_mp3_access',method:'POST',
+              body:{p_user_id:row.user_id,p_enabled:desired}});
+            if(updated!==desired)throw new Error('RPC_SAVE_MISMATCH');
+            const checkedRows=await swDirectAdminDbRequest({table:'sayward_profiles',
+              fields:'user_id,mp3_audio_enabled',filters:[['user_id',row.user_id]],limit:1});
+            if(!Array.isArray(checkedRows)||checkedRows.length!==1||checkedRows[0].mp3_audio_enabled!==desired)
+              throw new Error('DB_READBACK_MISMATCH');
+            row.mp3_audio_enabled=desired;mp3Caption();
+            state.textContent=(row.display_name||row.email||'사용자')+' MP3 '+(desired?'ON':'OFF')+' · DB 저장 및 재조회 확인';
+            window.dispatchEvent(new CustomEvent('sayward:mp3-access-changed',{detail:{uid:row.user_id}}));
+          }catch(err){mp3Check.checked=row.mp3_audio_enabled===true;mp3Caption();
+            state.textContent='MP3 권한 변경 검증 실패 · '+String(err?.message||'UNKNOWN').slice(0,90);
+          }finally{mp3Check.disabled=row.account_status!=='active';}
+        });
+        actions.append(mp3Wrap);box.append(actions);list.append(box);
       }
     }catch(e){state.textContent='신청 목록 조회 실패 · '+String(e?.message||'UNKNOWN')+' · 아래 연결 상태를 확인하거나 다시 시도하세요.';}
   }
@@ -29488,10 +29517,21 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 #myClassContent .mySpeakBlock.sw6416ControlsBelow > .myStudyNum{min-height:153px!important;}
 </style>
 
+
+<style id="sw6420Mp3UserAdminCSS">
+#sw5513ApprovalPanel .sw6420-mp3-setting{display:inline-flex;align-items:center;gap:8px;
+ border:1px solid #cbd5e1;border-radius:12px;background:#f1f5f9;padding:7px 10px;
+ cursor:pointer;white-space:nowrap;min-height:38px;color:#475569;font-size:13px;font-weight:800;}
+#sw5513ApprovalPanel .sw6420-mp3-setting.sw6420-mp3-on{background:#e5f7ef;
+ border-color:#86d6b0;color:#06684c;}
+#sw5513ApprovalPanel .sw6420-mp3-setting input{accent-color:#047857;width:19px;height:19px;margin:0;}
+#sw5513ApprovalPanel .sw6420-mp3-setting:has(input:disabled){opacity:.64;cursor:not-allowed;}
+#sw5513ApprovalPanel .sw5513-applicant-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+</style>
 <script id="sw6419KokoroAutoDiscovery">
-/* SAYWARD v6.4.19: MP3 auto-discovery in private Supabase Storage.
+/* SAYWARD v6.4.20: per-user private MP3 access and dynamic discovery.
    No manifest required. Lists both voice folders once per login, caches paths,
-   then rechecks missing entries after a bounded interval. Admin-only pilot.
+   then rechecks missing entries after a bounded interval. Per-user entitlement.
    All MP3 operations are read-only. No service keys and no DB writes. */
 (function(){'use strict';
  const BUCKET='sayward-audio', VOICES=['af_heart','am_michael'];
@@ -29501,16 +29541,41 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  if(typeof initialSpeak!=='function'||typeof initialStop!=='function')return;
  let generation=0,userId='',player=null,finishActive=null;
  let fileIndex=null,indexTask=null,lastScan=0,lastError='',lastFileCount=0;
+ let accessUid='',accessEnabled=false,accessAt=0,accessTask=null;
+ const ACCESS_TTL_MS=30*1000;
  const signedCache=new Map(), resolved=new Map();
  const norm=s=>String(s||'').normalize('NFC').trim().replace(/\s+/gu,' ');
  const validPath=s=>/^audio\/(?:af_heart|am_michael)\/[a-f0-9]{24}\.mp3$/.test(s);
- function auth(){const s=window.saywardAuth?.snapshot?.();return (s?.authenticated&&s?.uid&&s?.role==='admin'&&window.saywardAuth?.getClient?.())?s:null;}
+ function auth(){const s=window.saywardAuth?.snapshot?.();return (s?.authenticated&&s?.uid&&window.saywardAuth?.getClient?.())?s:null;}
  function client(){return window.saywardAuth?.getClient?.()||null;}
  function halt(){try{player?.pause();if(player)player.currentTime=0;}catch(_){}player=null;
    if(finishActive){const cb=finishActive;finishActive=null;cb(true);}}
- function clear(){generation++;halt();userId='';fileIndex=null;indexTask=null;lastScan=0;lastError='';lastFileCount=0;resolved.clear();signedCache.clear();}
- function uidCheck(){const a=auth();if(!a)return null;
-   if(userId!==a.uid){generation++;userId=a.uid;fileIndex=null;indexTask=null;lastScan=0;lastError='';lastFileCount=0;resolved.clear();signedCache.clear();}
+ function clear(){generation++;halt();userId='';fileIndex=null;indexTask=null;lastScan=0;lastError='';lastFileCount=0;resolved.clear();signedCache.clear();accessUid='';accessEnabled=false;accessAt=0;accessTask=null;}
+ async function checkAccess(force=false){
+   const a=auth();if(!a){if(accessUid)clear();return false;}
+   if(accessUid!==a.uid){if(accessUid)clear();accessUid=a.uid;}
+   if(!force&&accessAt&&Date.now()-accessAt<ACCESS_TTL_MS)return accessEnabled;
+   if(accessTask)return accessTask;
+   const uid=a.uid,wasEnabled=accessEnabled;
+   accessTask=(async()=>{
+     const sb=client();if(!sb)return false;
+     const {data,error}=await sb.from('sayward_profiles')
+       .select('mp3_audio_enabled,account_status').eq('user_id',uid).maybeSingle();
+     if(error)throw error;
+     if(auth()?.uid!==uid||accessUid!==uid)return false;
+     const enabled=data?.mp3_audio_enabled===true&&data?.account_status==='active';
+     accessEnabled=enabled;accessAt=Date.now();
+     if(!enabled && wasEnabled){generation++;halt();fileIndex=null;resolved.clear();signedCache.clear();}
+     return enabled;
+   })().catch(e=>{accessEnabled=false;accessAt=Date.now();
+     lastError='MP3_ACCESS_'+String(e?.code||e?.message||'UNAVAILABLE').slice(0,95);
+     if(wasEnabled){generation++;halt();fileIndex=null;resolved.clear();signedCache.clear();}
+     return false;
+   }).finally(()=>{accessTask=null;});
+   return accessTask;
+ }
+ function uidCheck(){const a=auth();if(!a||!accessEnabled||accessUid!==a.uid)return null;
+   if(userId!==a.uid){if(userId)generation++;userId=a.uid;fileIndex=null;indexTask=null;lastScan=0;lastError='';lastFileCount=0;resolved.clear();signedCache.clear();}
    return a.uid;
  }
  async function hashBytes(s){if(!globalThis.crypto?.subtle||typeof TextEncoder==='undefined')return null;
@@ -29554,11 +29619,11 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  }
  async function sign(path){
    const item=signedCache.get(path);if(item&&item.until>Date.now())return item.url;
-   if(!auth()||!validPath(path))return '';
+   if(!await checkAccess()||!validPath(path))return '';
    const s=client();if(!s)return '';
-   const {data,error}=await s.storage.from(BUCKET).createSignedUrl(path,3600);
+   const {data,error}=await s.storage.from(BUCKET).createSignedUrl(path,60);
    if(error||!data?.signedUrl)return '';
-   signedCache.set(path,{url:data.signedUrl,until:Date.now()+30*60*1000});return data.signedUrl;
+   signedCache.set(path,{url:data.signedUrl,until:Date.now()+25*1000});return data.signedUrl;
  }
  async function findPath(text){
    const t=norm(text);if(!uidCheck()||!t)return '';
@@ -29576,7 +29641,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    resolved.set(t,match);return match;
  }
  async function playFile(text,rate,lang,element,ticket){
-   if(!/^en(?:-|$)/i.test(lang||'en-US')||!auth())return false;
+   if(!/^en(?:-|$)/i.test(lang||'en-US')||!await checkAccess())return false;
    const path=await findPath(text);
    if(ticket!==generation)return true;
    if(!path)return false;
@@ -29613,15 +29678,19 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  };
  window.stopSpeech=function(...args){generation++;halt();return initialStop.apply(this,args);};
  window.addEventListener('sayward:auth-out',clear);
- window.addEventListener('sayward:auth-role',()=>{clear();if(auth())void discover();});
+ window.addEventListener('sayward:auth-role',()=>{clear();if(auth())void checkAccess(true).then(ok=>{if(ok)void discover();});});
+ window.addEventListener('sayward:auth-state',e=>{if(!e.detail?.authenticated&&accessUid)clear();});
+ window.addEventListener('sayward:mp3-access-changed',e=>{if(e.detail?.uid===auth()?.uid){
+    accessAt=0;void checkAccess(true).then(ok=>{if(ok)void discover(true);});
+ }});
  window.addEventListener('pagehide',()=>{generation++;halt();});
  document.addEventListener('visibilitychange',()=>{if(document.hidden){generation++;halt();}
-   else if(auth()&&(!fileIndex||Date.now()-lastScan>REFRESH_VISIBILITY_MS))void discover(true);});
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if(auth())void discover();},{once:true});
- else if(auth())void discover();
+   else if(auth())void checkAccess(true).then(ok=>{if(ok&&(!fileIndex||Date.now()-lastScan>REFRESH_VISIBILITY_MS))void discover(true);});});
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if(auth())void checkAccess(true).then(ok=>{if(ok)void discover();});},{once:true});
+ else if(auth())void checkAccess(true).then(ok=>{if(ok)void discover();});
  window.saywardKokoroMixed={
-   status:()=>({active:!!auth(),indexedFiles:lastFileCount,mappedSentences:resolved.size,lastScan,lastError}),
-   refresh:()=>{resolved.clear();return discover(true);},findPath,stop:halt
+   status:()=>({active:!!auth()&&accessEnabled,accessEnabled,indexedFiles:lastFileCount,mappedSentences:resolved.size,lastScan,lastError}),
+   refresh:async()=>{resolved.clear();if(!await checkAccess(true))return null;return discover(true);},findPath,stop:halt
  };
 })();
 </script>
