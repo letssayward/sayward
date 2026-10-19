@@ -1,12 +1,12 @@
-<!-- SAYWARD v6.4.12 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
-<!-- SAYWARD v6.4.12; v6.0 RC2 official baseline + live sentence stats + personal sync -->
+<!-- SAYWARD v6.4.14 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
+<!-- SAYWARD v6.4.14; v6.0 RC2 official baseline + live sentence stats + personal sync -->
 <!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.12 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.14 · Learning Dashboard</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -4018,7 +4018,7 @@ body:has(#sw5527PracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButto
 }
 
 
-/* v6.4.12: Pattern Sentence Studio - per-question completion review. */
+/* v6.4.14: Pattern Sentence Studio - per-question completion review. */
 #sw5527PracticePage .sw5411-summary{margin:18px auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;text-align:left}
 #sw5527PracticePage .sw5411-metric{padding:12px;border:1px solid #e0daf7;background:#faf9ff;border-radius:13px}
 #sw5527PracticePage .sw5411-metric strong{display:block;font-size:18px;line-height:1.45;color:#46318e;font-weight:950}
@@ -15878,7 +15878,7 @@ function installVisibleBuildBadge(){
   if(!badge){
     badge=document.createElement('div');
     badge.id='mvBuildBadge';
-    badge.textContent='v6.4.12';
+    badge.textContent='v6.4.14';
     badge.title='현재 실행 중인 MY VOCA 빌드';
     document.body.appendChild(badge);
   }
@@ -16297,7 +16297,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     return bar;
   }
 
-  /* v6.4.12: new lessons become selected AFTER both the authorized catalog and
+  /* v6.4.14: new lessons become selected AFTER both the authorized catalog and
      the account preferences have loaded. A seen-ID ledger keeps explicit
      unchecked choices unchecked, even when a lesson is refreshed. */
   const LESSON_AUTO_KEYS={
@@ -20770,8 +20770,8 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.12');
-  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.12';
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.14');
+  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.14';
   mv281SyncUI();
 },0);
 })();
@@ -21024,9 +21024,9 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.12')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.12'}catch(e){}
-  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.12'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.14')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.14'}catch(e){}
+  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.14'}catch(e){}
 },0);
 
 window.mvSwipeLifetimeAudit288=function(){
@@ -21196,9 +21196,9 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.12')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.12'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.12')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.14')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.14'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.14')}catch(e){}
   refreshPausedBrowseUI289();
 },0);
 
@@ -21513,10 +21513,10 @@ window.addEventListener('sayward:content-updated',()=>{S292.index=null;if(search
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v6.4.12 · Learning Dashboard'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.12')}catch(e){}
-  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.12'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.12')}catch(e){}
+  try{document.title='SAYWARD v6.4.14 · Learning Dashboard'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.14')}catch(e){}
+  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.14'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.14')}catch(e){}
 },0);
 window.mvUnifiedSearchAudit292=()=>({version:'search-fix-20261019',indexCount:buildIndex292().length,masterCount:S292.remote.length,remoteState:S292.remoteState,remoteError:S292.remoteError,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'RLS-master+local index, refreshable; existing playback/swipe/card logic unchanged'});
 })();
@@ -21809,7 +21809,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v6.4.12 · Learning Dashboard'}catch(e){}
+  try{document.title='SAYWARD v6.4.14 · Learning Dashboard'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -21830,7 +21830,7 @@ window.mvCleanAudit540=function(){
   const h=home(),bar=document.getElementById('sharedStudySelectBar');
   const cards=[...document.querySelectorAll('#homePage .myClassSection .myClassCard')].slice(0,4);
   return {
-    version:'v6.4.12',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
+    version:'v6.4.14',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
     sharedBar:!!bar,daySettings:!!document.getElementById('cleanDaySettings'),legacyModePanelVisible:!!document.getElementById('homeStudyModePanel')&&getComputedStyle(document.getElementById('homeStudyModePanel')).display!=='none',
     visibleSections:{day:getComputedStyle(document.querySelector('#homePage .daySection')||document.body).display,my:getComputedStyle(document.querySelector('#homePage .myClassSection')||document.body).display,sori:getComputedStyle(document.querySelector('#homePage .soriClassSection')||document.body).display,opic:getComputedStyle(document.querySelector('#homePage .opicClassSection')||document.body).display,friends:getComputedStyle(document.querySelector('#homePage .friendsClassSection')||document.body).display},
     myCards:cards.map(c=>({w:Math.round(c.getBoundingClientRect().width),h:Math.round(c.getBoundingClientRect().height)})),
@@ -22016,7 +22016,7 @@ window.mvCleanAudit540=function(){
 #cleanHeroMenuHit,#cleanHeroSearchHit{position:absolute!important;top:0!important;height:100%!important;width:18%!important;border:0!important;background:transparent!important;padding:0!important;z-index:8!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 #cleanHeroMenuHit{left:-5px!important} #cleanHeroSearchHit{right:0!important}
 #homePage .homeHero::before{
-  content:"v6.4.12"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
+  content:"v6.4.14"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
   min-width:54px!important;padding:2px 8px 3px!important;box-sizing:border-box!important;text-align:center!important;
   border:1.5px solid rgba(255,255,255,.92)!important;border-radius:999px!important;background:rgba(77,62,202,.96)!important;
   color:#fff!important;font-size:9px!important;line-height:1.1!important;font-weight:950!important;letter-spacing:.1px!important;
@@ -22926,7 +22926,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v6.4.12 · Learning Dashboard';
+  document.title='SAYWARD v6.4.14 · Learning Dashboard';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -25643,7 +25643,7 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.12 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습 박스 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.14 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습 박스 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
@@ -26238,6 +26238,49 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     const at=Date.parse(String(schedule.next_review_at||''));
     return Number.isFinite(at)&&at<=Date.now()?schedule:null;
   };
+  // Display only: the official Stable schedule remains in Supabase.
+  const STABLE_REVIEW_DAYS=Object.freeze([7,14,21,30,40,60]);
+  const stableReviewLabel=schedule=>{
+    const stage=Number(schedule?.stage);
+    if(!Number.isInteger(stage)||stage<1||stage>STABLE_REVIEW_DAYS.length)
+      return 'Stable 복습 · 단계 확인 필요';
+    return `Stable 복습 · ${stage}/${STABLE_REVIEW_DAYS.length} (${STABLE_REVIEW_DAYS[stage-1]}일 주기)`;
+  };
+  // App-only rotation: NEVER changes official Stable schedule or GPT grading.
+  // Verified Supabase practice follows the signed-in account across devices.
+  // Per-account local exposures guard rapid reissue before a learner self-rates.
+  const SW_RECENT_ISSUE_MS=4*60*60*1000;                 // 4 hours, shown but not rated
+  const SW_REVIEW_RETRY_MS=24*60*60*1000;              // review/learned: next day
+  const SW_RECALLED_RETRY_MS=7*24*60*60*1000;          // independent app success: 7 days
+  const SW_EXPOSURE_HISTORY_MS=8*24*60*60*1000;
+  const exposureKey=()=>`sw_pattern_recent_issued_v6414:${state.uid||'anonymous'}`;
+  const readRecentExposure=()=>{
+    try{
+      const rows=JSON.parse(localStorage.getItem(exposureKey())||'[]');
+      const threshold=Date.now()-SW_EXPOSURE_HISTORY_MS;
+      return new Map((Array.isArray(rows)?rows:[]).filter(x=>
+        x&&typeof x.id==='string'&&Number.isFinite(x.ts)&&x.ts>=threshold&&x.ts<=Date.now()+60000
+      ).map(x=>[x.id,x.ts]));
+    }catch(_error){return new Map();}
+  };
+  const rememberExposures=patterns=>{
+    try{
+      const existing=readRecentExposure(),now=Date.now();
+      for(const p of patterns){if(p?.pattern_id)existing.set(p.pattern_id,now);}
+      const rows=[...existing].map(([id,ts])=>({id,ts})).sort((a,b)=>b.ts-a.ts).slice(0,600);
+      localStorage.setItem(exposureKey(),JSON.stringify(rows));
+    }catch(_error){/* user is still allowed to practice if browser storage is unavailable */}
+  };
+  const appPracticeCooldown=(p,recentExposures,now)=>{
+    const event=state.latest?.get(p.pattern_id);
+    const completedAt=Date.parse(String(event?.created_at||''));
+    if(Number.isFinite(completedAt)&&completedAt<=now+60000){
+      const wait=event.self_rating==='recalled'?SW_RECALLED_RETRY_MS:SW_REVIEW_RETRY_MS;
+      if(now-completedAt<wait)return 'evaluated';
+    }
+    const issuedAt=recentExposures.get(p.pattern_id);
+    return Number.isFinite(issuedAt)&&now-issuedAt<SW_RECENT_ISSUE_MS?'issued':null;
+  };
   const priority=p=>{const app=state.latest?.get(p.pattern_id);
     if(app?.self_rating==='review')return 0;
     if(app?.self_rating==='learned'||app?.hint_used)return 1;
@@ -26392,7 +26435,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     showInspection(p,answer,ins);
   }
   function showHint(){const visible=!!state.hint;g('sw5527PatternBody').hidden=!visible;g('sw5527HintToggle').textContent=visible?'패턴 숨기기':'패턴 보기';g('sw5527HintToggle').setAttribute('aria-expanded',String(visible));}
-  // v6.4.12: learner-selected self assessment is the primary result badge.
+  // v6.4.14: learner-selected self assessment is the primary result badge.
   // Match correctness remains available as factual reference INSIDE each card.
   // Only verified selfSaved ratings count as saved progress; pending ratings retain
   // their selected label but are marked unverified, never silently treated as success.
@@ -26507,7 +26550,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       });area.appendChild(button);
     }
   }
-  // v6.4.12: Match feedback uses the same clearly separated information-card order as TOEFL.
+  // v6.4.14: Match feedback uses the same clearly separated information-card order as TOEFL.
   // Pure DOM presentation: does not change answer validation, grading, IDs or DB writes.
   function renderMatchResult(p,entry){
     const el=g('sw5533MatchResult'),correct=entry.selected_id===p.pattern_id;
@@ -26561,7 +26604,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     setText('sw5527Prompt',p.example_ko);setText('sw5527Pattern',p.canonical_pattern);setText('sw5527PatternKo',p.pattern_ko);
     setText('sw5527Source',String(p.courses||'공식 패턴').replaceAll('|',' · '));
     const status=getStatus(p),self=state.latest?.get(p.pattern_id),due=dueInfo(p);
-    setText('sw5527State',(isMatch?'패턴 맞추기 · ':'')+(due?`STABLE 예정 복습 · ${due.stage}/6단계`:(status==='new'?(self?'APP 복습 · 공식 NEW':'NEW · 새 패턴'):status.toUpperCase()+' · 공식 복습')));
+    setText('sw5527State',(isMatch?'패턴 맞추기 · ':'')+(due?stableReviewLabel(due):(status==='new'?(self?'APP 복습 · 공식 NEW':'NEW · 새 패턴'):status.toUpperCase()+' · 공식 복습')));
     g('sw5533MatchArea').hidden=!isMatch;g('sw5533WriteTitle').hidden=isMatch;g('sw5527Answer').hidden=isMatch;
     g('sw5527Answer').value=isMatch?'':(entry?.answer||'');
     g('sw5527PatternBody').hidden=isMatch||!done;
@@ -26591,38 +26634,43 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     const {sentence,match}=counts(),targetCount=sentence+match;
     if(targetCount<1||targetCount>30){notice('문장 만들기와 패턴 맞추기를 합쳐 1~30개로 설정해 주세요. 현재 연습은 유지됩니다.');return;}
     const course=g('sw5527Course').value;
-    const filtered=state.patterns.filter(p=>course==='all'||String(p.courses||'').toUpperCase().includes(course));
+    const filtered=state.patterns.filter(p=>p.active!==false&&(course==='all'||String(p.courses||'').toUpperCase().includes(course)));
     if(match>0&&filtered.length<4){notice('패턴 맞추기는 서로 다른 공식 패턴 4개 이상이 필요합니다. 학습 영역을 바꿔 주세요.');return;}
-    // Every scheduled Stable pattern that is due today outranks Repair/Review/New.
-    // A not-yet-due Stable pattern remains available for *voluntary* practice,
-    // but cannot displace a due review. GPT's official grades remain separate.
     if(!state.due){notice('Stable 예정일 조회 완료 전에는 새 문제를 출제하지 않습니다.');return;}
-    const dueCandidates=filtered.filter(p=>!!dueInfo(p)).sort((a,b)=>{
+    const recentExposures=readRecentExposure(),now=Date.now();
+    const cooldownIds=new Set(filtered.filter(p=>appPracticeCooldown(p,recentExposures,now)).map(p=>p.pattern_id));
+    const eligible=filtered.filter(p=>!cooldownIds.has(p.pattern_id));
+    // All official due rows remain due in Supabase. Recently app-practiced due rows
+    // are skipped ONLY for this app quiz, avoiding 4-6 repeats in minutes.
+    const dueAll=filtered.filter(p=>!!dueInfo(p));
+    const dueCandidates=eligible.filter(p=>!!dueInfo(p)).sort((a,b)=>{
       const x=Date.parse(state.due.get(a.pattern_id).next_review_at);
       const y=Date.parse(state.due.get(b.pattern_id).next_review_at);
       return x-y||String(a.pattern_id).localeCompare(String(b.pattern_id));
     });
+    const skippedDue=dueAll.length-dueCandidates.length;
     const mandatory=dueCandidates.slice(0,targetCount);
     const mandatoryIds=new Set(mandatory.map(p=>p.pattern_id));
-    const remainder=filtered.filter(p=>!mandatoryIds.has(p.pattern_id));
+    const remainder=eligible.filter(p=>!mandatoryIds.has(p.pattern_id));
     const old=remainder.filter(isReviewed),fresh=remainder.filter(p=>!isReviewed(p));
     const priorityList=randomShuffle(old).sort((a,b)=>priority(a)-priority(b));
     const mix=Number(g('sw5527Mix').value);
     const quota=Math.round(targetCount*mix/100);
     let chosen;
     if(mix===100){
-      // Review-only: include due Stable first, then previously studied patterns. Never borrow from New.
       chosen=[...mandatory,...priorityList].slice(0,targetCount);
     }else if(mix===0){
-      // New-only is an explicit user-selected practice filter. Scheduled reviews stay due for later.
-      chosen=randomShuffle(filtered.filter(p=>!isReviewed(p))).slice(0,targetCount);
+      // Explicit New-only selection never forces due patterns or cooldown repeats.
+      chosen=randomShuffle(eligible.filter(p=>!isReviewed(p))).slice(0,targetCount);
     }else{
-      // Preserve 30/50/70 behavior, including the established scheduled-Stable priority.
       const freeSlots=targetCount-mandatory.length;
       const wantedReview=Math.max(0,quota-mandatory.length);
       const pickedReview=priorityList.slice(0,Math.min(freeSlots,wantedReview));
       chosen=[...mandatory,...pickedReview,...randomShuffle(fresh).slice(0,freeSlots-pickedReview.length)];
-      if(chosen.length<targetCount){const ids=new Set(chosen.map(p=>p.pattern_id));chosen.push(...randomShuffle(filtered.filter(p=>!ids.has(p.pattern_id))).slice(0,targetCount-chosen.length));}
+      if(chosen.length<targetCount){
+        const ids=new Set(chosen.map(p=>p.pattern_id));
+        chosen.push(...randomShuffle(eligible.filter(p=>!ids.has(p.pattern_id))).slice(0,targetCount-chosen.length));
+      }
     }
     const unique=randomShuffle(chosen);
     // First partition into two practice modes; then shuffle the entire mixed question deck.
@@ -26638,17 +26686,20 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       }
       return {...p,mode,options:randomShuffle([{pattern_id:p.pattern_id,canonical_pattern:p.canonical_pattern},...alternatives])};
     });
+    // Record display exposure even if the user regenerates without self-rating.
+    // No database writes or official promotion occur at issue time.
+    rememberExposures(chosen);
     leaveKeyboardMode();state.deck=randomShuffle(assigned);state.index=0;state.results.clear();state.finished=false;
     setText('sw5527Shuffle','↻ 문제 출제');setText('sw5527Restart','↻ 다시 문제 출제');
     g('sw5527CopyPanel').hidden=true;
     const reviewCount=chosen.filter(isReviewed).length,actualSentence=assigned.filter(x=>x.mode==='sentence').length;
-    setText('sw5527TotalInfo',`${filtered.length}개 공식 패턴 · Stable 예정 복습 ${dueCandidates.length}개 · 복습 ${reviewCount} / 신규 ${chosen.length-reviewCount}`);
-    if(!chosen.length)notice(mix===100?'복습 100%: 복습할 패턴이 없습니다. 다른 구성 또는 영역을 선택해 주세요.':mix===0?'신규 100%: 아직 학습하지 않은 패턴이 없습니다. 다른 구성 또는 영역을 선택해 주세요.':'선택한 학습 영역에 예문이 없습니다. 전체 패턴을 선택해 보세요.');
-    else if(chosen.length<targetCount)notice(mix===100?`복습 100%: 복습 대상이 부족해 ${chosen.length}개만 출제했습니다. 신규는 포함하지 않았습니다.`:mix===0?`신규 100%: 신규 대상이 부족해 ${chosen.length}개만 출제했습니다. 복습은 포함하지 않았습니다.`:'공식 DB에서 이용 가능한 문제 수가 적어 '+chosen.length+'개만 출제합니다.');
+    setText('sw5527TotalInfo',`${filtered.length}개 공식 패턴 · 공식 Stable 예정 ${dueAll.length}개 (최근 연습 ${skippedDue}개 제외) · 복습 ${reviewCount} / 신규 ${chosen.length-reviewCount}`);
+    if(!chosen.length)notice(cooldownIds.size?`최근 ${cooldownIds.size}개 패턴의 중복 출제를 방지하고 있습니다. 다른 카테고리 또는 출제 구성을 선택해 주세요. 공식 Stable 복습 일정은 유지됩니다.`:(mix===100?'복습할 패턴이 없습니다. 다른 구성 또는 영역을 선택해 주세요.':'선택한 학습 영역에 출제 가능한 패턴이 없습니다.'));
+    else if(chosen.length<targetCount)notice(`반복 방지를 위해 최근 학습 ${cooldownIds.size}개는 제외했습니다. 현재 조건에서 ${chosen.length}개만 출제합니다. 공식 Stable 예정일은 유지됩니다.`);
     else if(mix===100||mix===0)notice(mix===100?'복습 100%: 학습한 패턴만 출제했습니다.':'신규 100%: 처음 학습할 패턴만 출제했습니다. 예정된 Stable 복습은 계속 유지됩니다.');
-    else if(mandatory.length>quota)notice(`Stable 복습 예정 ${mandatory.length}개를 먼저 출제했습니다. 설정한 복습 비율보다 예정일을 우선합니다.`);
+    else if(mandatory.length>quota)notice(`최근 학습 ${skippedDue}개를 건너뛰고 Stable 복습 예정 ${mandatory.length}개를 출제했습니다. 공식 Stable 일정은 변경하지 않았습니다.`);
     else if(reviewCount!==quota)notice('복습/New 패턴 수가 부족해 출제 비율을 자동 보정했습니다.');
-    else notice('문장 만들기와 패턴 맞추기 혼합 연습입니다. 앱 평가와 공식 GPT 채점·승급은 구분됩니다.');
+    else notice(skippedDue?`Stable 예정 중 최근 앱 연습 ${skippedDue}개를 건너뛰었습니다. 공식 GPT 채점·승급은 별도입니다.`:'문장 만들기와 패턴 맞추기 혼합 연습입니다. 앱 평가와 공식 GPT 채점·승급은 구분됩니다.');
     render();
   }
   async function load(){
@@ -27720,7 +27771,7 @@ window.sw545ResumeAudit=()=>({version:'6.1.9',behavior:behavior(),overall:jparse
 })();
 </script>
 <script id="sayward-personal-cloud-sync-v601">
-/* SAYWARD v6.4.12 — Account preferences cloud sync with confirmed final-value writes.
+/* SAYWARD v6.4.14 — Account preferences cloud sync with confirmed final-value writes.
  * Only allowlisted, non-secret localStorage preferences are synchronized.
  * Official grades/history/learning state and server catalogs are NEVER modified.
  */
@@ -28169,7 +28220,7 @@ window.saywardPreferenceSync={version:'6.1.9',supportedKeys:()=>[...ALLOWED],sta
 .swPrefPersistIndicator{font-size:12px;line-height:1.5;color:#64748b;margin-top:6px;min-height:16px}
 
 
-/* v6.4.12 shared matching result format: TOEFL card hierarchy is the visual standard. */
+/* v6.4.14 shared matching result format: TOEFL card hierarchy is the visual standard. */
 #sw5527PracticePage .sw5527-reveal.swStudio-is-match-result{background:transparent;border:0;box-shadow:none;padding:0;margin-top:14px}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result{font-size:14px;color:#34465d;line-height:1.7;overflow-wrap:anywhere}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result>strong{font-size:17px;line-height:1.55;display:block;margin:0 0 10px}
@@ -28860,7 +28911,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-swipe-v642">
-/* SAYWARD v6.4.12 — shared navigation gesture.
+/* SAYWARD v6.4.14 — shared navigation gesture.
  * Browser back edges, vertical scrolling, fields and interactive controls are reserved.
  * No grading, Supabase or study-state writes happen in the gesture layer.
  */
@@ -28936,7 +28987,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-admin-learning-js">
-/* SAYWARD v6.4.12: secure admin-only, read-only member learning dashboard.
+/* SAYWARD v6.4.14: secure admin-only, read-only member learning dashboard.
  * All cross-user data MUST come from sayward_admin_learning_read RPC after DB admin verification.
  * No raw cross-user table queries; no write calls. */
 (function(){'use strict';
@@ -29086,7 +29137,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sw-unified-studio-js-v645">
-/* SAYWARD v6.4.12 — Single shared view layer for pattern/TOEFL x writing/matching.
+/* SAYWARD v6.4.14 — Single shared view layer for pattern/TOEFL x writing/matching.
  * Only presentation nodes are re-homed (not cloned); event handlers, answer state,
  * Supabase RPCs, official GPT policy and review scheduling stay with their owners.
  */
@@ -29233,7 +29284,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 @media(max-width:390px){.sw650-row{padding:13px 10px}.sw650-choice{font-size:12px;gap:4px}.sw650-choice .sw650-check{width:16px;height:16px}}
 </style>
 <script id="sw650CategoryReleaseScript">
-/* SAYWARD v6.4.12: persistent five-category publish policy. */
+/* SAYWARD v6.4.14: persistent five-category publish policy. */
 (()=>{'use strict';
  const root=document.getElementById('swCategoryRelease');if(!root)return;
  const rowsRoot=document.getElementById('swCategoryCards');
@@ -29340,5 +29391,5 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 })();
 
 </script>
-<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.12';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
+<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.14';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
 </body></html>
