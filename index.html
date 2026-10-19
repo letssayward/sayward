@@ -1,12 +1,12 @@
-<!-- SAYWARD v6.4.10 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
-<!-- SAYWARD v6.4.10; v6.0 RC2 official baseline + live sentence stats + personal sync -->
+<!-- SAYWARD v6.4.11 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
+<!-- SAYWARD v6.4.11; v6.0 RC2 official baseline + live sentence stats + personal sync -->
 <!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.10 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.11 · Learning Dashboard</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -4017,6 +4017,38 @@ body:has(#sw5527PracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButto
  #sw5527PracticePage .sw5533-toolbar button{font-size:12px;min-height:41px;height:41px}
 }
 
+
+/* v6.4.11: Pattern Sentence Studio - per-question completion review. */
+#sw5527PracticePage .sw5411-summary{margin:18px auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;text-align:left}
+#sw5527PracticePage .sw5411-metric{padding:12px;border:1px solid #e0daf7;background:#faf9ff;border-radius:13px}
+#sw5527PracticePage .sw5411-metric strong{display:block;font-size:18px;line-height:1.45;color:#46318e;font-weight:950}
+#sw5527PracticePage .sw5411-metric small{display:block;font-size:11px;line-height:1.45;color:#6e6887}
+#sw5527PracticePage .sw5411-review{text-align:left;margin-top:18px}
+#sw5527PracticePage .sw5411-review h3{font-size:17px;color:#29253e;margin:10px 0 8px}
+#sw5527PracticePage .sw5411-help{font-size:12px;color:#7a7390;line-height:1.65;margin:0 0 12px}
+#sw5527PracticePage .sw5411-filter{display:flex;flex-wrap:wrap;gap:7px;margin:13px 0}
+#sw5527PracticePage .sw5411-filter button{font-size:12px;font-weight:900;border:1px solid #dcd5f0;color:#534498;background:#fff;border-radius:30px;padding:9px 13px;margin:0}
+#sw5527PracticePage .sw5411-filter button[aria-pressed="true"]{background:#4936a5;color:#fff;border-color:#4936a5}
+#sw5527PracticePage .sw5411-section{margin:12px 0 16px}
+#sw5527PracticePage .sw5411-section>h4{margin:0 0 9px;color:#32275e;font-size:14px}
+#sw5527PracticePage .sw5411-item{margin:8px 0;border:1px solid #e1deec;border-radius:13px;background:#fff;overflow:hidden;text-align:left}
+#sw5527PracticePage .sw5411-item[hidden]{display:none!important}
+#sw5527PracticePage .sw5411-item>summary{padding:13px 12px;cursor:pointer;list-style:none;display:flex;align-items:flex-start;gap:10px;color:#25243a}
+#sw5527PracticePage .sw5411-item>summary::-webkit-details-marker{display:none}
+#sw5527PracticePage .sw5411-item>summary::after{content:'⌄';margin-left:auto;color:#8e83b3;font-weight:900}
+#sw5527PracticePage .sw5411-item[open]>summary::after{content:'⌃'}
+#sw5527PracticePage .sw5411-number{font-size:11px;font-weight:950;color:#806ba9;white-space:nowrap;padding-top:1px}
+#sw5527PracticePage .sw5411-overview{font-size:12px;line-height:1.5;font-weight:750;min-width:0;overflow-wrap:anywhere;flex:1}
+#sw5527PracticePage .sw5411-status{font-size:10px;font-weight:950;white-space:nowrap;border-radius:8px;padding:4px 7px;background:#edf7f2;color:#167252}
+#sw5527PracticePage .sw5411-item[data-outcome="wrong"] .sw5411-status{background:#fff0ed;color:#b04834}
+#sw5527PracticePage .sw5411-item[data-outcome="pending"] .sw5411-status{background:#f0edfb;color:#6c4ea4}
+#sw5527PracticePage .sw5411-body{padding:4px 14px 12px;border-top:1px solid #f0edf7}
+#sw5527PracticePage .sw5411-line{margin:9px 0;font-size:12px;line-height:1.65;overflow-wrap:anywhere}
+#sw5527PracticePage .sw5411-line b{display:block;color:#73698c;font-size:11px;margin-bottom:2px}
+#sw5527PracticePage .sw5411-line span{color:#29283b;white-space:pre-wrap}
+#sw5527PracticePage .sw5411-note{font-size:11px;color:#847b95;line-height:1.55;margin:12px 0}
+#sw5527PracticePage .sw5411-empty{padding:12px;color:#716a89;font-size:12px;text-align:center}
+@media(max-width:420px){#sw5527PracticePage .sw5411-summary{gap:6px}#sw5527PracticePage .sw5411-metric{padding:10px}#sw5527PracticePage .sw5411-item>summary{gap:6px;padding:12px 9px}}
 </style>
 <section id="sw5527PracticePage" class="sw5527-page swStudio-page hidden" aria-label="패턴 문장 만들기" aria-hidden="true">
   <div class="sw5527-shell swStudio-shell">
@@ -4075,7 +4107,7 @@ body:has(#sw5527PracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButto
     <div class="sw5527-export"><div><strong>GPT 8항목 정밀 채점</strong><small>답안 전체 복사 → ChatGPT 붙여넣기</small></div><button type="button" id="sw5527Copy">📋 전체 복사</button></div>
     <div id="sw5527CopyPanel" class="sw5527-copy-panel" hidden><label for="sw5527CopyText">복사할 채점 요청 <span>자동 복사할 수 없다면 직접 선택하여 복사하세요</span></label><textarea id="sw5527CopyText" readonly rows="6"></textarea><button id="sw5527CopyAgain" type="button">📋 다시 복사</button></div>
     <div id="sw5527Notice" class="sw5527-notice" role="status">공식 DB의 예문으로 연습합니다. 자기평가는 앱 기록에 저장되며 GPT 공식 채점·승급과 구분됩니다.</div>
-    <div id="sw5527Done" class="sw5527-done" hidden><div class="sw5527-done-icon">🎉</div><h2 id="sw5531DoneHeading">10문장 연습 완료</h2><p id="sw5527DoneText">전체 복사로 ChatGPT 채점을 요청하세요.</p><button type="button" id="sw5527Restart">새로운 10문장 시작</button></div>
+    <div id="sw5527Done" class="sw5527-done" hidden><div class="sw5527-done-icon">🎉</div><h2 id="sw5531DoneHeading">10문장 연습 완료</h2><p id="sw5527DoneText">전체 복사로 ChatGPT 채점을 요청하세요.</p><div id="sw5411Summary" class="sw5411-summary" aria-label="학습 결과 요약"></div><section id="sw5411Review" class="sw5411-review" aria-labelledby="sw5411ReviewHeading"><h3 id="sw5411ReviewHeading">📋 문항별 결과</h3><p class="sw5411-help">패턴 맞추기는 앱에서 정오답을 확인합니다. 문장 만들기는 내 답안과 기준 문장을 비교하며, 정밀 채점은 GPT에서 진행합니다.</p><div id="sw5411Filter" class="sw5411-filter" role="group" aria-label="결과 필터"><button type="button" data-sw5411-filter="all" aria-pressed="true">전체 결과</button><button type="button" data-sw5411-filter="review" aria-pressed="false">복습할 문제</button></div><div id="sw5411List"></div><p class="sw5411-note">※ 앱 패턴 맞추기 정답률과 자기평가는 공식 GPT Perfect/Review/Miss 및 Stable 승급에 반영되지 않습니다.</p></section><button type="button" id="sw5527Restart">↻ 다시 문제 출제</button></div>
   </div>
 </section>
 <div id="dayAppPage" class="hidden">
@@ -12299,7 +12331,7 @@ function mvSentenceEntryAudit182(){
 window.mvSentenceEntryAudit182=mvSentenceEntryAudit182;
 
 /* ===== V5.3.189 · STANDARD APP INFO / UPDATE HISTORY ===== */
-const MV_APP_VERSION='6.4.10';
+const MV_APP_VERSION='6.4.11';
 
 function mvCloseInfoOverlay(){
   const overlay=document.getElementById('mvInfoOverlay');
@@ -15843,7 +15875,7 @@ function installVisibleBuildBadge(){
   if(!badge){
     badge=document.createElement('div');
     badge.id='mvBuildBadge';
-    badge.textContent='v6.4.10';
+    badge.textContent='v6.4.11';
     badge.title='현재 실행 중인 MY VOCA 빌드';
     document.body.appendChild(badge);
   }
@@ -16262,7 +16294,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     return bar;
   }
 
-  /* v6.4.10: new lessons become selected AFTER both the authorized catalog and
+  /* v6.4.11: new lessons become selected AFTER both the authorized catalog and
      the account preferences have loaded. A seen-ID ledger keeps explicit
      unchecked choices unchecked, even when a lesson is refreshed. */
   const LESSON_AUTO_KEYS={
@@ -20735,8 +20767,8 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.10');
-  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.10';
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.11');
+  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.11';
   mv281SyncUI();
 },0);
 })();
@@ -20989,9 +21021,9 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.10')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.10'}catch(e){}
-  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.10'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.11')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.11'}catch(e){}
+  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.11'}catch(e){}
 },0);
 
 window.mvSwipeLifetimeAudit288=function(){
@@ -21161,9 +21193,9 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.10')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.10'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.10')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.11')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.11'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.11')}catch(e){}
   refreshPausedBrowseUI289();
 },0);
 
@@ -21478,10 +21510,10 @@ window.addEventListener('sayward:content-updated',()=>{S292.index=null;if(search
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v6.4.10 · Learning Dashboard'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.10')}catch(e){}
-  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.10'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.10')}catch(e){}
+  try{document.title='SAYWARD v6.4.11 · Learning Dashboard'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.11')}catch(e){}
+  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.11'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.11')}catch(e){}
 },0);
 window.mvUnifiedSearchAudit292=()=>({version:'search-fix-20261019',indexCount:buildIndex292().length,masterCount:S292.remote.length,remoteState:S292.remoteState,remoteError:S292.remoteError,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'RLS-master+local index, refreshable; existing playback/swipe/card logic unchanged'});
 })();
@@ -21774,7 +21806,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v6.4.10 · Learning Dashboard'}catch(e){}
+  try{document.title='SAYWARD v6.4.11 · Learning Dashboard'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -21795,7 +21827,7 @@ window.mvCleanAudit540=function(){
   const h=home(),bar=document.getElementById('sharedStudySelectBar');
   const cards=[...document.querySelectorAll('#homePage .myClassSection .myClassCard')].slice(0,4);
   return {
-    version:'v6.4.10',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
+    version:'v6.4.11',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
     sharedBar:!!bar,daySettings:!!document.getElementById('cleanDaySettings'),legacyModePanelVisible:!!document.getElementById('homeStudyModePanel')&&getComputedStyle(document.getElementById('homeStudyModePanel')).display!=='none',
     visibleSections:{day:getComputedStyle(document.querySelector('#homePage .daySection')||document.body).display,my:getComputedStyle(document.querySelector('#homePage .myClassSection')||document.body).display,sori:getComputedStyle(document.querySelector('#homePage .soriClassSection')||document.body).display,opic:getComputedStyle(document.querySelector('#homePage .opicClassSection')||document.body).display,friends:getComputedStyle(document.querySelector('#homePage .friendsClassSection')||document.body).display},
     myCards:cards.map(c=>({w:Math.round(c.getBoundingClientRect().width),h:Math.round(c.getBoundingClientRect().height)})),
@@ -21981,7 +22013,7 @@ window.mvCleanAudit540=function(){
 #cleanHeroMenuHit,#cleanHeroSearchHit{position:absolute!important;top:0!important;height:100%!important;width:18%!important;border:0!important;background:transparent!important;padding:0!important;z-index:8!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 #cleanHeroMenuHit{left:-5px!important} #cleanHeroSearchHit{right:0!important}
 #homePage .homeHero::before{
-  content:"v6.4.10"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
+  content:"v6.4.11"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
   min-width:54px!important;padding:2px 8px 3px!important;box-sizing:border-box!important;text-align:center!important;
   border:1.5px solid rgba(255,255,255,.92)!important;border-radius:999px!important;background:rgba(77,62,202,.96)!important;
   color:#fff!important;font-size:9px!important;line-height:1.1!important;font-weight:950!important;letter-spacing:.1px!important;
@@ -22891,7 +22923,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v6.4.10 · Learning Dashboard';
+  document.title='SAYWARD v6.4.11 · Learning Dashboard';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -25608,7 +25640,7 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.10 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습 박스 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.11 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습 박스 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
@@ -26357,12 +26389,83 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     showInspection(p,answer,ins);
   }
   function showHint(){const visible=!!state.hint;g('sw5527PatternBody').hidden=!visible;g('sw5527HintToggle').textContent=visible?'패턴 숨기기':'패턴 보기';g('sw5527HintToggle').setAttribute('aria-expanded',String(visible));}
+  // v6.4.11: use already-issued local deck/results; no new Supabase writes.
+  // Sentence recall is NOT auto-graded against the example (paraphrases may be correct).
+  function renderCompletionResults(){
+    const summary=g('sw5411Summary'),list=g('sw5411List');
+    if(!summary||!list)return;
+    summary.replaceChildren();list.replaceChildren();
+    const matchRows=state.deck.map((p,i)=>({p,i,r:state.results.get(i)})).filter(x=>x.p.mode==='match');
+    const sentenceRows=state.deck.map((p,i)=>({p,i,r:state.results.get(i)})).filter(x=>x.p.mode!=='match');
+    const answeredMatch=matchRows.filter(x=>x.r?.submitted&&x.r?.selected_id).length;
+    const correctMatch=matchRows.filter(x=>x.r?.submitted&&x.r?.selected_id===x.p.pattern_id).length;
+    const wrongMatch=answeredMatch-correctMatch;
+    const answeredSentence=sentenceRows.filter(x=>x.r?.submitted&&String(x.r?.answer||'').trim()).length;
+    const saved=state.deck.reduce((n,p,i)=>n+Number(!!state.results.get(i)?.selfSaved),0);
+    const makeMetric=(value,label)=>{const el=document.createElement('div');el.className='sw5411-metric';
+      const v=document.createElement('strong');v.textContent=value;const l=document.createElement('small');l.textContent=label;el.append(v,l);summary.appendChild(el);};
+    makeMetric(correctMatch+' / '+matchRows.length,'패턴 맞추기 정답 · 정답률 '+(answeredMatch?Math.round(100*correctMatch/answeredMatch)+'%':'—'));
+    makeMetric(wrongMatch+'개','패턴 오답'+(matchRows.length-answeredMatch?' · 미응답 '+(matchRows.length-answeredMatch)+'개':''));
+    makeMetric(answeredSentence+' / '+sentenceRows.length,'문장 만들기 제출 · GPT 채점 전');
+    makeMetric(saved+' / '+state.deck.length,'앱 연습 DB 저장 확인');
+    const line=(box,label,value)=>{const el=document.createElement('div');el.className='sw5411-line';
+      const t=document.createElement('b');t.textContent=label;const v=document.createElement('span');v.textContent=String(value??'—');el.append(t,v);box.appendChild(el);};
+    const makeSection=(heading,rows,isMatch)=>{if(!rows.length)return;
+      const sect=document.createElement('section');sect.className='sw5411-section';
+      const h=document.createElement('h4');h.textContent=heading+' · '+rows.length+'문제';sect.appendChild(h);
+      for(const {p,i,r} of rows){const submitted=!!r?.submitted,answered=!!String(r?.answer||'').trim();
+        const correct=isMatch&&submitted&&r.selected_id===p.pattern_id;
+        const outcome=isMatch?(submitted?(correct?'correct':'wrong'):'pending'):(submitted&&answered?(r.selfSaved&&r.selfRating==='recalled'?'correct':'pending'):'pending');
+        const item=document.createElement('details');item.className='sw5411-item';item.dataset.outcome=outcome;
+        item.dataset.needsReview=String(isMatch?!correct:(!submitted||!answered||r?.selfRating==='review'||r?.selfRating==='learned'||!r?.selfSaved));
+        // Automatically expand incorrect/missing responses for immediate review.
+        item.open=isMatch?(outcome!=='correct'):(!answered||r?.selfRating==='review');
+        const caption=document.createElement('summary');
+        const index=document.createElement('span');index.className='sw5411-number';index.textContent='Q'+(i+1);
+        const overview=document.createElement('span');overview.className='sw5411-overview';overview.textContent=String(p.example_ko||p.canonical_pattern||'문제');
+        const status=document.createElement('span');status.className='sw5411-status';
+        status.textContent=isMatch?(submitted?(correct?'✓ 정답':'✕ 오답'):'미응답'):(submitted&&answered?(r.selfSaved&&r.selfRating?'자기평가 '+(ratingLabels[r.selfRating]||'저장'):'GPT 채점 전'):'미작성');
+        caption.append(index,overview,status);item.appendChild(caption);
+        const body=document.createElement('div');body.className='sw5411-body';
+        if(isMatch){
+          line(body,'내가 선택한 패턴',r?.selected_id?r.answer:'선택 기록 없음');
+          line(body,'정답 패턴',p.canonical_pattern);
+          line(body,'패턴 의미',p.pattern_ko);
+          line(body,'공식 예문',p.example_en);
+        }else{
+          line(body,'내가 작성한 문장',r?.answer||'미작성');
+          line(body,'공식 DB 기준 문장',p.example_en);
+          line(body,'목표 패턴과 의미',String(p.canonical_pattern||'—')+' · '+String(p.pattern_ko||'—'));
+          line(body,'채점 상태','기준 문장은 가능한 표현 중 하나이며, 실제 문법·의미·패턴 회상은 GPT 8항목 채점이 필요합니다.');
+        }
+        line(body,'앱 학습 저장',r?.selfSaved?('저장 확인 · '+(ratingLabels[r.selfRating]||'')):(r?.saveError?'저장 확인 실패 · 재확인 필요':'미저장 또는 저장 미확인'));
+        item.appendChild(body);sect.appendChild(item);
+      }
+      list.appendChild(sect);
+    };
+    makeSection('🧩 패턴 맞추기 결과',matchRows,true);
+    makeSection('✍️ 문장 만들기 결과',sentenceRows,false);
+    if(!state.deck.length){const e=document.createElement('div');e.className='sw5411-empty';e.textContent='표시할 학습 결과가 없습니다.';list.appendChild(e);}
+    const buttons=[...g('sw5411Filter').querySelectorAll('button[data-sw5411-filter]')];
+    const applyFilter=mode=>{
+      for(const b of buttons)b.setAttribute('aria-pressed',String(b.dataset.sw5411Filter===mode));
+      for(const it of list.querySelectorAll('.sw5411-item'))it.hidden=mode==='review'&&it.dataset.needsReview!=='true';
+      for(const section of list.querySelectorAll('.sw5411-section'))section.hidden=!Array.from(section.querySelectorAll('.sw5411-item')).some(it=>!it.hidden);
+      const empty=list.querySelector('#sw5411FilterEmpty');if(empty)empty.remove();
+      if(mode==='review'&&!list.querySelector('.sw5411-section:not([hidden])')){
+        const msg=document.createElement('div');msg.id='sw5411FilterEmpty';msg.className='sw5411-empty';msg.textContent='복습할 항목이 없습니다.';list.appendChild(msg);
+      }
+    };
+    for(const b of buttons)b.onclick=()=>applyFilter(b.dataset.sw5411Filter);
+    applyFilter('all');
+  }
   function finish(){state.finished=true;g('sw5527Card').hidden=true;g('sw5527Done').hidden=false;
     const count=Array.from(state.results.values()).filter(x=>x.submitted&&x.answer.trim()).length;
     const savedCount=Array.from(state.results.values()).filter(x=>x.selfSaved).length;
     setText('sw5531DoneHeading',state.deck.length+'문제 연습 완료');
-    setText('sw5527DoneText',`응답 ${count}개 · 앱 연습 DB 저장 ${savedCount}개 / 전체 ${state.deck.length}개. 문장 교정과 패턴 선택 결과는 전체 복사로 확인할 수 있습니다.`);
-    setText('sw5527Step','GPT 채점 요청 준비');setText('sw5527Counter',`${state.deck.length} / ${state.deck.length}`);g('sw5527Track').style.width='100%';}
+    setText('sw5527DoneText',`응답 ${count}개 · 앱 연습 DB 저장 ${savedCount}개 / 전체 ${state.deck.length}개. 아래에서 패턴 맞추기 정오답과 문장 만들기 결과를 확인하세요.`);
+    renderCompletionResults();
+    setText('sw5527Step','결과 확인 · GPT 채점 요청 준비');setText('sw5527Counter',`${state.deck.length} / ${state.deck.length}`);g('sw5527Track').style.width='100%';}
   function renderMatchOptions(p,entry){
     const area=g('sw5533MatchOptions');area.replaceChildren();
     for(const opt of p.options||[]){
@@ -26380,7 +26483,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       });area.appendChild(button);
     }
   }
-  // v6.4.10: Match feedback uses the same clearly separated information-card order as TOEFL.
+  // v6.4.11: Match feedback uses the same clearly separated information-card order as TOEFL.
   // Pure DOM presentation: does not change answer validation, grading, IDs or DB writes.
   function renderMatchResult(p,entry){
     const el=g('sw5533MatchResult'),correct=entry.selected_id===p.pattern_id;
@@ -27593,7 +27696,7 @@ window.sw545ResumeAudit=()=>({version:'6.1.9',behavior:behavior(),overall:jparse
 })();
 </script>
 <script id="sayward-personal-cloud-sync-v601">
-/* SAYWARD v6.4.10 — Account preferences cloud sync with confirmed final-value writes.
+/* SAYWARD v6.4.11 — Account preferences cloud sync with confirmed final-value writes.
  * Only allowlisted, non-secret localStorage preferences are synchronized.
  * Official grades/history/learning state and server catalogs are NEVER modified.
  */
@@ -28042,7 +28145,7 @@ window.saywardPreferenceSync={version:'6.1.9',supportedKeys:()=>[...ALLOWED],sta
 .swPrefPersistIndicator{font-size:12px;line-height:1.5;color:#64748b;margin-top:6px;min-height:16px}
 
 
-/* v6.4.10 shared matching result format: TOEFL card hierarchy is the visual standard. */
+/* v6.4.11 shared matching result format: TOEFL card hierarchy is the visual standard. */
 #sw5527PracticePage .sw5527-reveal.swStudio-is-match-result{background:transparent;border:0;box-shadow:none;padding:0;margin-top:14px}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result{font-size:14px;color:#34465d;line-height:1.7;overflow-wrap:anywhere}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result>strong{font-size:17px;line-height:1.55;display:block;margin:0 0 10px}
@@ -28733,7 +28836,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-swipe-v642">
-/* SAYWARD v6.4.10 — shared navigation gesture.
+/* SAYWARD v6.4.11 — shared navigation gesture.
  * Browser back edges, vertical scrolling, fields and interactive controls are reserved.
  * No grading, Supabase or study-state writes happen in the gesture layer.
  */
@@ -28809,7 +28912,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-admin-learning-js">
-/* SAYWARD v6.4.10: secure admin-only, read-only member learning dashboard.
+/* SAYWARD v6.4.11: secure admin-only, read-only member learning dashboard.
  * All cross-user data MUST come from sayward_admin_learning_read RPC after DB admin verification.
  * No raw cross-user table queries; no write calls. */
 (function(){'use strict';
@@ -28959,7 +29062,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sw-unified-studio-js-v645">
-/* SAYWARD v6.4.10 — Single shared view layer for pattern/TOEFL x writing/matching.
+/* SAYWARD v6.4.11 — Single shared view layer for pattern/TOEFL x writing/matching.
  * Only presentation nodes are re-homed (not cloned); event handlers, answer state,
  * Supabase RPCs, official GPT policy and review scheduling stay with their owners.
  */
@@ -29106,7 +29209,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 @media(max-width:390px){.sw650-row{padding:13px 10px}.sw650-choice{font-size:12px;gap:4px}.sw650-choice .sw650-check{width:16px;height:16px}}
 </style>
 <script id="sw650CategoryReleaseScript">
-/* SAYWARD v6.4.10: persistent five-category publish policy. */
+/* SAYWARD v6.4.11: persistent five-category publish policy. */
 (()=>{'use strict';
  const root=document.getElementById('swCategoryRelease');if(!root)return;
  const rowsRoot=document.getElementById('swCategoryCards');
@@ -29213,5 +29316,5 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 })();
 
 </script>
-<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.10';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
+<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.11';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
 </body></html>
