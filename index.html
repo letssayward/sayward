@@ -1,12 +1,12 @@
-<!-- SAYWARD v6.4.19 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
-<!-- SAYWARD v6.4.19; v6.0 RC2 official baseline + live sentence stats + personal sync -->
+<!-- SAYWARD v6.4.22 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
+<!-- SAYWARD v6.4.22; v6.0 RC2 official baseline + live sentence stats + personal sync -->
 <!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.19 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.22 · Learning Dashboard</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -7765,9 +7765,20 @@ function splitSpeechChunks(text,maxLen=150){
 }
 async function speakComplete(text,rate=getSpeechRate(),lang='en-US'){
   const chunks=splitSpeechChunks(text);
+  if(!chunks.length)return;
+  const speechTicket=TTS.seq;
+  // A Speaking paragraph can have one Kokoro MP3 for the entire DB text.
+  // Check that exact passage before splitting it into separate TTS sentences.
+  if(chunks.length>1&&/^en(?:-|$)/i.test(lang||'en-US')){
+    let wholeFile=false;
+    try{wholeFile=await window.saywardKokoroMixed?.has?.(text)===true;}catch(_){wholeFile=false;}
+    if(TTS.seq!==speechTicket)return;
+    if(wholeFile){await speakOne(text,rate,lang);return;}
+  }
   for(const chunk of chunks){
+    if(TTS.seq!==speechTicket)return;
     await speakOne(chunk,rate,lang);
-    if(chunks.length>1)await new Promise(r=>setTimeout(r,70));
+    if(chunks.length>1&&TTS.seq===speechTicket)await new Promise(r=>setTimeout(r,70));
   }
 }
 async function speakTwice(text,rate=getSpeechRate()){
@@ -12301,7 +12312,7 @@ function mvSentenceEntryAudit182(){
 window.mvSentenceEntryAudit182=mvSentenceEntryAudit182;
 
 /* ===== V5.3.189 · STANDARD APP INFO / UPDATE HISTORY ===== */
-const MV_APP_VERSION='6.4.20';
+const MV_APP_VERSION='6.4.22';
 
 function mvCloseInfoOverlay(){
   const overlay=document.getElementById('mvInfoOverlay');
@@ -15845,7 +15856,7 @@ function installVisibleBuildBadge(){
   if(!badge){
     badge=document.createElement('div');
     badge.id='mvBuildBadge';
-    badge.textContent='v6.4.19';
+    badge.textContent='v6.4.22';
     badge.title='현재 실행 중인 MY VOCA 빌드';
     document.body.appendChild(badge);
   }
@@ -16264,7 +16275,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     return bar;
   }
 
-  /* v6.4.19: new lessons become selected AFTER both the authorized catalog and
+  /* v6.4.22: new lessons become selected AFTER both the authorized catalog and
      the account preferences have loaded. A seen-ID ledger keeps explicit
      unchecked choices unchecked, even when a lesson is refreshed. */
   const LESSON_AUTO_KEYS={
@@ -20737,8 +20748,8 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.19');
-  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.19';
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.22');
+  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.22';
   mv281SyncUI();
 },0);
 })();
@@ -20991,9 +21002,9 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.19')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.19'}catch(e){}
-  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.19'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.22')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.22'}catch(e){}
+  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.22'}catch(e){}
 },0);
 
 window.mvSwipeLifetimeAudit288=function(){
@@ -21163,9 +21174,9 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.19')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.19'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.19')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.22')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.22'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.22')}catch(e){}
   refreshPausedBrowseUI289();
 },0);
 
@@ -21399,10 +21410,10 @@ function navigate292(item){S292.lastTarget=item?.id||null;if(item.course==='day'
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v6.4.19 · Learning Dashboard'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.19')}catch(e){}
-  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.19'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.19')}catch(e){}
+  try{document.title='SAYWARD v6.4.22 · Learning Dashboard'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.22')}catch(e){}
+  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.22'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.22')}catch(e){}
 },0);
 window.mvUnifiedSearchAudit292=()=>({version:'v5.3.292',indexCount:buildIndex292().length,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'additive unified search only; existing playback/swipe/card logic unchanged'});
 })();
@@ -21695,7 +21706,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v6.4.19 · Learning Dashboard'}catch(e){}
+  try{document.title='SAYWARD v6.4.22 · Learning Dashboard'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -21716,7 +21727,7 @@ window.mvCleanAudit540=function(){
   const h=home(),bar=document.getElementById('sharedStudySelectBar');
   const cards=[...document.querySelectorAll('#homePage .myClassSection .myClassCard')].slice(0,4);
   return {
-    version:'v6.4.19',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
+    version:'v6.4.22',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
     sharedBar:!!bar,daySettings:!!document.getElementById('cleanDaySettings'),legacyModePanelVisible:!!document.getElementById('homeStudyModePanel')&&getComputedStyle(document.getElementById('homeStudyModePanel')).display!=='none',
     visibleSections:{day:getComputedStyle(document.querySelector('#homePage .daySection')||document.body).display,my:getComputedStyle(document.querySelector('#homePage .myClassSection')||document.body).display,sori:getComputedStyle(document.querySelector('#homePage .soriClassSection')||document.body).display,opic:getComputedStyle(document.querySelector('#homePage .opicClassSection')||document.body).display,friends:getComputedStyle(document.querySelector('#homePage .friendsClassSection')||document.body).display},
     myCards:cards.map(c=>({w:Math.round(c.getBoundingClientRect().width),h:Math.round(c.getBoundingClientRect().height)})),
@@ -21902,7 +21913,7 @@ window.mvCleanAudit540=function(){
 #cleanHeroMenuHit,#cleanHeroSearchHit{position:absolute!important;top:0!important;height:100%!important;width:18%!important;border:0!important;background:transparent!important;padding:0!important;z-index:8!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 #cleanHeroMenuHit{left:-5px!important} #cleanHeroSearchHit{right:0!important}
 #homePage .homeHero::before{
-  content:"v6.4.19"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
+  content:"v6.4.22"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
   min-width:54px!important;padding:2px 8px 3px!important;box-sizing:border-box!important;text-align:center!important;
   border:1.5px solid rgba(255,255,255,.92)!important;border-radius:999px!important;background:rgba(77,62,202,.96)!important;
   color:#fff!important;font-size:9px!important;line-height:1.1!important;font-weight:950!important;letter-spacing:.1px!important;
@@ -22812,7 +22823,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v6.4.19 · Learning Dashboard';
+  document.title='SAYWARD v6.4.22 · Learning Dashboard';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -25568,7 +25579,7 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.19 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.22 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
@@ -26390,7 +26401,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       });area.appendChild(button);
     }
   }
-  // v6.4.19: Match feedback uses the same clearly separated information-card order as TOEFL.
+  // v6.4.22: Match feedback uses the same clearly separated information-card order as TOEFL.
   // Pure DOM presentation: does not change answer validation, grading, IDs or DB writes.
   function renderMatchResult(p,entry){
     const el=g('sw5533MatchResult'),correct=entry.selected_id===p.pattern_id;
@@ -26751,7 +26762,14 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
   g('sw5527Copy').onclick=()=>{void copyAll();};g('sw5527CopyAgain').onclick=()=>{void copyAll();};
   g('sw5532CopyOne').onclick=()=>{void copyOne();};
   g('sw5528TogglePattern').onclick=()=>{const el=g('sw5528PatternDetail');el.hidden=!el.hidden;const button=g('sw5528TogglePattern');button.setAttribute('aria-expanded',String(!el.hidden));button.textContent=el.hidden?'목표 패턴과 비교하기 ▾':'목표 패턴 숨기기 ▴';};
-  g('sw5527Speak').onclick=()=>{const p=state.deck[state.index];if(!p||!window.speechSynthesis)return;try{window.speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(p.example_en);utterance.lang='en-US';utterance.rate=.85;window.speechSynthesis.speak(utterance);}catch(e){notice('이 브라우저에서는 문장 음성 읽기를 사용할 수 없습니다.');}};
+  g('sw5527Speak').onclick=()=>{
+    const p=state.deck[state.index];if(!p?.example_en)return;
+    window.saywardStudioAudio?.stop?.();
+    window.stopSpeech?.();
+    void Promise.resolve(window.speakOne?.(p.example_en,.85,'en-US')).catch(()=>{
+      notice('이 브라우저에서는 문장 음성 읽기를 사용할 수 없습니다.');
+    });
+  };
   window.addEventListener('sayward:auth-state',e=>{const s=e.detail||{};if(!s.authenticated||s.uid!==state.uid){leaveKeyboardMode();++state.request;state.uid=null;state.patterns=[];state.states=null;state.latest=null;state.due=null;state.deck=[];state.results.clear();view.classList.add('hidden');view.setAttribute('aria-hidden','true');}});
 })();
 
@@ -27603,7 +27621,7 @@ window.sw545ResumeAudit=()=>({version:'6.1.9',behavior:behavior(),overall:jparse
 })();
 </script>
 <script id="sayward-personal-cloud-sync-v601">
-/* SAYWARD v6.4.19 — Account preferences cloud sync with confirmed final-value writes.
+/* SAYWARD v6.4.22 — Account preferences cloud sync with confirmed final-value writes.
  * Only allowlisted, non-secret localStorage preferences are synchronized.
  * Official grades/history/learning state and server catalogs are NEVER modified.
  */
@@ -28052,7 +28070,7 @@ window.saywardPreferenceSync={version:'6.1.9',supportedKeys:()=>[...ALLOWED],sta
 .swPrefPersistIndicator{font-size:12px;line-height:1.5;color:#64748b;margin-top:6px;min-height:16px}
 
 
-/* v6.4.19 shared matching result format: TOEFL card hierarchy is the visual standard. */
+/* v6.4.22 shared matching result format: TOEFL card hierarchy is the visual standard. */
 #sw5527PracticePage .sw5527-reveal.swStudio-is-match-result{background:transparent;border:0;box-shadow:none;padding:0;margin-top:14px}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result{font-size:14px;color:#34465d;line-height:1.7;overflow-wrap:anywhere}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result>strong{font-size:17px;line-height:1.55;display:block;margin:0 0 10px}
@@ -28743,7 +28761,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-swipe-v642">
-/* SAYWARD v6.4.19 — shared navigation gesture.
+/* SAYWARD v6.4.22 — shared navigation gesture.
  * Browser back edges, vertical scrolling, fields and interactive controls are reserved.
  * No grading, Supabase or study-state writes happen in the gesture layer.
  */
@@ -28819,7 +28837,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-admin-learning-js">
-/* SAYWARD v6.4.19: secure admin-only, read-only member learning dashboard.
+/* SAYWARD v6.4.22: secure admin-only, read-only member learning dashboard.
  * All cross-user data MUST come from sayward_admin_learning_read RPC after DB admin verification.
  * No raw cross-user table queries; no write calls. */
 (function(){'use strict';
@@ -28969,7 +28987,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sw-unified-studio-js-v645">
-/* SAYWARD v6.4.19 — Single shared view layer for pattern/TOEFL x writing/matching.
+/* SAYWARD v6.4.22 — Single shared view layer for pattern/TOEFL x writing/matching.
  * Only presentation nodes are re-homed (not cloned); event handlers, answer state,
  * Supabase RPCs, official GPT policy and review scheduling stay with their owners.
  */
@@ -29038,54 +29056,51 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </script>
 <script id="sayward-studio-audio-v646">
-/* SAYWARD 6.4.6 — shared answer-confirmation TTS; client-side only.
- * The repeat preference is stored in the preexisting authenticated settings sync
- * allowlist via myVocaConfigurationV1. Never writes grade/history/learning state.
+/* SAYWARD v6.4.22: Studio audio shares card/quiz MP3 engine.
+ * Every exact reference sentence, including repeated examples, uses the same
+ * per-user authorized Kokoro MP3 mapping. Missing MP3 falls back to existing TTS.
+ * Grade, attempt, answer, and study-state logic are untouched.
  */
 (function(){'use strict';
  const KEY='myVocaConfigurationV1';
- let generation=0,active=false,utterance=null;
- const synth=()=>window.speechSynthesis;
- const supported=()=>!!synth()&&typeof window.SpeechSynthesisUtterance==='function';
+ let generation=0,active=false;
+ const supported=()=>typeof window.speakOne==='function';
  function count(){
-  try{const raw=JSON.parse(localStorage.getItem(KEY)||'{}');const n=Number(raw.studioAnswerRepeat);
-   return [0,1,2,3,5].includes(n)?n:2;
-  }catch(e){return 2;}
+   try{const raw=JSON.parse(localStorage.getItem(KEY)||'{}');const n=Number(raw.studioAnswerRepeat);
+     return [0,1,2,3,5].includes(n)?n:2;
+   }catch(e){return 2;}
  }
  function rate(){try{const x=JSON.parse(localStorage.getItem(KEY)||'{}');return Math.max(.7,Math.min(1.35,Number(x.speechRate)||1));}catch(e){return 1;}}
- function text(s){return String(s||'').replace(/\s*~\s*/g,' something ').replace(/\s*\+\s*/g,' ').replace(/[<>]/g,' ').replace(/\s+/g,' ').trim();}
- function stop(){const wasActive=active;generation++;active=false;utterance=null;if(wasActive)try{synth()?.cancel()}catch(e){}}
- function play(mode,pattern,reference){
-  stop();const n=count();if(!n||!supported())return false;
-  const sentence=text(reference),phrase=text(pattern);
-  const units=(mode==='match'?[phrase,sentence]:[sentence]).filter(Boolean);
-  if(!units.length)return false;
-  const serial=++generation;active=true;let i=0;
-  function next(){
-   if(serial!==generation)return;
-   if(i>=units.length*n){active=false;utterance=null;return;}
-   // n repetitions of the complete pair: pattern → sentence → pattern → sentence.
-   const t=units[i%units.length];i++;
-   let u;
-   try{
-    u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=rate();
-    const voices=synth().getVoices?.()||[];
-    const english=voices.find(v=>/^en-US$/i.test(v.lang)&&v.localService)||voices.find(v=>/^en/i.test(v.lang));
-    if(english)u.voice=english;
-    let advanced=false;const advance=()=>{if(advanced)return;advanced=true;if(serial===generation)next();};
-    u.onend=advance;u.onerror=advance;utterance=u;
-    synth().speak(u);
-    if(synth().paused)synth().resume();
-   }catch(e){active=false;utterance=null;}
-  }
-  next();return true;
+ function cue(s){return String(s||'').replace(/\s*~\s*/g,' something ').replace(/\s*\+\s*/g,' ').replace(/[<>]/g,' ').replace(/\s+/g,' ').trim();}
+ // Cancel only if this studio owned an active playback. This preserves other
+ // lesson/card audio when the studio is merely rendering an inactive card.
+ function stop(){const wasActive=active;generation++;active=false;
+   if(wasActive)try{window.stopSpeech?.();}catch(_){}
  }
- document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});
+ function play(mode,pattern,reference){
+   stop();const n=count();if(!n||!supported())return false;
+   // Do NOT rewrite the reference sentence: its literal DB text defines
+   // the MP3 SHA-256 filename. Cue placeholders are only normalized for TTS.
+   const sentence=String(reference||'').trim(),phrase=cue(pattern);
+   const units=(mode==='match'?[phrase,sentence]:[sentence]).filter(Boolean);
+   if(!units.length)return false;
+   const ticket=++generation;active=true;
+   void (async()=>{
+     try{
+       for(let i=0;i<units.length*n;i++){
+         if(ticket!==generation)return;
+         await window.speakOne(units[i%units.length],rate(),'en-US');
+       }
+     }catch(e){console.warn('[SAYWARD Studio Audio]',String(e?.message||e).slice(0,100));}
+     finally{if(ticket===generation)active=false;}
+   })();
+   return true;
+ }
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
  window.addEventListener('pagehide',stop);
  window.addEventListener('sayward:auth-out',stop);
  window.saywardStudioAudio={play,stop,count,supported};
 })();
-
 </script>
 <style id="sw650CategoryCss">
 #swCategoryRelease[hidden]{display:none!important}
@@ -29116,7 +29131,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 @media(max-width:390px){.sw650-row{padding:13px 10px}.sw650-choice{font-size:12px;gap:4px}.sw650-choice .sw650-check{width:16px;height:16px}}
 </style>
 <script id="sw650CategoryReleaseScript">
-/* SAYWARD v6.4.19: persistent five-category publish policy. */
+/* SAYWARD v6.4.22: persistent five-category publish policy. */
 (()=>{'use strict';
  const root=document.getElementById('swCategoryRelease');if(!root)return;
  const rowsRoot=document.getElementById('swCategoryCards');
@@ -29223,9 +29238,9 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 })();
 
 </script>
-<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.19';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
+<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.22';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
 <style id="sw231CardStyles">
-/* v6.4.19 — one visible header group for ALL study-card types.
+/* v6.4.22 — one visible header group for ALL study-card types.
    Favorite is physically inside the same row as Level, so overlap is impossible. */
 .sw231LevelInfo{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:9px 0 10px}
 .sw231LevelInfo span{font-size:11px;font-weight:850;border-radius:8px;padding:5px 8px;border:1px solid #e5ddf6;color:#5b4194;background:#f8f5ff}
@@ -29486,7 +29501,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 
 <style id="sw6419CompactCardControls">
-/* v6.4.19 Compact Level + Favorite, reserve separate line for sentence-trained badge. */
+/* v6.4.22 Compact Level + Favorite, reserve separate line for sentence-trained badge. */
 #myClassContent .myStudyCard > .sw6413LevelFavoriteGroup,
 #myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup{
   top:10px!important;right:10px!important;gap:5px!important;
@@ -29529,12 +29544,16 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 #sw5513ApprovalPanel .sw5513-applicant-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 </style>
 <script id="sw6419KokoroAutoDiscovery">
-/* SAYWARD v6.4.20: per-user private MP3 access and dynamic discovery.
+/* SAYWARD v6.4.22: Unified six-voice MP3 playback, per-user private MP3 and dynamic discovery.
    No manifest required. Lists both voice folders once per login, caches paths,
    then rechecks missing entries after a bounded interval. Per-user entitlement.
    All MP3 operations are read-only. No service keys and no DB writes. */
 (function(){'use strict';
- const BUCKET='sayward-audio', VOICES=['af_heart','am_michael'];
+ const BUCKET='sayward-audio';
+ const FEMALE=['af_heart','af_bella','af_nicole'], MALE=['am_michael','am_fenrir','am_puck'];
+ const VOICES=[...FEMALE,...MALE];
+ const SIX_SPEEDS={'af_heart':'1.07','af_bella':'1.08','af_nicole':'1.08',
+                   'am_michael':'1.07','am_fenrir':'1.08','am_puck':'1.08'};
  const ENGINE='kokoro-v1.0', LEGACY_SPEED='1.00', FLOW_SPEED='1.07';
  const REFRESH_MISSING_MS=10*60*1000, REFRESH_VISIBILITY_MS=20*60*1000;
  const initialSpeak=window.speakOne,initialStop=window.stopSpeech;
@@ -29545,7 +29564,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  const ACCESS_TTL_MS=30*1000;
  const signedCache=new Map(), resolved=new Map();
  const norm=s=>String(s||'').normalize('NFC').trim().replace(/\s+/gu,' ');
- const validPath=s=>/^audio\/(?:af_heart|am_michael)\/[a-f0-9]{24}\.mp3$/.test(s);
+ const validPath=s=>/^audio\/(?:af_heart|af_bella|af_nicole|am_michael|am_fenrir|am_puck)\/[a-f0-9]{24}\.mp3$/.test(s);
  function auth(){const s=window.saywardAuth?.snapshot?.();return (s?.authenticated&&s?.uid&&window.saywardAuth?.getClient?.())?s:null;}
  function client(){return window.saywardAuth?.getClient?.()||null;}
  function halt(){try{player?.pause();if(player)player.currentTime=0;}catch(_){}player=null;
@@ -29583,16 +29602,21 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  function hex24(buf){return [...buf].map(v=>v.toString(16).padStart(2,'0')).join('').slice(0,24);}
  async function variants(text){
    const t=norm(text);if(!t||t.length>1800||/[가-힣]/.test(t))return [];
-   const assign=await hashBytes(t);if(!assign)return [];
-   const assigned=assign[0]%2===0?'af_heart':'am_michael';
+   const digest=await hashBytes(t);if(!digest)return [];
+   // Mirrors Windows voice6_generate.voice_for: hash[0] parity then hash[1] modulo 3.
+   const isFemale=digest[0]%2===0, group=isFemale?FEMALE:MALE;
+   const primaryVoice=group[digest[1]%3];
+   const oldVoice=isFemale?'af_heart':'am_michael';
    const key=async(voice,speed)=>{
-     // Python json.dumps([engine,voice,speed,text], ensure_ascii=False) standard comma-space separators.
+     // Python json.dumps([engine,voice,speed,text], ensure_ascii=False) default separators.
      const payload='['+[ENGINE,voice,speed,t].map(v=>JSON.stringify(v)).join(', ')+']';
      const hash=await hashBytes(payload);return hash?'audio/'+voice+'/'+hex24(hash)+'.mp3':'';
    };
+   // A newly created six-voice MP3 takes precedence over old 2-voice fallbacks.
+   const primary=await key(primaryVoice,SIX_SPEEDS[primaryVoice]);
    const legacy=await key('af_heart',LEGACY_SPEED);
-   const flow=await key(assigned,FLOW_SPEED);
-   return [legacy,flow].filter(Boolean);
+   const oldFlow=await key(oldVoice,FLOW_SPEED);
+   return [...new Set([primary,legacy,oldFlow].filter(Boolean))];
  }
  async function discover(force=false){
    const uid=uidCheck();if(!uid)return null;
@@ -29688,10 +29712,19 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    else if(auth())void checkAccess(true).then(ok=>{if(ok&&(!fileIndex||Date.now()-lastScan>REFRESH_VISIBILITY_MS))void discover(true);});});
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if(auth())void checkAccess(true).then(ok=>{if(ok)void discover();});},{once:true});
  else if(auth())void checkAccess(true).then(ok=>{if(ok)void discover();});
- window.saywardKokoroMixed={
-   status:()=>({active:!!auth()&&accessEnabled,accessEnabled,indexedFiles:lastFileCount,mappedSentences:resolved.size,lastScan,lastError}),
-   refresh:async()=>{resolved.clear();if(!await checkAccess(true))return null;return discover(true);},findPath,stop:halt
- };
+  window.saywardKokoroMixed={
+    status:()=>({active:!!auth()&&accessEnabled,accessEnabled,indexedFiles:lastFileCount,mappedSentences:resolved.size,lastScan,lastError}),
+    refresh:async()=>{resolved.clear();if(!await checkAccess(true))return null;return discover(true);},
+    has:async text=>{if(!await checkAccess())return false;return !!await findPath(text);},
+    findPath,stop:halt
+  };
+  // A single public replay API for other learning surfaces.
+  window.saywardEnglishAudio={
+    speak:(text,rate)=>window.speakOne(text,rate,'en-US'),
+    speakParagraph:(text,rate)=>window.speakComplete(text,rate,'en-US'),
+    stop:()=>window.stopSpeech(),
+    status:()=>window.saywardKokoroMixed.status()
+  };
 })();
 </script>
 </body></html>
