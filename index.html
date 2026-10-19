@@ -1,12 +1,12 @@
-<!-- SAYWARD v6.4.24 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
-<!-- SAYWARD v6.4.24; v6.0 RC2 official baseline + live sentence stats + personal sync -->
+<!-- SAYWARD v6.4.25 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
+<!-- SAYWARD v6.4.25; v6.0 RC2 official baseline + live sentence stats + personal sync -->
 <!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.24 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.25 · Learning Dashboard</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -4666,7 +4666,9 @@ function myClassSyncButtons(){
 }
 function myClassStop(clearCurrent=false){MY_CLASS_PLAY.token++;MY_CLASS_PLAY.active=false;MY_CLASS_PLAY.paused=true;stopSpeech();myClassClearSpeakingSentenceHighlight();if(clearCurrent){MY_CLASS_PLAY.index=0;MY_CLASS_PLAY.currentText='';MY_CLASS_PLAY.repeatCurrent=false;myClassClearFocus();}myClassSyncButtons();myClassSetStatus(clearCurrent?'MY 수업 자동 재생 준비':'재생이 정지되었습니다',false);}
 async function myClassSpeakSequence(texts,{focusEl=null,statusPrefix='전체 듣기'}={}){
-  const list=(Array.isArray(texts)?texts:[texts]).flatMap(myClassSplitSentences).filter(Boolean);
+  const original=(Array.isArray(texts)?texts:[texts]).filter(x=>typeof x==='string'&&x.trim());
+  const fullText=original.length===1?original[0].trim():'';
+  const list=original.flatMap(myClassSplitSentences).filter(Boolean);
   if(!list.length)return;
 
   myClassStop(false);
@@ -4683,6 +4685,21 @@ async function myClassSpeakSequence(texts,{focusEl=null,statusPrefix='전체 듣
     ? Array.from(focusEl.querySelectorAll('.mySpeakSentence'))
     : [];
 
+  // The Kokoro exporter stores each SPEAKING paragraph as ONE complete MP3.
+  // Never split it into TTS-only fragments if that exact file is available.
+  // Applies equally to MY, OPIC, SORI, and FRIENDS lessons.
+  if(fullText && list.length>1 && await window.saywardKokoroMixed?.has?.(fullText)){
+    if(token!==MY_CLASS_PLAY.token||MY_CLASS_PLAY.paused)return;
+    MY_CLASS_PLAY.currentText=fullText;
+    myClassSetStatus(`${statusPrefix} · 문단 MP3`,true);
+    await window.speakOne(fullText,getSpeechRate(),'en-US',focusEl?.querySelector('.mySpeakBody')||focusEl);
+    if(token!==MY_CLASS_PLAY.token||MY_CLASS_PLAY.paused)return;
+    myClassClearSpeakingSentenceHighlight();
+    MY_CLASS_PLAY.active=false;MY_CLASS_PLAY.paused=true;
+    myClassSyncButtons();myClassSetStatus('재생 완료',false);
+    return;
+  }
+
   for(let k=0;k<list.length;k++){
     if(token!==MY_CLASS_PLAY.token||MY_CLASS_PLAY.paused)return;
 
@@ -4698,7 +4715,7 @@ async function myClassSpeakSequence(texts,{focusEl=null,statusPrefix='전체 듣
 
     myClassSetStatus(`${statusPrefix} · ${k+1}/${list.length}`,true);
 
-    await speakOne(list[k],getSpeechRate(),'en-US');
+    await window.speakOne(list[k],getSpeechRate(),'en-US');
 
     if(token!==MY_CLASS_PLAY.token||MY_CLASS_PLAY.paused)return;
 
@@ -4722,7 +4739,7 @@ async function myClassStartAuto(startIndex=null){
   const items=myClassPlaybackItems();if(!items.length){myClassStop(false);myClassSetStatus(myClassTab==='habits'?'습관 탭은 읽기 대신 행동 교정에 집중합니다.':'재생할 문장이 없습니다.',false);return;}
   if(startIndex!=null)MY_CLASS_PLAY.index=Math.max(0,Math.min(items.length-1,startIndex));else if(MY_CLASS_PLAY.index>=items.length)MY_CLASS_PLAY.index=0;
   myClassStop(false);const token=++MY_CLASS_PLAY.token;MY_CLASS_PLAY.active=true;MY_CLASS_PLAY.paused=false;myClassSyncButtons();const settings=loadAppSettings();const repeat=Math.max(1,parseInt(settings.myClassSentenceRepeat||2,10));const pause=Math.max(0,parseInt(settings.myClassPause||700,10));
-  while(token===MY_CLASS_PLAY.token&&!MY_CLASS_PLAY.paused){const fresh=myClassPlaybackItems();if(!fresh.length)break;if(MY_CLASS_PLAY.index>=fresh.length)MY_CLASS_PLAY.index=0;const item=fresh[MY_CLASS_PLAY.index];MY_CLASS_PLAY.currentText=item.text;myClassFocus(item.el);const repeatCount=MY_CLASS_PLAY.repeatCurrent?999999:repeat;for(let r=0;r<repeatCount;r++){if(token!==MY_CLASS_PLAY.token||MY_CLASS_PLAY.paused)break;myClassSetStatus(`${myClassTab==='corrections'?'핵심 교정':myClassTab==='chunks'?'Chunk':'말하기'} · ${MY_CLASS_PLAY.index+1}/${fresh.length} · ${MY_CLASS_PLAY.repeatCurrent?'∞':`${r+1}/${repeat}`}`,true);await speakOne(item.text,getSpeechRate(),'en-US');if(token!==MY_CLASS_PLAY.token||MY_CLASS_PLAY.paused)break;await new Promise(res=>setTimeout(res,pause));}if(token!==MY_CLASS_PLAY.token||MY_CLASS_PLAY.paused)break;if(MY_CLASS_PLAY.repeatCurrent)continue;MY_CLASS_PLAY.index++;if(MY_CLASS_PLAY.index>=fresh.length){MY_CLASS_PLAY.active=false;MY_CLASS_PLAY.paused=true;MY_CLASS_PLAY.index=0;myClassClearFocus();myClassSyncButtons();myClassSetStatus('이 탭의 자동 재생이 완료되었습니다',false);break;}}
+  while(token===MY_CLASS_PLAY.token&&!MY_CLASS_PLAY.paused){const fresh=myClassPlaybackItems();if(!fresh.length)break;if(MY_CLASS_PLAY.index>=fresh.length)MY_CLASS_PLAY.index=0;const item=fresh[MY_CLASS_PLAY.index];MY_CLASS_PLAY.currentText=item.text;myClassFocus(item.el);const repeatCount=MY_CLASS_PLAY.repeatCurrent?999999:repeat;for(let r=0;r<repeatCount;r++){if(token!==MY_CLASS_PLAY.token||MY_CLASS_PLAY.paused)break;myClassSetStatus(`${myClassTab==='corrections'?'핵심 교정':myClassTab==='chunks'?'Chunk':'말하기'} · ${MY_CLASS_PLAY.index+1}/${fresh.length} · ${MY_CLASS_PLAY.repeatCurrent?'∞':`${r+1}/${repeat}`}`,true);await window.speakOne(item.text,getSpeechRate(),'en-US');if(token!==MY_CLASS_PLAY.token||MY_CLASS_PLAY.paused)break;await new Promise(res=>setTimeout(res,pause));}if(token!==MY_CLASS_PLAY.token||MY_CLASS_PLAY.paused)break;if(MY_CLASS_PLAY.repeatCurrent)continue;MY_CLASS_PLAY.index++;if(MY_CLASS_PLAY.index>=fresh.length){MY_CLASS_PLAY.active=false;MY_CLASS_PLAY.paused=true;MY_CLASS_PLAY.index=0;myClassClearFocus();myClassSyncButtons();myClassSetStatus('이 탭의 자동 재생이 완료되었습니다',false);break;}}
 }
 function myClassTogglePlay(){
   return m536ToggleGlobalPlayback();
@@ -12994,7 +13011,7 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
           for(let r=0;r<repeatCount;r++){
             if(token!==V534.myLoopToken||MY_CLASS_PLAY.paused)return;
             myClassSetStatus(`${tabLabel(myClassTab)} · ${idx+1}/${items.length} · ${MY_CLASS_PLAY.repeatCurrent?'∞':`${r+1}/${repeat}`}`,true);
-            await speakOne(item.text,getSpeechRate(),'en-US');
+            await window.speakOne(item.text,getSpeechRate(),'en-US');
             if(token!==V534.myLoopToken||MY_CLASS_PLAY.paused)return;
             await new Promise(res=>setTimeout(res,pause));
           }
@@ -13420,7 +13437,7 @@ myClassPlaybackItems=function(){
 
 function speakBlock(text,isParagraph){
   if(isParagraph && typeof speakComplete==='function')return speakComplete(text,getSpeechRate(),'en-US');
-  return speakOne(text,getSpeechRate(),'en-US');
+  return window.speakOne(text,getSpeechRate(),'en-US');
 }
 
 function renderSpeakingParagraphUI(){
@@ -13824,12 +13841,22 @@ window.m536RenderItemForFull255=m536RenderItemForFull255;
 async function m536Speak(text,paragraph){
   // 일반 문장/Chunk는 기존 방식 유지
   if(paragraph && typeof speakComplete==='function')await speakComplete(text,getSpeechRate(),'en-US');
-  else await speakOne(text,getSpeechRate(),'en-US');
+  else await window.speakOne(text,getSpeechRate(),'en-US');
 }
 
 async function m536SpeakItem(item,focusEl,guard=null){
-  // SPEAKING 문단은 실제 문장별로 재생하면서 현재 문장을 표시한다.
+  // A single exported MP3 represents the complete Speaking paragraph.
+  // This full-play path previously split it and therefore missed the file.
   if(item && item.tab==='speaking'){
+    if(item.text && await window.saywardKokoroMixed?.has?.(item.text)){
+      if(guard&&!guard())return false;
+      myClassSetStatus?.(`SPEAKING ${item.index+1} · 문단 MP3`,true);
+      const wholeEl=focusEl||document.getElementById(`mySpeakBlock${item.index}`);
+      await window.speakOne(item.text,getSpeechRate(),'en-US',wholeEl);
+      if(guard&&!guard())return false;
+      myClassClearSpeakingSentenceHighlight();
+      return true;
+    }
     const parts=myClassSplitSentences(item.text);
     const block=focusEl || document.getElementById(`mySpeakBlock${item.index}`);
 
@@ -13848,7 +13875,7 @@ async function m536SpeakItem(item,focusEl,guard=null){
         true
       );
 
-      await speakOne(parts[i],getSpeechRate(),'en-US');
+      await window.speakOne(parts[i],getSpeechRate(),'en-US');
       if(guard && !guard()) { myClassClearSpeakingSentenceHighlight(); return false; }
 
       if(i<parts.length-1){
@@ -17559,6 +17586,17 @@ async function studySpeakSpeakingCard192(index,block=null){
   }
 
   const sentenceEls=focusEl?Array.from(focusEl.querySelectorAll('.mySpeakSentence')):[];
+  if(row.text && answerParts.length>1 && await window.saywardKokoroMixed?.has?.(row.text)){
+    if(!alive())return false;
+    MY_CLASS_PLAY.currentText=row.text;
+    myClassSetStatus(`SPEAKING ${Number(index)+1} · 모범답안 문단 전체`,true);
+    await window.speakOne(row.text,getSpeechRate(),'en-US',focusEl?.querySelector('.mySpeakText')||focusEl);
+    if(!alive())return false;
+    try{myClassClearSpeakingSentenceHighlight()}catch(e){}
+    MY_CLASS_PLAY.active=false;MY_CLASS_PLAY.paused=true;
+    myClassSyncButtons();myClassSetStatus('재생 완료',false);
+    return true;
+  }
   for(let i=0;i<answerParts.length;i++){
     if(!alive())return false;
     const text=answerParts[i];
@@ -17715,7 +17753,8 @@ async function studySpeakQuestionThenAnswer193(item,focusEl,guard=null){
   if(!row)return false;
   const block=focusEl||document.getElementById(`mySpeakBlock${item.index}`);
   const question=studySpeakingQuestion193(row,block);
-  const parts=myClassSplitSentences(String(row.text||item.text||'')).filter(Boolean);
+  const answerText=String(row.text||item.text||'').trim();
+  const parts=myClassSplitSentences(answerText).filter(Boolean);
   const alive=()=>!guard||guard();
   const pause=Math.max(0,Number(loadAppSettings().myClassPause||700));
 
@@ -17732,6 +17771,17 @@ async function studySpeakQuestionThenAnswer193(item,focusEl,guard=null){
     if(!alive())return false;
     await new Promise(r=>setTimeout(r,Math.max(220,Math.min(650,pause||220))));
     if(!alive())return false;
+  }
+
+  // The last-installed Question + Answer speaker must honor the full answer MP3.
+  if(answerText && parts.length>1 && await window.saywardKokoroMixed?.has?.(answerText)){
+    if(!alive())return false;
+    MY_CLASS_PLAY.currentText=answerText;
+    myClassSetStatus?.(`SPEAKING ${item.index+1} · 모범답안 문단 전체`,true);
+    await window.speakOne(answerText,getSpeechRate(),'en-US',block?.querySelector('.mySpeakText')||block);
+    if(!alive())return false;
+    try{myClassClearSpeakingSentenceHighlight()}catch(e){}
+    return true;
   }
 
   for(let i=0;i<parts.length;i++){
@@ -20748,7 +20798,7 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.24');
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.25');
   const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.24';
   mv281SyncUI();
 },0);
@@ -21002,7 +21052,7 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.24')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.25')}catch(e){}
   try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.24'}catch(e){}
   try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.24'}catch(e){}
 },0);
@@ -21174,7 +21224,7 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.24')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.25')}catch(e){}
   try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.24'}catch(e){}
   try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.24')}catch(e){}
   refreshPausedBrowseUI289();
@@ -21410,8 +21460,8 @@ function navigate292(item){S292.lastTarget=item?.id||null;if(item.course==='day'
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v6.4.24 · Learning Dashboard'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.24')}catch(e){}
+  try{document.title='SAYWARD v6.4.25 · Learning Dashboard'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.25')}catch(e){}
   try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.24'}catch(e){}
   try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.24')}catch(e){}
 },0);
@@ -21706,7 +21756,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v6.4.24 · Learning Dashboard'}catch(e){}
+  try{document.title='SAYWARD v6.4.25 · Learning Dashboard'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -22823,7 +22873,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v6.4.24 · Learning Dashboard';
+  document.title='SAYWARD v6.4.25 · Learning Dashboard';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -25579,7 +25629,7 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.24 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.25 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
@@ -27621,7 +27671,7 @@ window.sw545ResumeAudit=()=>({version:'6.1.9',behavior:behavior(),overall:jparse
 })();
 </script>
 <script id="sayward-personal-cloud-sync-v601">
-/* SAYWARD v6.4.24 — Account preferences cloud sync with confirmed final-value writes.
+/* SAYWARD v6.4.25 — Account preferences cloud sync with confirmed final-value writes.
  * Only allowlisted, non-secret localStorage preferences are synchronized.
  * Official grades/history/learning state and server catalogs are NEVER modified.
  */
@@ -28761,7 +28811,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-swipe-v642">
-/* SAYWARD v6.4.24 — shared navigation gesture.
+/* SAYWARD v6.4.25 — shared navigation gesture.
  * Browser back edges, vertical scrolling, fields and interactive controls are reserved.
  * No grading, Supabase or study-state writes happen in the gesture layer.
  */
@@ -28837,7 +28887,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-admin-learning-js">
-/* SAYWARD v6.4.24: secure admin-only, read-only member learning dashboard.
+/* SAYWARD v6.4.25: secure admin-only, read-only member learning dashboard.
  * All cross-user data MUST come from sayward_admin_learning_read RPC after DB admin verification.
  * No raw cross-user table queries; no write calls. */
 (function(){'use strict';
@@ -28987,7 +29037,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sw-unified-studio-js-v645">
-/* SAYWARD v6.4.24 — Single shared view layer for pattern/TOEFL x writing/matching.
+/* SAYWARD v6.4.25 — Single shared view layer for pattern/TOEFL x writing/matching.
  * Only presentation nodes are re-homed (not cloned); event handlers, answer state,
  * Supabase RPCs, official GPT policy and review scheduling stay with their owners.
  */
@@ -29056,7 +29106,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </script>
 <script id="sayward-studio-audio-v646">
-/* SAYWARD v6.4.24: Studio audio shares card/quiz MP3 engine.
+/* SAYWARD v6.4.25: Studio audio shares card/quiz MP3 engine.
  * Every exact reference sentence, including repeated examples, uses the same
  * per-user authorized Kokoro MP3 mapping. Missing MP3 falls back to existing TTS.
  * Grade, attempt, answer, and study-state logic are untouched.
@@ -29131,7 +29181,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 @media(max-width:390px){.sw650-row{padding:13px 10px}.sw650-choice{font-size:12px;gap:4px}.sw650-choice .sw650-check{width:16px;height:16px}}
 </style>
 <script id="sw650CategoryReleaseScript">
-/* SAYWARD v6.4.24: persistent five-category publish policy. */
+/* SAYWARD v6.4.25: persistent five-category publish policy. */
 (()=>{'use strict';
  const root=document.getElementById('swCategoryRelease');if(!root)return;
  const rowsRoot=document.getElementById('swCategoryCards');
@@ -29238,7 +29288,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 })();
 
 </script>
-<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.24';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
+<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.25';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
 <style id="sw231CardStyles">
 /* v6.4.24 — one visible header group for ALL study-card types.
    Favorite is physically inside the same row as Level, so overlap is impossible. */
@@ -29544,7 +29594,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 #sw5513ApprovalPanel .sw5513-applicant-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 </style>
 <script id="sw6419KokoroAutoDiscovery">
-/* SAYWARD v6.4.24: Server-managed audio catalog; voice-agnostic MP3 playback with per-user entitlement.
+/* SAYWARD v6.4.25: Server-managed audio catalog; voice-agnostic MP3 playback with per-user entitlement.
    No manifest required. Lists both voice folders once per login, caches paths,
    then rechecks missing entries after a bounded interval. Per-user entitlement.
    All MP3 operations are read-only. No service keys and no DB writes. */
@@ -29562,7 +29612,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  let accessUid='',accessEnabled=false,accessAt=0,accessTask=null;
  const ACCESS_TTL_MS=30*1000;
  const signedCache=new Map(), resolved=new Map();
- let manifestMap=null,manifestTask=null,manifestAt=0,manifestError='',playbackMode='untried',currentFile='';
+ let manifestMap=null,manifestTask=null,manifestAt=0,manifestError='',playbackMode='untried',currentFile='',fallbackReason='',lastRequestedText='';
  const norm=s=>String(s||'').normalize('NFC').trim().replace(/\s+/gu,' ');
  const validVoice=v=>/^[a-z][a-z0-9_-]{1,31}$/.test(v);
  const validPath=s=>/^audio\/[a-z][a-z0-9_-]{1,31}\/[a-f0-9]{24}\.mp3$/.test(s);
@@ -29570,7 +29620,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  function client(){return window.saywardAuth?.getClient?.()||null;}
  function halt(){try{player?.pause();if(player)player.currentTime=0;}catch(_){}player=null;
    if(finishActive){const cb=finishActive;finishActive=null;cb(true);}}
- function clear(){generation++;halt();userId='';fileIndex=null;indexTask=null;lastScan=0;lastError='';lastFileCount=0;folderVoices=[];resolved.clear();signedCache.clear();manifestMap=null;manifestAt=0;manifestTask=null;manifestError='';accessUid='';accessEnabled=false;accessAt=0;accessTask=null;}
+ function clear(){generation++;halt();userId='';fileIndex=null;indexTask=null;lastScan=0;lastError='';lastFileCount=0;folderVoices=[];resolved.clear();signedCache.clear();manifestMap=null;manifestAt=0;manifestTask=null;manifestError='';fallbackReason='';lastRequestedText='';accessUid='';accessEnabled=false;accessAt=0;accessTask=null;}
  async function checkAccess(force=false){
    const a=auth();if(!a){if(accessUid)clear();return false;}
    if(accessUid!==a.uid){if(accessUid)clear();accessUid=a.uid;}
@@ -29702,14 +29752,15 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    resolved.set(t,match);return match;
  }
  async function playFile(text,rate,lang,element,ticket){
-   if(!/^en(?:-|$)/i.test(lang||'en-US')||!await checkAccess())return false;
+   if(!/^en(?:-|$)/i.test(lang||'en-US')){fallbackReason='NOT_ENGLISH';return false;}
+   if(!await checkAccess()){fallbackReason=auth()?'MP3_PERMISSION_DISABLED_OR_CHECK_FAILED':'NOT_AUTHENTICATED';return false;}
    const path=await findPath(text);
    if(ticket!==generation)return true;
-   if(!path){playbackMode='unmapped';return false;}
+   if(!path){playbackMode='unmapped';fallbackReason=manifestError&& !fileIndex?'MANIFEST_OR_STORAGE_UNAVAILABLE':'SENTENCE_NOT_MAPPED';return false;}
    currentFile=path;
    const url=await sign(path);
    if(ticket!==generation)return true;
-   if(!url){playbackMode='signed-url-failed';return false;}
+   if(!url){playbackMode='signed-url-failed';fallbackReason='SIGNED_URL_FAILED';return false;}
    let a;try{a=new Audio(url);a.preload='auto';a.playbackRate=Math.max(.7,Math.min(1.4,Number(rate)||1));
       if('preservesPitch' in a)a.preservesPitch=true;}catch(_){return false;}
    player=a;let finished=false,timer=null,playing=false;
@@ -29718,25 +29769,26 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
        a.removeEventListener('ended',onEnd);a.removeEventListener('error',onError);
        if(player===a)player=null;if(finishActive===done)finishActive=null;
        try{window.mvDomClearHighlight?.()}catch(_){}resolve(ok);};
-     const onEnd=()=>{playbackMode='MP3';done(true)},onError=()=>{lastError='MP3_AUDIO_ERROR';playbackMode='audio-error';done(false)};
+     const onEnd=()=>{playbackMode='MP3';fallbackReason='';done(true)},onError=()=>{lastError='MP3_AUDIO_ERROR';playbackMode='audio-error';fallbackReason='MP3_MEDIA_ERROR';done(false)};
      finishActive=done;
      a.addEventListener('ended',onEnd,{once:true});a.addEventListener('error',onError,{once:true});
      timer=setTimeout(()=>done(false),Math.max(45000,norm(text).length*950));
      try{window.mvDomStartHighlight?.(norm(text),element);}catch(_){}
-     Promise.resolve(a.play()).then(()=>{playing=true;playbackMode='MP3';}).catch(e=>{lastError='MP3_PLAY_'+String(e?.name||e?.message||'REJECTED').slice(0,95);playbackMode='play-rejected';done(false)});
+     Promise.resolve(a.play()).then(()=>{playing=true;playbackMode='MP3';fallbackReason='';}).catch(e=>{lastError='MP3_PLAY_'+String(e?.name||e?.message||'REJECTED').slice(0,95);playbackMode='play-rejected';fallbackReason=lastError;done(false)});
    });
    if(!result&&!playing){try{a.pause()}catch(_){}}
    return result||ticket!==generation;
  }
  window.speakOne=async function(text,rate,lang,element){
    const ticket=generation;
+   lastRequestedText=norm(text).slice(0,230);currentFile='';fallbackReason='';
    const actualRate=rate===undefined||rate===null?(typeof window.getSpeechRate==='function'?window.getSpeechRate():1):rate;
    if(norm(text)&&/^en(?:-|$)/i.test(lang||'en-US')){
      let ok=false;try{ok=await playFile(text,actualRate,lang,element,ticket);}catch(e){console.warn('[SAYWARD Kokoro]',String(e?.message||e).slice(0,100));}
      if(ticket!==generation)return;if(ok)return;
    }
    if(ticket!==generation)return;
-   if(/^en(?:-|$)/i.test(lang||'en-US'))playbackMode='TTS';
+   if(/^en(?:-|$)/i.test(lang||'en-US')){if(!fallbackReason)fallbackReason='MP3_UNAVAILABLE';playbackMode='TTS';}
    return initialSpeak.call(this,text,rate,lang,element);
  };
  window.stopSpeech=function(...args){generation++;halt();return initialStop.apply(this,args);};
@@ -29752,7 +29804,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if(auth())void checkAccess(true).then(ok=>{if(ok)void fetchManifest();});},{once:true});
  else if(auth())void checkAccess(true).then(ok=>{if(ok)void fetchManifest();});
   window.saywardKokoroMixed={
-    status:()=>({engine:'v6.4.24',authenticated:!!auth(),active:!!auth()&&accessEnabled,accessEnabled,manifestEntries:manifestMap?.size||0,manifestAgeSec:manifestAt?Math.round((Date.now()-manifestAt)/1000):null,manifestError,indexedVoices:folderVoices.length,indexedFiles:lastFileCount,mappedSentences:resolved.size,lastScan,lastError,playbackMode,currentFile}),
+    status:()=>({engine:'v6.4.25',authenticated:!!auth(),active:!!auth()&&accessEnabled,accessEnabled,manifestEntries:manifestMap?.size||0,manifestAgeSec:manifestAt?Math.round((Date.now()-manifestAt)/1000):null,manifestError,indexedVoices:folderVoices.length,indexedFiles:lastFileCount,mappedSentences:resolved.size,lastScan,lastError,playbackMode,currentFile,fallbackReason,lastRequestedText}),
     refresh:async()=>{resolved.clear();manifestAt=0;manifestMap=null;manifestError='';fileIndex=null;lastScan=0;if(!await checkAccess(true))return null;return (await fetchManifest(true))||(await discover(true));},
     has:async text=>{if(!await checkAccess())return false;return !!await findPath(text);},
     findPath,stop:halt
@@ -29774,15 +29826,16 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
     if(document.getElementById('sw6423-diagnostics'))return;
     const root=mk('section',{id:'sw6423-diagnostics',style:'position:fixed;bottom:12px;left:10px;right:10px;z-index:2147483000;background:#fff;color:#172b4d;box-shadow:0 8px 30px #0006;border:2px solid #2563eb;border-radius:15px;padding:13px;max-width:580px;margin:0 auto;font:14px/1.45 system-ui, sans-serif;max-height:73vh;overflow:auto;'});
     const top=mk('div',{style:'display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;'});
-    top.append(mk('strong',{},'🎧 SAYWARD MP3 연결 진단 · v6.4.24'));
+    top.append(mk('strong',{},'🎧 SAYWARD MP3 연결 진단 · v6.4.25'));
     const close=mk('button',{type:'button',style:'font-size:16px;padding:4px 10px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#222;'},'닫기');close.onclick=()=>root.remove();top.append(close);root.append(top);
     const help=mk('p',{style:'margin:0 0 9px;color:#475569;font-size:12px;'},'진단은 로그인 후 실행하세요. 비밀번호와 인증키는 표시하거나 저장하지 않습니다.');root.append(help);
     const controls=mk('div',{style:'display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px;'});
     const check=mk('button',{type:'button',style:'padding:9px 13px;border:0;border-radius:9px;background:#2563eb;color:white;font-weight:bold;'},'연결 새로 점검');
     const test=mk('button',{type:'button',style:'padding:9px 13px;border:0;border-radius:9px;background:#0f766e;color:white;font-weight:bold;'},'문장 MP3 확인');
-    controls.append(check,test);root.append(controls);
+    const play=mk('button',{type:'button',style:'padding:9px 13px;border:0;border-radius:9px;background:#7c3aed;color:white;font-weight:bold;'},'실제 음성 재생');
+    controls.append(check,test,play);root.append(controls);
     const input=mk('textarea',{rows:'2',style:'box-sizing:border-box;width:100%;padding:7px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;'},'');
-    input.value='Most bank branches are located in busy commercial areas.';root.append(input);
+    input.value='I ended up drinking more than usual.';root.append(input);
     const result=mk('pre',{style:'font:12px/1.55 ui-monospace, monospace;white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f9;border-radius:9px;padding:10px;margin:10px 0 0;'},'진단 버튼을 누르세요.');root.append(result);
     const safeError=e=>String(e?.message||e||'unknown').slice(0,150);
     check.onclick=async()=>{
@@ -29794,7 +29847,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
         const client=window.saywardAuth?.getClient?.();
         let profile='확인 불가';
         if(client&&s?.uid){const {data,error}=await client.from('sayward_profiles').select('mp3_audio_enabled,account_status').eq('user_id',s.uid).maybeSingle();profile=error?'오류: '+safeError(error):`활성=${data?.account_status==='active'}, MP3 ON=${data?.mp3_audio_enabled===true}`;}
-        result.textContent=`앱 엔진: ${d.engine}\n로그인: ${d.authenticated?'YES':'NO'}\nDB 제공권한: ${profile}\n사용 가능: ${d.active?'YES':'NO'}\nmanifest 매핑: ${d.manifestEntries}문장\nmanifest 갱신 후: ${d.manifestAgeSec??'-'}초\nStorage 검색: ${d.indexedFiles}파일\nmanifest 오류: ${d.manifestError||'없음'}\n기타 오류: ${d.lastError||'없음'}\n마지막 재생: ${d.playbackMode}\n주의: manifest가 정상이라면 Storage 폴더 검색 수가 0이어도 됩니다.`;
+        result.textContent=`앱 엔진: ${d.engine}\n로그인: ${d.authenticated?'YES':'NO'}\nDB 제공권한: ${profile}\n사용 가능: ${d.active?'YES':'NO'}\nmanifest 매핑: ${d.manifestEntries}문장\nmanifest 갱신 후: ${d.manifestAgeSec??'-'}초\nStorage 검색: ${d.indexedFiles}파일\nmanifest 오류: ${d.manifestError||'없음'}\n기타 오류: ${d.lastError||'없음'}\n마지막 재생: ${d.playbackMode}\n마지막 TTS 사유: ${d.fallbackReason||'없음'}\n마지막 MP3 파일: ${d.currentFile||'-'}\n주의: manifest가 정상이라면 Storage 폴더 검색 수가 0이어도 됩니다.`;
       }catch(e){result.textContent='진단 오류: '+safeError(e);}finally{check.disabled=false;}
     };
     test.onclick=async()=>{
@@ -29804,6 +29857,18 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
         result.textContent=path?`매핑 성공: ${path}\n현재 권한: ${status.accessEnabled}\n권한이 ON이면 아래 원래 카드 듣기 버튼에서 MP3가 나와야 합니다.`:
           `MP3 매핑 실패\n권한=${status.accessEnabled}\nmanifest=${status.manifestEntries}\n목록=${status.indexedFiles}\n오류=${status.lastError||status.manifestError||'일치하는 문장 없음'}`;
       }catch(e){result.textContent='진단 오류: '+safeError(e);}finally{test.disabled=false;}
+    };
+    play.onclick=async()=>{
+      play.disabled=true;result.textContent='MP3 실재생을 시도합니다…';
+      try{
+        await window.speakOne(input.value,1,'en-US');
+        const d=window.saywardKokoroMixed?.status?.()||{};
+        result.textContent=`최종 재생: ${d.playbackMode||'-'}
+요청 문장: ${d.lastRequestedText||'-'}
+MP3 경로: ${d.currentFile||'-'}
+TTS 전환 사유: ${d.fallbackReason||'없음'}
+오류: ${d.lastError||d.manifestError||'없음'}`;
+      }catch(e){result.textContent='실제 재생 오류: '+safeError(e);}finally{play.disabled=false;}
     };
     document.body.append(root);
   };
