@@ -1,12 +1,12 @@
-<!-- SAYWARD v6.4.14 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
-<!-- SAYWARD v6.4.14; v6.0 RC2 official baseline + live sentence stats + personal sync -->
+<!-- SAYWARD v6.4.24 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
+<!-- SAYWARD v6.4.24; v6.0 RC2 official baseline + live sentence stats + personal sync -->
 <!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.14 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.24 · Learning Dashboard</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -4017,41 +4017,6 @@ body:has(#sw5527PracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButto
  #sw5527PracticePage .sw5533-toolbar button{font-size:12px;min-height:41px;height:41px}
 }
 
-
-/* v6.4.14: Pattern Sentence Studio - per-question completion review. */
-#sw5527PracticePage .sw5411-summary{margin:18px auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;text-align:left}
-#sw5527PracticePage .sw5411-metric{padding:12px;border:1px solid #e0daf7;background:#faf9ff;border-radius:13px}
-#sw5527PracticePage .sw5411-metric strong{display:block;font-size:18px;line-height:1.45;color:#46318e;font-weight:950}
-#sw5527PracticePage .sw5411-metric small{display:block;font-size:11px;line-height:1.45;color:#6e6887}
-#sw5527PracticePage .sw5411-review{text-align:left;margin-top:18px}
-#sw5527PracticePage .sw5411-review h3{font-size:17px;color:#29253e;margin:10px 0 8px}
-#sw5527PracticePage .sw5411-help{font-size:12px;color:#7a7390;line-height:1.65;margin:0 0 12px}
-#sw5527PracticePage .sw5411-filter{display:flex;flex-wrap:wrap;gap:7px;margin:13px 0}
-#sw5527PracticePage .sw5411-filter button{font-size:12px;font-weight:900;border:1px solid #dcd5f0;color:#534498;background:#fff;border-radius:30px;padding:9px 13px;margin:0}
-#sw5527PracticePage .sw5411-filter button[aria-pressed="true"]{background:#4936a5;color:#fff;border-color:#4936a5}
-#sw5527PracticePage .sw5411-section{margin:12px 0 16px}
-#sw5527PracticePage .sw5411-section>h4{margin:0 0 9px;color:#32275e;font-size:14px}
-#sw5527PracticePage .sw5411-item{margin:8px 0;border:1px solid #e1deec;border-radius:13px;background:#fff;overflow:hidden;text-align:left}
-#sw5527PracticePage .sw5411-item[hidden]{display:none!important}
-#sw5527PracticePage .sw5411-item>summary{padding:13px 12px;cursor:pointer;list-style:none;display:flex;align-items:flex-start;gap:10px;color:#25243a}
-#sw5527PracticePage .sw5411-item>summary::-webkit-details-marker{display:none}
-#sw5527PracticePage .sw5411-item>summary::after{content:'⌄';margin-left:auto;color:#8e83b3;font-weight:900}
-#sw5527PracticePage .sw5411-item[open]>summary::after{content:'⌃'}
-#sw5527PracticePage .sw5411-number{font-size:11px;font-weight:950;color:#806ba9;white-space:nowrap;padding-top:1px}
-#sw5527PracticePage .sw5411-overview{font-size:12px;line-height:1.5;font-weight:750;min-width:0;overflow-wrap:anywhere;flex:1}
-#sw5527PracticePage .sw5411-status{font-size:10px;font-weight:950;white-space:nowrap;border-radius:8px;padding:4px 7px;background:#edf7f2;color:#167252}
-#sw5527PracticePage .sw5411-item[data-outcome="review"] .sw5411-status{background:#fff2df;color:#8d5f12}
-#sw5527PracticePage .sw5411-item[data-outcome="learned"] .sw5411-status{background:#f0eafd;color:#704ba6}
-#sw5527PracticePage .sw5411-item[data-outcome="pending"] .sw5411-status{background:#f1f2f5;color:#666d7e}
-#sw5527PracticePage .sw5411-item[data-outcome="wrong"] .sw5411-status{background:#fff0ed;color:#b04834}
-#sw5527PracticePage .sw5411-item[data-outcome="pending"] .sw5411-status{background:#f0edfb;color:#6c4ea4}
-#sw5527PracticePage .sw5411-body{padding:4px 14px 12px;border-top:1px solid #f0edf7}
-#sw5527PracticePage .sw5411-line{margin:9px 0;font-size:12px;line-height:1.65;overflow-wrap:anywhere}
-#sw5527PracticePage .sw5411-line b{display:block;color:#73698c;font-size:11px;margin-bottom:2px}
-#sw5527PracticePage .sw5411-line span{color:#29283b;white-space:pre-wrap}
-#sw5527PracticePage .sw5411-note{font-size:11px;color:#847b95;line-height:1.55;margin:12px 0}
-#sw5527PracticePage .sw5411-empty{padding:12px;color:#716a89;font-size:12px;text-align:center}
-@media(max-width:420px){#sw5527PracticePage .sw5411-summary{gap:6px}#sw5527PracticePage .sw5411-metric{padding:10px}#sw5527PracticePage .sw5411-item>summary{gap:6px;padding:12px 9px}}
 </style>
 <section id="sw5527PracticePage" class="sw5527-page swStudio-page hidden" aria-label="패턴 문장 만들기" aria-hidden="true">
   <div class="sw5527-shell swStudio-shell">
@@ -4110,7 +4075,7 @@ body:has(#sw5527PracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButto
     <div class="sw5527-export"><div><strong>GPT 8항목 정밀 채점</strong><small>답안 전체 복사 → ChatGPT 붙여넣기</small></div><button type="button" id="sw5527Copy">📋 전체 복사</button></div>
     <div id="sw5527CopyPanel" class="sw5527-copy-panel" hidden><label for="sw5527CopyText">복사할 채점 요청 <span>자동 복사할 수 없다면 직접 선택하여 복사하세요</span></label><textarea id="sw5527CopyText" readonly rows="6"></textarea><button id="sw5527CopyAgain" type="button">📋 다시 복사</button></div>
     <div id="sw5527Notice" class="sw5527-notice" role="status">공식 DB의 예문으로 연습합니다. 자기평가는 앱 기록에 저장되며 GPT 공식 채점·승급과 구분됩니다.</div>
-    <div id="sw5527Done" class="sw5527-done" hidden><div class="sw5527-done-icon">🎉</div><h2 id="sw5531DoneHeading">10문장 연습 완료</h2><p id="sw5527DoneText">전체 복사로 ChatGPT 채점을 요청하세요.</p><div id="sw5411Summary" class="sw5411-summary" aria-label="학습 결과 요약"></div><section id="sw5411Review" class="sw5411-review" aria-labelledby="sw5411ReviewHeading"><h3 id="sw5411ReviewHeading">📋 문항별 결과</h3><p class="sw5411-help">패턴 맞추기는 내가 선택한 학습 평가(혼자 성공 · 복습 필요 · 정답 보고 학습)를 표시합니다. 선택지 정오답은 각 문항을 펼쳐 확인할 수 있습니다. 문장 만들기는 GPT 채점 전입니다.</p><div id="sw5411Filter" class="sw5411-filter" role="group" aria-label="결과 필터"><button type="button" data-sw5411-filter="all" aria-pressed="true">전체 결과</button><button type="button" data-sw5411-filter="review" aria-pressed="false">복습할 문제</button></div><div id="sw5411List"></div><p class="sw5411-note">※ 패턴 선택 정오답과 내 학습 평가는 서로 다릅니다. 자기평가는 Supabase 저장이 확인된 기록을 기준으로 집계하며, 공식 GPT Perfect/Review/Miss 및 Stable 승급과 별도입니다.</p></section><button type="button" id="sw5527Restart">↻ 다시 문제 출제</button></div>
+    <div id="sw5527Done" class="sw5527-done" hidden><div class="sw5527-done-icon">🎉</div><h2 id="sw5531DoneHeading">10문장 연습 완료</h2><p id="sw5527DoneText">전체 복사로 ChatGPT 채점을 요청하세요.</p><button type="button" id="sw5527Restart">새로운 10문장 시작</button></div>
   </div>
 </section>
 <div id="dayAppPage" class="hidden">
@@ -4679,7 +4644,7 @@ function myClassFocusNoScroll255(el){
 
 function myClassPlaybackItems(){
   if(myClassTab==='corrections')return myClassData().corrections.map((x,i)=>({text:x.en,el:document.getElementById(`myCorrectionCard${i}`)}));
-  if(myClassTab==='chunks')return myClassData().chunks.map((x,i)=>({text:x.example,el:document.getElementById(`myChunkCard${i}`)}));
+  if(myClassTab==='chunks')return myClassData().chunks.map((x,i)=>({text:document.querySelector(`#myChunkCard${i} .myChunkExample`)?.textContent||x.example,el:document.getElementById(`myChunkCard${i}`)}));
   if(myClassTab==='speaking'){const out=[];myClassData().speaking.forEach((x,i)=>myClassSplitSentences(x.text).forEach((text,j)=>out.push({text,el:document.getElementById(`mySpeakSentence${i}_${j}`)})));return out;}
   return [];
 }
@@ -5413,12 +5378,14 @@ function myClassRuleText229(text){
 }
 
 if(myClassTab==='corrections')root.innerHTML=`<div class="myClassList">${myClassData().corrections.map((x,i)=>`<div class="myStudyCard" id="myCorrectionCard${i}"><div class="myStudyNum"><span>CORRECTION ${i+1}</span>${infBtn('corrections',i,'현재 문장')}</div>${x.source?`<div class="studySourceTag">${myClassEsc(x.source)}</div>`:''}<div class="myStudyKo">${myClassEsc(x.ko)}</div>${x.bad?`<div class="myStudyBad">❌ ${myClassBadMarked229(x.bad,x.badMarks,x.why)}</div>`:''}${(x.grammar||x.why)?`<div class="myStudyReason230">${x.grammar?`<div class="myStudyReasonRow230 myStudyReasonGrammar230">⚠️ <b>Grammar</b> · ${myClassRuleText229(x.grammar)}</div>`:''}${x.why?`<div class="myStudyReasonRow230 myStudyReasonWhy230">🔎 <b>Why · ${myClassEsc(x.whyType||'표현')}</b>: ${myClassRuleText229(x.why)}</div>`:''}</div>`:''}<div class="myStudyEn" id="myen${i}">${myClassEsc(x.en)}</div><div class="myStudyTip">💡 ${myClassEsc(x.tip||'')}</div><div class="myStudyActions"><button class="myStudyBtn" onclick="document.getElementById('myen${i}').classList.toggle('myHiddenEnglish')">🙈 가리기</button><button class="myStudyBtn primary" onclick="myClassSpeak(${JSON.stringify(x.en)},document.getElementById('myCorrectionCard${i}'))">🔊 듣기</button></div></div>`).join('')}</div>`;
- else if(myClassTab==='chunks')root.innerHTML=`<div class="myClassList">${myClassData().chunks.map((x,i)=>`<div class="myStudyCard" id="myChunkCard${i}"><div class="myStudyNum"><span>NATIVE CHUNK ${i+1}</span>${infBtn('chunks',i,'현재 문장')}</div>${x.source?`<div class="studySourceTag">${myClassEsc(x.source)}</div>`:''}<div class="myChunkPattern">${myClassEsc(x.pattern)}</div><div class="myStudyKo">${myClassEsc(x.ko)}</div><div class="myChunkExample">${myClassEsc(x.example)}</div>${x.exampleKo?`<div class="myStudyKo">${myClassEsc(x.exampleKo)}</div>`:''}<div class="myStudyActions"><button class="myStudyBtn primary" onclick="myClassSpeak(${JSON.stringify(x.example)},document.getElementById('myChunkCard${i}'))">🔊 예문 듣기</button></div></div>`).join('')}</div>`;
+ else if(myClassTab==='chunks')root.innerHTML=`<div class="myClassList">${myClassData().chunks.map((x,i)=>`<div class="myStudyCard" id="myChunkCard${i}" data-sw-v23-item="${myClassEsc(x.__dbItemId||'')}" data-sw-v23-source="${myClassEsc(x.example||'')}"><div class="myStudyNum"><span>NATIVE CHUNK ${i+1}</span>${infBtn('chunks',i,'현재 문장')}</div>${x.source?`<div class="studySourceTag">${myClassEsc(x.source)}</div>`:''}<div class="myChunkPattern">${myClassEsc(x.pattern)}</div><div class="myStudyKo">${myClassEsc(x.ko)}</div><div class="myChunkExample">${myClassEsc(x.example)}</div>${x.exampleKo?`<div class="myStudyKo">${myClassEsc(x.exampleKo)}</div>`:''}<div class="myStudyActions"><button class="myStudyBtn primary" onclick="myClassSpeak(${JSON.stringify(x.example)},document.getElementById('myChunkCard${i}'))">🔊 예문 듣기</button></div></div>`).join('')}</div>`;
  else if(myClassTab==='speaking')root.innerHTML=myClassData().speaking.map((x,i)=>{const parts=myClassSplitSentences(x.text);return `<div class="mySpeakBlock" id="mySpeakBlock${i}"><div class="myStudyNum"><span>SPEAKING ${i+1}</span>${infBtn('speaking',i,'문단 전체')}</div>${studySpeakingHeaderHtml(x)}${x.promptKo?`<div class="myStudyKo">${myClassEsc(x.promptKo)}</div>`:''}<div class="mySpeakPrompt">${myClassEsc(studyCourseSpeakingGuide(ACTIVE_STUDY_COURSE))}</div><div class="mySpeakText" id="myspeak${i}">${parts.map((t,j)=>`<span class="mySpeakSentence" id="mySpeakSentence${i}_${j}">${myClassEsc(t)}</span>`).join(' ')}</div>${x.ko?`<div class="myStudyKo mySpeakKoText" style="margin-top:12px">🇰🇷 ${myClassSplitKoSentences(x.ko).map((kt,kj)=>`<span class="mySpeakKoSentence" data-ko-index="${kj}">${myClassEsc(kt)}</span>`).join(" ")}</div>`:''}<div class="myStudyActions"><button class="myStudyBtn" onclick="document.getElementById('myspeak${i}').classList.toggle('myHiddenEnglish')">🙈 가리기</button><button class="myStudyBtn primary" onclick='studySpeakSpeakingCard193(${i},document.getElementById("mySpeakBlock${i}"))'>🔊 질문 + 답변 듣기</button></div></div>`}).join('');
  else root.innerHTML=`<div class="myRuleGrid">${myClassData().habits.map((x,i)=>`<div class="myRule"><div class="myStudyNum">HABIT ${i+1}</div><b>${myClassEsc(x.title)}</b><p>${myClassEsc(x.text)}</p></div>`).join('')}</div>`;
  MY_CLASS_PLAY.index=0;MY_CLASS_PLAY.currentText='';myClassClearFocus();myClassSyncButtons();
  studyApplyAllSentencePatternHighlights();
  syncMyClassTitleInfinityButtons();
+ window.saywardCardLevelV23?.decorateAll?.();
+ if(myClassTab==='chunks')void window.saywardCardLevelV23?.refresh();
 }
 
 let MY_TITLE_INFINITY_KEY='';
@@ -7798,9 +7765,20 @@ function splitSpeechChunks(text,maxLen=150){
 }
 async function speakComplete(text,rate=getSpeechRate(),lang='en-US'){
   const chunks=splitSpeechChunks(text);
+  if(!chunks.length)return;
+  const speechTicket=TTS.seq;
+  // A Speaking paragraph can have one Kokoro MP3 for the entire DB text.
+  // Check that exact passage before splitting it into separate TTS sentences.
+  if(chunks.length>1&&/^en(?:-|$)/i.test(lang||'en-US')){
+    let wholeFile=false;
+    try{wholeFile=await window.saywardKokoroMixed?.has?.(text)===true;}catch(_){wholeFile=false;}
+    if(TTS.seq!==speechTicket)return;
+    if(wholeFile){await speakOne(text,rate,lang);return;}
+  }
   for(const chunk of chunks){
+    if(TTS.seq!==speechTicket)return;
     await speakOne(chunk,rate,lang);
-    if(chunks.length>1)await new Promise(r=>setTimeout(r,70));
+    if(chunks.length>1&&TTS.seq===speechTicket)await new Promise(r=>setTimeout(r,70));
   }
 }
 async function speakTwice(text,rate=getSpeechRate()){
@@ -12334,7 +12312,7 @@ function mvSentenceEntryAudit182(){
 window.mvSentenceEntryAudit182=mvSentenceEntryAudit182;
 
 /* ===== V5.3.189 · STANDARD APP INFO / UPDATE HISTORY ===== */
-const MV_APP_VERSION='6.4.12';
+const MV_APP_VERSION='6.4.24';
 
 function mvCloseInfoOverlay(){
   const overlay=document.getElementById('mvInfoOverlay');
@@ -15878,7 +15856,7 @@ function installVisibleBuildBadge(){
   if(!badge){
     badge=document.createElement('div');
     badge.id='mvBuildBadge';
-    badge.textContent='v6.4.14';
+    badge.textContent='v6.4.24';
     badge.title='현재 실행 중인 MY VOCA 빌드';
     document.body.appendChild(badge);
   }
@@ -16297,7 +16275,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     return bar;
   }
 
-  /* v6.4.14: new lessons become selected AFTER both the authorized catalog and
+  /* v6.4.24: new lessons become selected AFTER both the authorized catalog and
      the account preferences have loaded. A seen-ID ledger keeps explicit
      unchecked choices unchecked, even when a lesson is refreshed. */
   const LESSON_AUTO_KEYS={
@@ -20770,8 +20748,8 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.14');
-  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.14';
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.24');
+  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.24';
   mv281SyncUI();
 },0);
 })();
@@ -21024,9 +21002,9 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.14')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.14'}catch(e){}
-  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.14'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.24')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.24'}catch(e){}
+  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.24'}catch(e){}
 },0);
 
 window.mvSwipeLifetimeAudit288=function(){
@@ -21196,9 +21174,9 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.14')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.14'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.14')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.24')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.24'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.24')}catch(e){}
   refreshPausedBrowseUI289();
 },0);
 
@@ -21255,7 +21233,7 @@ window.mvPlaybackBrowsePauseAudit289=function(){
 if(window.__MV_UNIFIED_SEARCH_292__)return;
 window.__MV_UNIFIED_SEARCH_292__=true;
 
-const S292={index:null,query:'',filter:'all',results:[],lastScroll:0,lastTarget:null,remote:[],remoteUid:null,remoteState:'idle',remoteError:'',remoteReadAt:0,requestSeq:0};
+const S292={index:null,query:'',filter:'all',results:[],lastScroll:0,lastTarget:null};
 const RECENT_KEY='mv_unified_search_recent_292';
 const FILTERS=[['all','전체'],['word','단어'],['pattern','패턴'],['chunk','Chunk'],['sentence','문장']];
 const TYPE_LABEL={word:'단어',pattern:'패턴',chunk:'Chunk',sentence:'문장'};
@@ -21277,63 +21255,6 @@ function add292(out,item){
   item.hay=hay;item.titleNorm=norm292(item.title);item.koNorm=norm292(item.ko);item.exampleNorm=norm292([item.example,item.exampleKo,item.extra].join(' '));
   out.push(item);
 }
-
-/* SEARCH FIX 2026-10-19: Merge RLS-authorized DB Master into live search.
-   Never cache a permanent empty index; never expose service keys; never claim 0
-   while an authenticated backend request is still pending/failed. */
-function searchAccount292(){
-  const snap=window.saywardAuth?.snapshot?.();
-  return snap?.authenticated&&snap?.uid?String(snap.uid):null;
-}
-async function refreshMaster292(force=false){
-  const uid=searchAccount292(),client=window.saywardAuth?.getClient?.();
-  if(!uid||!client){
-    ++S292.requestSeq;
-    S292.remote=[];S292.remoteUid=null;S292.remoteState='waiting_auth';S292.remoteError='';S292.index=null;
-    render292();return;
-  }
-  if(S292.remoteUid&&S292.remoteUid!==uid){S292.remote=[];S292.remoteUid=null;S292.index=null}
-  if(!force&&S292.remoteUid===uid&&S292.remoteState==='ready'&&Date.now()-S292.remoteReadAt<60000)return;
-  const seq=++S292.requestSeq;
-  S292.remoteState='loading';S292.remoteError='';render292();
-  try{
-    const rows=[];
-    const PAGE=700,MAX=15000;
-    for(let offset=0;offset<MAX;offset+=PAGE){
-      const {data,error}=await client.from('sayward_patterns')
-        .select('pattern_id,canonical_pattern,pattern_ko,example_en,example_ko,courses,lesson_refs')
-        .eq('active',true).order('pattern_id',{ascending:true})
-        .range(offset,offset+PAGE-1);
-      if(error)throw error;
-      if(seq!==S292.requestSeq||searchAccount292()!==uid)return;
-      if(!Array.isArray(data))throw new Error('SEARCH_INVALID_DB_RESPONSE');
-      rows.push(...data);
-      if(data.length<PAGE)break;
-      if(offset+PAGE>=MAX)throw new Error('SEARCH_PAGE_LIMIT');
-    }
-    if(seq!==S292.requestSeq||searchAccount292()!==uid)return;
-    S292.remote=rows.filter(p=>p?.pattern_id&&p?.canonical_pattern).map(p=>({
-      id:'dbp:'+p.pattern_id,patternId:p.pattern_id,type:'pattern',course:'dbpattern',lesson:0,
-      title:String(p.canonical_pattern),ko:String(p.pattern_ko||''),
-      example:String(p.example_en||''),exampleKo:String(p.example_ko||''),
-      extra:[p.courses,p.lesson_refs].filter(Boolean).join(' '),source:'공식 패턴 DB'
-    }));
-    S292.remoteUid=uid;S292.remoteReadAt=Date.now();S292.remoteState='ready';S292.index=null;
-    render292();
-  }catch(e){
-    if(seq!==S292.requestSeq||searchAccount292()!==uid)return;
-    S292.remoteState='error';S292.remoteError=String(e?.message||e||'DATA_LOAD_FAILED').slice(0,160);
-    S292.index=null;render292();
-    console.warn('[SAYWARD search] Master query failed:',e);
-  }
-}
-function searchEmpty292(){
-  if(S292.remoteState==='loading')return '<div class="mvSearchEmpty292"><div class="ico">⌛</div><b>공식 패턴을 불러오는 중입니다</b><span>잠시 후 검색 결과가 자동으로 갱신됩니다.</span></div>';
-  if(S292.remoteState==='error')return '<div class="mvSearchEmpty292"><div class="ico">⚠️</div><b>검색 데이터 연결에 실패했습니다</b><span>0건으로 확정할 수 없습니다. 인터넷 연결과 로그인 상태를 확인하고 다시 시도해 주세요.</span><button class="mvSearchRecentBtn292" data-search-retry292="1">↻ 다시 조회</button></div>';
-  if(S292.remoteState==='waiting_auth')return '<div class="mvSearchEmpty292"><div class="ico">🔐</div><b>로그인 후 검색해 주세요</b><span>공식 패턴과 개인 학습 데이터는 로그인 후 조회할 수 있습니다.</span></div>';
-  return '<div class="mvSearchEmpty292"><div class="ico">🧐</div><b>검색 결과가 없습니다</b><span>다른 단어 또는 한글 뜻으로 검색해 보세요.</span></div>';
-}
-
 function buildIndex292(){
   if(S292.index)return S292.index;
   const out=[];
@@ -21366,7 +21287,6 @@ function buildIndex292(){
       (d.habits||[]).forEach((x,i)=>add292(out,{id:`${course}:${lesson}:h:${i}`,type:'sentence',course,lesson,tab:'habits',index:i,title:String(x?.title||'학습 Point'),ko:String(x?.text||''),example:'',extra:'',source:source292(course,lesson,(course==='sori'||course==='friends')?'소리 Point':'습관')}));
     }
   });
-  for(const remoteItem of S292.remote){add292(out,{...remoteItem})}
   const seen=new Set();
   S292.index=out.filter(x=>{const k=`${x.type}|${x.course}|${x.lesson}|${x.tab||''}|${x.index??''}|${x.wordId||''}|${norm292(x.title)}`;if(seen.has(k))return false;seen.add(k);return true});
   return S292.index;
@@ -21424,7 +21344,6 @@ function createUI292(){
   document.getElementById('mvSearchClear292').addEventListener('click',()=>{input.value='';S292.query='';input.focus();document.getElementById('mvSearchClear292').classList.remove('on');render292()});
   document.getElementById('mvSearchChips292').addEventListener('click',e=>{const b=e.target.closest('[data-search-filter292]');if(!b)return;S292.filter=b.dataset.searchFilter292;document.querySelectorAll('.mvSearchChip292').forEach(x=>x.classList.toggle('active',x===b));render292()});
   document.getElementById('mvSearchBody292').addEventListener('click',e=>{
-    const retry=e.target.closest('[data-search-retry292]');if(retry){void refreshMaster292(true);return}
     const recent=e.target.closest('[data-recent292]');if(recent){input.value=recent.dataset.recent292;S292.query=input.value;document.getElementById('mvSearchClear292').classList.add('on');render292();return}
     const clear=e.target.closest('[data-clear-recent292]');if(clear){clearRecent292();return}
     const card=e.target.closest('[data-result292]');if(!card)return;const item=S292.results[Number(card.dataset.result292)];if(item){saveRecent292(S292.query);navigate292(item)}
@@ -21440,16 +21359,14 @@ function render292(){
     return;
   }
   const rows=search292(q,S292.filter),total=rows.length,show=rows.slice(0,120);
-  const stateHint=S292.remoteState==='loading'?' · 공식 패턴 동기화 중':S292.remoteState==='error'?' · DB 조회 실패':S292.remoteState==='waiting_auth'?' · 로그인 필요':'';
-  body.innerHTML=`<div class="mvSearchMeta292"><span>검색 결과 <b>${total}개</b>${total>120?' · 상위 120개 표시':''}${stateHint}</span><span class="mvSearchSort292">관련도순</span></div><div class="mvSearchResults292">${show.length?show.map((x,i)=>`<button class="mvSearchCard292" data-result292="${i}"><div><div class="mvSearchCardTop292">${esc292(TYPE_LABEL[x.type]||x.type)} · ${esc292(x.source)}</div><div class="mvSearchCardTitle292">${highlight292(x.title,q)}</div>${x.ko?`<div class="mvSearchCardKo292">${highlight292(x.ko,q)}</div>`:''}${x.example?`<div class="mvSearchCardExample292">${highlight292(x.example,q)}</div>`:''}</div><div class="mvSearchArrow292">›</div></button>`).join(''):`${searchEmpty292()}`}</div>`;
+  body.innerHTML=`<div class="mvSearchMeta292"><span>검색 결과 <b>${total}개</b>${total>120?' · 상위 120개 표시':''}</span><span class="mvSearchSort292">관련도순</span></div><div class="mvSearchResults292">${show.length?show.map((x,i)=>`<button class="mvSearchCard292" data-result292="${i}"><div><div class="mvSearchCardTop292">${esc292(TYPE_LABEL[x.type]||x.type)} · ${esc292(x.source)}</div><div class="mvSearchCardTitle292">${highlight292(x.title,q)}</div>${x.ko?`<div class="mvSearchCardKo292">${highlight292(x.ko,q)}</div>`:''}${x.example?`<div class="mvSearchCardExample292">${highlight292(x.example,q)}</div>`:''}</div><div class="mvSearchArrow292">›</div></button>`).join(''):`<div class="mvSearchEmpty292"><div class="ico">🧐</div><b>검색 결과가 없습니다</b><span>다른 단어 또는 한글 뜻으로 검색해 보세요.</span></div>`}</div>`;
 }
 
 function open292(opts={}){
   createUI292();const overlay=document.getElementById('mvGlobalSearch292');const input=document.getElementById('mvSearchInput292');
   overlay.hidden=false;document.documentElement.style.overflow='hidden';document.body.style.overflow='hidden';document.getElementById('mvSearchReturn292')?.classList.remove('on');
   if(!opts.keep){S292.lastScroll=window.scrollY||0}
-  input.value=S292.query||'';document.getElementById('mvSearchClear292').classList.toggle('on',!!input.value);
-  S292.index=null;void refreshMaster292();
+  input.value=S292.query||'';document.getElementById('mvSearchClear292').classList.toggle('on',!!input.value);render292();
   requestAnimationFrame(()=>setTimeout(()=>{try{input.focus({preventScroll:true});input.setSelectionRange(input.value.length,input.value.length)}catch(e){input.focus()}},35));
 }
 function close292(){const overlay=document.getElementById('mvGlobalSearch292');if(!overlay)return;overlay.hidden=true;document.documentElement.style.overflow='';document.body.style.overflow='';const home=document.getElementById('homePage');if(S292.lastTarget&&home?.classList.contains('hidden'))showReturn292()}
@@ -21487,38 +21404,18 @@ function navigateStudy292(item){
     const el=studyTarget292(item);if(el){el.scrollIntoView({block:'center',behavior:'auto'});pulse292(el)}else window.scrollTo(0,0);showReturn292();
   }));
 }
-function navigate292(item){
-  S292.lastTarget=item?.id||null;
-  if(item.course==='day'){navigateDay292(item);return}
-  if(item.course==='dbpattern'){
-    close292();
-    const btn=document.querySelector('[data-drawer-action="accountDashboard"]');
-    try{btn?.click()}catch(e){console.warn('[search] Dashboard navigation',e)}
-    setTimeout(()=>{
-      try{window.saywardPatternListNavigator?.open?.(item.patternId)}
-      catch(e){console.warn('[search] Pattern detail navigation',e)}
-    },180);
-    return;
-  }
-  navigateStudy292(item);
-}
+function navigate292(item){S292.lastTarget=item?.id||null;if(item.course==='day')navigateDay292(item);else navigateStudy292(item)}
 
-/* Search Master is fetched only with the current authenticated user's RLS token. */
-window.addEventListener('sayward:auth-state',()=>{
-  ++S292.requestSeq;S292.remote=[];S292.remoteUid=null;S292.remoteState='idle';S292.index=null;
-  if(searchAccount292())void refreshMaster292(true);else{S292.remoteState='waiting_auth';render292()}
-});
-window.addEventListener('sayward:content-updated',()=>{S292.index=null;if(searchAccount292())void refreshMaster292(true)});
 /* Keep the launcher isolated to HOME so playback/swipe behavior is not modified. */
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v6.4.14 · Learning Dashboard'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.14')}catch(e){}
-  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.14'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.14')}catch(e){}
+  try{document.title='SAYWARD v6.4.24 · Learning Dashboard'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.24')}catch(e){}
+  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.24'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.24')}catch(e){}
 },0);
-window.mvUnifiedSearchAudit292=()=>({version:'search-fix-20261019',indexCount:buildIndex292().length,masterCount:S292.remote.length,remoteState:S292.remoteState,remoteError:S292.remoteError,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'RLS-master+local index, refreshable; existing playback/swipe/card logic unchanged'});
+window.mvUnifiedSearchAudit292=()=>({version:'v5.3.292',indexCount:buildIndex292().length,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'additive unified search only; existing playback/swipe/card logic unchanged'});
 })();
 </script>
 
@@ -21809,7 +21706,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v6.4.14 · Learning Dashboard'}catch(e){}
+  try{document.title='SAYWARD v6.4.24 · Learning Dashboard'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -21830,7 +21727,7 @@ window.mvCleanAudit540=function(){
   const h=home(),bar=document.getElementById('sharedStudySelectBar');
   const cards=[...document.querySelectorAll('#homePage .myClassSection .myClassCard')].slice(0,4);
   return {
-    version:'v6.4.14',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
+    version:'v6.4.24',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
     sharedBar:!!bar,daySettings:!!document.getElementById('cleanDaySettings'),legacyModePanelVisible:!!document.getElementById('homeStudyModePanel')&&getComputedStyle(document.getElementById('homeStudyModePanel')).display!=='none',
     visibleSections:{day:getComputedStyle(document.querySelector('#homePage .daySection')||document.body).display,my:getComputedStyle(document.querySelector('#homePage .myClassSection')||document.body).display,sori:getComputedStyle(document.querySelector('#homePage .soriClassSection')||document.body).display,opic:getComputedStyle(document.querySelector('#homePage .opicClassSection')||document.body).display,friends:getComputedStyle(document.querySelector('#homePage .friendsClassSection')||document.body).display},
     myCards:cards.map(c=>({w:Math.round(c.getBoundingClientRect().width),h:Math.round(c.getBoundingClientRect().height)})),
@@ -22016,7 +21913,7 @@ window.mvCleanAudit540=function(){
 #cleanHeroMenuHit,#cleanHeroSearchHit{position:absolute!important;top:0!important;height:100%!important;width:18%!important;border:0!important;background:transparent!important;padding:0!important;z-index:8!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 #cleanHeroMenuHit{left:-5px!important} #cleanHeroSearchHit{right:0!important}
 #homePage .homeHero::before{
-  content:"v6.4.14"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
+  content:"v6.4.24"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
   min-width:54px!important;padding:2px 8px 3px!important;box-sizing:border-box!important;text-align:center!important;
   border:1.5px solid rgba(255,255,255,.92)!important;border-radius:999px!important;background:rgba(77,62,202,.96)!important;
   color:#fff!important;font-size:9px!important;line-height:1.1!important;font-weight:950!important;letter-spacing:.1px!important;
@@ -22527,8 +22424,8 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     <div id="swSbSigned" hidden>
       
 <section id="sw5513ApprovalPanel" hidden class="sw5513-approvals" aria-label="사용자 가입 승인">
-  <h3>👥 가입 신청 승인</h3>
-  <p class="p2-note">이름·이메일·가입 상태를 확인한 뒤 승인하거나 거절할 수 있습니다. 비밀번호는 표시되지 않습니다.</p>
+  <h3>👥 가입 승인 · 사용자별 MP3 제공</h3>
+  <p class="p2-note">이름·이메일·가입 상태를 확인한 뒤 승인하거나 거절할 수 있습니다. 활성 회원의 MP3 음성 제공을 개별 설정합니다. OFF 회원은 기존 TTS를 사용합니다.</p>
   <button id="sw5513ReloadApplicants" type="button">↻ 가입 신청 새로고침</button>
   <p id="sw5513ApprovalStatus" class="p2-status" role="status">관리자 권한 확인 대기</p>
   <div id="sw5513ApplicantList" class="sw5513-applicants"></div>
@@ -22554,7 +22451,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
 
 <div id="swStudioLauncher" hidden style="margin:14px 0;padding:14px;border:1px solid #d7cef7;border-radius:14px;background:#faf8ff">
   <div style="font-size:17px;font-weight:850;color:#373080">🎛️ Admin 관리 스튜디오 · 콘텐츠·학습 배정</div>
-  <p style="font-size:12px;line-height:1.6;color:#555b70;margin:8px 0">관리 스튜디오에서 수업별 학습 박스의 공통·개인별 설정을 실제 DB에 저장하고 재조회할 수 있습니다. 콘텐츠 편집·발행과 기타 화면은 아직 시안입니다. 평가 사용자 3명은 별도 Supabase 시험 테이블에서 조회합니다.</p>
+  <p style="font-size:12px;line-height:1.6;color:#555b70;margin:8px 0">관리 스튜디오에서 수업별 학습 박스와 새 콘텐츠 공개 방식을 DB에 저장하고, 승인 대기된 신규 콘텐츠를 수업별로 공개할 수 있습니다. 평가 사용자 3명은 별도 Supabase 시험 테이블에서 조회합니다.</p>
   <button id="swStudioOpen" type="button" style="border:0;background:#403a93;color:white;border-radius:12px;padding:13px 17px;font-size:14px;font-weight:800;cursor:pointer">관리 스튜디오 열기 ↗</button>
   <span id="swStudioStatus" role="status" style="display:block;margin-top:8px;font-size:12px;color:#5c6381">Admin 로그인 확인 대기</span>
 </div>
@@ -22926,7 +22823,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v6.4.14 · Learning Dashboard';
+  document.title='SAYWARD v6.4.24 · Learning Dashboard';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -23392,7 +23289,7 @@ const SW_ADMIN_ALLOWED_TABLES=new Set([
   'sayward_global_lesson_settings','sayward_eval_personas',
   'sayward_eval_lesson_overrides','sayward_user_lesson_overrides'
 ]);
-const SW_ADMIN_ALLOWED_RPC=new Set(['sayward_admin_set_account_status','sayward_admin_category_release_catalog','sayward_admin_set_category_release','sayward_admin_publish_category']);
+const SW_ADMIN_ALLOWED_RPC=new Set(['sayward_admin_set_mp3_access','sayward_admin_set_account_status','sayward_admin_category_release_catalog','sayward_admin_set_category_release','sayward_admin_publish_category']);
 async function swDirectAdminDbRequest(spec={}){
   if(!activeSession?.access_token || !activeUser?.id || sharedAuthState.role!=='admin'
     || sharedAuthState.phase!=='authenticated')throw new Error('ADMIN_AUTH_REQUIRED');
@@ -24219,7 +24116,7 @@ async function init(){
     const state=elem('sw5513ApprovalStatus');state.textContent='가입 신청 목록 조회 중…';
     try{
       const rows=await swDirectAdminDbRequest({table:'sayward_profiles',
-        fields:'user_id,display_name,email,app_role,account_status,created_at',
+        fields:'user_id,display_name,email,app_role,account_status,mp3_audio_enabled,created_at',
         filters:[['app_role','user']],order:['created_at',false],limit:200});
       state.textContent='등록된 일반 사용자 '+rows.length+'명 · 승인 대기 '+rows.filter(x=>x.account_status==='pending').length+'명';
       if(!rows.length){const p=document.createElement('p');p.textContent='아직 가입 신청자가 없습니다.';list.append(p);}
@@ -24245,7 +24142,36 @@ async function init(){
               state.textContent=labelText+' 완료 · 서버 재조회 성공';
             }catch(err){button.disabled=false;state.textContent=String(err?.message||'').includes('EMAIL_NOT_CONFIRMED')?'승인 불가: 사용자가 먼저 이메일 인증을 완료해야 합니다.':'상태 변경 실패 · '+String(err?.message||'UNKNOWN').slice(0,80); }
           });actions.append(button);
-        }box.append(actions);list.append(box);
+        }
+        // MP3 entitlement is stored in Supabase, not browser settings.
+        const mp3Wrap=document.createElement('label');mp3Wrap.className='sw6420-mp3-setting';
+        const mp3Check=document.createElement('input');mp3Check.type='checkbox';
+        mp3Check.checked=row.mp3_audio_enabled===true;
+        mp3Check.disabled=row.account_status!=='active';
+        const mp3Text=document.createElement('span');mp3Text.className='sw6420-mp3-label';
+        const mp3Caption=()=>{mp3Text.textContent='🎧 MP3 음성 '+(mp3Check.checked?'ON':'OFF')+(row.account_status!=='active'?' · 비활성 계정':'');
+          mp3Wrap.classList.toggle('sw6420-mp3-on',mp3Check.checked);};
+        mp3Caption();mp3Wrap.append(mp3Check,mp3Text);
+        mp3Check.setAttribute('aria-label',(row.display_name||row.email||'사용자')+' MP3 제공');
+        mp3Check.addEventListener('change',async()=>{
+          const desired=mp3Check.checked;mp3Check.disabled=true;
+          state.textContent='MP3 권한을 서버에 저장하는 중…';
+          try{
+            const updated=await swDirectAdminDbRequest({table:'rpc/sayward_admin_set_mp3_access',method:'POST',
+              body:{p_user_id:row.user_id,p_enabled:desired}});
+            if(updated!==desired)throw new Error('RPC_SAVE_MISMATCH');
+            const checkedRows=await swDirectAdminDbRequest({table:'sayward_profiles',
+              fields:'user_id,mp3_audio_enabled',filters:[['user_id',row.user_id]],limit:1});
+            if(!Array.isArray(checkedRows)||checkedRows.length!==1||checkedRows[0].mp3_audio_enabled!==desired)
+              throw new Error('DB_READBACK_MISMATCH');
+            row.mp3_audio_enabled=desired;mp3Caption();
+            state.textContent=(row.display_name||row.email||'사용자')+' MP3 '+(desired?'ON':'OFF')+' · DB 저장 및 재조회 확인';
+            window.dispatchEvent(new CustomEvent('sayward:mp3-access-changed',{detail:{uid:row.user_id}}));
+          }catch(err){mp3Check.checked=row.mp3_audio_enabled===true;mp3Caption();
+            state.textContent='MP3 권한 변경 검증 실패 · '+String(err?.message||'UNKNOWN').slice(0,90);
+          }finally{mp3Check.disabled=row.account_status!=='active';}
+        });
+        actions.append(mp3Wrap);box.append(actions);list.append(box);
       }
     }catch(e){state.textContent='신청 목록 조회 실패 · '+String(e?.message||'UNKNOWN')+' · 아래 연결 상태를 확인하거나 다시 시도하세요.';}
   }
@@ -25635,6 +25561,16 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 @media(max-width:770px){#swRealPolicy .range-tools{padding:12px}#swRealPolicy .range-num input{width:46px}#swRealPolicy #swRangeApply{flex:1;min-width:105px}#swRealPolicy .lesson-all{font-size:11px;padding:8px}#swRealPolicy{padding:12px}#swRealPolicy .course-cards{grid-template-columns:1fr}#swRealPolicy .panel{padding:15px}#swRealPolicy .formgrid{grid-template-columns:1fr}#swAdminStudioTop{flex-wrap:wrap}#swRealPolicy .lesson-box{padding:14px}#swRealPolicy .box-toggle{min-height:56px}#swRealPolicy .savebar{bottom:0}#swRealPolicy h2{font-size:21px}}
 </style>
 
+<style id="sw647-release-css">
+#swRealPolicy .sw647-release{margin-top:13px;padding:12px;background:#f8f7fd;border:1px solid #e3ddf4;border-radius:13px}
+#swRealPolicy .sw647-release-title{font-size:13px;font-weight:850;color:#38306b;display:flex;justify-content:space-between;gap:6px;align-items:center}
+#swRealPolicy .sw647-release-title small{font-size:10px;color:#837b98;font-weight:600}
+#swRealPolicy .sw647-release-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:9px 0}
+#swRealPolicy .sw647-release-choice{min-width:0;padding:10px 5px;border:1px solid #d5d2e6;border-radius:10px;font-weight:800;font-size:12px}
+#swRealPolicy .sw647-release-choice.selected{background:#484099;color:white;border-color:#484099}
+#swRealPolicy .sw647-release-bottom{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between;font-size:11px;color:#60637b}
+#swRealPolicy .sw647-release-publish{background:#127b65;color:white;border-color:#127b65;padding:7px 11px;font-size:12px}
+</style>
 <style id="swAdminStudioCss">
 #swStudioLauncher[hidden],#swAdminStudioOverlay[hidden]{display:none!important}
 #swAdminStudioOverlay{position:fixed;inset:0;z-index:2147483000;background:#f0f2f8;display:flex;flex-direction:column;color:#20253e}
@@ -25643,7 +25579,7 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.14 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습 박스 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.24 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
@@ -25682,7 +25618,7 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
        <div class="range-help" style="margin-top:9px">수업 번호 기준입니다. 화면에서만 먼저 바뀌며 아래 「변경 저장」을 눌러야 DB에 저장됩니다.</div>
      </div>
      <div id="swPolicyLessonList" class="course-cards" aria-live="polite"></div>
-     <p style="margin:13px 0 0;font-size:12px">※ 박스가 없는 수업은 해당 선택이 비활성화됩니다. 박스 안의 개별 카드는 숨기지 않습니다.</p>
+     <p style="margin:13px 0 0;font-size:12px">※ 학습 박스 표시 설정과 새 콘텐츠 공개 정책은 별도입니다. 기존 공개된 콘텐츠는 새 콘텐츠 설정으로 숨겨지지 않습니다.</p>
    </section>
    <div class="savebar">
      <div id="swPolicyDirty" class="info">학습 박스 변경 사항 없음</div>
@@ -25758,7 +25694,7 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 const $=id=>document.getElementById(id), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const labels={corrections:'핵심 교정',chunks:'Chunk',speaking:'말하기',habits:'습관',word:'단어 학습'};
 const sections=['corrections','chunks','speaking','habits'];
-const st={mode:'common',course:'my',lessons:[],globals:new Map(),overrides:new Map(),people:[],target:'',draft:new Map(),loading:false,seq:0};
+const st={mode:'common',course:'my',lessons:[],globals:new Map(),overrides:new Map(),people:[],target:'',draft:new Map(),loading:false,seq:0,releaseModes:new Map(),releaseCounts:new Map(),categoryAuto:true};
 const auth=()=>window.saywardAuth?.snapshot?.()||{}, client=()=>window.saywardAuth?.getClient?.();
 const admin=()=>auth().authenticated&&auth().role==='admin'&&!!client();
 const key=(no,sect)=>String(no)+':'+sect;
@@ -25774,6 +25710,49 @@ function value(no,sect){return st.draft.has(key(no,sect))?st.draft.get(key(no,se
 function isChanged(no,sect){return st.draft.has(key(no,sect))&&value(no,sect)!==stored(no,sect);}
 function effectiveChangedCount(){return [...st.draft.keys()].filter(k=>{const [n,...parts]=k.split(':');return isChanged(Number(n),parts.join(':'))}).length;}
 function updateFooter(){let n=effectiveChangedCount();$('swPolicyDirty').textContent=n?`변경 ${n}개 · 저장 전입니다`:'변경 사항 없음';$('swPolicySave').disabled=st.loading||n===0||st.mode==='admin'||!admin();$('swPolicySave').textContent=n?`변경 ${n}개 저장`:'변경 저장';}
+async function loadReleasePolicies(){
+ if(!admin())throw Error('관리자 계정으로만 공개 정책을 조회할 수 있습니다.');
+ const c=client();
+ const [policy,categories,catalog]=await Promise.all([
+  selectRows('sayward_lesson_release_policy','course,lesson_no,release_mode',[['course',st.course]]),
+  selectRows('sayward_category_release_settings','category,auto_open',[]),
+  c.rpc('sayward_admin_release_catalog')
+ ]);
+ if(catalog.error)throw Error('대기 콘텐츠 목록 조회 실패: '+(catalog.error.message||'알 수 없는 오류'));
+ st.releaseModes=new Map(policy.map(x=>[Number(x.lesson_no),x.release_mode]));
+ st.categoryAuto=categories.find(x=>x.category===st.course)?.auto_open!==false;
+ st.releaseCounts=new Map((Array.isArray(catalog.data)?catalog.data:[]).filter(x=>x.course===st.course).map(x=>[Number(x.lesson_no),Number(x.pending)||0]));
+}
+async function setLessonRelease(no,mode){
+ if(!admin()||st.mode!=='common'||st.loading)return;
+ if(!['auto','manual'].includes(mode)||!st.lessons.some(x=>x.no===no))return;
+ const name=st.lessons.find(x=>x.no===no)?.name||no;
+ if((st.releaseModes.get(no)||(st.categoryAuto?'auto':'manual'))===mode&&st.releaseModes.has(no))return;
+ if(!confirm(name+'\n새로 등록하거나 수정하는 콘텐츠를 '+(mode==='auto'?'자동 공개':'관리자 승인 후 공개')+'로 설정할까요?\n\n이미 공개된 기존 콘텐츠는 변경되지 않습니다.'))return;
+ lock(true);info('⏳ '+name+' 공개 설정 DB 저장 중…');
+ try{
+  const {error}=await client().rpc('sayward_admin_release_mode',{p_course:st.course,p_lesson_no:no,p_mode:mode});
+  if(error)throw Error(error.message||'DB 공개 설정 오류');
+  await loadReleasePolicies();
+  if(st.releaseModes.get(no)!==mode)throw Error('DB 재조회한 공개 설정이 일치하지 않습니다.');
+  info('✅ '+name+' · '+(mode==='auto'?'새 콘텐츠 자동 공개':'새 콘텐츠 관리자 승인 후 공개')+' 설정 저장·재조회 완료');render();
+ }catch(e){info('❌ 공개 설정 변경 확인 실패: '+String(e.message||e),true)}finally{lock(false);render()}
+}
+async function publishLesson(no){
+ if(!admin()||st.mode!=='common'||st.loading)return;
+ const n=st.releaseCounts.get(no)||0; if(n<=0)return;
+ const name=st.lessons.find(x=>x.no===no)?.name||no;
+ if(!confirm(name+'\n대기 중인 '+n+'개 콘텐츠를 전체 사용자에게 공개할까요?\n콘텐츠 신규 추가 또는 수정 내용이 적용됩니다.'))return;
+ lock(true);info('⏳ '+name+' · 대기 콘텐츠 '+n+'개 공개 중…');
+ try{
+  const {data,error}=await client().rpc('sayward_admin_publish_lesson',{p_course:st.course,p_lesson_no:no});
+  if(error)throw Error(error.message||'승인 실패');
+  await loadReleasePolicies();
+  if((st.releaseCounts.get(no)||0)!==0)throw Error('공개 후에도 승인 대기 항목이 남아 있습니다.');
+  if(Number(data)!==n)throw Error('공개된 개수와 대기 항목 수가 다릅니다. 결과를 다시 확인하세요.');
+  info('✅ '+name+' · '+n+'개 콘텐츠 공개 및 DB 재조회 확인');render();
+ }catch(e){info('⚠️ 공개 결과 확인 필요: '+String(e.message||e),true)}finally{lock(false);render()}
+}
 function render(){
  for(const [id,mode] of [['swModeCommon','common'],['swModeOverride','individual'],['swModeAdmin','admin']])$(id).classList.toggle('sel',st.mode===mode);
  $('swPolicyUserWrap').hidden=st.mode!=='individual';
@@ -25791,7 +25770,14 @@ function render(){
    const checked=existing.length>0&&existing.every(s=>value(l.no,s));
    const mixed=existing.length>0&&!checked&&existing.some(s=>value(l.no,s));
    const all=`<label class="lesson-all"><input type="checkbox" data-all="${l.no}" aria-label="${esc(l.name)} 박스 전체 선택 또는 해제" ${checked?'checked':''} data-mixed="${mixed?'true':'false'}" ${(st.mode==='admin'||st.loading||!existing.length)?'disabled':''}><span>전체 선택</span></label>`;
-   return `<div class="lesson-box"><div class="lesson-heading"><div><div class="lesson-title">${esc(l.name)}</div><div class="lesson-count">카드 ${l.count}개${edited?' · 저장 전 변경':personal?' · 개인 예외 적용':''}</div></div><div class="lesson-meta">${edited?'<span class="pill-count">수정 중</span>':''}${all}</div></div><div class="box-toggles">${b}</div>${st.mode==='individual'&&personal?`<button type="button" class="reset-row" data-reset="${l.no}">↶ 이 수업은 공통 설정 따르기</button>`:''}</div>`;
+   const explicit=st.releaseModes.has(l.no);
+   const releaseMode=st.releaseModes.get(l.no)||(st.categoryAuto?'auto':'manual');
+   const pending=st.releaseCounts.get(l.no)||0;
+   const policyUI=st.mode==='common'?`<div class="sw647-release"><div class="sw647-release-title">📦 새 콘텐츠 공개 <small>${explicit?'이 수업 설정':'영역 기본값 적용'}</small></div>
+    <div class="sw647-release-controls"><button type="button" class="sw647-release-choice ${releaseMode==='auto'?'selected':''}" data-release-mode="auto" data-release-no="${l.no}" aria-pressed="${releaseMode==='auto'}" ${st.loading?'disabled':''}>⚡ 자동 공개</button>
+    <button type="button" class="sw647-release-choice ${releaseMode==='manual'?'selected':''}" data-release-mode="manual" data-release-no="${l.no}" aria-pressed="${releaseMode==='manual'}" ${st.loading?'disabled':''}>🔒 승인 후 공개</button></div>
+    <div class="sw647-release-bottom"><span>${pending?`승인 대기 ${pending}개`:'승인 대기 없음'} · 기존 공개 콘텐츠 유지</span>${pending?`<button class="sw647-release-publish" data-release-publish="${l.no}" ${st.loading?'disabled':''}>${pending}개 지금 공개</button>`:''}</div></div>`:'';
+   return `<div class="lesson-box"><div class="lesson-heading"><div><div class="lesson-title">${esc(l.name)}</div><div class="lesson-count">카드 ${l.count}개${edited?' · 저장 전 변경':personal?' · 개인 예외 적용':''}</div></div><div class="lesson-meta">${edited?'<span class="pill-count">수정 중</span>':''}${all}</div></div><div class="box-toggles">${b}</div>${policyUI}${st.mode==='individual'&&personal?`<button type="button" class="reset-row" data-reset="${l.no}">↶ 이 수업은 공통 설정 따르기</button>`:''}</div>`;
  }).join('')||'<div class="notice">등록된 수업이 없습니다.</div>';
  $('swPolicyLessonList').querySelectorAll('input[data-mixed]').forEach(el=>{el.indeterminate=el.dataset.mixed==='true';});
  updateFooter();
@@ -25810,7 +25796,7 @@ st.lessons=r.sort((a,b)=>a.no-b.no);
 }
 function parseTarget(){const [type,id]=st.target.split('|');if(!['eval','user'].includes(type)||!/^[a-f0-9-]{36}$/i.test(id||''))throw Error('유효한 사용자를 선택하세요.');return {type,id};}
 async function loadSettings(){const [g,o]=await Promise.all([selectRows('sayward_global_lesson_settings','course,lesson_no,enabled,sections,hidden_item_keys',[['course',st.course]]),st.mode==='individual'&&st.target?(()=>{const t=parseTarget();return selectRows(t.type==='eval'?'sayward_eval_lesson_overrides':'sayward_user_lesson_overrides','course,lesson_no,enabled_override,section_overrides,item_overrides',[[t.type==='eval'?'persona_id':'target_user_id',t.id],['course',st.course]])})():Promise.resolve([])]);
-st.globals=new Map(g.map(x=>[Number(x.lesson_no),x]));st.overrides=new Map(o.map(x=>[Number(x.lesson_no),x]));}
+st.globals=new Map(g.map(x=>[Number(x.lesson_no),x]));st.overrides=new Map(o.map(x=>[Number(x.lesson_no),x]));await loadReleasePolicies();}
 async function refresh(){if(st.draft.size&&!confirm('저장하지 않은 선택을 버리고 DB에서 다시 읽을까요?'))return;const seq=++st.seq;lock(true);info('⏳ 수업 및 박스 설정을 조회하고 있습니다… (최대 12초/요청)');try{st.draft.clear();await loadLessons();if(st.mode==='individual'&&!st.people.length)await loadUsers();await loadSettings();if(seq!==st.seq)return;render();info(`✅ DB 조회 완료 · ${st.lessons.length}개 수업 · 박스별 설정을 선택하세요.`);}catch(e){info('❌ DB 조회 실패: '+String(e?.message||e),true)}finally{if(seq===st.seq){lock(false);render()}}}
 function putDraft(no,sect,desired){const k=key(no,sect),on=!!desired;if(on===stored(no,sect))st.draft.delete(k);else st.draft.set(k,on);}
 function existingSections(l){const names=st.course==='day'?['word']:sections;return names.filter(sect=>(st.course==='day'?l.count:Number(l.counts?.[sect]||0))>0);}
@@ -25869,7 +25855,7 @@ $('swStudioLiveBtn').addEventListener('click',()=>reveal(true));$('swStudioDemoB
 $('swModeCommon').addEventListener('click',()=>void switchMode('common'));$('swModeOverride').addEventListener('click',()=>void switchMode('individual'));$('swModeAdmin').addEventListener('click',()=>void switchMode('admin'));
 $('swPolicyCourse').addEventListener('change',e=>{if(st.draft.size&&!confirm('저장되지 않은 변경을 버리고 영역을 바꿀까요?')){e.target.value=st.course;return;}st.course=e.target.value;st.draft.clear();void refresh()});
 $('swPolicyUser').addEventListener('change',e=>{if(st.draft.size&&!confirm('저장되지 않은 변경을 버리고 사용자를 바꿀까요?')){e.target.value=st.target;return;}st.target=e.target.value;st.draft.clear();void refresh()});
-$('swPolicyLessonList').addEventListener('click',e=>{const resetBtn=e.target.closest('[data-reset]');if(resetBtn){reset(Number(resetBtn.dataset.reset));return;}const b=e.target.closest('[data-box]');if(b)edit(Number(b.dataset.no),b.dataset.box)});
+$('swPolicyLessonList').addEventListener('click',e=>{const release=e.target.closest('[data-release-mode]');if(release){void setLessonRelease(Number(release.dataset.releaseNo),release.dataset.releaseMode);return;}const publish=e.target.closest('[data-release-publish]');if(publish){void publishLesson(Number(publish.dataset.releasePublish));return;}const resetBtn=e.target.closest('[data-reset]');if(resetBtn){reset(Number(resetBtn.dataset.reset));return;}const b=e.target.closest('[data-box]');if(b)edit(Number(b.dataset.no),b.dataset.box)});
 $('swPolicyLessonList').addEventListener('change',e=>{const a=e.target.closest('input[data-all]');if(a)allBoxes(Number(a.dataset.all),a.checked)});
 $('swRangeApply').addEventListener('click',applyRange);
 for(const id of ['swRangeStart','swRangeEnd'])$(id).addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();applyRange()}});
@@ -26238,49 +26224,6 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     const at=Date.parse(String(schedule.next_review_at||''));
     return Number.isFinite(at)&&at<=Date.now()?schedule:null;
   };
-  // Display only: the official Stable schedule remains in Supabase.
-  const STABLE_REVIEW_DAYS=Object.freeze([7,14,21,30,40,60]);
-  const stableReviewLabel=schedule=>{
-    const stage=Number(schedule?.stage);
-    if(!Number.isInteger(stage)||stage<1||stage>STABLE_REVIEW_DAYS.length)
-      return 'Stable 복습 · 단계 확인 필요';
-    return `Stable 복습 · ${stage}/${STABLE_REVIEW_DAYS.length} (${STABLE_REVIEW_DAYS[stage-1]}일 주기)`;
-  };
-  // App-only rotation: NEVER changes official Stable schedule or GPT grading.
-  // Verified Supabase practice follows the signed-in account across devices.
-  // Per-account local exposures guard rapid reissue before a learner self-rates.
-  const SW_RECENT_ISSUE_MS=4*60*60*1000;                 // 4 hours, shown but not rated
-  const SW_REVIEW_RETRY_MS=24*60*60*1000;              // review/learned: next day
-  const SW_RECALLED_RETRY_MS=7*24*60*60*1000;          // independent app success: 7 days
-  const SW_EXPOSURE_HISTORY_MS=8*24*60*60*1000;
-  const exposureKey=()=>`sw_pattern_recent_issued_v6414:${state.uid||'anonymous'}`;
-  const readRecentExposure=()=>{
-    try{
-      const rows=JSON.parse(localStorage.getItem(exposureKey())||'[]');
-      const threshold=Date.now()-SW_EXPOSURE_HISTORY_MS;
-      return new Map((Array.isArray(rows)?rows:[]).filter(x=>
-        x&&typeof x.id==='string'&&Number.isFinite(x.ts)&&x.ts>=threshold&&x.ts<=Date.now()+60000
-      ).map(x=>[x.id,x.ts]));
-    }catch(_error){return new Map();}
-  };
-  const rememberExposures=patterns=>{
-    try{
-      const existing=readRecentExposure(),now=Date.now();
-      for(const p of patterns){if(p?.pattern_id)existing.set(p.pattern_id,now);}
-      const rows=[...existing].map(([id,ts])=>({id,ts})).sort((a,b)=>b.ts-a.ts).slice(0,600);
-      localStorage.setItem(exposureKey(),JSON.stringify(rows));
-    }catch(_error){/* user is still allowed to practice if browser storage is unavailable */}
-  };
-  const appPracticeCooldown=(p,recentExposures,now)=>{
-    const event=state.latest?.get(p.pattern_id);
-    const completedAt=Date.parse(String(event?.created_at||''));
-    if(Number.isFinite(completedAt)&&completedAt<=now+60000){
-      const wait=event.self_rating==='recalled'?SW_RECALLED_RETRY_MS:SW_REVIEW_RETRY_MS;
-      if(now-completedAt<wait)return 'evaluated';
-    }
-    const issuedAt=recentExposures.get(p.pattern_id);
-    return Number.isFinite(issuedAt)&&now-issuedAt<SW_RECENT_ISSUE_MS?'issued':null;
-  };
   const priority=p=>{const app=state.latest?.get(p.pattern_id);
     if(app?.self_rating==='review')return 0;
     if(app?.self_rating==='learned'||app?.hint_used)return 1;
@@ -26435,104 +26378,12 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     showInspection(p,answer,ins);
   }
   function showHint(){const visible=!!state.hint;g('sw5527PatternBody').hidden=!visible;g('sw5527HintToggle').textContent=visible?'패턴 숨기기':'패턴 보기';g('sw5527HintToggle').setAttribute('aria-expanded',String(visible));}
-  // v6.4.14: learner-selected self assessment is the primary result badge.
-  // Match correctness remains available as factual reference INSIDE each card.
-  // Only verified selfSaved ratings count as saved progress; pending ratings retain
-  // their selected label but are marked unverified, never silently treated as success.
-  function renderCompletionResults(){
-    const summary=g('sw5411Summary'),list=g('sw5411List');
-    if(!summary||!list)return;
-    summary.replaceChildren();list.replaceChildren();
-    const matchRows=state.deck.map((p,i)=>({p,i,r:state.results.get(i)})).filter(x=>x.p.mode==='match');
-    const sentenceRows=state.deck.map((p,i)=>({p,i,r:state.results.get(i)})).filter(x=>x.p.mode!=='match');
-    const counts={recalled:0,review:0,learned:0};
-    for(const {r} of matchRows){
-      if(r?.submitted&&r?.selfSaved&&Object.prototype.hasOwnProperty.call(counts,r.selfRating))counts[r.selfRating]++;
-    }
-    const verified=counts.recalled+counts.review+counts.learned;
-    const notVerified=matchRows.length-verified;
-    const answeredSentence=sentenceRows.filter(x=>x.r?.submitted&&String(x.r?.answer||'').trim()).length;
-    const saved=state.deck.reduce((n,p,i)=>n+Number(!!state.results.get(i)?.selfSaved),0);
-    const makeMetric=(value,label)=>{const el=document.createElement('div');el.className='sw5411-metric';
-      const v=document.createElement('strong');v.textContent=value;const l=document.createElement('small');l.textContent=label;el.append(v,l);summary.appendChild(el);};
-    if(matchRows.length){
-      makeMetric(counts.recalled+'개','🟢 패턴 · 혼자 성공');
-      makeMetric(counts.review+'개','🟡 패턴 · 복습 필요');
-      makeMetric(counts.learned+'개','🟣 패턴 · 정답 보고 학습');
-      makeMetric(notVerified+'개','⚪ 패턴 · 평가 미완료 / 저장 미확인');
-    }
-    if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'문장 만들기 제출 · GPT 채점 전');
-    makeMetric(saved+' / '+state.deck.length,'앱 연습 DB 저장 확인');
-    const line=(box,label,value)=>{const el=document.createElement('div');el.className='sw5411-line';
-      const t=document.createElement('b');t.textContent=label;const v=document.createElement('span');v.textContent=String(value??'—');el.append(t,v);box.appendChild(el);};
-    const selfLabel={recalled:'혼자 성공',review:'복습 필요',learned:'정답 보고 학습'};
-    const makeSection=(heading,rows,isMatch)=>{if(!rows.length)return;
-      const sect=document.createElement('section');sect.className='sw5411-section';
-      const h=document.createElement('h4');h.textContent=heading+' · '+rows.length+'문제';sect.appendChild(h);
-      for(const {p,i,r} of rows){
-        const submitted=!!r?.submitted,answered=!!String(r?.answer||'').trim();
-        const correct=isMatch&&submitted&&r?.selected_id===p.pattern_id;
-        const rating=Object.prototype.hasOwnProperty.call(selfLabel,r?.selfRating)?r.selfRating:null;
-        const rated=!!(submitted&&r?.selfSaved&&rating);
-        const outcome=isMatch?(rated?rating:'pending'):(submitted&&answered?(r?.selfSaved&&r.selfRating==='recalled'?'recalled':'pending'):'pending');
-        const item=document.createElement('details');item.className='sw5411-item';item.dataset.outcome=outcome;
-        item.dataset.needsReview=String(isMatch?(!rated||rating!=='recalled'||!correct):(!submitted||!answered||r?.selfRating==='review'||r?.selfRating==='learned'||!r?.selfSaved));
-        item.open=isMatch?((rated&&rating!=='recalled')||(submitted&&!correct)):
-          (!answered||r?.selfRating==='review');
-        const caption=document.createElement('summary');
-        const index=document.createElement('span');index.className='sw5411-number';index.textContent='Q'+(i+1);
-        const overview=document.createElement('span');overview.className='sw5411-overview';overview.textContent=String(p.example_ko||p.canonical_pattern||'문제');
-        const status=document.createElement('span');status.className='sw5411-status';
-        if(isMatch){
-          // Do not mark every correctly selected multiple-choice answer as '혼자 성공'.
-          status.textContent=rated?selfLabel[rating]:(rating?selfLabel[rating]+' · 미확인':submitted?'평가 미완료':'미응답');
-        }else{
-          status.textContent=submitted&&answered?(rated?'자기평가 '+selfLabel[rating]:'GPT 채점 전'):'미작성';
-        }
-        caption.append(index,overview,status);item.appendChild(caption);
-        const body=document.createElement('div');body.className='sw5411-body';
-        if(isMatch){
-          line(body,'내가 선택한 학습 평가',rating?selfLabel[rating]+(rated?' · DB 저장 확인':' · 저장 미확인'):'아직 선택하지 않음');
-          line(body,'내가 선택한 패턴',r?.selected_id?r.answer:'선택 기록 없음');
-          line(body,'패턴 선택 정오답 (참고)',submitted?(correct?'정확한 선택':'다른 패턴 선택'):'미응답');
-          line(body,'정답 패턴',p.canonical_pattern);
-          line(body,'패턴 의미',p.pattern_ko);
-          line(body,'공식 예문',p.example_en);
-        }else{
-          line(body,'내가 작성한 문장',r?.answer||'미작성');
-          line(body,'공식 DB 기준 문장',p.example_en);
-          line(body,'목표 패턴과 의미',String(p.canonical_pattern||'—')+' · '+String(p.pattern_ko||'—'));
-          line(body,'채점 상태','기준 문장은 가능한 표현 중 하나이며, 실제 문법·의미·패턴 회상은 GPT 8항목 채점이 필요합니다.');
-        }
-        line(body,'앱 학습 저장',r?.selfSaved?('저장 확인 · '+(selfLabel[r.selfRating]||ratingLabels[r.selfRating]||'')):
-          (r?.saveError?'저장 확인 실패 · 재확인 필요':r?.selfRating?'선택 기록 있음 · DB 저장 미확인':'미저장 또는 저장 미확인'));
-        item.appendChild(body);sect.appendChild(item);
-      }
-      list.appendChild(sect);
-    };
-    makeSection('🧩 패턴 맞추기 결과',matchRows,true);
-    makeSection('✍️ 문장 만들기 결과',sentenceRows,false);
-    if(!state.deck.length){const e=document.createElement('div');e.className='sw5411-empty';e.textContent='표시할 학습 결과가 없습니다.';list.appendChild(e);}
-    const buttons=[...g('sw5411Filter').querySelectorAll('button[data-sw5411-filter]')];
-    const applyFilter=mode=>{
-      for(const b of buttons)b.setAttribute('aria-pressed',String(b.dataset.sw5411Filter===mode));
-      for(const it of list.querySelectorAll('.sw5411-item'))it.hidden=mode==='review'&&it.dataset.needsReview!=='true';
-      for(const section of list.querySelectorAll('.sw5411-section'))section.hidden=!Array.from(section.querySelectorAll('.sw5411-item')).some(it=>!it.hidden);
-      const empty=list.querySelector('#sw5411FilterEmpty');if(empty)empty.remove();
-      if(mode==='review'&&!list.querySelector('.sw5411-section:not([hidden])')){
-        const msg=document.createElement('div');msg.id='sw5411FilterEmpty';msg.className='sw5411-empty';msg.textContent='복습할 항목이 없습니다.';list.appendChild(msg);
-      }
-    };
-    for(const b of buttons)b.onclick=()=>applyFilter(b.dataset.sw5411Filter);
-    applyFilter('all');
-  }
   function finish(){state.finished=true;g('sw5527Card').hidden=true;g('sw5527Done').hidden=false;
     const count=Array.from(state.results.values()).filter(x=>x.submitted&&x.answer.trim()).length;
     const savedCount=Array.from(state.results.values()).filter(x=>x.selfSaved).length;
     setText('sw5531DoneHeading',state.deck.length+'문제 연습 완료');
-    setText('sw5527DoneText',`응답 ${count}개 · 앱 연습 DB 저장 ${savedCount}개 / 전체 ${state.deck.length}개. 아래에서 패턴 맞추기 정오답과 문장 만들기 결과를 확인하세요.`);
-    renderCompletionResults();
-    setText('sw5527Step','결과 확인 · GPT 채점 요청 준비');setText('sw5527Counter',`${state.deck.length} / ${state.deck.length}`);g('sw5527Track').style.width='100%';}
+    setText('sw5527DoneText',`응답 ${count}개 · 앱 연습 DB 저장 ${savedCount}개 / 전체 ${state.deck.length}개. 문장 교정과 패턴 선택 결과는 전체 복사로 확인할 수 있습니다.`);
+    setText('sw5527Step','GPT 채점 요청 준비');setText('sw5527Counter',`${state.deck.length} / ${state.deck.length}`);g('sw5527Track').style.width='100%';}
   function renderMatchOptions(p,entry){
     const area=g('sw5533MatchOptions');area.replaceChildren();
     for(const opt of p.options||[]){
@@ -26550,7 +26401,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       });area.appendChild(button);
     }
   }
-  // v6.4.14: Match feedback uses the same clearly separated information-card order as TOEFL.
+  // v6.4.24: Match feedback uses the same clearly separated information-card order as TOEFL.
   // Pure DOM presentation: does not change answer validation, grading, IDs or DB writes.
   function renderMatchResult(p,entry){
     const el=g('sw5533MatchResult'),correct=entry.selected_id===p.pattern_id;
@@ -26604,7 +26455,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     setText('sw5527Prompt',p.example_ko);setText('sw5527Pattern',p.canonical_pattern);setText('sw5527PatternKo',p.pattern_ko);
     setText('sw5527Source',String(p.courses||'공식 패턴').replaceAll('|',' · '));
     const status=getStatus(p),self=state.latest?.get(p.pattern_id),due=dueInfo(p);
-    setText('sw5527State',(isMatch?'패턴 맞추기 · ':'')+(due?stableReviewLabel(due):(status==='new'?(self?'APP 복습 · 공식 NEW':'NEW · 새 패턴'):status.toUpperCase()+' · 공식 복습')));
+    setText('sw5527State',(isMatch?'패턴 맞추기 · ':'')+(due?`STABLE 예정 복습 · ${due.stage}/6단계`:(status==='new'?(self?'APP 복습 · 공식 NEW':'NEW · 새 패턴'):status.toUpperCase()+' · 공식 복습')));
     g('sw5533MatchArea').hidden=!isMatch;g('sw5533WriteTitle').hidden=isMatch;g('sw5527Answer').hidden=isMatch;
     g('sw5527Answer').value=isMatch?'':(entry?.answer||'');
     g('sw5527PatternBody').hidden=isMatch||!done;
@@ -26634,43 +26485,38 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     const {sentence,match}=counts(),targetCount=sentence+match;
     if(targetCount<1||targetCount>30){notice('문장 만들기와 패턴 맞추기를 합쳐 1~30개로 설정해 주세요. 현재 연습은 유지됩니다.');return;}
     const course=g('sw5527Course').value;
-    const filtered=state.patterns.filter(p=>p.active!==false&&(course==='all'||String(p.courses||'').toUpperCase().includes(course)));
+    const filtered=state.patterns.filter(p=>course==='all'||String(p.courses||'').toUpperCase().includes(course));
     if(match>0&&filtered.length<4){notice('패턴 맞추기는 서로 다른 공식 패턴 4개 이상이 필요합니다. 학습 영역을 바꿔 주세요.');return;}
+    // Every scheduled Stable pattern that is due today outranks Repair/Review/New.
+    // A not-yet-due Stable pattern remains available for *voluntary* practice,
+    // but cannot displace a due review. GPT's official grades remain separate.
     if(!state.due){notice('Stable 예정일 조회 완료 전에는 새 문제를 출제하지 않습니다.');return;}
-    const recentExposures=readRecentExposure(),now=Date.now();
-    const cooldownIds=new Set(filtered.filter(p=>appPracticeCooldown(p,recentExposures,now)).map(p=>p.pattern_id));
-    const eligible=filtered.filter(p=>!cooldownIds.has(p.pattern_id));
-    // All official due rows remain due in Supabase. Recently app-practiced due rows
-    // are skipped ONLY for this app quiz, avoiding 4-6 repeats in minutes.
-    const dueAll=filtered.filter(p=>!!dueInfo(p));
-    const dueCandidates=eligible.filter(p=>!!dueInfo(p)).sort((a,b)=>{
+    const dueCandidates=filtered.filter(p=>!!dueInfo(p)).sort((a,b)=>{
       const x=Date.parse(state.due.get(a.pattern_id).next_review_at);
       const y=Date.parse(state.due.get(b.pattern_id).next_review_at);
       return x-y||String(a.pattern_id).localeCompare(String(b.pattern_id));
     });
-    const skippedDue=dueAll.length-dueCandidates.length;
     const mandatory=dueCandidates.slice(0,targetCount);
     const mandatoryIds=new Set(mandatory.map(p=>p.pattern_id));
-    const remainder=eligible.filter(p=>!mandatoryIds.has(p.pattern_id));
+    const remainder=filtered.filter(p=>!mandatoryIds.has(p.pattern_id));
     const old=remainder.filter(isReviewed),fresh=remainder.filter(p=>!isReviewed(p));
     const priorityList=randomShuffle(old).sort((a,b)=>priority(a)-priority(b));
     const mix=Number(g('sw5527Mix').value);
     const quota=Math.round(targetCount*mix/100);
     let chosen;
     if(mix===100){
+      // Review-only: include due Stable first, then previously studied patterns. Never borrow from New.
       chosen=[...mandatory,...priorityList].slice(0,targetCount);
     }else if(mix===0){
-      // Explicit New-only selection never forces due patterns or cooldown repeats.
-      chosen=randomShuffle(eligible.filter(p=>!isReviewed(p))).slice(0,targetCount);
+      // New-only is an explicit user-selected practice filter. Scheduled reviews stay due for later.
+      chosen=randomShuffle(filtered.filter(p=>!isReviewed(p))).slice(0,targetCount);
     }else{
+      // Preserve 30/50/70 behavior, including the established scheduled-Stable priority.
       const freeSlots=targetCount-mandatory.length;
       const wantedReview=Math.max(0,quota-mandatory.length);
       const pickedReview=priorityList.slice(0,Math.min(freeSlots,wantedReview));
       chosen=[...mandatory,...pickedReview,...randomShuffle(fresh).slice(0,freeSlots-pickedReview.length)];
-      if(chosen.length<targetCount){
-        const ids=new Set(chosen.map(p=>p.pattern_id));
-        chosen.push(...randomShuffle(eligible.filter(p=>!ids.has(p.pattern_id))).slice(0,targetCount-chosen.length));
-      }
+      if(chosen.length<targetCount){const ids=new Set(chosen.map(p=>p.pattern_id));chosen.push(...randomShuffle(filtered.filter(p=>!ids.has(p.pattern_id))).slice(0,targetCount-chosen.length));}
     }
     const unique=randomShuffle(chosen);
     // First partition into two practice modes; then shuffle the entire mixed question deck.
@@ -26686,20 +26532,17 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       }
       return {...p,mode,options:randomShuffle([{pattern_id:p.pattern_id,canonical_pattern:p.canonical_pattern},...alternatives])};
     });
-    // Record display exposure even if the user regenerates without self-rating.
-    // No database writes or official promotion occur at issue time.
-    rememberExposures(chosen);
     leaveKeyboardMode();state.deck=randomShuffle(assigned);state.index=0;state.results.clear();state.finished=false;
     setText('sw5527Shuffle','↻ 문제 출제');setText('sw5527Restart','↻ 다시 문제 출제');
     g('sw5527CopyPanel').hidden=true;
     const reviewCount=chosen.filter(isReviewed).length,actualSentence=assigned.filter(x=>x.mode==='sentence').length;
-    setText('sw5527TotalInfo',`${filtered.length}개 공식 패턴 · 공식 Stable 예정 ${dueAll.length}개 (최근 연습 ${skippedDue}개 제외) · 복습 ${reviewCount} / 신규 ${chosen.length-reviewCount}`);
-    if(!chosen.length)notice(cooldownIds.size?`최근 ${cooldownIds.size}개 패턴의 중복 출제를 방지하고 있습니다. 다른 카테고리 또는 출제 구성을 선택해 주세요. 공식 Stable 복습 일정은 유지됩니다.`:(mix===100?'복습할 패턴이 없습니다. 다른 구성 또는 영역을 선택해 주세요.':'선택한 학습 영역에 출제 가능한 패턴이 없습니다.'));
-    else if(chosen.length<targetCount)notice(`반복 방지를 위해 최근 학습 ${cooldownIds.size}개는 제외했습니다. 현재 조건에서 ${chosen.length}개만 출제합니다. 공식 Stable 예정일은 유지됩니다.`);
+    setText('sw5527TotalInfo',`${filtered.length}개 공식 패턴 · Stable 예정 복습 ${dueCandidates.length}개 · 복습 ${reviewCount} / 신규 ${chosen.length-reviewCount}`);
+    if(!chosen.length)notice(mix===100?'복습 100%: 복습할 패턴이 없습니다. 다른 구성 또는 영역을 선택해 주세요.':mix===0?'신규 100%: 아직 학습하지 않은 패턴이 없습니다. 다른 구성 또는 영역을 선택해 주세요.':'선택한 학습 영역에 예문이 없습니다. 전체 패턴을 선택해 보세요.');
+    else if(chosen.length<targetCount)notice(mix===100?`복습 100%: 복습 대상이 부족해 ${chosen.length}개만 출제했습니다. 신규는 포함하지 않았습니다.`:mix===0?`신규 100%: 신규 대상이 부족해 ${chosen.length}개만 출제했습니다. 복습은 포함하지 않았습니다.`:'공식 DB에서 이용 가능한 문제 수가 적어 '+chosen.length+'개만 출제합니다.');
     else if(mix===100||mix===0)notice(mix===100?'복습 100%: 학습한 패턴만 출제했습니다.':'신규 100%: 처음 학습할 패턴만 출제했습니다. 예정된 Stable 복습은 계속 유지됩니다.');
-    else if(mandatory.length>quota)notice(`최근 학습 ${skippedDue}개를 건너뛰고 Stable 복습 예정 ${mandatory.length}개를 출제했습니다. 공식 Stable 일정은 변경하지 않았습니다.`);
+    else if(mandatory.length>quota)notice(`Stable 복습 예정 ${mandatory.length}개를 먼저 출제했습니다. 설정한 복습 비율보다 예정일을 우선합니다.`);
     else if(reviewCount!==quota)notice('복습/New 패턴 수가 부족해 출제 비율을 자동 보정했습니다.');
-    else notice(skippedDue?`Stable 예정 중 최근 앱 연습 ${skippedDue}개를 건너뛰었습니다. 공식 GPT 채점·승급은 별도입니다.`:'문장 만들기와 패턴 맞추기 혼합 연습입니다. 앱 평가와 공식 GPT 채점·승급은 구분됩니다.');
+    else notice('문장 만들기와 패턴 맞추기 혼합 연습입니다. 앱 평가와 공식 GPT 채점·승급은 구분됩니다.');
     render();
   }
   async function load(){
@@ -26919,7 +26762,14 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
   g('sw5527Copy').onclick=()=>{void copyAll();};g('sw5527CopyAgain').onclick=()=>{void copyAll();};
   g('sw5532CopyOne').onclick=()=>{void copyOne();};
   g('sw5528TogglePattern').onclick=()=>{const el=g('sw5528PatternDetail');el.hidden=!el.hidden;const button=g('sw5528TogglePattern');button.setAttribute('aria-expanded',String(!el.hidden));button.textContent=el.hidden?'목표 패턴과 비교하기 ▾':'목표 패턴 숨기기 ▴';};
-  g('sw5527Speak').onclick=()=>{const p=state.deck[state.index];if(!p||!window.speechSynthesis)return;try{window.speechSynthesis.cancel();const utterance=new SpeechSynthesisUtterance(p.example_en);utterance.lang='en-US';utterance.rate=.85;window.speechSynthesis.speak(utterance);}catch(e){notice('이 브라우저에서는 문장 음성 읽기를 사용할 수 없습니다.');}};
+  g('sw5527Speak').onclick=()=>{
+    const p=state.deck[state.index];if(!p?.example_en)return;
+    window.saywardStudioAudio?.stop?.();
+    window.stopSpeech?.();
+    void Promise.resolve(window.speakOne?.(p.example_en,.85,'en-US')).catch(()=>{
+      notice('이 브라우저에서는 문장 음성 읽기를 사용할 수 없습니다.');
+    });
+  };
   window.addEventListener('sayward:auth-state',e=>{const s=e.detail||{};if(!s.authenticated||s.uid!==state.uid){leaveKeyboardMode();++state.request;state.uid=null;state.patterns=[];state.states=null;state.latest=null;state.due=null;state.deck=[];state.results.clear();view.classList.add('hidden');view.setAttribute('aria-hidden','true');}});
 })();
 
@@ -27771,7 +27621,7 @@ window.sw545ResumeAudit=()=>({version:'6.1.9',behavior:behavior(),overall:jparse
 })();
 </script>
 <script id="sayward-personal-cloud-sync-v601">
-/* SAYWARD v6.4.14 — Account preferences cloud sync with confirmed final-value writes.
+/* SAYWARD v6.4.24 — Account preferences cloud sync with confirmed final-value writes.
  * Only allowlisted, non-secret localStorage preferences are synchronized.
  * Official grades/history/learning state and server catalogs are NEVER modified.
  */
@@ -28220,7 +28070,7 @@ window.saywardPreferenceSync={version:'6.1.9',supportedKeys:()=>[...ALLOWED],sta
 .swPrefPersistIndicator{font-size:12px;line-height:1.5;color:#64748b;margin-top:6px;min-height:16px}
 
 
-/* v6.4.14 shared matching result format: TOEFL card hierarchy is the visual standard. */
+/* v6.4.24 shared matching result format: TOEFL card hierarchy is the visual standard. */
 #sw5527PracticePage .sw5527-reveal.swStudio-is-match-result{background:transparent;border:0;box-shadow:none;padding:0;margin-top:14px}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result{font-size:14px;color:#34465d;line-height:1.7;overflow-wrap:anywhere}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result>strong{font-size:17px;line-height:1.55;display:block;margin:0 0 10px}
@@ -28911,7 +28761,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-swipe-v642">
-/* SAYWARD v6.4.14 — shared navigation gesture.
+/* SAYWARD v6.4.24 — shared navigation gesture.
  * Browser back edges, vertical scrolling, fields and interactive controls are reserved.
  * No grading, Supabase or study-state writes happen in the gesture layer.
  */
@@ -28987,7 +28837,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-admin-learning-js">
-/* SAYWARD v6.4.14: secure admin-only, read-only member learning dashboard.
+/* SAYWARD v6.4.24: secure admin-only, read-only member learning dashboard.
  * All cross-user data MUST come from sayward_admin_learning_read RPC after DB admin verification.
  * No raw cross-user table queries; no write calls. */
 (function(){'use strict';
@@ -29137,7 +28987,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sw-unified-studio-js-v645">
-/* SAYWARD v6.4.14 — Single shared view layer for pattern/TOEFL x writing/matching.
+/* SAYWARD v6.4.24 — Single shared view layer for pattern/TOEFL x writing/matching.
  * Only presentation nodes are re-homed (not cloned); event handlers, answer state,
  * Supabase RPCs, official GPT policy and review scheduling stay with their owners.
  */
@@ -29206,54 +29056,51 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </script>
 <script id="sayward-studio-audio-v646">
-/* SAYWARD 6.4.6 — shared answer-confirmation TTS; client-side only.
- * The repeat preference is stored in the preexisting authenticated settings sync
- * allowlist via myVocaConfigurationV1. Never writes grade/history/learning state.
+/* SAYWARD v6.4.24: Studio audio shares card/quiz MP3 engine.
+ * Every exact reference sentence, including repeated examples, uses the same
+ * per-user authorized Kokoro MP3 mapping. Missing MP3 falls back to existing TTS.
+ * Grade, attempt, answer, and study-state logic are untouched.
  */
 (function(){'use strict';
  const KEY='myVocaConfigurationV1';
- let generation=0,active=false,utterance=null;
- const synth=()=>window.speechSynthesis;
- const supported=()=>!!synth()&&typeof window.SpeechSynthesisUtterance==='function';
+ let generation=0,active=false;
+ const supported=()=>typeof window.speakOne==='function';
  function count(){
-  try{const raw=JSON.parse(localStorage.getItem(KEY)||'{}');const n=Number(raw.studioAnswerRepeat);
-   return [0,1,2,3,5].includes(n)?n:2;
-  }catch(e){return 2;}
+   try{const raw=JSON.parse(localStorage.getItem(KEY)||'{}');const n=Number(raw.studioAnswerRepeat);
+     return [0,1,2,3,5].includes(n)?n:2;
+   }catch(e){return 2;}
  }
  function rate(){try{const x=JSON.parse(localStorage.getItem(KEY)||'{}');return Math.max(.7,Math.min(1.35,Number(x.speechRate)||1));}catch(e){return 1;}}
- function text(s){return String(s||'').replace(/\s*~\s*/g,' something ').replace(/\s*\+\s*/g,' ').replace(/[<>]/g,' ').replace(/\s+/g,' ').trim();}
- function stop(){const wasActive=active;generation++;active=false;utterance=null;if(wasActive)try{synth()?.cancel()}catch(e){}}
- function play(mode,pattern,reference){
-  stop();const n=count();if(!n||!supported())return false;
-  const sentence=text(reference),phrase=text(pattern);
-  const units=(mode==='match'?[phrase,sentence]:[sentence]).filter(Boolean);
-  if(!units.length)return false;
-  const serial=++generation;active=true;let i=0;
-  function next(){
-   if(serial!==generation)return;
-   if(i>=units.length*n){active=false;utterance=null;return;}
-   // n repetitions of the complete pair: pattern → sentence → pattern → sentence.
-   const t=units[i%units.length];i++;
-   let u;
-   try{
-    u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=rate();
-    const voices=synth().getVoices?.()||[];
-    const english=voices.find(v=>/^en-US$/i.test(v.lang)&&v.localService)||voices.find(v=>/^en/i.test(v.lang));
-    if(english)u.voice=english;
-    let advanced=false;const advance=()=>{if(advanced)return;advanced=true;if(serial===generation)next();};
-    u.onend=advance;u.onerror=advance;utterance=u;
-    synth().speak(u);
-    if(synth().paused)synth().resume();
-   }catch(e){active=false;utterance=null;}
-  }
-  next();return true;
+ function cue(s){return String(s||'').replace(/\s*~\s*/g,' something ').replace(/\s*\+\s*/g,' ').replace(/[<>]/g,' ').replace(/\s+/g,' ').trim();}
+ // Cancel only if this studio owned an active playback. This preserves other
+ // lesson/card audio when the studio is merely rendering an inactive card.
+ function stop(){const wasActive=active;generation++;active=false;
+   if(wasActive)try{window.stopSpeech?.();}catch(_){}
  }
- document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});
+ function play(mode,pattern,reference){
+   stop();const n=count();if(!n||!supported())return false;
+   // Do NOT rewrite the reference sentence: its literal DB text defines
+   // the MP3 SHA-256 filename. Cue placeholders are only normalized for TTS.
+   const sentence=String(reference||'').trim(),phrase=cue(pattern);
+   const units=(mode==='match'?[phrase,sentence]:[sentence]).filter(Boolean);
+   if(!units.length)return false;
+   const ticket=++generation;active=true;
+   void (async()=>{
+     try{
+       for(let i=0;i<units.length*n;i++){
+         if(ticket!==generation)return;
+         await window.speakOne(units[i%units.length],rate(),'en-US');
+       }
+     }catch(e){console.warn('[SAYWARD Studio Audio]',String(e?.message||e).slice(0,100));}
+     finally{if(ticket===generation)active=false;}
+   })();
+   return true;
+ }
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
  window.addEventListener('pagehide',stop);
  window.addEventListener('sayward:auth-out',stop);
  window.saywardStudioAudio={play,stop,count,supported};
 })();
-
 </script>
 <style id="sw650CategoryCss">
 #swCategoryRelease[hidden]{display:none!important}
@@ -29284,7 +29131,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 @media(max-width:390px){.sw650-row{padding:13px 10px}.sw650-choice{font-size:12px;gap:4px}.sw650-choice .sw650-check{width:16px;height:16px}}
 </style>
 <script id="sw650CategoryReleaseScript">
-/* SAYWARD v6.4.14: persistent five-category publish policy. */
+/* SAYWARD v6.4.24: persistent five-category publish policy. */
 (()=>{'use strict';
  const root=document.getElementById('swCategoryRelease');if(!root)return;
  const rowsRoot=document.getElementById('swCategoryCards');
@@ -29391,5 +29238,576 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 })();
 
 </script>
-<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.14';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
+<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.24';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
+<style id="sw231CardStyles">
+/* v6.4.24 — one visible header group for ALL study-card types.
+   Favorite is physically inside the same row as Level, so overlap is impossible. */
+.sw231LevelInfo{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:9px 0 10px}
+.sw231LevelInfo span{font-size:11px;font-weight:850;border-radius:8px;padding:5px 8px;border:1px solid #e5ddf6;color:#5b4194;background:#f8f5ff}
+.sw231LevelInfo .sw231LevelUnknown{background:#f7f7f9;color:#6c6b75;border-color:#e5e5eb}
+.sw231LevelInfo .sw231LevelPending{background:#fff8ef;color:#9a6b32;border-color:#f3dfbb}
+.sw231SentenceKo[hidden]{display:none!important}
+#myClassContent .myStudyActions .sw231Toggle,#myClassContent .myStudyActions .sw231Next{font-size:12px;white-space:nowrap}
+#myClassContent .myStudyCard,#myClassContent .mySpeakBlock{position:relative!important}
+#myClassContent .myStudyCard .myStudyNum,#myClassContent .mySpeakBlock .myStudyNum{
+  display:flex!important;justify-content:flex-start!important;align-items:center!important;
+  min-height:46px!important;box-sizing:border-box!important;padding-right:0!important;
+  margin-bottom:8px!important;
+}
+/* The controls are one sibling group rather than separately positioned elements. */
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup{
+ position:absolute!important;right:12px!important;top:12px!important;left:auto!important;bottom:auto!important;
+ z-index:24!important;display:inline-flex!important;align-items:center!important;justify-content:flex-end!important;
+ flex-wrap:nowrap!important;gap:6px!important;width:max-content!important;max-width:calc(100% - 24px)!important;
+ height:44px!important;min-height:44px!important;max-height:44px!important;
+ margin:0!important;padding:0!important;background:transparent!important;border:0!important;
+ box-sizing:border-box!important;transform:none!important;pointer-events:auto!important;
+}
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ position:static!important;flex:0 0 38px!important;width:38px!important;min-width:38px!important;max-width:38px!important;
+ box-sizing:border-box!important;height:44px!important;min-height:44px!important;max-height:44px!important;
+ margin:0!important;padding:0!important;border:1px solid #cbd5e1!important;border-radius:12px!important;
+ color:#64748b!important;background:#f5f5f7!important;font-size:14px!important;font-weight:900!important;
+ letter-spacing:0!important;line-height:1!important;white-space:nowrap!important;
+ opacity:1!important;visibility:visible!important;transform:none!important;
+}
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .studyFavoriteBtn239,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .studyFavoriteBtn239{
+ position:static!important;top:auto!important;right:auto!important;left:auto!important;bottom:auto!important;
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ flex:0 0 auto!important;box-sizing:border-box!important;width:auto!important;min-width:70px!important;
+ max-width:98px!important;height:44px!important;min-height:44px!important;max-height:44px!important;
+ margin:0!important;padding:0 7px!important;border-radius:12px!important;
+ font-size:10.5px!important;line-height:1!important;white-space:nowrap!important;transform:none!important;
+}
+#myClassContent .sw6413SentenceLevel1{background:#f1f5f9!important;color:#475569!important;border-color:#cbd5e1!important}
+#myClassContent .sw6413SentenceLevel2{background:#dbeafe!important;color:#1d4ed8!important;border-color:#93c5fd!important}
+#myClassContent .sw6413SentenceLevel3{background:#f3e8ff!important;color:#7e22ce!important;border-color:#d8b4fe!important}
+#myClassContent .sw6413SentenceLevel4{background:#ffedd5!important;color:#9a3412!important;border-color:#fdba74!important}
+#myClassContent .sw6413SentenceLevelUnknown{background:#f5f5f7!important;color:#64748b!important;border-color:#d5d8e0!important}
+/* When title would touch the grouped controls, move BOTH down together. */
+#myClassContent .myStudyCard.sw6416ControlsBelow > .myStudyNum,
+#myClassContent .mySpeakBlock.sw6416ControlsBelow > .myStudyNum{
+ min-height:108px!important;align-items:flex-start!important;
+}
+#myClassContent .myStudyCard.sw6416ControlsBelow > .sw6413LevelFavoriteGroup,
+#myClassContent .mySpeakBlock.sw6416ControlsBelow > .sw6413LevelFavoriteGroup{
+ top:70px!important;
+}
+@media(max-width:520px){
+ #myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn,
+ #myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn{max-width:100%!important;min-width:0!important;}
+}
+</style>
+<script id="sw231AdaptiveCardModule">
+/* SAYWARD Adaptive card view v2.3.1: read-only overlay; never rewrites lesson source or official attempts. */
+(() => {
+ 'use strict';
+ let requestNo=0;
+ const originalMode=new Map(), rotations=new Map(), catalogCache=new Map(), pending=new Map();
+ const normalized=s=>String(s||'').trim().toLowerCase().replace(/\s+/g,' ');
+ const cardFromId=s=>document.querySelector(`#myClassContent .myStudyCard[data-sw-v23-item="${CSS.escape(String(s||''))}"]`);
+ const byCourse=()=>({course:String(window.ACTIVE_STUDY_COURSE||ACTIVE_STUDY_COURSE||''), lesson:Number(window.myClassLessonNo||myClassLessonNo)||0});
+ const auth=()=>{const s=window.saywardAuth?.snapshot?.()||{};return s.authenticated && s.uid && window.saywardAuth?.getClient?.()?{uid:s.uid,client:window.saywardAuth.getClient()}:null;};
+ function mk(tag,cl,label){const n=document.createElement(tag);if(cl)n.className=cl;if(label!=null)n.textContent=label;return n;}
+ function placeSentenceLevelBeforeFavorite(element,chosen){
+   const header=element.querySelector('.myStudyNum');if(!header)return;
+   let group=element.querySelector('.sw6413LevelFavoriteGroup');
+   if(!group){group=mk('div','sw6413LevelFavoriteGroup');element.appendChild(group);}
+   else if(group.parentElement!==element)element.appendChild(group);
+   let badge=group.querySelector('.sw6413SentenceLevelBadge');
+   if(!badge){badge=mk('span','sw6413SentenceLevelBadge');group.prepend(badge);}
+   const level=Number(chosen?.level),valid=Number.isInteger(level)&&level>=1&&level<=4;
+   const names=['','기본','확장','응용','실전'];
+   const cl='sw6413SentenceLevelBadge '+(valid?`sw6413SentenceLevel${level}`:'sw6413SentenceLevelUnknown');
+   if(badge.className!==cl)badge.className=cl;
+   const label=valid?`L${level}`:'L?';if(badge.textContent!==label)badge.textContent=label;
+   const desc=valid?`현재 카드 문장 Level ${level} · ${names[level]}`:'DB에 이 카드 문장의 Level이 아직 저장되지 않았습니다';
+   if(badge.title!==desc)badge.title=desc;
+   if(badge.getAttribute('aria-label')!==desc)badge.setAttribute('aria-label',desc);
+   const dataLevel=valid?String(level):'unknown';if(badge.dataset.sentenceLevel!==dataLevel)badge.dataset.sentenceLevel=dataLevel;
+   // Preserve the existing favorite button and its click listener when moving it.
+   const favorite=element.querySelector('.studyFavoriteBtn239');
+   if(favorite&&favorite.parentElement!==group)group.appendChild(favorite);
+   // Measure actual widths, not guessed positions. Both controls are in ONE group.
+   element.classList.remove('sw6416ControlsBelow');
+   const title=header.querySelector('.myTitleInfinityBtn');
+   if(title && group.getBoundingClientRect().width){
+     const t=title.getBoundingClientRect(),g=group.getBoundingClientRect();
+     if(t.right+6>g.left && t.top<g.bottom && t.bottom>g.top){element.classList.add('sw6416ControlsBelow');}
+   }
+ }
+ function decorateAll(){
+   const root=document.getElementById('myClassContent');if(!root)return;
+   const course=String(window.ACTIVE_STUDY_COURSE||ACTIVE_STUDY_COURSE||'');
+   const lesson=Number(window.myClassLessonNo||myClassLessonNo)||0;
+   if(!['my','sori','opic','friends'].includes(course)||!lesson)return;
+   const data=typeof studyCourseData==='function'?studyCourseData(course,lesson)||{}:{};
+   const items=[...root.querySelectorAll('.myStudyCard,.mySpeakBlock')];
+   for(const el of items){
+     let kind='',index=-1,source=null;
+     const id=el.id||'';
+     let match=id.match(/^myCorrectionCard(\d+)$/);
+     if(match){kind='corrections';index=Number(match[1]);source=data.corrections?.[index];}
+     else if((match=id.match(/^myChunkCard(\d+)$/))){kind='chunks';index=Number(match[1]);source=data.chunks?.[index];}
+     else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(match[1]);source=data.speaking?.[index];}
+     if(index<0)continue;
+     // No guessed numeric Level: CORRECTION/SPEAKING source rows currently have no Level in DB.
+     const explicit=source?.sentence_level??source?.expansion_level??source?.level??null;
+     const badge=el.querySelector('.sw6413SentenceLevelBadge');
+     // Keep an already verified Chunk level fetched from Supabase during this render.
+     const chosen=(kind==='chunks' && badge?.dataset.sentenceLevel && badge.dataset.sentenceLevel!=='unknown')
+        ?{level:Number(badge.dataset.sentenceLevel)}:{level:explicit};
+     placeSentenceLevelBeforeFavorite(el,chosen);
+   }
+ }
+
+ function updateCard(element,record,chosen,opts){
+   const english=element.querySelector('.myChunkExample');
+   if(!english)return;
+   let ko=element.querySelector('.myChunkExample + .myStudyKo');
+   if(!ko){ko=mk('div','myStudyKo sw231SentenceKo');english.insertAdjacentElement('afterend',ko);}
+   english.textContent=chosen.en||record.original_en||'';
+   placeSentenceLevelBeforeFavorite(element,chosen);
+   const koValue=chosen.ko||record.original_ko||'';
+   ko.textContent=koValue;ko.hidden=!koValue;
+   let meta=element.querySelector('.sw231LevelInfo');
+   if(!meta){meta=mk('div','sw231LevelInfo');element.querySelector('.myStudyNum')?.insertAdjacentElement('afterend',meta);}
+   meta.replaceChildren();
+   if(record.pattern_level){
+     const hint=record.level_verified?'':' · 측정 전';
+     meta.append(mk('span','sw231LevelPattern',`패턴 L${record.pattern_level}${hint}`));
+     // The sentence level is displayed immediately before the Favorite button in the card header.
+     // Keep this secondary row for the learned pattern level and pending notices only.
+     if(opts.fallback)meta.append(mk('span','sw231LevelPending',`L${record.pattern_level} 문장 준비 중 · 복습`));
+   }else meta.append(mk('span','sw231LevelUnknown','패턴 L? · 미분류'));
+   let actions=element.querySelector('.myStudyActions');
+   if(!actions)return;
+   const listen=actions.querySelector('button.primary');
+   if(listen)listen.onclick=()=>myClassSpeak(english.textContent,element);
+   let toggle=actions.querySelector('.sw231Toggle');
+   const hasAlternative=opts.choices.some(v=>normalized(v.en)!==normalized(record.original_en));
+   const canToggle=hasAlternative && (opts.showOriginal || normalized(chosen.en)!==normalized(record.original_en));
+   if(canToggle){
+     if(!toggle){toggle=mk('button','myStudyBtn sw231Toggle');toggle.type='button';actions.prepend(toggle);}
+     toggle.textContent=opts.showOriginal?'현재 Level 보기':'원문 보기';
+     toggle.onclick=()=>{originalMode.set(record.source_item_id,!opts.showOriginal);void refresh();};
+   }else if(toggle)toggle.remove();
+   let next=actions.querySelector('.sw231Next');
+   if(opts.choices.length>1){
+     if(!next){next=mk('button','myStudyBtn sw231Next','다른 문장');next.type='button';actions.prepend(next);}
+     next.onclick=()=>{rotations.set(record.source_item_id,(rotations.get(record.source_item_id)||0)+1); originalMode.set(record.source_item_id,false);void refresh();};
+   }else if(next)next.remove();
+ }
+ function selectCards(rows){
+   // One family can appear on several lesson cards. Each physical card retains its source_item_id.
+   const familySeen=new Map(), usedEnglish=new Map(), selected=new Map();
+   rows.forEach(r=>{
+     const id=r.source_item_id, group=r.family_key||r.pattern_id||id;
+     const original={en:r.original_en,ko:r.original_ko,level:r.original_level};
+     const showOriginal=!!originalMode.get(id);
+     let chosen=original, fallback=false;
+     const variants=Array.isArray(r.variants)?r.variants.filter(v=>v&&v.en&&v.ko&&v.level>=1&&v.level<=r.pattern_level):[];
+     const bestLevel=variants.length?Math.max(...variants.map(v=>v.level)):0;
+     const choices=variants.filter(v=>v.level===bestLevel);
+     const occurrence=familySeen.get(group)||0; familySeen.set(group,occurrence+1);
+     const used=usedEnglish.get(group)||new Set();usedEnglish.set(group,used);
+     // Starting L1 prioritizes the original: level growth, not arbitrary rewriting, changes the card.
+     const adaptive=!!r.pattern_level && r.pattern_level>1 && !showOriginal;
+     const manuallyRotated=(rotations.get(id)||0)>0&&!showOriginal;
+     if((adaptive||manuallyRotated)&&choices.length){
+       let start=(occurrence+(rotations.get(id)||0))%choices.length;
+       let pick=null;
+       for(let j=0;j<choices.length;j++){
+         const test=choices[(start+j)%choices.length];
+         if(!used.has(normalized(test.en))){pick=test;break;}
+       }
+       if(pick){chosen=pick; used.add(normalized(pick.en));}
+       // If every candidate is already on a card, keep this card's distinct original.
+       else chosen=original;
+     }else used.add(normalized(original.en));
+     fallback=adaptive && (!choices.length || Number(chosen.level||0)<r.pattern_level);
+     selected.set(id,{chosen,showOriginal,choices,fallback});
+   });
+   return selected;
+ }
+ async function refresh(){
+   const ticket=++requestNo, session=auth(), {course,lesson}=byCourse();
+   if(!session||!['my','sori','opic','friends'].includes(course)||!lesson||myClassTab!=='chunks')return;
+   const page=document.getElementById('myClassPage');if(!page||page.classList.contains('hidden'))return;
+   const items=[...document.querySelectorAll('#myClassContent .myStudyCard[data-sw-v23-item]')];if(!items.length)return;
+   items.forEach(el=>{if(!el.querySelector('.sw6413LevelFavoriteGroup'))placeSentenceLevelBeforeFavorite(el,{level:null});});
+   try{
+     const key=`${session.uid}/${course}/${lesson}`;
+     let cached=catalogCache.get(key), data=cached?.data;
+     if(!cached||Date.now()-cached.at>20000){
+       let work=pending.get(key);
+       if(!work){
+         work=session.client.rpc('sayward_lesson_card_sync_v23',{p_user_id:session.uid,p_course:course,p_lesson_no:lesson})
+           .then(({data,error})=>{if(error)throw error;catalogCache.set(key,{data,at:Date.now()});return data;})
+           .finally(()=>pending.delete(key));pending.set(key,work);
+       }
+       data=await work;
+     }
+     const same=auth();const now=byCourse();
+     if(requestNo!==ticket||same?.uid!==session.uid||now.course!==course||now.lesson!==lesson||myClassTab!=='chunks')return;
+     if(!data||data.read_only!==true||!Array.isArray(data.cards))throw new Error('CARD_LEVEL_RESPONSE_INVALID');
+     const cardRows=data.cards.filter(r=>r&&r.source_item_id),selected=selectCards(cardRows);
+     cardRows.forEach(r=>{
+       const el=cardFromId(r.source_item_id);
+       const item=selected.get(r.source_item_id);
+       if(!el||!item)return;
+       // Ignore a stale response if the currently rendered source and DB source diverge.
+       const source=el.getAttribute('data-sw-v23-source')||'';
+       if(normalized(source)!==normalized(r.original_en))return;
+       updateCard(el,r,item.chosen,item);
+     });
+     try{studyApplyAllSentencePatternHighlights?.()}catch(_){}
+   }catch(e){console.warn('[SAYWARD adaptive cards] Original curriculum remains visible',String(e?.message||e));}
+ }
+ window.saywardCardLevelV23=Object.freeze({refresh,decorateAll});
+ window.addEventListener('sayward:auth-out',()=>{requestNo++;originalMode.clear();rotations.clear();catalogCache.clear();pending.clear();});
+ window.addEventListener('sayward:study-lesson-render',()=>{catalogCache.clear();});
+ window.addEventListener('sayward:grade-committed',()=>{catalogCache.clear();});
+ window.addEventListener('sayward:pattern-state-updated',()=>{catalogCache.clear();});
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')catalogCache.clear();});
+})();
+
+</script>
+<script id="sw6416UniversalLevelBridge">
+(()=>{'use strict';
+ const run=()=>{try{window.saywardCardLevelV23?.decorateAll?.();}catch(e){console.warn('[SAYWARD level badge]',e);}};
+ // Each render destroys and rebuilds cards; reattach badge after the favorite decorator.
+ if(typeof window.renderMyClass==='function'){
+   const previous=window.renderMyClass;
+   window.renderMyClass=function(){const result=previous.apply(this,arguments);run();return result;};
+ }
+ let pending=false;
+ const root=document.getElementById('myClassContent');
+ if(root){new MutationObserver(records=>{
+   if(!records.some(r=>[...r.addedNodes].some(n=>n.nodeType===1 && (
+     n.matches?.('.myStudyCard,.mySpeakBlock,.studyFavoriteBtn239') || n.querySelector?.('.myStudyCard,.mySpeakBlock,.studyFavoriteBtn239')
+   ))))return;
+   if(pending)return;
+   pending=true;requestAnimationFrame(()=>{pending=false;run();});
+ }).observe(root,{childList:true,subtree:true});}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run,{once:true});else run();
+ window.addEventListener('sayward:study-lesson-render',()=>setTimeout(run,0));
+})();
+</script>
+
+
+<style id="sw6419CompactCardControls">
+/* v6.4.24 Compact Level + Favorite, reserve separate line for sentence-trained badge. */
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup{
+  top:10px!important;right:10px!important;gap:5px!important;
+  height:32px!important;min-height:32px!important;max-height:32px!important;
+}
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge{
+  flex:0 0 32px!important;width:32px!important;min-width:32px!important;max-width:32px!important;
+  height:32px!important;min-height:32px!important;max-height:32px!important;
+  font-size:12px!important;border-radius:10px!important;
+}
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .studyFavoriteBtn239,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .studyFavoriteBtn239{
+  height:32px!important;min-height:32px!important;max-height:32px!important;
+  min-width:76px!important;max-width:91px!important;padding:0 6px!important;
+  font-size:10px!important;border-radius:10px!important;
+}
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .studyFavoriteBtn239 .star,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .studyFavoriteBtn239 .star{font-size:13px!important;}
+#myClassContent .myStudyCard > .mvSentenceTrainedBadge5476,
+#myClassContent .mySpeakBlock > .mvSentenceTrainedBadge5476{top:49px!important;right:10px!important;}
+/* If a long title occupies the right side, move controls AND trained badge together. */
+#myClassContent .myStudyCard.sw6416ControlsBelow > .sw6413LevelFavoriteGroup,
+#myClassContent .mySpeakBlock.sw6416ControlsBelow > .sw6413LevelFavoriteGroup{top:80px!important;}
+#myClassContent .myStudyCard.sw6416ControlsBelow > .mvSentenceTrainedBadge5476,
+#myClassContent .mySpeakBlock.sw6416ControlsBelow > .mvSentenceTrainedBadge5476{top:120px!important;}
+#myClassContent .myStudyCard.sw6416ControlsBelow > .myStudyNum,
+#myClassContent .mySpeakBlock.sw6416ControlsBelow > .myStudyNum{min-height:153px!important;}
+</style>
+
+
+<style id="sw6420Mp3UserAdminCSS">
+#sw5513ApprovalPanel .sw6420-mp3-setting{display:inline-flex;align-items:center;gap:8px;
+ border:1px solid #cbd5e1;border-radius:12px;background:#f1f5f9;padding:7px 10px;
+ cursor:pointer;white-space:nowrap;min-height:38px;color:#475569;font-size:13px;font-weight:800;}
+#sw5513ApprovalPanel .sw6420-mp3-setting.sw6420-mp3-on{background:#e5f7ef;
+ border-color:#86d6b0;color:#06684c;}
+#sw5513ApprovalPanel .sw6420-mp3-setting input{accent-color:#047857;width:19px;height:19px;margin:0;}
+#sw5513ApprovalPanel .sw6420-mp3-setting:has(input:disabled){opacity:.64;cursor:not-allowed;}
+#sw5513ApprovalPanel .sw5513-applicant-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+</style>
+<script id="sw6419KokoroAutoDiscovery">
+/* SAYWARD v6.4.24: Server-managed audio catalog; voice-agnostic MP3 playback with per-user entitlement.
+   No manifest required. Lists both voice folders once per login, caches paths,
+   then rechecks missing entries after a bounded interval. Per-user entitlement.
+   All MP3 operations are read-only. No service keys and no DB writes. */
+(function(){'use strict';
+ const BUCKET='sayward-audio';
+ // Voice names and paths are data, not constants: new voices never need an app release.
+ const ENGINE='kokoro-v1.0';
+ const SPEED_CANDIDATES=['1.00','1.07','1.08']; // legacy fallback ONLY; manifest paths are authoritative.
+ const MANIFEST_TTL_MS=5*60*1000, REFRESH_MISSING_MS=10*60*1000,
+       REFRESH_VISIBILITY_MS=10*60*1000;
+ const initialSpeak=window.speakOne,initialStop=window.stopSpeech;
+ if(typeof initialSpeak!=='function'||typeof initialStop!=='function')return;
+ let generation=0,userId='',player=null,finishActive=null;
+ let fileIndex=null,indexTask=null,lastScan=0,lastError='',lastFileCount=0,folderVoices=[];
+ let accessUid='',accessEnabled=false,accessAt=0,accessTask=null;
+ const ACCESS_TTL_MS=30*1000;
+ const signedCache=new Map(), resolved=new Map();
+ let manifestMap=null,manifestTask=null,manifestAt=0,manifestError='',playbackMode='untried',currentFile='';
+ const norm=s=>String(s||'').normalize('NFC').trim().replace(/\s+/gu,' ');
+ const validVoice=v=>/^[a-z][a-z0-9_-]{1,31}$/.test(v);
+ const validPath=s=>/^audio\/[a-z][a-z0-9_-]{1,31}\/[a-f0-9]{24}\.mp3$/.test(s);
+ function auth(){const s=window.saywardAuth?.snapshot?.();return (s?.authenticated&&s?.uid&&window.saywardAuth?.getClient?.())?s:null;}
+ function client(){return window.saywardAuth?.getClient?.()||null;}
+ function halt(){try{player?.pause();if(player)player.currentTime=0;}catch(_){}player=null;
+   if(finishActive){const cb=finishActive;finishActive=null;cb(true);}}
+ function clear(){generation++;halt();userId='';fileIndex=null;indexTask=null;lastScan=0;lastError='';lastFileCount=0;folderVoices=[];resolved.clear();signedCache.clear();manifestMap=null;manifestAt=0;manifestTask=null;manifestError='';accessUid='';accessEnabled=false;accessAt=0;accessTask=null;}
+ async function checkAccess(force=false){
+   const a=auth();if(!a){if(accessUid)clear();return false;}
+   if(accessUid!==a.uid){if(accessUid)clear();accessUid=a.uid;}
+   if(!force&&accessAt&&Date.now()-accessAt<ACCESS_TTL_MS)return accessEnabled;
+   if(accessTask)return accessTask;
+   const uid=a.uid,wasEnabled=accessEnabled;
+   accessTask=(async()=>{
+     const sb=client();if(!sb)return false;
+     const {data,error}=await sb.from('sayward_profiles')
+       .select('mp3_audio_enabled,account_status').eq('user_id',uid).maybeSingle();
+     if(error)throw error;
+     if(auth()?.uid!==uid||accessUid!==uid)return false;
+     const enabled=data?.mp3_audio_enabled===true&&data?.account_status==='active';
+     accessEnabled=enabled;accessAt=Date.now();
+     if(!enabled && wasEnabled){generation++;halt();fileIndex=null;resolved.clear();signedCache.clear();}
+     return enabled;
+   })().catch(e=>{accessEnabled=false;accessAt=Date.now();
+     lastError='MP3_ACCESS_'+String(e?.code||e?.message||'UNAVAILABLE').slice(0,95);
+     if(wasEnabled){generation++;halt();fileIndex=null;resolved.clear();signedCache.clear();}
+     return false;
+   }).finally(()=>{accessTask=null;});
+   return accessTask;
+ }
+ function uidCheck(){const a=auth();if(!a||!accessEnabled||accessUid!==a.uid)return null;
+   if(userId!==a.uid){if(userId)generation++;userId=a.uid;fileIndex=null;indexTask=null;lastScan=0;lastError='';lastFileCount=0;folderVoices=[];resolved.clear();signedCache.clear();manifestMap=null;manifestTask=null;manifestAt=0;manifestError='';playbackMode='untried';currentFile='';}
+   return a.uid;
+ }
+ async function hashBytes(s){if(!globalThis.crypto?.subtle||typeof TextEncoder==='undefined')return null;
+   return new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)));}
+ function hex24(buf){return [...buf].map(v=>v.toString(16).padStart(2,'0')).join('').slice(0,24);}
+ async function variants(text){
+   // Legacy fallback when manifest is missing. Discover voices from Storage folders.
+   // Any new voice + speed should come from manifest.json, which is authoritative.
+   const t=norm(text);if(!t||t.length>1800||/[가-힣]/.test(t))return [];
+   if(!globalThis.crypto?.subtle)return [];
+   const candidates=[];
+   const voices=folderVoices.filter(validVoice);
+   for(const voice of voices){
+     for(const speed of SPEED_CANDIDATES){
+       const payload='['+[ENGINE,voice,speed,t].map(v=>JSON.stringify(v)).join(', ')+']';
+       const digest=await hashBytes(payload);
+       if(digest)candidates.push('audio/'+voice+'/'+hex24(digest)+'.mp3');
+     }
+   }
+   return candidates;
+ }
+ async function fetchManifest(force=false){
+   const uid=uidCheck();if(!uid)return null;
+   if(manifestTask)return manifestTask;
+   if(!force&&manifestAt&&Date.now()-manifestAt<MANIFEST_TTL_MS)return manifestMap;
+   const ticket=generation;
+   manifestTask=(async()=>{
+     const sb=client();if(!sb)return null;
+     const {data,error}=await sb.storage.from(BUCKET).download('manifest.json');
+     if(error||!data)throw new Error('Manifest download: '+(error?.message||'unavailable'));
+     const parsed=JSON.parse(await data.text());
+     if(!parsed||!Array.isArray(parsed.items)||parsed.items.length>100000)throw new Error('Invalid manifest');
+     const index=new Map();
+     for(const row of parsed.items){
+       const key=norm(row?.english),p=String(row?.audio_path||'');
+       if(key&&validPath(p))index.set(key,p);
+     }
+     if(ticket!==generation||uidCheck()!==uid)return null;
+     manifestMap=index;manifestAt=Date.now();manifestError='';return index;
+   })().catch(err=>{
+     manifestAt=Date.now();manifestError=String(err?.message||err).slice(0,180);
+     return null;
+   }).finally(()=>{manifestTask=null;});
+   return manifestTask;
+ }
+ async function discover(force=false){
+   const uid=uidCheck();if(!uid)return null;
+   if(indexTask)return indexTask;
+   if(!force&&fileIndex)return fileIndex;
+   const ticket=generation;
+   indexTask=(async()=>{
+     const supabase=client();if(!supabase)return null;
+     const found=new Set(),voices=new Set();
+     // Folder inventory is discovered dynamically; no hardcoded voice roster.
+     for(let offset=0;offset<2000;offset+=100){
+       const {data,error}=await supabase.storage.from(BUCKET).list('audio',
+         {limit:100,offset,sortBy:{column:'name',order:'asc'}});
+       if(error||!Array.isArray(data))throw new Error('Storage root list: '+(error?.message||'unknown'));
+       for(const f of data){if(validVoice(String(f?.name||'')))voices.add(f.name);}
+       if(data.length<100)break;
+     }
+     for(const voice of voices){
+       const folder='audio/'+voice;
+       for(let offset=0;offset<50000;offset+=1000){
+         const {data,error}=await supabase.storage.from(BUCKET).list(folder,
+           {limit:1000,offset,sortBy:{column:'name',order:'asc'}});
+         if(error||!Array.isArray(data))throw new Error('Storage list '+voice+': '+(error?.message||'unknown'));
+         for(const f of data){const path=folder+'/'+String(f?.name||'');if(validPath(path))found.add(path);}
+         if(data.length<1000)break;
+       }
+     }
+     if(ticket!==generation||!auth()||uidCheck()!==uid)return null;
+     fileIndex=found;folderVoices=[...voices];lastScan=Date.now();lastError='';lastFileCount=found.size;
+     resolved.clear();return fileIndex;
+   })().catch(e=>{lastError=String(e?.message||e).slice(0,200);return fileIndex;}).finally(()=>{indexTask=null;});
+   return indexTask;
+ }
+ async function sign(path){
+   const item=signedCache.get(path);if(item&&item.until>Date.now())return item.url;
+   if(!await checkAccess()||!validPath(path))return '';
+   const s=client();if(!s)return '';
+   const {data,error}=await s.storage.from(BUCKET).createSignedUrl(path,60);
+   if(error||!data?.signedUrl){lastError='MP3_SIGN_'+String(error?.message||error?.statusCode||'DENIED').slice(0,150);return '';}
+   signedCache.set(path,{url:data.signedUrl,until:Date.now()+25*1000});return data.signedUrl;
+ }
+ async function findPath(text){
+   const t=norm(text);if(!uidCheck()||!t)return '';
+   // v6.4.24: exact exported content -> exact MP3 path, no guessing or folder scan.
+   // Missing/older manifest stays optional: preserve dynamic six-folder discovery.
+   const index=await fetchManifest();
+   const inManifest=index?.get(t);
+   if(inManifest){resolved.set(t,inManifest);return inManifest;}
+   await discover();
+   if(fileIndex&&Date.now()-lastScan>=REFRESH_MISSING_MS)await discover(true);
+   if(!fileIndex)return ''; // Network/access failure: fall back to existing browser TTS.
+   let cached=resolved.get(t);if(cached!==undefined){
+     if(cached)return cached;
+     // New uploads become visible without an app-code change. Bounded refresh only on misses.
+     if(Date.now()-lastScan<REFRESH_MISSING_MS)return '';
+     await discover(true);if(!fileIndex)return '';cached=resolved.get(t);if(cached!==undefined)return cached;
+   }
+   const paths=await variants(t);
+   const match=paths.find(p=>fileIndex?.has(p))||'';
+   resolved.set(t,match);return match;
+ }
+ async function playFile(text,rate,lang,element,ticket){
+   if(!/^en(?:-|$)/i.test(lang||'en-US')||!await checkAccess())return false;
+   const path=await findPath(text);
+   if(ticket!==generation)return true;
+   if(!path){playbackMode='unmapped';return false;}
+   currentFile=path;
+   const url=await sign(path);
+   if(ticket!==generation)return true;
+   if(!url){playbackMode='signed-url-failed';return false;}
+   let a;try{a=new Audio(url);a.preload='auto';a.playbackRate=Math.max(.7,Math.min(1.4,Number(rate)||1));
+      if('preservesPitch' in a)a.preservesPitch=true;}catch(_){return false;}
+   player=a;let finished=false,timer=null,playing=false;
+   const result=await new Promise(resolve=>{
+     const done=ok=>{if(finished)return;finished=true;if(timer)clearTimeout(timer);
+       a.removeEventListener('ended',onEnd);a.removeEventListener('error',onError);
+       if(player===a)player=null;if(finishActive===done)finishActive=null;
+       try{window.mvDomClearHighlight?.()}catch(_){}resolve(ok);};
+     const onEnd=()=>{playbackMode='MP3';done(true)},onError=()=>{lastError='MP3_AUDIO_ERROR';playbackMode='audio-error';done(false)};
+     finishActive=done;
+     a.addEventListener('ended',onEnd,{once:true});a.addEventListener('error',onError,{once:true});
+     timer=setTimeout(()=>done(false),Math.max(45000,norm(text).length*950));
+     try{window.mvDomStartHighlight?.(norm(text),element);}catch(_){}
+     Promise.resolve(a.play()).then(()=>{playing=true;playbackMode='MP3';}).catch(e=>{lastError='MP3_PLAY_'+String(e?.name||e?.message||'REJECTED').slice(0,95);playbackMode='play-rejected';done(false)});
+   });
+   if(!result&&!playing){try{a.pause()}catch(_){}}
+   return result||ticket!==generation;
+ }
+ window.speakOne=async function(text,rate,lang,element){
+   const ticket=generation;
+   const actualRate=rate===undefined||rate===null?(typeof window.getSpeechRate==='function'?window.getSpeechRate():1):rate;
+   if(norm(text)&&/^en(?:-|$)/i.test(lang||'en-US')){
+     let ok=false;try{ok=await playFile(text,actualRate,lang,element,ticket);}catch(e){console.warn('[SAYWARD Kokoro]',String(e?.message||e).slice(0,100));}
+     if(ticket!==generation)return;if(ok)return;
+   }
+   if(ticket!==generation)return;
+   if(/^en(?:-|$)/i.test(lang||'en-US'))playbackMode='TTS';
+   return initialSpeak.call(this,text,rate,lang,element);
+ };
+ window.stopSpeech=function(...args){generation++;halt();return initialStop.apply(this,args);};
+ window.addEventListener('sayward:auth-out',clear);
+ window.addEventListener('sayward:auth-role',()=>{clear();if(auth())void checkAccess(true).then(ok=>{if(ok)void fetchManifest();});});
+ window.addEventListener('sayward:auth-state',e=>{if(!e.detail?.authenticated&&accessUid)clear();});
+ window.addEventListener('sayward:mp3-access-changed',e=>{if(e.detail?.uid===auth()?.uid){
+    accessAt=0;void checkAccess(true).then(ok=>{if(ok)void fetchManifest(true);});
+ }});
+ window.addEventListener('pagehide',()=>{generation++;halt();});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden){generation++;halt();}
+   else if(auth())void checkAccess(true).then(ok=>{if(ok&&Date.now()-manifestAt>MANIFEST_TTL_MS)void fetchManifest(true);});});
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if(auth())void checkAccess(true).then(ok=>{if(ok)void fetchManifest();});},{once:true});
+ else if(auth())void checkAccess(true).then(ok=>{if(ok)void fetchManifest();});
+  window.saywardKokoroMixed={
+    status:()=>({engine:'v6.4.24',authenticated:!!auth(),active:!!auth()&&accessEnabled,accessEnabled,manifestEntries:manifestMap?.size||0,manifestAgeSec:manifestAt?Math.round((Date.now()-manifestAt)/1000):null,manifestError,indexedVoices:folderVoices.length,indexedFiles:lastFileCount,mappedSentences:resolved.size,lastScan,lastError,playbackMode,currentFile}),
+    refresh:async()=>{resolved.clear();manifestAt=0;manifestMap=null;manifestError='';fileIndex=null;lastScan=0;if(!await checkAccess(true))return null;return (await fetchManifest(true))||(await discover(true));},
+    has:async text=>{if(!await checkAccess())return false;return !!await findPath(text);},
+    findPath,stop:halt
+  };
+  // A single public replay API for all learning surfaces. New MP3s are a data operation only.
+  window.saywardEnglishAudio={
+    speak:(text,rate)=>window.speakOne(text,rate,'en-US'),
+    speakParagraph:(text,rate)=>window.speakComplete(text,rate,'en-US'),
+    stop:()=>window.stopSpeech(),
+    status:()=>window.saywardKokoroMixed.status()
+  };
+})();
+</script>
+<script id="sw6423Mp3Diagnostics">
+(function(){'use strict';
+  if(!new URLSearchParams(location.search).has('mp3debug'))return;
+  const mk=(name,props={},content='')=>{const e=document.createElement(name);for(const [k,v] of Object.entries(props)){if(k==='style')e.style.cssText=v;else e.setAttribute(k,v);}if(content)e.textContent=content;return e;};
+  const init=()=>{
+    if(document.getElementById('sw6423-diagnostics'))return;
+    const root=mk('section',{id:'sw6423-diagnostics',style:'position:fixed;bottom:12px;left:10px;right:10px;z-index:2147483000;background:#fff;color:#172b4d;box-shadow:0 8px 30px #0006;border:2px solid #2563eb;border-radius:15px;padding:13px;max-width:580px;margin:0 auto;font:14px/1.45 system-ui, sans-serif;max-height:73vh;overflow:auto;'});
+    const top=mk('div',{style:'display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;'});
+    top.append(mk('strong',{},'🎧 SAYWARD MP3 연결 진단 · v6.4.24'));
+    const close=mk('button',{type:'button',style:'font-size:16px;padding:4px 10px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#222;'},'닫기');close.onclick=()=>root.remove();top.append(close);root.append(top);
+    const help=mk('p',{style:'margin:0 0 9px;color:#475569;font-size:12px;'},'진단은 로그인 후 실행하세요. 비밀번호와 인증키는 표시하거나 저장하지 않습니다.');root.append(help);
+    const controls=mk('div',{style:'display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px;'});
+    const check=mk('button',{type:'button',style:'padding:9px 13px;border:0;border-radius:9px;background:#2563eb;color:white;font-weight:bold;'},'연결 새로 점검');
+    const test=mk('button',{type:'button',style:'padding:9px 13px;border:0;border-radius:9px;background:#0f766e;color:white;font-weight:bold;'},'문장 MP3 확인');
+    controls.append(check,test);root.append(controls);
+    const input=mk('textarea',{rows:'2',style:'box-sizing:border-box;width:100%;padding:7px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;'},'');
+    input.value='Most bank branches are located in busy commercial areas.';root.append(input);
+    const result=mk('pre',{style:'font:12px/1.55 ui-monospace, monospace;white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f9;border-radius:9px;padding:10px;margin:10px 0 0;'},'진단 버튼을 누르세요.');root.append(result);
+    const safeError=e=>String(e?.message||e||'unknown').slice(0,150);
+    check.onclick=async()=>{
+      check.disabled=true;result.textContent='로그인·권한·MP3 목록 확인 중…';
+      try{
+        const e=window.saywardKokoroMixed;const s=window.saywardAuth?.snapshot?.()||{};
+        if(!e){result.textContent='MP3 엔진 없음 — 현재 배포 앱이 6.4.24이 아니거나 초기화에 실패했습니다.';return;}
+        await e.refresh();const d=e.status();
+        const client=window.saywardAuth?.getClient?.();
+        let profile='확인 불가';
+        if(client&&s?.uid){const {data,error}=await client.from('sayward_profiles').select('mp3_audio_enabled,account_status').eq('user_id',s.uid).maybeSingle();profile=error?'오류: '+safeError(error):`활성=${data?.account_status==='active'}, MP3 ON=${data?.mp3_audio_enabled===true}`;}
+        result.textContent=`앱 엔진: ${d.engine}\n로그인: ${d.authenticated?'YES':'NO'}\nDB 제공권한: ${profile}\n사용 가능: ${d.active?'YES':'NO'}\nmanifest 매핑: ${d.manifestEntries}문장\nmanifest 갱신 후: ${d.manifestAgeSec??'-'}초\nStorage 검색: ${d.indexedFiles}파일\nmanifest 오류: ${d.manifestError||'없음'}\n기타 오류: ${d.lastError||'없음'}\n마지막 재생: ${d.playbackMode}\n주의: manifest가 정상이라면 Storage 폴더 검색 수가 0이어도 됩니다.`;
+      }catch(e){result.textContent='진단 오류: '+safeError(e);}finally{check.disabled=false;}
+    };
+    test.onclick=async()=>{
+      test.disabled=true;result.textContent='문장 MP3 검색 중…';
+      try{const e=window.saywardKokoroMixed;if(!e)throw new Error('MP3 엔진 미배포');
+        const path=await e.findPath(input.value);const status=e.status();
+        result.textContent=path?`매핑 성공: ${path}\n현재 권한: ${status.accessEnabled}\n권한이 ON이면 아래 원래 카드 듣기 버튼에서 MP3가 나와야 합니다.`:
+          `MP3 매핑 실패\n권한=${status.accessEnabled}\nmanifest=${status.manifestEntries}\n목록=${status.indexedFiles}\n오류=${status.lastError||status.manifestError||'일치하는 문장 없음'}`;
+      }catch(e){result.textContent='진단 오류: '+safeError(e);}finally{test.disabled=false;}
+    };
+    document.body.append(root);
+  };
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
 </body></html>
