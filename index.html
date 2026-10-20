@@ -1,12 +1,12 @@
-<!-- SAYWARD v6.4.27 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
-<!-- SAYWARD v6.4.27; v6.0 RC2 official baseline + live sentence stats + personal sync -->
+<!-- SAYWARD v6.4.28 standard matching feedback; TOEFL-derived results UI. No DB changes. -->
+<!-- SAYWARD v6.4.28; v6.0 RC2 official baseline + live sentence stats + personal sync -->
 <!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.27 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.28 · Learning Dashboard</title>
 
 <meta name="theme-color" content="#2563eb">
 <meta name="mobile-web-app-capable" content="yes">
@@ -5402,8 +5402,8 @@ function myClassRuleText229(text){
   out+=myClassEsc(s.slice(pos));return out;
 }
 
-if(myClassTab==='corrections')root.innerHTML=`<div class="myClassList">${myClassData().corrections.map((x,i)=>`<div class="myStudyCard" id="myCorrectionCard${i}"><div class="myStudyNum"><span>CORRECTION ${i+1}</span>${infBtn('corrections',i,'현재 문장')}</div>${x.source?`<div class="studySourceTag">${myClassEsc(x.source)}</div>`:''}<div class="myStudyKo">${myClassEsc(x.ko)}</div>${x.bad?`<div class="myStudyBad">❌ ${myClassBadMarked229(x.bad,x.badMarks,x.why)}</div>`:''}${(x.grammar||x.why)?`<div class="myStudyReason230">${x.grammar?`<div class="myStudyReasonRow230 myStudyReasonGrammar230">⚠️ <b>Grammar</b> · ${myClassRuleText229(x.grammar)}</div>`:''}${x.why?`<div class="myStudyReasonRow230 myStudyReasonWhy230">🔎 <b>Why · ${myClassEsc(x.whyType||'표현')}</b>: ${myClassRuleText229(x.why)}</div>`:''}</div>`:''}<div class="myStudyEn" id="myen${i}">${myClassEsc(x.en)}</div><div class="myStudyTip">💡 ${myClassEsc(x.tip||'')}</div><div class="myStudyActions"><button class="myStudyBtn" onclick="document.getElementById('myen${i}').classList.toggle('myHiddenEnglish')">🙈 가리기</button><button class="myStudyBtn primary" onclick="myClassSpeak(${JSON.stringify(x.en)},document.getElementById('myCorrectionCard${i}'))">🔊 듣기</button></div></div>`).join('')}</div>`;
- else if(myClassTab==='chunks')root.innerHTML=`<div class="myClassList">${myClassData().chunks.map((x,i)=>`<div class="myStudyCard" id="myChunkCard${i}" data-sw-v23-item="${myClassEsc(x.__dbItemId||'')}" data-sw-v23-source="${myClassEsc(x.example||'')}"><div class="myStudyNum"><span>NATIVE CHUNK ${i+1}</span>${infBtn('chunks',i,'현재 문장')}</div>${x.source?`<div class="studySourceTag">${myClassEsc(x.source)}</div>`:''}<div class="myChunkPattern">${myClassEsc(x.pattern)}</div><div class="myStudyKo">${myClassEsc(x.ko)}</div><div class="myChunkExample">${myClassEsc(x.example)}</div>${x.exampleKo?`<div class="myStudyKo">${myClassEsc(x.exampleKo)}</div>`:''}<div class="myStudyActions"><button class="myStudyBtn primary" onclick="myClassSpeak(${JSON.stringify(x.example)},document.getElementById('myChunkCard${i}'))">🔊 예문 듣기</button></div></div>`).join('')}</div>`;
+if(myClassTab==='corrections')root.innerHTML=`<div class="myClassList">${myClassData().corrections.map((x,i)=>`<div class="myStudyCard" id="myCorrectionCard${i}"><div class="myStudyNum"><span>CORRECTION ${i+1}</span>${infBtn('corrections',i,'현재 문장')}</div>${x.source?`<div class="studySourceTag">${myClassEsc(x.source)}</div>`:''}<div class="myStudyKo">${myClassEsc(x.ko)}</div>${x.bad?`<div class="myStudyBad">❌ ${myClassBadMarked229(x.bad,x.badMarks,x.why)}</div>`:''}${(x.grammar||x.why)?`<div class="myStudyReason230">${x.grammar?`<div class="myStudyReasonRow230 myStudyReasonGrammar230">⚠️ <b>Grammar</b> · ${myClassRuleText229(x.grammar)}</div>`:''}${x.why?`<div class="myStudyReasonRow230 myStudyReasonWhy230">🔎 <b>Why · ${myClassEsc(x.whyType||'표현')}</b>: ${myClassRuleText229(x.why)}</div>`:''}</div>`:''}<div class="myStudyEn" id="myen${i}">${myClassEsc(x.en)}</div><div class="myStudyTip">💡 ${myClassEsc(x.tip||'')}</div><div class="myStudyActions"><button class="myStudyBtn" onclick="document.getElementById('myen${i}').classList.toggle('myHiddenEnglish')">🙈 가리기</button><button class="myStudyBtn primary" type="button" data-sw6428-speak="corrections">🔊 듣기</button></div></div>`).join('')}</div>`;
+ else if(myClassTab==='chunks')root.innerHTML=`<div class="myClassList">${myClassData().chunks.map((x,i)=>`<div class="myStudyCard" id="myChunkCard${i}" data-sw-v23-item="${myClassEsc(x.__dbItemId||'')}" data-sw-v23-source="${myClassEsc(x.example||'')}"><div class="myStudyNum"><span>NATIVE CHUNK ${i+1}</span>${infBtn('chunks',i,'현재 문장')}</div>${x.source?`<div class="studySourceTag">${myClassEsc(x.source)}</div>`:''}<div class="myChunkPattern">${myClassEsc(x.pattern)}</div><div class="myStudyKo">${myClassEsc(x.ko)}</div><div class="myChunkExample">${myClassEsc(x.example)}</div>${x.exampleKo?`<div class="myStudyKo">${myClassEsc(x.exampleKo)}</div>`:''}<div class="myStudyActions"><button class="myStudyBtn primary" type="button" data-sw6428-speak="chunks">🔊 예문 듣기</button></div></div>`).join('')}</div>`;
  else if(myClassTab==='speaking')root.innerHTML=myClassData().speaking.map((x,i)=>{const parts=myClassSplitSentences(x.text);return `<div class="mySpeakBlock" id="mySpeakBlock${i}"><div class="myStudyNum"><span>SPEAKING ${i+1}</span>${infBtn('speaking',i,'문단 전체')}</div>${studySpeakingHeaderHtml(x)}${x.promptKo?`<div class="myStudyKo">${myClassEsc(x.promptKo)}</div>`:''}<div class="mySpeakPrompt">${myClassEsc(studyCourseSpeakingGuide(ACTIVE_STUDY_COURSE))}</div><div class="mySpeakText" id="myspeak${i}">${parts.map((t,j)=>`<span class="mySpeakSentence" id="mySpeakSentence${i}_${j}">${myClassEsc(t)}</span>`).join(' ')}</div>${x.ko?`<div class="myStudyKo mySpeakKoText" style="margin-top:12px">🇰🇷 ${myClassSplitKoSentences(x.ko).map((kt,kj)=>`<span class="mySpeakKoSentence" data-ko-index="${kj}">${myClassEsc(kt)}</span>`).join(" ")}</div>`:''}<div class="myStudyActions"><button class="myStudyBtn" onclick="document.getElementById('myspeak${i}').classList.toggle('myHiddenEnglish')">🙈 가리기</button><button class="myStudyBtn primary" onclick='studySpeakSpeakingCard193(${i},document.getElementById("mySpeakBlock${i}"))'>🔊 질문 + 답변 듣기</button></div></div>`}).join('');
  else root.innerHTML=`<div class="myRuleGrid">${myClassData().habits.map((x,i)=>`<div class="myRule"><div class="myStudyNum">HABIT ${i+1}</div><b>${myClassEsc(x.title)}</b><p>${myClassEsc(x.text)}</p></div>`).join('')}</div>`;
  MY_CLASS_PLAY.index=0;MY_CLASS_PLAY.currentText='';myClassClearFocus();myClassSyncButtons();
@@ -12337,7 +12337,7 @@ function mvSentenceEntryAudit182(){
 window.mvSentenceEntryAudit182=mvSentenceEntryAudit182;
 
 /* ===== V5.3.189 · STANDARD APP INFO / UPDATE HISTORY ===== */
-const MV_APP_VERSION='6.4.24';
+const MV_APP_VERSION='6.4.28';
 
 function mvCloseInfoOverlay(){
   const overlay=document.getElementById('mvInfoOverlay');
@@ -15891,7 +15891,7 @@ function installVisibleBuildBadge(){
   if(!badge){
     badge=document.createElement('div');
     badge.id='mvBuildBadge';
-    badge.textContent='v6.4.27';
+    badge.textContent='v6.4.28';
     badge.title='현재 실행 중인 MY VOCA 빌드';
     document.body.appendChild(badge);
   }
@@ -16310,7 +16310,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     return bar;
   }
 
-  /* v6.4.24: new lessons become selected AFTER both the authorized catalog and
+  /* v6.4.28: new lessons become selected AFTER both the authorized catalog and
      the account preferences have loaded. A seen-ID ledger keeps explicit
      unchecked choices unchecked, even when a lesson is refreshed. */
   const LESSON_AUTO_KEYS={
@@ -20725,7 +20725,7 @@ function mv281SyncUI(){
 }
 window.mv281SyncUI=mv281SyncUI;
 
-/* ===== SAYWARD v6.4.27 · deliberate long-press playback cancellation =====
+/* ===== SAYWARD v6.4.28 · deliberate long-press playback cancellation =====
    Tap = keep old pause/resume behavior. Hold 900ms = stop + discard only this repeat scope's cursor.
    Never clear selected lessons, quiz results, lesson completions, or other courses' bookmarks.
    This function is inside the v281 closure so pending async hydration can also be invalidated. */
@@ -20761,8 +20761,21 @@ function mv281CancelRepeat6427(source='course'){
   }else{
     try{if(scope==='day')clearSelectedProgress();else mv419ClearResume('course',scope)}catch(e){}
   }
+  // Keep the lesson being VIEWED when cancelling a playlist. The session is gone,
+  // but the bottom button must still start this exact lesson, never a new overall playlist.
+  const lessonPage=document.getElementById('myClassPage');
+  const hasVisibleLesson=!!lessonPage&&!lessonPage.classList.contains('hidden');
+  const screenBefore=hasVisibleLesson?mv281Screen():null;
+  const directBefore=MV281.direct?{...MV281.direct}:null;
   // Existing abort deactivates all tokens, speech and timers, but does not clear saved positions.
   mv281AbortSession('explicit-longpress-cancel-'+target);
+  if(hasVisibleLesson){
+    const candidate=directBefore||screenBefore;
+    if(candidate && VALID_281.includes(candidate.course) && candidate.course!=='day'){
+      MV281.direct={course:candidate.course,lesson:Math.max(1,Number(candidate.lesson)||1)};
+      MV281.reason='cancelled-repeat-lesson-visible';
+    }
+  }
   // Remove again, to defend against synchronous onstop/onend callbacks during abort.
   if(target==='overall'){
     try{localStorage.removeItem('sayward_v545_overall_checkpoint')}catch(e){}
@@ -20859,11 +20872,11 @@ window.addEventListener('keydown',event=>{
 },true);
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',hint6427,{once:true});
 else hint6427();
-window.saywardRepeatCancelAudit6427=()=>({version:'6.4.27',longPressMs:HOLD_MS_6427,
+window.saywardRepeatCancelAudit6427=()=>({version:'6.4.28',longPressMs:HOLD_MS_6427,
   targets:document.querySelectorAll(LONG_TARGET_6427).length,
   session:{kind:MV281.kind,status:MV281.status,scope:MV281.scope},
   overallSaved:(()=>{try{return !!JSON.parse(localStorage.getItem('sayward_v545_overall_checkpoint')||'null')}catch(e){return false}})()});
-/* ===== end v6.4.27 ===== */
+/* ===== end v6.4.28 ===== */
 
 // IMPORTANT: capture before the legacy target onclick. Per-course start never calls the overall controller.
 document.addEventListener('click',(e)=>{
@@ -20946,8 +20959,8 @@ window.mvPlaybackSessionAudit282=function(){
 };
 
 setTimeout(()=>{
-  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.27');
-  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.27';
+  document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.28');
+  const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.28';
   mv281SyncUI();
 },0);
 })();
@@ -21200,9 +21213,9 @@ try{
 
 setTimeout(()=>{
   removeStages288(true);
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.27')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.27'}catch(e){}
-  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.24'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.28')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.28'}catch(e){}
+  try{const fixed=document.querySelector('.versionTag,.versionBadge,.buildBadge');if(fixed)fixed.textContent='v6.4.28'}catch(e){}
 },0);
 
 window.mvSwipeLifetimeAudit288=function(){
@@ -21372,9 +21385,9 @@ try{myClassSyncButtons=syncButtons289}catch(e){}
 
 if(SESSION)SESSION.version='5.3.289';
 setTimeout(()=>{
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.27')}catch(e){}
-  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.27'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.24')}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.28')}catch(e){}
+  try{const badge=document.getElementById('mvBuildBadge');if(badge)badge.textContent='v6.4.28'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.28')}catch(e){}
   refreshPausedBrowseUI289();
 },0);
 
@@ -21608,10 +21621,10 @@ function navigate292(item){S292.lastTarget=item?.id||null;if(item.course==='day'
 createUI292();
 setTimeout(()=>{try{buildIndex292()}catch(e){console.warn('[v5.3.292] search index',e)}},260);
 setTimeout(()=>{
-  try{document.title='SAYWARD v6.4.27 · Learning Dashboard'}catch(e){}
-  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.27')}catch(e){}
-  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.24'}catch(e){}
-  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.24')}catch(e){}
+  try{document.title='SAYWARD v6.4.28 · Learning Dashboard'}catch(e){}
+  try{document.querySelectorAll('.appVersion').forEach(x=>x.textContent='SAYWARD v6.4.28')}catch(e){}
+  try{const b=document.getElementById('mvBuildBadge');if(b)b.textContent='v6.4.28'}catch(e){}
+  try{document.querySelectorAll('.versionTag,.versionBadge,.buildBadge').forEach(x=>x.textContent='v6.4.28')}catch(e){}
 },0);
 window.mvUnifiedSearchAudit292=()=>({version:'v5.3.292',indexCount:buildIndex292().length,query:S292.query,filter:S292.filter,resultCount:S292.results.length,homeButton:!!document.getElementById('mvSearchHomeBtn292'),rule:'additive unified search only; existing playback/swipe/card logic unchanged'});
 })();
@@ -21904,7 +21917,7 @@ function bindHomeSwipe(){
 }
 
 function boot(){
-  try{document.title='SAYWARD v6.4.27 · Learning Dashboard'}catch(e){}
+  try{document.title='SAYWARD v6.4.28 · Learning Dashboard'}catch(e){}
   try{ensureMyClassHomeCards()}catch(e){console.warn('[SAYWARD] MY card auto-heal',e)}
   setHomeVisibleClass();bindLauncher();bindOverallProxy();buildDaySettings();placeTodayCard();bindHomeSwipe();
   placeTodayCard();
@@ -21925,7 +21938,7 @@ window.mvCleanAudit540=function(){
   const h=home(),bar=document.getElementById('sharedStudySelectBar');
   const cards=[...document.querySelectorAll('#homePage .myClassSection .myClassCard')].slice(0,4);
   return {
-    version:'v6.4.24',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
+    version:'v6.4.28',mode:currentMode(),defaultMainMode:resolveInitialMainMode(),hero:!!document.getElementById('cleanHeroMenuHit'),launcher:document.querySelectorAll('.cleanModeCard').length,
     sharedBar:!!bar,daySettings:!!document.getElementById('cleanDaySettings'),legacyModePanelVisible:!!document.getElementById('homeStudyModePanel')&&getComputedStyle(document.getElementById('homeStudyModePanel')).display!=='none',
     visibleSections:{day:getComputedStyle(document.querySelector('#homePage .daySection')||document.body).display,my:getComputedStyle(document.querySelector('#homePage .myClassSection')||document.body).display,sori:getComputedStyle(document.querySelector('#homePage .soriClassSection')||document.body).display,opic:getComputedStyle(document.querySelector('#homePage .opicClassSection')||document.body).display,friends:getComputedStyle(document.querySelector('#homePage .friendsClassSection')||document.body).display},
     myCards:cards.map(c=>({w:Math.round(c.getBoundingClientRect().width),h:Math.round(c.getBoundingClientRect().height)})),
@@ -22111,7 +22124,7 @@ window.mvCleanAudit540=function(){
 #cleanHeroMenuHit,#cleanHeroSearchHit{position:absolute!important;top:0!important;height:100%!important;width:18%!important;border:0!important;background:transparent!important;padding:0!important;z-index:8!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 #cleanHeroMenuHit{left:-5px!important} #cleanHeroSearchHit{right:0!important}
 #homePage .homeHero::before{
-  content:"v6.4.24"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
+  content:"v6.4.28"!important;position:absolute!important;right:14.0%!important;top:8px!important;z-index:6!important;
   min-width:54px!important;padding:2px 8px 3px!important;box-sizing:border-box!important;text-align:center!important;
   border:1.5px solid rgba(255,255,255,.92)!important;border-radius:999px!important;background:rgba(77,62,202,.96)!important;
   color:#fff!important;font-size:9px!important;line-height:1.1!important;font-weight:950!important;letter-spacing:.1px!important;
@@ -23021,7 +23034,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    DB content is authoritative; validated device cache is the only offline fallback.
    Other courses remain unchanged; MY source is Supabase for ALL lessons. */
 (function(){'use strict';
-  document.title='SAYWARD v6.4.27 · Learning Dashboard';
+  document.title='SAYWARD v6.4.28 · Learning Dashboard';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
@@ -25777,7 +25790,7 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.27 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD v6.4.28 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
@@ -26599,7 +26612,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       });area.appendChild(button);
     }
   }
-  // v6.4.24: Match feedback uses the same clearly separated information-card order as TOEFL.
+  // v6.4.28: Match feedback uses the same clearly separated information-card order as TOEFL.
   // Pure DOM presentation: does not change answer validation, grading, IDs or DB writes.
   function renderMatchResult(p,entry){
     const el=g('sw5533MatchResult'),correct=entry.selected_id===p.pattern_id;
@@ -27819,7 +27832,7 @@ window.sw545ResumeAudit=()=>({version:'6.1.9',behavior:behavior(),overall:jparse
 })();
 </script>
 <script id="sayward-personal-cloud-sync-v601">
-/* SAYWARD v6.4.27 — Account preferences cloud sync with confirmed final-value writes.
+/* SAYWARD v6.4.28 — Account preferences cloud sync with confirmed final-value writes.
  * Only allowlisted, non-secret localStorage preferences are synchronized.
  * Official grades/history/learning state and server catalogs are NEVER modified.
  */
@@ -28268,7 +28281,7 @@ window.saywardPreferenceSync={version:'6.1.9',supportedKeys:()=>[...ALLOWED],sta
 .swPrefPersistIndicator{font-size:12px;line-height:1.5;color:#64748b;margin-top:6px;min-height:16px}
 
 
-/* v6.4.24 shared matching result format: TOEFL card hierarchy is the visual standard. */
+/* v6.4.28 shared matching result format: TOEFL card hierarchy is the visual standard. */
 #sw5527PracticePage .sw5527-reveal.swStudio-is-match-result{background:transparent;border:0;box-shadow:none;padding:0;margin-top:14px}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result{font-size:14px;color:#34465d;line-height:1.7;overflow-wrap:anywhere}
 #sw5527PracticePage .swStudio-is-match-result .sw5533-match-result>strong{font-size:17px;line-height:1.55;display:block;margin:0 0 10px}
@@ -28959,7 +28972,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-swipe-v642">
-/* SAYWARD v6.4.27 — shared navigation gesture.
+/* SAYWARD v6.4.28 — shared navigation gesture.
  * Browser back edges, vertical scrolling, fields and interactive controls are reserved.
  * No grading, Supabase or study-state writes happen in the gesture layer.
  */
@@ -29035,7 +29048,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sayward-admin-learning-js">
-/* SAYWARD v6.4.27: secure admin-only, read-only member learning dashboard.
+/* SAYWARD v6.4.28: secure admin-only, read-only member learning dashboard.
  * All cross-user data MUST come from sayward_admin_learning_read RPC after DB admin verification.
  * No raw cross-user table queries; no write calls. */
 (function(){'use strict';
@@ -29185,7 +29198,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </style>
 <script id="sw-unified-studio-js-v645">
-/* SAYWARD v6.4.27 — Single shared view layer for pattern/TOEFL x writing/matching.
+/* SAYWARD v6.4.28 — Single shared view layer for pattern/TOEFL x writing/matching.
  * Only presentation nodes are re-homed (not cloned); event handlers, answer state,
  * Supabase RPCs, official GPT policy and review scheduling stay with their owners.
  */
@@ -29254,7 +29267,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 </script>
 <script id="sayward-studio-audio-v646">
-/* SAYWARD v6.4.27: Studio audio shares card/quiz MP3 engine.
+/* SAYWARD v6.4.28: Studio audio shares card/quiz MP3 engine.
  * Every exact reference sentence, including repeated examples, uses the same
  * per-user authorized Kokoro MP3 mapping. Missing MP3 falls back to existing TTS.
  * Grade, attempt, answer, and study-state logic are untouched.
@@ -29329,7 +29342,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 @media(max-width:390px){.sw650-row{padding:13px 10px}.sw650-choice{font-size:12px;gap:4px}.sw650-choice .sw650-check{width:16px;height:16px}}
 </style>
 <script id="sw650CategoryReleaseScript">
-/* SAYWARD v6.4.27: persistent five-category publish policy. */
+/* SAYWARD v6.4.28: persistent five-category publish policy. */
 (()=>{'use strict';
  const root=document.getElementById('swCategoryRelease');if(!root)return;
  const rowsRoot=document.getElementById('swCategoryCards');
@@ -29436,9 +29449,9 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 })();
 
 </script>
-<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.27';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
+<script id="sw649VersionSync">(()=>{const version='SAYWARD v6.4.28';try{document.title=version+' · Learning Dashboard';document.querySelectorAll('.appVersion').forEach(x=>x.textContent=version);}catch(_e){}})();</script>
 <style id="sw231CardStyles">
-/* v6.4.24 — one visible header group for ALL study-card types.
+/* v6.4.28 — one visible header group for ALL study-card types.
    Favorite is physically inside the same row as Level, so overlap is impossible. */
 .sw231LevelInfo{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:9px 0 10px}
 .sw231LevelInfo span{font-size:11px;font-weight:850;border-radius:8px;padding:5px 8px;border:1px solid #e5ddf6;color:#5b4194;background:#f8f5ff}
@@ -29699,7 +29712,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
 
 <style id="sw6419CompactCardControls">
-/* v6.4.24 Compact Level + Favorite, reserve separate line for sentence-trained badge. */
+/* v6.4.28 Compact Level + Favorite, reserve separate line for sentence-trained badge. */
 #myClassContent .myStudyCard > .sw6413LevelFavoriteGroup,
 #myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup{
   top:10px!important;right:10px!important;gap:5px!important;
@@ -29742,7 +29755,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 #sw5513ApprovalPanel .sw5513-applicant-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 </style>
 <script id="sw6419KokoroAutoDiscovery">
-/* SAYWARD v6.4.27: Reusable audio element with user-gesture priming; voice-agnostic MP3 playback with per-user entitlement.
+/* SAYWARD v6.4.28: Reusable audio element with user-gesture priming; voice-agnostic MP3 playback with per-user entitlement.
    No manifest required. Lists both voice folders once per login, caches paths,
    then rechecks missing entries after a bounded interval. Per-user entitlement.
    All MP3 operations are read-only. No service keys and no DB writes. */
@@ -29921,7 +29934,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  }
  async function findPath(text){
    const t=norm(text);if(!uidCheck()||!t)return '';
-   // v6.4.24: exact exported content -> exact MP3 path, no guessing or folder scan.
+   // v6.4.28: exact exported content -> exact MP3 path, no guessing or folder scan.
    // Missing/older manifest stays optional: preserve dynamic six-folder discovery.
    const index=await fetchManifest();
    const inManifest=index?.get(t);
@@ -30003,7 +30016,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if(auth())void checkAccess(true).then(ok=>{if(ok)void fetchManifest();});},{once:true});
  else if(auth())void checkAccess(true).then(ok=>{if(ok)void fetchManifest();});
   window.saywardKokoroMixed={
-    status:()=>({engine:'v6.4.26',authenticated:!!auth(),active:!!auth()&&accessEnabled,accessEnabled,manifestEntries:manifestMap?.size||0,manifestAgeSec:manifestAt?Math.round((Date.now()-manifestAt)/1000):null,manifestError,indexedVoices:folderVoices.length,indexedFiles:lastFileCount,mappedSentences:resolved.size,lastScan,lastError,playbackMode,currentFile,fallbackReason,lastRequestedText,gestureStarts,gestureUnlocks,autoplayBlocked,lastAudioTrigger,recentFallbacks:recentFallbacks.slice(-12)}),
+    status:()=>({engine:'v6.4.28',authenticated:!!auth(),active:!!auth()&&accessEnabled,accessEnabled,manifestEntries:manifestMap?.size||0,manifestAgeSec:manifestAt?Math.round((Date.now()-manifestAt)/1000):null,manifestError,indexedVoices:folderVoices.length,indexedFiles:lastFileCount,mappedSentences:resolved.size,lastScan,lastError,playbackMode,currentFile,fallbackReason,lastRequestedText,gestureStarts,gestureUnlocks,autoplayBlocked,lastAudioTrigger,recentFallbacks:recentFallbacks.slice(-12)}),
     refresh:async()=>{resolved.clear();manifestAt=0;manifestMap=null;manifestError='';fileIndex=null;lastScan=0;if(!await checkAccess(true))return null;return (await fetchManifest(true))||(await discover(true));},
     has:async text=>{if(!await checkAccess())return false;return !!await findPath(text);},
     findPath,prime:primeAudioFromGesture,stop:halt
@@ -30041,7 +30054,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
     if(document.getElementById('sw6423-diagnostics'))return;
     const root=mk('section',{id:'sw6423-diagnostics',style:'position:fixed;bottom:12px;left:10px;right:10px;z-index:2147483000;background:#fff;color:#172b4d;box-shadow:0 8px 30px #0006;border:2px solid #2563eb;border-radius:15px;padding:13px;max-width:580px;margin:0 auto;font:14px/1.45 system-ui, sans-serif;max-height:73vh;overflow:auto;'});
     const top=mk('div',{style:'display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;'});
-    top.append(mk('strong',{},'🎧 SAYWARD MP3 연결 진단 · v6.4.27'));
+    top.append(mk('strong',{},'🎧 SAYWARD MP3 연결 진단 · v6.4.28'));
     const close=mk('button',{type:'button',style:'font-size:16px;padding:4px 10px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#222;'},'닫기');close.onclick=()=>root.remove();top.append(close);root.append(top);
     const help=mk('p',{style:'margin:0 0 9px;color:#475569;font-size:12px;'},'진단은 로그인 후 실행하세요. 비밀번호와 인증키는 표시하거나 저장하지 않습니다.');root.append(help);
     const controls=mk('div',{style:'display:flex;gap:7px;flex-wrap:wrap;margin-bottom:9px;'});
@@ -30096,6 +30109,29 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
     document.body.append(root);
   };
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+
+<script id="sw6428CardSpeakFix">
+/* SAYWARD v6.4.28: use displayed text, not unsafe HTML inline JS with JSON-encoded English. */
+(function(){'use strict';
+ document.addEventListener('click',function(e){
+   const button=e.target?.closest?.('button[data-sw6428-speak]');
+   if(!button)return;
+   e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+   const card=button.closest('.myStudyCard');
+   const role=button.getAttribute('data-sw6428-speak');
+   const content=card?.querySelector(role==='chunks'?'.myChunkExample':'.myStudyEn');
+   const value=String(content?.textContent||'').trim();
+   if(!value){try{window.myClassSetStatus?.('읽을 예문을 찾을 수 없습니다',false)}catch(_e){}return;}
+   try{window.saywardEnglishAudio?.prime?.('lesson-card-listen')}catch(_e){}
+   try{
+      if(typeof window.myClassSpeak==='function')window.myClassSpeak(value,card);
+      else if(typeof window.speakOne==='function')void window.speakOne(value,typeof window.getSpeechRate==='function'?window.getSpeechRate():1,'en-US',content);
+   }catch(err){console.warn('[SAYWARD card audio]',String(err?.message||err).slice(0,120));}
+ },true);
+ window.saywardCardAudioAudit6428=()=>({version:'6.4.28',buttons:document.querySelectorAll('[data-sw6428-speak]').length,
+  globalSpeaker:typeof window.myClassSpeak==='function',mp3Engine:typeof window.saywardKokoroMixed==='object'});
 })();
 </script>
 </body></html>
