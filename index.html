@@ -1,4 +1,4 @@
-<!-- SAYWARD v6.4.38: dashboard focus manager searchable combobox and full registered list; per-user Supabase reread, no grading changes. -->
+<!-- SAYWARD v6.4.39: focus list is an option inside existing pattern sort combobox; no separate manager panel. -->
 <!-- SAYWARD v6.4.37: verified admin previews pending lessons and all their draft items; public approval unchanged. -->
 <!-- SAYWARD v6.4.36: unify in-app version label, update history, release metadata and home badge. -->
 <!-- SAYWARD v6.4.35: single-tap English sentence/pattern audio once; MP3/TTS shared, no grading modifications. -->
@@ -11,12 +11,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.38 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.38">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.39 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.39">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.38';
+  const release=marker?.content?.trim() || '6.4.39';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -23014,21 +23014,6 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
   </section>
 </div>
 
-        <section id="swFocusDashboardManager" class="sw-focus-manager" aria-label="집중 학습 패턴 관리">
-          <div class="sw-focus-heading"><div><h3>🎯 집중 학습 패턴 관리</h3><p>앱과 GPT 공식 출제에서 우선 연습할 패턴을 직접 선택해 등록하세요.</p></div><button type="button" id="swFocusManagerRefresh" class="sw-focus-refresh">↻ 새로고침</button></div>
-          <div class="sw-focus-entry">
-            <label for="swFocusPatternSearch">패턴 검색</label>
-            <input type="search" id="swFocusPatternSearch" placeholder="영어 패턴 · 한국어 뜻 검색" autocomplete="off" aria-controls="swFocusPatternSelect">
-            <label for="swFocusPatternSelect">패턴 선택 (콤보박스)</label>
-            <div class="sw-focus-selectrow"><select id="swFocusPatternSelect" aria-label="집중 학습 등록할 패턴 선택" disabled><option value="">먼저 DB 목록을 불러옵니다</option></select><button type="button" id="swFocusManagerAdd" disabled>🎯 등록</button></div>
-            <p id="swFocusCatalogCount" class="sw-focus-hint">로그인 후 등록 가능한 공식 패턴을 불러옵니다.</p>
-          </div>
-          <div class="sw-focus-list-heading"><h4>내 집중 학습 전체 목록</h4><span id="swFocusCountBadge">0개</span></div>
-          <p id="swFocusManagerStatus" class="sw-focus-status" role="status" aria-live="polite">로그인 후 등록 목록을 불러옵니다.</p>
-          <div id="swFocusActiveList" class="sw-focus-list" aria-label="집중 학습 중인 패턴"></div>
-          <details id="swFocusGraduatedDetails" class="sw-focus-graduated"><summary>졸업 · 해제된 패턴 <span id="swFocusGraduateCount">0개</span></summary><div id="swFocusGraduatedList" class="sw-focus-list"></div></details>
-          <p class="sw-focus-footnote">집중 학습 지정은 기존 New·Learning·Stable 등급이나 공식 GPT 채점 결과를 변경하지 않습니다. 공개 승인 전 패턴은 등록할 수 없습니다.</p>
-        </section>
         <h3 class="sw5540-main-title">내 패턴 학습 현황</h3>
         <p class="sw5540-main-subtitle">오답이 많은 패턴부터 찾아보고, 탭해서 답안 변화와 교정 내용을 복습하세요.</p>
         <section id="sw5538PatternJourney" class="sw5538-journey" aria-label="선택한 패턴의 전체 성장 이력">
@@ -23039,6 +23024,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
             <div class="sw5539-control-row">
               <label>정렬 기준<select id="sw5539Sort">
                 <option value="wrong">많이 틀린 순 (Miss+Review)</option>
+                <option value="focus">🎯 집중 학습 패턴</option>
                 <option value="miss">Miss 횟수 많은 순</option>
                 <option value="rate">비Perfect 비율 순 (3회 이상)</option>
                 <option value="recent3">최근 3회 복습 필요 순</option>
@@ -23070,7 +23056,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
           <div id="sw5538Suggestions" class="sw5538-suggestions" aria-label="검색된 패턴 목록"></div>
           <p id="sw5538SearchStatus" class="sw5538-help">패턴을 검색해서 선택할 수 있습니다.</p></details>
           <section id="sw5538Detail" class="sw5538-detail" hidden aria-label="선택한 패턴의 전체 학습 타임라인"><nav class="sw5540-nav" aria-label="패턴 상세 상단 이동"><div class="sw5540-navfirst"><button type="button" data-sw5540-back>← 패턴 목록</button><span data-sw5540-position>패턴 1 / 1</span></div><div class="sw5540-navmove"><button type="button" data-sw5540-prev>← 이전 패턴</button><button type="button" data-sw5540-next>다음 패턴 →</button></div></nav>
-            <div class="sw5538-detail-head"><div><div class="sw5538-caption">SELECTED PATTERN</div><h5 id="sw5538SelectedTitle">—</h5><p id="sw5538SelectedMeaning"></p></div><button type="button" id="sw5538Reload">↻ 재조회</button></div>
+            <div class="sw5538-detail-head"><div><div class="sw5538-caption">SELECTED PATTERN</div><h5 id="sw5538SelectedTitle">—</h5><p id="sw5538SelectedMeaning"></p></div><div class="sw-focus-detail-actions"><button type="button" id="sw5538FocusToggle">🎯 집중 등록</button><button type="button" id="sw5538Reload">↻ 재조회</button></div></div>
             <p id="sw5538LoadStatus" role="status" aria-live="polite">패턴을 선택해 주세요.</p>
             <div id="sw5538Summary" class="sw5538-summary"></div>
             <div id="sw5538Trend" class="sw5538-trend" aria-label="GPT 채점 흐름"></div>
@@ -26112,7 +26098,7 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD <span id="swAdminReleaseVersion">v6.4.38</span> 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD <span id="swAdminReleaseVersion">v6.4.39</span> 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
@@ -27718,6 +27704,7 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
    if(typeof id!=='string'||!/^P_[A-Za-z0-9]+$/.test(id))return;
    const current=session();if(!current?.client){setStatus('로그인한 사용자만 개인 패턴 이력을 볼 수 있습니다.');return;}
    chosen=id;selectedUser=current.uid;selectedMeta=meta||allPatterns?.find(p=>p.pattern_id===id)||null;
+   window.dispatchEvent(new Event('sayward:pattern-selected'));
    const ver=++requestVersion,user=current.uid,c=current.client;
    el('sw5538Detail').hidden=false;el('sw5538SelectedTitle').textContent=selectedMeta?.canonical_pattern||'패턴 '+id;
    el('sw5538SelectedMeaning').textContent=selectedMeta?.pattern_ko||'학습 기록을 조회합니다.';
@@ -27781,7 +27768,7 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
  });
  window.addEventListener('sayward:auth-state',e=>{const u=e.detail?.authenticated?e.detail.uid:null;if(!u||(loadedUser&&loadedUser!==u)||(selectedUser&&selectedUser!==u))reset();});
  document.addEventListener('click',e=>{if(e.target.closest?.('[data-drawer-action="accountDashboard"]')||e.target.closest?.('#sw5513ProgressRefresh'))void fetchPatterns();});
- window.saywardPatternJourney={open:openFromCard,refresh:()=>{if(chosen)void load(chosen,selectedMeta)}};
+ window.saywardPatternJourney={open:openFromCard,refresh:()=>{if(chosen)void load(chosen,selectedMeta)},getSelected:()=>chosen};
 })();
 </script>
 
@@ -27828,6 +27815,62 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
  const level={Miss:0,Review:1,Perfect:2};
  const numGrade=x=>Object.prototype.hasOwnProperty.call(level,x)?level[x]:-1;
  let data=[],loadedUid=null,pending=0,loading=false,showCount=Infinity,loadedAt=0,orderedIds=[];
+ let focusRows=[],focusLoadedUid=null,focusReq=0,focusBusy=false,focusActing=false,focusError='';
+ const focusById=id=>focusRows.find(r=>r.pattern_id===id);
+ const focusActive=id=>!!focusById(id)?.active;
+ function focusButton(b,id){
+   const active=focusActive(id);
+   b.textContent=focusActing?'저장 중…':active?'🎯 집중 해제':'🎯 집중 등록';
+   b.disabled=focusActing||!auth();
+   b.dataset.swFocusToggle=id;
+   b.setAttribute('aria-label',(active?'집중 학습 해제: ':'집중 학습 등록: ')+(data.find(r=>r.pattern_id===id)?.canonical_pattern||focusById(id)?.canonical_pattern||id));
+   b.setAttribute('aria-pressed',String(active));
+ }
+ function syncDetailFocus(){
+   const b=$('sw5538FocusToggle'),id=window.saywardPatternJourney?.getSelected?.();
+   if(!b)return;
+   b.hidden=!id;
+   if(id)focusButton(b,id);
+ }
+ async function loadFocus(force=false){
+   const a=auth();if(!a?.uid){focusReq++;focusRows=[];focusLoadedUid=null;focusBusy=false;focusError='';return;}
+   if(focusBusy&&!force)return;
+   if(!force&&focusLoadedUid===a.uid)return;
+   const uid=a.uid,request=++focusReq;focusBusy=true;
+   try{
+     const response=await window.saywardAuth?.readFocusProgress?.();
+     if(request!==focusReq||auth()?.uid!==uid)return;
+     if(!response||!Array.isArray(response.items))throw new Error('FOCUS_PROGRESS_NOT_AVAILABLE');
+     focusRows=response.items;focusLoadedUid=uid;focusError='';
+     if(loadedUid===uid||$('sw5539Sort')?.value==='focus')render();else syncDetailFocus();
+   }catch(err){
+     if(request!==focusReq||auth()?.uid!==uid)return;
+     focusRows=[];focusLoadedUid=null;focusError=String(err?.message||'FOCUS_DB_READ_ERROR').slice(0,100);
+     if(loadedUid===uid||$('sw5539Sort')?.value==='focus')render();
+   }finally{if(request===focusReq)focusBusy=false;}
+ }
+ async function toggleFocus(id){
+   const uid=auth()?.uid;
+   if(!uid||!id||focusActing){status('로그인 후 집중 학습을 변경할 수 있습니다.');return;}
+   const isNow=focusActive(id),target=!isNow;
+   focusActing=true;render();syncDetailFocus();
+   try{
+     const saved=await window.saywardAuth?.setFocusPattern?.(id,target);
+     if(auth()?.uid!==uid)throw new Error('ACCOUNT_CHANGED');
+     if(saved?.pattern_id!==id||saved?.active!==target)throw new Error('FOCUS_SAVE_NOT_VERIFIED');
+     const confirm=await window.saywardAuth?.readFocusProgress?.();
+     if(auth()?.uid!==uid)throw new Error('ACCOUNT_CHANGED');
+     if(!Array.isArray(confirm?.items)||!confirm.items.some(r=>r.pattern_id===id&&r.active===target))throw new Error('FOCUS_READBACK_MISMATCH');
+     focusRows=confirm.items;focusLoadedUid=uid;focusError='';
+     window.dispatchEvent(new CustomEvent('sayward:focus-changed',{detail:{uid,pattern_id:id,active:target}}));
+     status(target?'✓ 집중 학습 등록 완료 · 앱·GPT 우선 출제 대상에 반영됩니다.':'✓ 집중 학습 해제 완료 · DB 재조회로 확인했습니다.');
+   }catch(err){
+     focusError=String(err?.message||'FOCUS_CHANGE_FAILED').slice(0,100);
+     status('⚠ 집중 학습 저장 확인 실패: '+focusError);
+     void loadFocus(true);
+   }finally{focusActing=false;render();syncDetailFocus();if(!focusError)status(target?'✓ 집중 학습 등록 완료':'✓ 집중 학습 해제 완료');}
+ }
+
  const el=(tag,cl,txt)=>{const n=document.createElement(tag);if(cl)n.className=cl;if(txt!==undefined)n.textContent=String(txt);return n};
  const status=message=>{const target=$('sw5539Status');if(target)target.textContent=message};
  const rtime=x=>x&&Number.isFinite(Date.parse(x))?Date.parse(x):0;
@@ -27836,12 +27879,33 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
  const due=r=>['Miss','Review'].includes(r.last_grade)||(get(r.app_total)>0&&(r.last_app_rating!=='recalled'||r.last_app_hint===true));
  const diff=r=>get(r.gpt_total)>=2?numGrade(r.last_grade)-numGrade(r.first_grade):-99;
  const percent=r=>get(r.gpt_total)>0?Math.round(100*wrong(r)/get(r.gpt_total)):null;
- function clear(){data=[];orderedIds=[];loadedUid=null;loadedAt=0;loading=false;showCount=Infinity;++pending;const list=$('sw5539List'),stats=$('sw5539Stats');if(list)list.replaceChildren();if(stats)stats.replaceChildren();const more=$('sw5539More');if(more)more.hidden=true;status('로그인 후 본인의 학습 통계를 조회합니다.');}
+ function clear(){focusReq++;focusRows=[];focusLoadedUid=null;focusBusy=false;focusError='';data=[];orderedIds=[];loadedUid=null;loadedAt=0;loading=false;showCount=Infinity;++pending;const list=$('sw5539List'),stats=$('sw5539Stats');if(list)list.replaceChildren();if(stats)stats.replaceChildren();const more=$('sw5539More');if(more)more.hidden=true;status('로그인 후 본인의 학습 통계를 조회합니다.');}
  function addStat(container,title,value){const wrap=el('div','sw5539-stat');wrap.append(el('b','',value),el('small','',title));container.append(wrap)}
- function render(){const list=$('sw5539List'),stats=$('sw5539Stats');if(!list||!stats)return;list.replaceChildren();stats.replaceChildren();const mode=$('sw5539Sort')?.value||'wrong',filter=$('sw5539Filter')?.value||'all',search=($('sw5539Search')?.value||'').trim().toLocaleLowerCase();
-   addStat(stats,'학습한 고유 패턴',data.length);addStat(stats,'GPT 비Perfect 총합',data.reduce((s,r)=>s+wrong(r),0));addStat(stats,'복습 우선 패턴',data.filter(due).length);
-   let rows=data.filter(r=>(!search||[r.canonical_pattern,r.pattern_ko,r.pattern_id].join(' ').toLocaleLowerCase().includes(search)));
-   rows=rows.filter(r=>{
+ function render(){
+   const list=$('sw5539List'),stats=$('sw5539Stats');if(!list||!stats)return;
+   list.replaceChildren();stats.replaceChildren();
+   const mode=$('sw5539Sort')?.value||'wrong',filter=$('sw5539Filter')?.value||'all',search=($('sw5539Search')?.value||'').trim().toLocaleLowerCase();
+   const focusing=mode==='focus';
+   if(focusing){
+     const active=focusRows.filter(f=>f.active);
+     addStat(stats,'집중 등록',focusLoadedUid?active.length:'—');
+     addStat(stats,'오늘 학습 기록',focusLoadedUid?active.filter(f=>get(f.issued_today)+get(f.app_today)>0).length:'—');
+     addStat(stats,'졸업·해제',focusLoadedUid?focusRows.filter(f=>!f.active).length:'—');
+   }else{
+     addStat(stats,'학습한 고유 패턴',data.length);
+     addStat(stats,'GPT 비Perfect 총합',data.reduce((sum,r)=>sum+wrong(r),0));
+     addStat(stats,'복습 우선 패턴',data.filter(due).length);
+   }
+   const byId=new Map(data.map(r=>[r.pattern_id,r]));
+   let rows=focusing?focusRows.filter(f=>f.active).map(f=>{
+     const existing=byId.get(f.pattern_id);
+     return existing?{...existing,_focus:f}:{pattern_id:f.pattern_id,canonical_pattern:f.canonical_pattern||f.pattern_id,
+       pattern_ko:f.pattern_ko||'',gpt_total:0,app_total:0,legacy_total:0,miss_count:0,review_count:0,
+       perfect_count:0,last3_review_count:0,last_grade:null,first_grade:null,_focus:f};
+   }):data.slice();
+   rows=rows.filter(r=>(!search||[r.canonical_pattern,r.pattern_ko,r.pattern_id].join(' ').toLocaleLowerCase().includes(search)));
+   // Focus mode is its own filter, not combined with other filters that could hide selected patterns.
+   if(!focusing)rows=rows.filter(r=>{
      if(filter==='gpt')return get(r.gpt_total)>0;
      if(filter==='latestWrong')return ['Miss','Review'].includes(r.last_grade);
      if(filter==='appDue')return get(r.app_total)>0&&(r.last_app_rating!=='recalled'||r.last_app_hint===true);
@@ -27851,6 +27915,8 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
    });
    if(mode==='rate')rows=rows.filter(r=>get(r.gpt_total)>=3);
    const compare=(a,b)=>{const n=(v,w)=>w-v;const byName=()=>String(a.canonical_pattern||'').localeCompare(String(b.canonical_pattern||''),'ko');let result=0;
+     if(mode==='focus')result=Number(get(a._focus?.app_today)+get(a._focus?.issued_today)>0)-Number(get(b._focus?.app_today)+get(b._focus?.issued_today)>0)
+      ||rtime(a._focus?.added_at)-rtime(b._focus?.added_at);
      if(mode==='wrong')result=n(wrong(a),wrong(b))||n(get(a.miss_count),get(b.miss_count));
      if(mode==='miss')result=n(get(a.miss_count),get(b.miss_count))||n(wrong(a),wrong(b));
      if(mode==='rate')result=n(percent(a),percent(b))||n(wrong(a),wrong(b));
@@ -27861,27 +27927,40 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
      if(mode==='most')result=n(get(a.gpt_total)+get(a.app_total)+get(a.legacy_total),get(b.gpt_total)+get(b.app_total)+get(b.legacy_total));
      if(mode==='recent')result=n(rtime(a.last_activity),rtime(b.last_activity));
      return mode==='name'?byName():(result||byName());
-   };rows.sort(compare);
-   orderedIds=rows.map(r=>r.pattern_id);
+   };
+   rows.sort(compare);orderedIds=rows.map(r=>r.pattern_id);
    for(const [i,r] of rows.entries()){
+     const wrap=el('div','sw5539-focus-row');
      const card=el('button','sw5539-card sw5540-list-card');card.type='button';card.dataset.sw5538Pick=r.pattern_id;
      const left=el('span','sw5540-list-pattern');
      left.append(el('span','sw5540-list-name',`${i+1}. ${r.canonical_pattern||r.pattern_id}`),el('span','sw5540-list-meaning',r.pattern_ko||'뜻 미등록'));
      const gpt=get(r.gpt_total),app=get(r.app_total),legacy=get(r.legacy_total),times=gpt+app+legacy;
      const wrongCell=el('span','sw5540-cell sw5540-wrong'+(wrong(r)>0?' is-weak':''),gpt?`${wrong(r)}회`:'—');
      const totalCell=el('span','sw5540-cell sw5540-total',`${times}회`);
-     const top=el('span','sw5540-list-main');top.append(left,wrongCell,totalCell);
-     card.append(top);
+     const top=el('span','sw5540-list-main');top.append(left,wrongCell,totalCell);card.append(top);
      const details=el('span','sw5540-list-detail',`GPT ${gpt}회 · Miss ${get(r.miss_count)} / Review ${get(r.review_count)} / Perfect ${get(r.perfect_count)} · 이전 학습 ${legacy}회 · 앱 ${app}회${get(r.gpt_total)>=3?` · 비Perfect ${percent(r)}%`:''}`);
      if(diff(r)>0)details.append(el('b','sw5540-improved',' · 등급 개선 ↑'));
      if(due(r))details.append(el('b','sw5540-due',' · 복습 추천'));
-     card.append(details);list.append(card);
+     if(focusing){const f=r._focus;
+       details.append(el('b','sw5539-focus-progress',` · 패턴 ${get(f?.match_days)}/3일 · 문장 ${get(f?.sentence_days)}/2일 · GPT Perfect ${get(f?.gpt_perfect_days)}/2일`));
+     }
+     card.append(details);
+     const toggle=el('button','sw5539-focus-toggle');toggle.type='button';focusButton(toggle,r.pattern_id);
+     wrap.append(card,toggle);list.append(wrap);
    }
-   if(!rows.length)list.append(el('p','sw5539-status','해당 조건의 학습 패턴이 없습니다. 다른 정렬·조회 조건을 선택해 보세요.'));
-   const more=$('sw5539More');more.hidden=true;
-   status(`전체 학습 패턴 ${data.length}개 중 ${rows.length}개 표시 · 공식·이전 학습·앱 연습을 구분해 집계`);
+   if(!rows.length){
+     const empty=focusing?(focusError?'⚠ 집중 학습 목록 DB 조회 실패: '+focusError:
+       focusLoadedUid?'집중 등록된 패턴이 없습니다. 일반 정렬에서 패턴을 찾아 🎯 등록해 주세요.':'집중 학습 목록을 불러오는 중입니다…'):
+       '해당 조건의 학습 패턴이 없습니다. 다른 정렬·조회 조건을 선택해 보세요.';
+     list.append(el('p','sw5539-status',empty));
+   }
+   $('sw5539More').hidden=true;
+   status(focusing?(focusError?'⚠ 집중 학습 DB 조회 실패: '+focusError:
+     `🎯 집중 학습 ${rows.length}개 표시 · 목록에서 집중 해제 가능 · 일반 정렬에서 새 패턴 등록`):
+     `전체 학습 패턴 ${data.length}개 중 ${rows.length}개 표시 · 🎯 버튼으로 집중 등록 가능`);
+   syncDetailFocus();
  }
- async function refresh(force=false){const a=auth();if(!a?.client){clear();return;}if(loading&&loadedUid===a.uid&&!force)return;if(!force&&loadedUid===a.uid&&data.length&&Date.now()-loadedAt<120000){render();return;}const uid=a.uid,token=++pending;loading=true;status('공식 History와 앱 연습 전체 집계 조회 중…');try{
+ async function refresh(force=false){const a=auth();if(!a?.client){clear();return;}void loadFocus(force);if(loading&&loadedUid===a.uid&&!force)return;if(!force&&loadedUid===a.uid&&data.length&&Date.now()-loadedAt<120000){render();return;}const uid=a.uid,token=++pending;loading=true;status('공식 History와 앱 연습 전체 집계 조회 중…');try{
    const {rows:events}=await window.saywardReadOnlyPager.read({
      client:a.client,table:'sayward_sentence_learning_unified',fields:'pattern_id,source,grade,studied_at',
      uid,orderColumn:'studied_at',size:700,maxPages:100,overflow:'throw'
@@ -27913,22 +27992,40 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
    const rows=[...grouped.values()].map(r=>{r.last3_review_count=r._grades.slice(-3).filter(g=>g==='Miss'||g==='Review').length;delete r._grades;return r});
    if(token!==pending||auth()?.uid!==uid)return;
    data=rows;loadedUid=uid;loadedAt=Date.now();loading=false;showCount=Infinity;render();
-   status(`통합 DB 이력 ${events.length}건 · 고유 패턴 ${data.length}개 (공식 / 이전 학습 / 앱 연습 구분)`);
- }catch(e){if(token===pending&&auth()?.uid===uid){data=[];loadedUid=null;loading=false;$('sw5539List')?.replaceChildren();status('정렬 통계를 불러오지 못했습니다. 로그인과 연결을 확인한 뒤 ↻ 재조회해 주세요.');console.warn('SAYWARD_PATTERN_PRIORITY_FAILED',e?.message||e)}}}
- const updated=e=>{if(e.target?.id==='sw5539Sort'||e.target?.id==='sw5539Filter'){showCount=Infinity;if(loadedUid)render()}};
- document.addEventListener('change',updated);document.addEventListener('input',e=>{if(e.target?.id==='sw5539Search'){showCount=Infinity;if(loadedUid)render()}});
+   if($('sw5539Sort')?.value!=='focus')status(`통합 DB 이력 ${events.length}건 · 고유 패턴 ${data.length}개 (공식 / 이전 학습 / 앱 연습 구분)`);
+ }catch(e){if(token===pending&&auth()?.uid===uid){data=[];loadedUid=null;loading=false;if($('sw5539Sort')?.value==='focus'&&focusLoadedUid===uid){render()}else{$('sw5539List')?.replaceChildren();status('정렬 통계를 불러오지 못했습니다. 로그인과 연결을 확인한 뒤 ↻ 재조회해 주세요.');}console.warn('SAYWARD_PATTERN_PRIORITY_FAILED',e?.message||e)}}}
+ const updated=e=>{if(e.target?.id==='sw5539Sort'||e.target?.id==='sw5539Filter'){
+   showCount=Infinity;
+   if(e.target?.id==='sw5539Sort'&&e.target.value==='focus'){
+     const extra=$('sw5539Filter');if(extra)extra.value='all';
+     const search=$('sw5539Search');if(search)search.value='';
+     void loadFocus(true);
+   }
+   if(loadedUid||focusLoadedUid||e.target.value==='focus')render();
+ }};
+ document.addEventListener('change',updated);document.addEventListener('input',e=>{if(e.target?.id==='sw5539Search'){showCount=Infinity;if(loadedUid||focusLoadedUid)render()}});
  // Dedicated list handler: open a selected history immediately, independent of other drawer click handlers.
- $('sw5539List')?.addEventListener('click',e=>{const button=e.target.closest?.('[data-sw5538-pick]');if(!button)return;
+ $('sw5539List')?.addEventListener('click',e=>{
+   const toggle=e.target.closest?.('[data-sw-focus-toggle]');
+   if(toggle){e.preventDefault();e.stopPropagation();void toggleFocus(toggle.dataset.swFocusToggle);return;}
+   const button=e.target.closest?.('[data-sw5538-pick]');if(!button)return;
    e.stopPropagation();window.saywardPatternJourney?.open?.(button.dataset.sw5538Pick);
  });
  document.addEventListener('click',e=>{
+   if(e.target?.closest?.('#sw5538FocusToggle')){
+     const id=window.saywardPatternJourney?.getSelected?.();if(id)void toggleFocus(id);
+   }
    if(e.target?.closest?.('#sw5539Refresh'))void refresh(true);
    if(e.target?.closest?.('#sw5539More')){showCount+=15;render()}
    if(e.target?.closest?.('[data-drawer-action="accountDashboard"]')||e.target?.closest?.('#sw5513ProgressRefresh'))void refresh(true);
  });
- window.addEventListener('sayward:auth-state',e=>{const uid=e.detail?.authenticated?e.detail.uid:null;if(!uid||(loadedUid&&loadedUid!==uid))clear();});
+ window.addEventListener('sayward:auth-state',e=>{const uid=e.detail?.authenticated?e.detail.uid:null;if(!uid||(loadedUid&&loadedUid!==uid)||(focusLoadedUid&&focusLoadedUid!==uid))clear();});
+ window.addEventListener('sayward:focus-changed',e=>{
+   if(e.detail?.uid===auth()?.uid&&!focusActing)void loadFocus(true);
+ });
+ window.addEventListener('sayward:pattern-selected',syncDetailFocus);
  window.addEventListener('sayward:app-practice-updated',()=>{if($('p2Panel')?.classList.contains('sw5513-progress'))void refresh(true)});
- window.saywardPatternPriority={refresh,render,reset:clear,getOrder:()=>orderedIds.slice(),getRow:id=>data.find(r=>r.pattern_id===id)||null};
+ window.saywardPatternPriority={refresh,render,reset:clear,refreshFocus:loadFocus,getOrder:()=>orderedIds.slice(),getRow:id=>data.find(r=>r.pattern_id===id)||null};
 })();
 </script>
 
@@ -30917,149 +31014,18 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
 })();
 </script>
 
-<style id="swFocusDashboard6438Style">
-#p2Panel.sw5513-progress .sw-focus-manager{background:#fff;border:1px solid #ddd6f4;border-radius:19px;padding:16px 14px;margin:8px 0 19px;box-shadow:0 7px 24px rgba(60,45,110,.06)}
-#p2Panel .sw-focus-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:15px}
-#p2Panel .sw-focus-heading h3{font-size:18px;line-height:1.3;font-weight:950;color:#292450;margin:0}
-#p2Panel .sw-focus-heading p{font-size:12px;line-height:1.5;color:#737891;margin:6px 0 0}
-#p2Panel .sw-focus-refresh{border:1px solid #dcd4ed;border-radius:11px;background:#f8f5ff;color:#4f3b9b;padding:9px 11px;font-size:12px;font-weight:850;white-space:nowrap}
-#p2Panel .sw-focus-entry{display:grid;gap:7px;background:#f8f7fd;border:1px solid #ebe7f8;padding:13px;border-radius:15px}
-#p2Panel .sw-focus-entry label{font-size:13px;font-weight:900;color:#42405d;margin-top:4px}
-#p2Panel .sw-focus-entry input,#p2Panel .sw-focus-entry select{width:100%;min-width:0;font:inherit;font-weight:650;font-size:14px;min-height:47px;padding:11px 12px;border:1px solid #cfcbdc;border-radius:12px;background:#fff;color:#262943;box-sizing:border-box}
-#p2Panel .sw-focus-entry select:focus,#p2Panel .sw-focus-entry input:focus{outline:2px solid #8069d5;outline-offset:1px}
-#p2Panel .sw-focus-selectrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:stretch}
-#p2Panel .sw-focus-selectrow button{min-width:78px;border:0;border-radius:12px;background:#5943ad;color:#fff;font-size:13px;font-weight:900;padding:9px 13px}
-#p2Panel .sw-focus-selectrow button:disabled{opacity:.48;cursor:not-allowed}
-#p2Panel .sw-focus-hint,#p2Panel .sw-focus-footnote{font-size:11px;line-height:1.55;color:#747a91;margin:5px 1px 0}
-#p2Panel .sw-focus-list-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:17px 0 8px}
-#p2Panel .sw-focus-list-heading h4{font-size:15px;color:#322d56;font-weight:900;margin:0}
-#p2Panel #swFocusCountBadge{font-size:12px;color:#543eaa;background:#ede9ff;border-radius:999px;padding:5px 9px;font-weight:850}
-#p2Panel .sw-focus-status{font-size:12px;line-height:1.6;color:#69728c;margin:7px 0 10px}
-#p2Panel .sw-focus-list{display:grid;gap:8px}
-#p2Panel .sw-focus-empty{background:#f9f9fd;border:1px dashed #d9d5e8;border-radius:12px;padding:15px;text-align:center;color:#858aa0;font-size:12px}
-#p2Panel .sw-focus-card{border:1px solid #e5e1ee;border-radius:13px;padding:12px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;background:white}
-#p2Panel .sw-focus-card-info{flex:1;min-width:0;overflow-wrap:anywhere}
-#p2Panel .sw-focus-card-info strong{display:block;font-size:14px;font-weight:900;color:#322d52}
-#p2Panel .sw-focus-card-info small{display:block;margin-top:4px;font-size:12px;color:#808499;line-height:1.5}
-#p2Panel .sw-focus-card-info .sw-focus-stats{color:#5c6391;font-size:11px;margin-top:5px}
-#p2Panel .sw-focus-card button{flex:none;border:1px solid #d6ceef;border-radius:10px;padding:9px 10px;background:#f8f6ff;color:#514094;font-size:12px;font-weight:900}
-#p2Panel .sw-focus-card button:disabled{opacity:.5}
-#p2Panel .sw-focus-graduated{border-top:1px solid #efedf5;margin-top:14px;padding-top:11px}
-#p2Panel .sw-focus-graduated summary{color:#696383;font-size:13px;font-weight:850;cursor:pointer}
-#p2Panel .sw-focus-graduated .sw-focus-list{margin-top:10px}
-#p2Panel.sw5513-progress .sw5540-detail-mode #swFocusDashboardManager{display:none!important}
-@media(max-width:360px){#p2Panel .sw-focus-heading h3{font-size:16px}#p2Panel .sw-focus-heading p{font-size:11px}#p2Panel .sw-focus-selectrow button{min-width:67px;padding:9px 7px}#p2Panel .sw-focus-manager{padding:12px 10px}}
+
+
+<style id="swFocusIntegrated6439Style">
+#p2Panel.sw5513-progress .sw5539-focus-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0}
+#p2Panel.sw5513-progress .sw5539-focus-row>.sw5539-card{min-width:0;width:100%;padding:10px 8px}
+#p2Panel.sw5513-progress .sw5539-focus-toggle{background:#f8f5ff;border:1px solid #d7cef0;border-radius:11px;color:#51409b;font-size:11px;font-weight:900;padding:11px 8px;max-width:96px;min-width:76px;min-height:46px;line-height:1.3;cursor:pointer;overflow-wrap:anywhere}
+#p2Panel.sw5513-progress .sw5539-focus-toggle[aria-pressed="true"]{background:#e9e4ff;color:#45368f;border-color:#a99ae2}
+#p2Panel.sw5513-progress .sw5539-focus-toggle:disabled{opacity:.55}
+#p2Panel.sw5513-progress .sw5539-focus-progress{color:#6852aa;font-weight:850}
+#p2Panel.sw5513-progress .sw-focus-detail-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+#p2Panel.sw5513-progress #sw5538FocusToggle{border:1px solid #cfc5eb;background:#f5f0ff;color:#4e3b92;font-size:12px;font-weight:850;padding:9px;border-radius:10px;cursor:pointer}
+#p2Panel.sw5513-progress #sw5538FocusToggle[aria-pressed="true"]{background:#e9e1ff}
+@media(max-width:390px){#p2Panel.sw5513-progress .sw5539-focus-row{gap:5px}#p2Panel.sw5513-progress .sw5539-focus-row>.sw5539-card{padding:9px 6px}#p2Panel.sw5513-progress .sw5539-focus-toggle{min-width:68px;max-width:80px;font-size:10px;padding:9px 5px}#p2Panel.sw5513-progress .sw5540-list-main{grid-template-columns:minmax(0,1fr) 34px 34px;gap:4px}#p2Panel.sw5513-progress .sw5540-list-name{font-size:12px}}
 </style>
-<script id="swFocusDashboard6438Script">
-(function(){'use strict';
-  const el=id=>document.getElementById(id);
-  const root=el('swFocusDashboardManager'),panel=el('p2Panel');
-  if(!root||!panel||!el('swFocusPatternSelect'))return;
-  const search=el('swFocusPatternSearch'),select=el('swFocusPatternSelect'),add=el('swFocusManagerAdd');
-  const count=el('swFocusCatalogCount'),status=el('swFocusManagerStatus');
-  const activeList=el('swFocusActiveList'),inactiveList=el('swFocusGraduatedList');
-  let catalog=[],allFocus=[],userId='',pending=0,busy=false,loadedAt=0,acting=false;
-  const auth=()=>{const a=window.saywardAuth?.snapshot?.();return a?.authenticated&&a.uid?a.uid:''};
-  const visible=()=>panel.dataset.sw62Tab==='pattern'&&!root.closest('[hidden]')&& !el('sw5513SentenceProgress')?.hidden;
-  const say=t=>{status.textContent=t};
-  const elem=(tag,cls,text)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(text!=null)x.textContent=String(text);return x};
-  function setWaiting(wait){busy=wait;search.disabled=wait||!auth();select.disabled=wait||!auth();add.disabled=wait||acting||!select.value||!auth();el('swFocusManagerRefresh').disabled=wait||acting;}
-  function reset(){catalog=[];allFocus=[];userId='';loadedAt=0;select.replaceChildren(new Option('로그인 후 선택하세요',''));select.disabled=true;add.disabled=true;search.disabled=true;count.textContent='로그인 후 공식 패턴을 선택할 수 있습니다.';activeList.replaceChildren();inactiveList.replaceChildren();el('swFocusCountBadge').textContent='0개';el('swFocusGraduateCount').textContent='0개';say('로그인한 계정의 집중 학습 목록만 표시합니다.')}
-  function populate(){
-    const previous=select.value;
-    const query=search.value.trim().toLocaleLowerCase();
-    const matches=catalog.filter(p=>!query||[p.canonical_pattern,p.pattern_ko,p.courses].some(v=>String(v||'').toLocaleLowerCase().includes(query)));
-    const show=matches.slice(0,250);
-    const frag=document.createDocumentFragment();
-    frag.append(new Option(query?'검색 결과에서 패턴을 선택하세요':'등록할 패턴을 선택하세요',''));
-    const activeIds=new Set(allFocus.filter(x=>x.active).map(x=>x.pattern_id));
-    for(const p of show){
-      const label=p.canonical_pattern+(p.pattern_ko?'  —  '+p.pattern_ko:'')+(activeIds.has(p.pattern_id)?'  ✓등록중':'');
-      const option=new Option(label,p.pattern_id);frag.append(option);
-    }
-    select.replaceChildren(frag);
-    if(show.some(p=>p.pattern_id===previous))select.value=previous;
-    count.textContent=`선택 가능 ${catalog.length.toLocaleString('ko-KR')}개 · 현재 ${matches.length.toLocaleString('ko-KR')}개 검색됨${matches.length>250?' · 상위 250개 표시, 검색어를 더 입력하세요':''}`;
-    add.disabled=busy||acting||!select.value||activeIds.has(select.value);
-    if(select.value&&activeIds.has(select.value))add.textContent='등록됨';else add.textContent='🎯 등록';
-  }
-  function entry(item){
-    const p=catalog.find(row=>row.pattern_id===item.pattern_id);
-    const card=elem('div','sw-focus-card');
-    const info=elem('div','sw-focus-card-info');
-    info.append(elem('strong','',p?.canonical_pattern||item.canonical_pattern||item.pattern_id));
-    info.append(elem('small','',p?.pattern_ko||''));
-    if(item.active){
-      const match=Number(item.match_days||0),sentence=Number(item.sentence_days||0),gpt=Number(item.gpt_perfect_days||0);
-      const today=Number(item.app_today||0)+Number(item.issued_today||0);
-      info.append(elem('small','sw-focus-stats',`오늘 ${today>0?'학습 기록 있음':'아직 미학습'} · 패턴 ${match}/3일 · 문장 ${sentence}/2일 · GPT Perfect ${gpt}/2일`));
-    }else info.append(elem('small','sw-focus-stats',item.graduated_at?'🎓 숙달 졸업':'수동 해제'));
-    const btn=elem('button','',item.active?'집중 해제':'다시 등록');btn.type='button';btn.disabled=acting;
-    btn.addEventListener('click',()=>void change(item.pattern_id,!item.active));
-    card.append(info,btn);return card;
-  }
-  function render(){
-    const active=allFocus.filter(x=>x.active).sort((a,b)=>String(a.added_at||'').localeCompare(String(b.added_at||'')));
-    const inactive=allFocus.filter(x=>!x.active).sort((a,b)=>String(b.graduated_at||b.added_at||'').localeCompare(String(a.graduated_at||a.added_at||'')));
-    el('swFocusCountBadge').textContent=`${active.length}개 집중 중`;
-    el('swFocusGraduateCount').textContent=`${inactive.length}개`;
-    activeList.replaceChildren(...(active.length?active.map(entry):[elem('div','sw-focus-empty','등록된 집중 학습 패턴이 없습니다. 콤보박스에서 선택해 등록하세요.') ]));
-    inactiveList.replaceChildren(...(inactive.length?inactive.map(entry):[elem('div','sw-focus-empty','졸업하거나 해제한 패턴이 없습니다.') ]));
-    populate();
-  }
-  async function load(force=false){
-    const uid=auth();if(!uid){pending++;reset();return;}
-    if(busy)return;
-    if(!force&&uid===userId&&loadedAt&&Date.now()-loadedAt<20000){render();return;}
-    const req=++pending;setWaiting(true);say('Supabase에서 공식 패턴과 집중 학습 전체 기록을 불러옵니다…');
-    try{
-      const api=window.saywardAuth;
-      if(!api?.readPatternPractice||!api?.readFocusProgress)throw Error('FOCUS_API_UNAVAILABLE');
-      const [masters,progress]=await Promise.all([api.readPatternPractice(),api.readFocusProgress()]);
-      if(req!==pending||auth()!==uid)return;
-      if(!Array.isArray(masters)||!Array.isArray(progress?.items))throw Error('FOCUS_RESPONSE_INVALID');
-      // A user can only change publicly published patterns; RPC enforces this server-side.
-      catalog=masters.filter(p=>p?.active!==false&&p.pattern_id&&p.canonical_pattern).sort((a,b)=>String(a.canonical_pattern).localeCompare(String(b.canonical_pattern),'en'));
-      allFocus=progress.items;
-      userId=uid;loadedAt=Date.now();
-      say(`✓ DB 조회 확인 · 집중 ${allFocus.filter(x=>x.active).length}개 · 졸업/해제 ${allFocus.filter(x=>!x.active).length}개`);
-      render();
-    }catch(e){if(req!==pending||auth()!==uid)return;catalog=[];allFocus=[];userId=uid;loadedAt=0;render();say('⚠ DB 조회 실패 · '+String(e?.message||'NETWORK_ERROR').slice(0,100));}
-    finally{if(req===pending){setWaiting(false);populate();}}
-  }
-  async function change(id,active){
-    const uid=auth();if(!uid||!id||acting||busy){say('로그인 상태와 조회 결과를 먼저 확인해 주세요.');return;}
-    if(!catalog.some(p=>p.pattern_id===id)){say('이 패턴은 등록 가능한 공식 목록에서 확인되지 않습니다.');return;}
-    acting=true;setWaiting(false);add.disabled=true;say('Supabase에 변경 사항을 저장하고 재조회합니다…');
-    try{
-      const result=await window.saywardAuth.setFocusPattern(id,active);
-      if(auth()!==uid)throw Error('FOCUS_ACCOUNT_CHANGED');
-      if(result?.pattern_id!==id||result?.active!==active)throw Error('FOCUS_SAVE_NOT_VERIFIED');
-      const progress=await window.saywardAuth.readFocusProgress();
-      if(auth()!==uid)throw Error('FOCUS_ACCOUNT_CHANGED');
-      if(!Array.isArray(progress?.items)||!progress.items.some(r=>r.pattern_id===id&&r.active===active))throw Error('FOCUS_READBACK_MISMATCH');
-      allFocus=progress.items;loadedAt=Date.now();say(active?'✓ 집중 학습 등록 완료 · 앱·GPT 출제 후보에 반영됩니다.':'✓ 집중 학습 해제 완료 · DB 재조회로 확인했습니다.');
-      window.dispatchEvent(new CustomEvent('sayward:focus-changed',{detail:{uid,pattern_id:id,active}}));
-    }catch(e){say('⚠ 집중 학습 변경을 확인하지 못했습니다: '+String(e?.message||'NETWORK_ERROR').slice(0,100));loadedAt=0;}
-    finally{acting=false;render();}
-  }
-  search.addEventListener('input',populate);
-  select.addEventListener('change',populate);
-  add.addEventListener('click',()=>void change(select.value,true));
-  el('swFocusManagerRefresh').addEventListener('click',()=>void load(true));
-  document.addEventListener('click',e=>{
-    if(e.target?.closest?.('[data-sw62-tab="pattern"]')||e.target?.closest?.('#sw5539Refresh')||e.target?.closest?.('#sw64Refresh')){
-      queueMicrotask(()=>{if(visible())void load(true)});
-    }
-    if(e.target?.closest?.('[data-drawer-action="accountDashboard"]')||e.target?.closest?.('#sw5513ProgressRefresh')){
-      queueMicrotask(()=>{if(visible())void load(true)});
-    }
-  });
-  window.addEventListener('sayward:focus-changed',e=>{if(e.detail?.uid===auth()&&!acting&&visible())void load(true)});
-  window.addEventListener('sayward:auth-state',()=>{if(auth()!==userId){pending++;reset()} if(visible()&&auth())void load(true)});
-  // Dashboard can be opened programmatically without a tab click.
-  new MutationObserver(()=>{if(visible()&&auth()&&(!loadedAt||userId!==auth()))void load();}).observe(panel,{attributes:true,attributeFilter:['data-sw62-tab','class']});
-  if(visible()&&auth())void load(true);
-})();
-</script>
 </body></html>
