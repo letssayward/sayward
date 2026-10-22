@@ -1,4 +1,5 @@
-<!-- SAYWARD v6.4.39: focus list is an option inside existing pattern sort combobox; no separate manager panel. -->
+<!-- SAYWARD v6.4.40: user-facing data backup/restore menu, action, and legacy import/export script removed; learning data preserved. -->
+<!-- SAYWARD v6.4.40: focus list is an option inside existing pattern sort combobox; no separate manager panel. -->
 <!-- SAYWARD v6.4.37: verified admin previews pending lessons and all their draft items; public approval unchanged. -->
 <!-- SAYWARD v6.4.36: unify in-app version label, update history, release metadata and home badge. -->
 <!-- SAYWARD v6.4.35: single-tap English sentence/pattern audio once; MP3/TTS shared, no grading modifications. -->
@@ -11,12 +12,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.39 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.39">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.40 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.40">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.39';
+  const release=marker?.content?.trim() || '6.4.40';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -3486,7 +3487,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 
 <button class="drawerItem" data-drawer-action="score"><span class="drawerIcon">📊</span><span class="drawerItemText">학습 통계<small>단어 학습 현황 · 스코어 · DAY별 기록</small></span></button>
 <button class="drawerItem" data-drawer-action="forget"><span class="drawerIcon">🧠</span><span class="drawerItemText">망각곡선<small>오늘의 복습 대상 확인</small></span></button>
-<button class="drawerItem" data-drawer-action="backupRestore"><span class="drawerIcon">💾</span><span class="drawerItemText">데이터 백업/복원<small>모르는 단어 · 학습 진행 · 통계 · 설정</small></span></button>
+
 <button class="drawerItem" data-drawer-action="config"><span class="drawerIcon">⚙️</span><span class="drawerItemText">Config<small>음성 · 반복 · 퀴즈 설정</small></span></button>
 <button class="drawerItem" data-drawer-action="usage"><span class="drawerIcon">📘</span><span class="drawerItemText">사용 방법<small>MY VOCA 학습 방법과 기능 안내</small></span></button>
 <button class="drawerItem" data-drawer-action="whatsnew"><span class="drawerIcon">🆕</span><span class="drawerItemText">업데이트 내역<small>이번 버전 변경 사항</small></span></button>
@@ -12452,6 +12453,7 @@ function mvOpenUpdateHistory(){
       <section class="mvInfoSection">
         <h3>v${window.SAYWARD_RELEASE}</h3>
         <ul>
+          <li>✓ 데이터 백업/복원 메뉴와 앱 내 JSON 백업·복원 화면·실행 코드를 완전히 제거했습니다. 기존 학습 데이터와 Supabase 연동은 유지됩니다.</li>
           <li>✓ 앱 정보·업데이트 내역·홈 화면 버전 표시를 한 곳의 릴리스 값으로 통일했습니다.</li>
           <li>✓ 이전 v6.4.35 버전에서 업데이트 내역이 v6.4.32로 남던 문제를 수정했습니다.</li>
         </ul>
@@ -12813,7 +12815,6 @@ document.addEventListener('keydown',(e)=>{
     if(action==='score'){openDay(currentDay||1,'score');return}
     if(action==='forget'){openDay(currentDay||1,'forget');return}
     if(action==='export'){window.exportMyVocaLearningRecords?.();return}
-    if(action==='backupRestore'){window.mvOpenDataBackupRestore?.();return}
     if(action==='config'){openConfiguration();return}
     if(action==='usage'){openUsagePage();return}
     if(action==='whatsnew'){mvOpenUpdateHistory();return}
@@ -22502,162 +22503,6 @@ window.mvCleanAudit540=function(){
   #homePage .homeHero::before{top:7px!important;right:13.8%!important;font-size:8.7px!important;min-width:52px!important}
 }
 </style>
-
-<script id="saywardUserBackupRestore5463">
-/* ===== SAYWARD v5.4.71 · USER DATA BACKUP / RESTORE ===== */
-(function(){
-'use strict';
-const SW_BACKUP_SCHEMA='SAYWARD_USER_BACKUP_V1';
-const SW_BACKUP_VERSION='5.4.71';
-const SW_BACKUP_EXACT_KEYS=new Set(['d1stats','d1k']);
-function swIsUserDataKey(key){
-  key=String(key||'');
-  return key.startsWith('mv_')||key.startsWith('myVoca')||key.startsWith('sayward_')||SW_BACKUP_EXACT_KEYS.has(key);
-}
-function swCollectUserStorage(){
-  const out={};
-  for(let i=0;i<localStorage.length;i++){
-    const key=localStorage.key(i);
-    if(key&&swIsUserDataKey(key))out[key]=localStorage.getItem(key);
-  }
-  return out;
-}
-function swBytesOfStorage(storage){
-  try{return new Blob([JSON.stringify(storage)]).size}catch(e){return JSON.stringify(storage||{}).length}
-}
-function swBackupSummary(storage){
-  const keys=Object.keys(storage||{});
-  return {
-    key_count:keys.length,
-    approx_bytes:swBytesOfStorage(storage),
-    has_stats:Object.prototype.hasOwnProperty.call(storage,'mv_unified_stats'),
-    has_favorites:Object.prototype.hasOwnProperty.call(storage,'mv_unified_favs')||Object.prototype.hasOwnProperty.call(storage,'mv_study_favorites_239'),
-    has_progress:Object.prototype.hasOwnProperty.call(storage,'mv_card_study_progress_v2')||Object.prototype.hasOwnProperty.call(storage,'mv_selected_auto_progress_v1'),
-    has_settings:Object.prototype.hasOwnProperty.call(storage,'myVocaConfigurationV1')
-  };
-}
-function swDateStamp(){
-  const d=new Date(),p=n=>String(n).padStart(2,'0');
-  return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}`;
-}
-function swDownloadJson(payload,filename){
-  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});
-  const a=document.createElement('a');
-  const url=URL.createObjectURL(blob);
-  a.href=url;a.download=filename;a.style.display='none';document.body.appendChild(a);a.click();
-  setTimeout(()=>{try{URL.revokeObjectURL(url)}catch(e){};a.remove()},1200);
-}
-window.mvExportSaywardUserBackup=function(){
-  try{
-    if(typeof save==='function')save();
-    const storage=swCollectUserStorage();
-    const payload={
-      schema:SW_BACKUP_SCHEMA,
-      schema_version:1,
-      app_version:SW_BACKUP_VERSION,
-      exported_at:new Date().toISOString(),
-      summary:swBackupSummary(storage),
-      storage
-    };
-    swDownloadJson(payload,`SAYWARD_USER_BACKUP_${swDateStamp()}.json`);
-    const kb=(payload.summary.approx_bytes/1024).toFixed(1);
-    alert(`백업 파일을 만들었습니다.\n\n저장 항목: ${payload.summary.key_count}개\n크기: 약 ${kb} KB\n\n이 JSON 파일을 안전한 곳에 보관해 주세요.`);
-    return payload;
-  }catch(e){
-    console.error('[SAYWARD backup]',e);
-    alert('사용자 데이터 백업에 실패했습니다.');
-    return null;
-  }
-};
-function swValidateBackup(payload){
-  if(!payload||payload.schema!==SW_BACKUP_SCHEMA||payload.schema_version!==1)throw new Error('지원하지 않는 SAYWARD 백업 파일입니다.');
-  if(!payload.storage||typeof payload.storage!=='object'||Array.isArray(payload.storage))throw new Error('백업 데이터 형식이 올바르지 않습니다.');
-  const clean={};
-  for(const [key,val] of Object.entries(payload.storage)){
-    if(!swIsUserDataKey(key))continue;
-    if(typeof val!=='string'&&val!==null)throw new Error(`저장값 형식 오류: ${key}`);
-    if(val!==null)clean[key]=val;
-  }
-  if(!Object.keys(clean).length)throw new Error('복원할 SAYWARD 사용자 데이터가 없습니다.');
-  return clean;
-}
-function swApplyStorageExact(nextStorage){
-  const previous=swCollectUserStorage();
-  try{
-    const currentKeys=[];
-    for(let i=0;i<localStorage.length;i++){
-      const key=localStorage.key(i);if(key&&swIsUserDataKey(key))currentKeys.push(key);
-    }
-    currentKeys.forEach(key=>localStorage.removeItem(key));
-    for(const [key,val] of Object.entries(nextStorage))localStorage.setItem(key,val);
-    return {ok:true,previous};
-  }catch(e){
-    try{
-      const rollbackKeys=[];
-      for(let i=0;i<localStorage.length;i++){
-        const key=localStorage.key(i);if(key&&swIsUserDataKey(key))rollbackKeys.push(key);
-      }
-      rollbackKeys.forEach(key=>localStorage.removeItem(key));
-      for(const [key,val] of Object.entries(previous))localStorage.setItem(key,val);
-    }catch(rollbackError){console.error('[SAYWARD restore rollback]',rollbackError)}
-    throw e;
-  }
-}
-window.mvRestoreSaywardUserBackupFile=async function(file){
-  if(!file)return false;
-  try{
-    const text=await file.text();
-    const payload=JSON.parse(text);
-    const clean=swValidateBackup(payload);
-    const summary=payload.summary||swBackupSummary(clean);
-    const when=payload.exported_at?new Date(payload.exported_at).toLocaleString():'알 수 없음';
-    const ok=confirm(`SAYWARD 사용자 데이터를 복원할까요?\n\n백업 시각: ${when}\n저장 항목: ${Object.keys(clean).length}개\n\n현재 SAYWARD 사용자 데이터는 백업 파일 내용으로 교체됩니다.`);
-    if(!ok)return false;
-    swApplyStorageExact(clean);
-    alert('복원이 완료되었습니다.\n앱을 새로고침하여 복원된 데이터를 적용합니다.');
-    location.reload();
-    return true;
-  }catch(e){
-    console.error('[SAYWARD restore]',e);
-    alert(`복원에 실패했습니다.\n${e?.message||e}\n\n기존 데이터는 가능한 경우 자동으로 유지/복구했습니다.`);
-    return false;
-  }
-};
-window.mvChooseSaywardUserBackup=function(){
-  let input=document.getElementById('saywardUserBackupFileInput5463');
-  if(!input){
-    input=document.createElement('input');
-    input.id='saywardUserBackupFileInput5463';input.type='file';input.accept='.json,application/json';input.style.display='none';
-    input.addEventListener('change',async()=>{const f=input.files&&input.files[0];if(f)await window.mvRestoreSaywardUserBackupFile(f);input.value='';});
-    document.body.appendChild(input);
-  }
-  input.click();
-};
-window.mvOpenDataBackupRestore=function(){
-  const storage=swCollectUserStorage(),summary=swBackupSummary(storage),kb=(summary.approx_bytes/1024).toFixed(1);
-  if(typeof mvOpenInfoOverlay!=='function'){
-    if(confirm(`현재 SAYWARD 사용자 데이터 ${summary.key_count}개 (약 ${kb} KB)\n\n확인: 백업 파일 만들기\n취소: 종료`))window.mvExportSaywardUserBackup();
-    return;
-  }
-  mvOpenInfoOverlay('💾 데이터 백업/복원',`SAYWARD v${SW_BACKUP_VERSION}`,
-    `<div class="mvInfoVersionCard"><b>${summary.key_count}개</b><span>현재 사용자 데이터 · 약 ${kb} KB</span></div>
-     <section class="mvInfoSection"><h3>백업</h3><p>모르는 단어, 즐겨찾기, 학습 진행, 통계, 설정을 JSON 파일 한 개로 저장합니다.</p>
-       <button id="saywardBackupExportBtn5463" type="button" style="width:100%;padding:14px;border:0;border-radius:12px;background:#2563eb;color:#fff;font-weight:900;font-size:15px">⬇️ JSON 백업 파일 만들기</button></section>
-     <section class="mvInfoSection"><h3>복원</h3><p>이 기능으로 만든 JSON 백업 파일을 선택하면 현재 사용자 데이터를 해당 백업 시점으로 되돌립니다.</p>
-       <button id="saywardBackupRestoreBtn5463" type="button" style="width:100%;padding:14px;border:1px solid #cbd5e1;border-radius:12px;background:#fff;color:#0f172a;font-weight:900;font-size:15px">⬆️ JSON 백업 파일에서 복원</button></section>
-     <section class="mvInfoSection"><p style="margin:0;color:#64748b;font-size:12px;line-height:1.6">※ 앱 본체와 학습 콘텐츠 파일은 백업하지 않습니다. Chrome의 사이트 데이터 삭제 전에 이 백업 파일을 만들어 두는 것을 권장합니다.</p></section>`);
-  setTimeout(()=>{
-    const ex=document.getElementById('saywardBackupExportBtn5463');if(ex)ex.onclick=()=>window.mvExportSaywardUserBackup();
-    const re=document.getElementById('saywardBackupRestoreBtn5463');if(re)re.onclick=()=>window.mvChooseSaywardUserBackup();
-  },0);
-};
-window.mvSaywardBackupAudit5463=function(){
-  const storage=swCollectUserStorage();
-  return {version:'5.4.71',schema:SW_BACKUP_SCHEMA,summary:swBackupSummary(storage),menu:!!document.querySelector('[data-drawer-action="backupRestore"]')};
-};
-})();
-</script>
-
 <style id="mvSentenceTrainedStyle5476">
 .mvSentenceTrainedBadge5476{display:inline-flex;align-items:center;gap:4px;width:max-content;max-width:100%;margin:0 0 7px 0;padding:3px 8px;border-radius:999px;background:#dcfce7;border:1px solid #86efac;color:#166534;font-size:11px;font-weight:900;line-height:1.25}.mvSentenceTrainedCard5476{box-shadow:inset 3px 0 0 #22c55e!important}.sentencePatternPair.mvSentenceTrainedPattern5476{border-left:3px solid #22c55e;padding-left:8px}.sentencePatternPair .mvSentenceTrainedInline5476{display:inline-flex;margin-left:6px;padding:2px 6px;border-radius:999px;background:#dcfce7;color:#166534;font-size:10px;font-weight:900;vertical-align:middle}.sentenceRecallBox>.mvSentenceTrainedBadge5476{margin-bottom:10px}#myClassContent .myStudyCard>.mvSentenceTrainedBadge5476,#myClassContent .mySpeakBlock>.mvSentenceTrainedBadge5476{position:absolute!important;top:56px!important;right:12px!important;z-index:7!important;margin:0!important;pointer-events:none!important}@media(max-width:520px){#myClassContent .myStudyCard>.mvSentenceTrainedBadge5476,#myClassContent .mySpeakBlock>.mvSentenceTrainedBadge5476{top:50px!important;right:10px!important}}
 </style><script id="mvSentenceTrainedFeature5476">(function(){'use strict';
@@ -26098,7 +25943,7 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD <span id="swAdminReleaseVersion">v6.4.39</span> 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD <span id="swAdminReleaseVersion">v6.4.40</span> 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
