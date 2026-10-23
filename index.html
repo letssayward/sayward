@@ -1,3 +1,6 @@
+<!-- SAYWARD v6.4.44: background navigation no longer forces recording stop; progressive local checkpoints and downloads/sayword write verification. -->
+<!-- SAYWARD v6.4.44: studio answer confirmation reuses exact pattern MP3 manifest key, with Android gesture priming and TTS-only placeholder normalization. -->
+<!-- SAYWARD v6.4.42: recording background mic guard, 5s IndexedDB checkpoints, user-granted Download/sayword folder and recovery. -->
 <!-- SAYWARD v6.4.41: unify home menu/search into compact dark accessible controls; prevent floating white menu overlay. -->
 <!-- SAYWARD v6.4.40: user-facing data backup/restore menu, action, and legacy import/export script removed; learning data preserved. -->
 <!-- SAYWARD v6.4.40: focus list is an option inside existing pattern sort combobox; no separate manager panel. -->
@@ -13,12 +16,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.41 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.41">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.44 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.44">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.41';
+  const release=marker?.content?.trim() || '6.4.44';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -3443,7 +3446,15 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 .swUnifiedPage #sw5527After{flex:1 1 100%!important;justify-content:space-between!important;order:0}
 .swUnifiedPage #sw5527Prev{order:1}
 @media(max-width:380px){#sw5527PracticePage #sw5527After{gap:6px}#sw5527PracticePage #sw5527After #swFocusToggle{font-size:11px;padding:7px 4px}}
-</style></head><body>
+</style><style id="sayward-recording-auto-642">
+.swRecAutoPanel{margin:12px 0 8px;padding:12px;border:1px solid #d9dcf5;border-radius:15px;background:#f6f5ff;color:#37375e;line-height:1.45}
+.swRecAutoStatus{font-size:12px;font-weight:800;color:#4f46a5}
+.swRecAutoActions{display:flex;gap:8px;margin:9px 0;flex-wrap:wrap}
+.swRecAutoActions button{flex:1 1 140px;min-height:40px;padding:7px 8px;border:1px solid #cbc7ee;border-radius:11px;background:#fff;color:#43388e;font-size:12px;font-weight:750;cursor:pointer}
+.swRecAutoActions button:disabled{opacity:.45;cursor:not-allowed}
+.swRecAutoHint{font-size:11px;color:#667085;margin-top:5px;word-break:keep-all}
+</style>
+</head><body>
 
 <button id="drawerMenuButton" class="drawerMenuButton" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
 <div id="drawerBackdrop" class="drawerBackdrop" aria-hidden="true"></div>
@@ -3932,7 +3943,7 @@ Config의 <b>Day Loop 문장당 반복 횟수</b>에서 1회 / 2회 / 3회 / 5�
         <button id="voicePracticeMyPlayAction" class="voicePracticeFileAction" type="button" disabled>▶ 내 녹음 듣기</button>
         <button id="voicePracticeMp3Save" class="voicePracticeFileAction voicePracticeMp3Action" type="button" disabled>⬇ MP3 파일 저장</button>
       </div>
-      <div id="voicePracticePrivacy" class="voicePracticePrivacy">녹음을 완료하면 내 녹음을 듣거나 MP3 파일로 저장할 수 있습니다.</div>
+      <div id="voicePracticePrivacy" class="voicePracticePrivacy">녹음은 5초마다 브라우저에 자동 임시 저장됩니다. Download/sayword 폴더 지정 시 중간 녹음 파일도 저장합니다.</div>
     </section>
   </div>
 </div>
@@ -9609,6 +9620,235 @@ let sentenceRecordingAnalyser=null;
 let sentenceRecordingSourceNode=null;
 let sentenceRecordingWaveRAF=null;
 
+/* ===== v6.4.42: resilient browser recording + local progressive checkpoints =====
+   The browser may suspend microphone capture in background; we never promise
+   uninterrupted capture on Android. Chunks persist as available in IndexedDB;
+   optional user-authorized Downloads/sayword checkpoint files are best effort. */
+const SW_REC_DB='sayward_voice_autosave_v1';
+const SW_REC_INTERVAL_MS=5000;
+let swRecSession=null;
+let swRecWriteQueue=Promise.resolve();
+let swRecFolderWriteQueue=Promise.resolve();
+let swRecFolderCheckpointAt=0;
+let swRecFolderLastSavedAt=0;
+let swRecFolderLastSavedBytes=0;
+let swRecHiddenAt=0;
+let swRecCheckpointProblem='';
+let swRecSaveSucceededCount=0;
+function swRecOpenDb(){
+  return new Promise((resolve,reject)=>{
+    if(!window.indexedDB){reject(new Error('IndexedDB unsupported'));return}
+    const req=indexedDB.open(SW_REC_DB,1);
+    req.onupgradeneeded=()=>{
+      const db=req.result;
+      if(!db.objectStoreNames.contains('sessions'))db.createObjectStore('sessions',{keyPath:'id'});
+      if(!db.objectStoreNames.contains('chunks'))db.createObjectStore('chunks',{keyPath:['sid','seq']});
+    };
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error||new Error('IndexedDB open failed'));
+  });
+}
+async function swRecTx(store,mode,action){
+  const db=await swRecOpenDb();
+  try{return await new Promise((resolve,reject)=>{
+    const tx=db.transaction(store,mode),obj=tx.objectStore(store);
+    let value;try{value=action(obj)}catch(e){reject(e);return}
+    tx.oncomplete=()=>resolve(value);
+    tx.onabort=()=>reject(tx.error||new Error('IndexedDB abort'));
+    tx.onerror=()=>reject(tx.error||new Error('IndexedDB write error'));
+  })}finally{db.close()}
+}
+async function swRecRequest(store,action){
+  const db=await swRecOpenDb();
+  try{return await new Promise((resolve,reject)=>{
+    const tx=db.transaction(store,'readonly');
+    const req=action(tx.objectStore(store));
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error);
+  })}finally{db.close()}
+}
+async function swRecCreateSession(q,mime){
+  const id='rec_'+sentenceRecordingTimestamp()+'_'+Math.random().toString(36).slice(2,8);
+  const session={id,startedAt:Date.now(),updatedAt:Date.now(),mode:voiceRecorderIsFreeContext(q)?'voice':'sentence',mime:mime||'audio/webm',count:0,size:0,status:'recording',duration:0};
+  await swRecTx('sessions','readwrite',obj=>obj.put(session));
+  return session;
+}
+function swRecShowStatus(note){
+  const el=document.getElementById('sentenceRecordingAutoStatus');
+  if(!el)return;
+  if(note){el.textContent=note;return}
+  const t=swRecSession;
+  const files=swRecSaveSucceededCount;
+  const folder=swRecFolderLastSavedAt?` · 📁 폴더 저장: ${new Date(swRecFolderLastSavedAt).toLocaleTimeString('ko-KR')}`:
+    (sentenceRecordingFolderHandleMemory?' · 폴더 권한 확인 중':' · 폴더 미지정');
+  el.textContent=swRecCheckpointProblem||
+    (t?`✅ 브라우저 임시저장: ${files}개 조각${folder}`:
+     '녹음 중 5초 간격으로 임시 저장 · 폴더 권한이 있으면 Download/sayword에도 저장');
+}
+function swRecPersistChunk(session,part){
+  if(!session||!part||!part.size)return;
+  const seq=++session.count;
+  session.size+=part.size;
+  session.updatedAt=Date.now();
+  const metadata={...session};
+  swRecWriteQueue=swRecWriteQueue.catch(()=>{}).then(async()=>{
+    const db=await swRecOpenDb();
+    try{
+      await new Promise((resolve,reject)=>{
+        // Chunk and session metadata commit atomically.
+        const tx=db.transaction(['chunks','sessions'],'readwrite');
+        tx.objectStore('chunks').put({sid:session.id,seq,blob:part});
+        tx.objectStore('sessions').put(metadata);
+        tx.oncomplete=resolve;
+        tx.onerror=()=>reject(tx.error||new Error('AUTOSAVE_TRANSACTION_FAILED'));
+        tx.onabort=()=>reject(tx.error||new Error('AUTOSAVE_TRANSACTION_ABORTED'));
+      });
+    }finally{db.close()}
+    swRecSaveSucceededCount+=1;
+    swRecCheckpointProblem='';
+    swRecShowStatus();
+  }).catch(e=>{
+    console.warn('[SAYWARD voice] autosave failed',e);
+    swRecCheckpointProblem='⚠ 임시 저장 실패 · 휴대폰 저장 공간을 확인하고 녹음을 저장하세요';
+    swRecShowStatus();
+  });
+}
+
+async function swRecFinishSession(session,duration){
+  if(!session)return;
+  await swRecWriteQueue.catch(()=>{});
+  session.status='complete';session.updatedAt=Date.now();session.duration=duration;
+  try{await swRecTx('sessions','readwrite',obj=>obj.put({...session}));}catch(e){console.warn('Recording metadata save failed',e)}
+}
+async function swRecFindLast(){
+  const items=await swRecRequest('sessions',obj=>obj.getAll());
+  return (items||[]).filter(x=>x.count>0).sort((a,b)=>b.updatedAt-a.updatedAt)[0]||null;
+}
+async function swRecPartsFor(id){
+  const lower=[id,0],upper=[id,Number.MAX_SAFE_INTEGER];
+  const parts=await swRecRequest('chunks',obj=>obj.getAll(IDBKeyRange.bound(lower,upper)));
+  return (parts||[]).sort((a,b)=>a.seq-b.seq).map(x=>x.blob).filter(Boolean);
+}
+function swRecExt(mime){return /mp4|m4a/i.test(mime)?'m4a':(/mpeg|mp3/i.test(mime)?'mp3':'webm')}
+async function swRecWriteCheckpoint(session,parts,force){
+  if(!session||!parts?.length)return;
+  const now=Date.now();
+  if(!force && now-swRecFolderCheckpointAt<15000)return;
+  swRecFolderCheckpointAt=now;
+  const filename=`${session.id}.${swRecExt(session.mime)}`;
+  // Serialize folder snapshots. Never ask for new permissions while hidden.
+  swRecFolderWriteQueue=swRecFolderWriteQueue.catch(()=>{}).then(async()=>{
+    const parent=sentenceRecordingFolderHandleMemory||await sentenceRecordingLoadStoredFolderHandle();
+    if(!parent)return;
+    let permission='prompt';
+    try{permission=await parent.queryPermission({mode:'readwrite'})}catch(e){return}
+    if(permission!=='granted'){
+      swRecShowStatus('✅ 브라우저 임시저장 중 · 📁 폴더 권한이 만료되어 폴더 저장은 중지됨');
+      return;
+    }
+    const blob=new Blob(parts,{type:session.mime});
+    if(!blob.size)return;
+    const saved=await sentenceRecordingWriteToRecordFolder(parent,blob,filename);
+    swRecFolderLastSavedAt=Date.now();
+    swRecFolderLastSavedBytes=saved.bytes;
+    swRecShowStatus();
+  }).catch(e=>{
+    console.warn('[SAYWARD voice] folder checkpoint failure',e);
+    swRecShowStatus('⚠ Download/sayword 폴더 저장 오류 · 임시 녹음은 브라우저에 별도 보관됨');
+  });
+  await swRecFolderWriteQueue;
+}
+
+async function swRecRefreshRecoverInfo(){
+  const el=document.getElementById('sentenceRecordingRecoverInfo');
+  try{
+    const last=await swRecFindLast();
+    if(el)el.textContent=last?`복구 가능: ${new Date(last.startedAt).toLocaleString('ko-KR')} · ${(last.size/1024).toFixed(0)}KB`:'저장된 임시 녹음 없음';
+    const btn=document.getElementById('sentenceRecordingRecoverBtn');
+    if(btn)btn.disabled=!last;
+  }catch(e){if(el)el.textContent='이 브라우저에서 임시 녹음을 조회할 수 없습니다.'}
+}
+async function swRecRecoverLatest(q){
+  if(sentenceRecordingRecorder&&sentenceRecordingRecorder.state==='recording'){
+    sentenceRecordingToast('녹음을 먼저 종료한 후 복구해 주세요.');return;
+  }
+  try{
+    await swRecWriteQueue.catch(()=>{});
+    const last=await swRecFindLast();
+    if(!last){sentenceRecordingToast('복구할 임시 녹음이 없습니다.');return}
+    const parts=await swRecPartsFor(last.id);
+    if(!parts.length){sentenceRecordingToast('복구 가능한 녹음 데이터가 없습니다.');return}
+    if(sentenceRecordingUrl)URL.revokeObjectURL(sentenceRecordingUrl);
+    sentenceRecordingBlob=new Blob(parts,{type:last.mime||'audio/webm'});
+    sentenceRecordingUrl=URL.createObjectURL(sentenceRecordingBlob);
+    sentenceRecordingQuestion=q;
+    sentenceRecordingStartedAt=last.startedAt;
+    sentenceRecordingDuration=last.duration||Math.max(1,(last.updatedAt-last.startedAt)/1000);
+    voiceRecorderRenderContext(q);
+    sentenceRecordingToast('✅ 자동 저장된 녹음을 복구했습니다.');
+  }catch(e){console.warn('SAYWARD voice restore failed',e);sentenceRecordingToast('임시 녹음 복구에 실패했습니다.')}
+}
+async function swRecChooseFolder(){
+  if(!sentenceRecordingFolderApiAvailable()){
+    sentenceRecordingToast('이 브라우저는 폴더 직접 저장을 지원하지 않습니다. 임시 저장 및 파일 다운로드를 사용하세요.');return;
+  }
+  try{
+    // Must directly initiate the browser picker from the actual user click.
+    const pending=window.showDirectoryPicker({mode:'readwrite',startIn:'downloads',id:'sayword-recordings'});
+    const parent=await pending;
+    const selectedName=String(parent.name||'').toLowerCase();
+    if(!['download','downloads','다운로드','sayword'].includes(selectedName)){
+      sentenceRecordingToast('다운로드(Download) 폴더 또는 그 안의 sayword 폴더를 선택해 주세요.');
+      return;
+    }
+    if(selectedName!=='sayword')await parent.getDirectoryHandle('sayword',{create:true});
+    await sentenceRecordingStoreFolderHandle(parent);
+    swRecShowStatus('✅ 폴더 연결 완료 · Download/sayword · 녹음 중 약 15초 간격으로 저장');
+    sentenceRecordingToast('✅ sayword 폴더 연결 완료');
+  }catch(e){
+    if(e?.name!=='AbortError')console.warn('Folder selection:',e);
+    sentenceRecordingToast(e?.name==='AbortError'?'폴더 선택을 취소했습니다.':'폴더를 지정할 수 없습니다. 임시 저장과 수동 다운로드를 이용하세요.');
+  }
+}
+function swRecControlsMarkup(){
+  return `<div class="swRecAutoPanel">
+    <div id="sentenceRecordingAutoStatus" class="swRecAutoStatus">5초 간격 브라우저 자동 저장 · 폴더 권한 시 15초 간격 파일 저장</div>
+    <div class="swRecAutoActions">
+      <button type="button" id="sentenceRecordingFolderBtn">📁 Download/sayword 폴더 지정</button>
+      <button type="button" id="sentenceRecordingRecoverBtn">↺ 임시 녹음 복구</button>
+    </div>
+    <div id="sentenceRecordingRecoverInfo" class="swRecAutoHint">저장된 녹음 확인 중…</div>
+    <div class="swRecAutoHint">백그라운드에서 Android가 마이크를 중단하면 이후 소리는 녹음할 수 없습니다. 임시저장된 음성은 복구할 수 있습니다.</div>
+  </div>`;
+}
+function swRecBindControls(q){
+  const choose=document.getElementById('sentenceRecordingFolderBtn');
+  if(choose)choose.onclick=()=>{swRecChooseFolder()};
+  const recover=document.getElementById('sentenceRecordingRecoverBtn');
+  if(recover)recover.onclick=()=>{swRecRecoverLatest(q)};
+  swRecShowStatus();
+  swRecRefreshRecoverInfo();
+}
+document.addEventListener('visibilitychange',()=>{
+  const rec=sentenceRecordingRecorder;
+  if(document.hidden && rec && rec.state==='recording'){
+    swRecHiddenAt=Date.now();
+    // Flush the current slice while the document is still executing.
+    try{rec.requestData()}catch(e){}
+  }else if(!document.hidden && swRecHiddenAt){
+    swRecHiddenAt=0;
+    if(rec&&rec.state==='recording'){
+      const alive=sentenceRecordingStream?.getAudioTracks().some(t=>t.readyState==='live');
+      if(!alive){
+        sentenceRecordingToast('⚠ 백그라운드에서 마이크가 중단됐습니다. 임시 녹음을 복구해 주세요.');
+        try{rec.stop()}catch(e){}
+      }else{
+        try{rec.requestData()}catch(e){}
+      }
+    }
+    swRecRefreshRecoverInfo();
+  }
+});
 function sentenceRecordingTime(sec){
   sec=Math.max(0,Math.round(Number(sec)||0));
   return `${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')}`;
@@ -9655,6 +9895,9 @@ async function sentenceRecordingPrepareMic(){
 }
 
 function sentenceRecordingReleasePreparedMic(){
+  // Do NOT stop active recording on visibilitychange/pagehide. On Android the
+  // prepared stream is also the stream used by MediaRecorder.
+  if(sentenceRecordingRecorder && sentenceRecordingRecorder.state!=='inactive')return;
   if(sentenceRecordingPreparedStream){
     try{
       sentenceRecordingPreparedStream.getTracks().forEach(t=>t.stop());
@@ -10021,7 +10264,7 @@ function sentenceRecordingEnsureSaveDialog(){
     <label class="recordingSaveLabel" for="recordingSaveFilename">파일 이름</label>
     <div class="recordingSaveInputWrap"><input id="recordingSaveFilename" class="recordingSaveInput" type="text" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="off" spellcheck="false"><button id="recordingSaveClear" class="recordingSaveClear" type="button" aria-label="파일명 지우기">×</button></div>
     <div class="recordingSaveHelp">.mp3는 자동으로 추가됩니다.</div>
-    <div id="recordingSaveLocation" class="recordingSaveLocation">📁 저장 위치: Download / my_voca_record</div>
+    <div id="recordingSaveLocation" class="recordingSaveLocation">📁 저장 위치: Download / sayword</div>
     <div id="recordingSaveStatus" class="recordingSaveStatus" aria-live="polite"></div>
     <div class="recordingSaveActions"><button id="recordingSaveCancel" class="recordingSaveAction recordingSaveCancel" type="button">취소</button><button id="recordingSaveConfirm" class="recordingSaveAction recordingSaveConfirm" type="button">저장</button></div>
   </div>`;
@@ -10146,7 +10389,7 @@ function sentenceRecordingDownloadBlob(blob,filename){
 // Browser security does not allow a web page to silently create arbitrary folders.
 // On browsers that expose showDirectoryPicker(), the user grants Download-folder access once;
 // MY VOCA then creates/reuses the my_voca_record child folder. Other browsers fall back to normal download.
-const SENTENCE_RECORDING_FOLDER_NAME='my_voca_record';
+const SENTENCE_RECORDING_FOLDER_NAME='sayword';
 const SENTENCE_RECORDING_FS_DB='my_voca_record_fs_v1';
 const SENTENCE_RECORDING_FS_STORE='handles';
 const SENTENCE_RECORDING_FS_KEY='downloadsParent';
@@ -10215,6 +10458,8 @@ async function sentenceRecordingEnsureDownloadsParentHandle(){
   // Must run from the user's Save tap because browsers require transient user activation.
   try{
     handle=await window.showDirectoryPicker({id:'my-voca-record-downloads',mode:'readwrite',startIn:'downloads'});
+    const chosen=String(handle?.name||'').toLowerCase();
+    if(handle&&!['download','downloads','다운로드','sayword'].includes(chosen))throw new Error('SELECT_DOWNLOADS_OR_SAYWORD_FOLDER');
     if(handle)await sentenceRecordingStoreFolderHandle(handle);
     return handle||null;
   }catch(e){
@@ -10224,10 +10469,18 @@ async function sentenceRecordingEnsureDownloadsParentHandle(){
 }
 async function sentenceRecordingWriteToRecordFolder(parentHandle,blob,filename){
   if(!parentHandle)throw new Error('NO_FOLDER_HANDLE');
-  const dir=await parentHandle.getDirectoryHandle(SENTENCE_RECORDING_FOLDER_NAME,{create:true});
+  // Both Downloads and an already-created Downloads/sayword are valid selections.
+  // Never silently produce Downloads/sayword/sayword.
+  const isSayword=String(parentHandle.name||'').toLowerCase()===SENTENCE_RECORDING_FOLDER_NAME;
+  const dir=isSayword?parentHandle:
+    await parentHandle.getDirectoryHandle(SENTENCE_RECORDING_FOLDER_NAME,{create:true});
   const file=await dir.getFileHandle(filename,{create:true});
   const writable=await file.createWritable();
   try{await writable.write(blob)}finally{await writable.close()}
+  // Confirm bytes truly reached the file before reporting success.
+  const saved=await file.getFile();
+  if(saved.size!==blob.size)throw new Error('REC_CHECKPOINT_SIZE_MISMATCH');
+  return {bytes:saved.size,folder:dir.name};
 }
 async function sentenceRecordingPrepareSaveTarget(){
   if(!sentenceRecordingFolderApiAvailable())return {mode:'download',parent:null};
@@ -10238,9 +10491,9 @@ function sentenceRecordingRefreshSaveLocation(){
   const el=document.getElementById('recordingSaveLocation');
   if(!el)return;
   if(sentenceRecordingFolderApiAvailable()){
-    el.textContent='📁 저장 위치: Download / my_voca_record · 첫 저장 시 Download 폴더 접근 허용';
+    el.textContent='📁 저장 위치: Download / sayword · 첫 저장 시 Download 폴더 접근 허용';
   }else if(sentenceRecordingIsIOS()){
-    el.textContent='📁 iPhone/iPad: Safari 기본 다운로드 · my_voca_record 자동 생성은 지원되지 않음';
+    el.textContent='📁 iPhone/iPad: Safari 기본 다운로드 · sayword 폴더 직접 자동 생성은 지원되지 않음';
   }else{
     el.textContent='📁 저장 위치: 브라우저 기본 다운로드 · 폴더 자동 생성 미지원 환경';
   }
@@ -10264,10 +10517,10 @@ async function sentenceRecordingConfirmSave(){
     const mp3=await sentenceRecordingToMp3(sentenceRecordingBlob);
     const filename=`${clean}.mp3`;
     if(target.mode==='folder'&&target.parent){
-      if(status)status.textContent='Download / my_voca_record에 저장하고 있습니다.';
+      if(status)status.textContent='Download / sayword에 저장하고 있습니다.';
       await sentenceRecordingWriteToRecordFolder(target.parent,mp3,filename);
       sentenceRecordingCloseSaveDialog();
-      sentenceRecordingToast(`✅ my_voca_record / ${filename} 저장 완료`);
+      sentenceRecordingToast(`✅ sayword / ${filename} 저장 완료`);
     }else{
       sentenceRecordingDownloadBlob(mp3,filename);
       sentenceRecordingCloseSaveDialog();
@@ -10277,9 +10530,12 @@ async function sentenceRecordingConfirmSave(){
   }catch(e){
     if(save){save.disabled=false;save.textContent='다시 시도'}
     const msg=String(e?.message||e);
-    if(msg.includes('FOLDER_PICKER_CANCELLED')){
+    if(msg.includes('SELECT_DOWNLOADS_OR_SAYWORD_FOLDER')){
+      if(status)status.textContent='Download 또는 Download/sayword 폴더를 선택해 주세요.';
+      sentenceRecordingToast('저장할 폴더를 다시 선택해 주세요.');
+    }else if(msg.includes('FOLDER_PICKER_CANCELLED')){
       if(status)status.textContent='폴더 선택이 취소되었습니다.';
-      sentenceRecordingToast('Download 폴더를 선택하면 my_voca_record 폴더를 만들어 저장합니다.');
+      sentenceRecordingToast('Download 폴더를 선택하면 sayword 폴더를 만들어 저장합니다.');
     }else if(msg.includes('MP3_ENCODER')){
       if(status)status.textContent='MP3 변환에 실패했습니다.';
       sentenceRecordingToast('MP3 변환 모듈을 불러오지 못했습니다. 인터넷 연결을 확인한 뒤 다시 저장해 주세요.');
@@ -10359,12 +10615,13 @@ function sentenceRecordingMarkup(q=null){
         recording
           ? '말을 하고 가운데 버튼을 누르면 녹음이 완료됩니다.'
           : has
-            ? '재생 버튼을 눌러 내 목소리를 들어보세요.'
+            ? '재생 버튼으로 듣거나 MP3로 저장하세요. 자동 임시저장도 남아 있습니다.'
             : '빨간색 버튼을 누르면 바로 녹음이 시작됩니다.'
       }
     </div>
 
     ${has ? `<audio id="sentenceMyAudio" preload="metadata" src="${sentenceRecordingUrl}"></audio>` : ''}
+    ${swRecControlsMarkup()}
     ${isFree?'':sentenceRecordingFileActionsMarkup(q)}
   </div>`;
 }
@@ -10398,40 +10655,56 @@ async function sentenceRecordingStart(q){
     const mime=sentenceRecordingMime();
     const rec=mime?new MediaRecorder(stream,{mimeType:mime}):new MediaRecorder(stream);
 
-    sentenceRecordingChunks=[];
+    const localChunks=[];
+    sentenceRecordingChunks=localChunks;
     sentenceRecordingWaveHistory=[];
+    const activeSession=await swRecCreateSession(q,rec.mimeType||mime||'audio/webm');
+    swRecSession=activeSession;
+    swRecWriteQueue=Promise.resolve();
+    swRecCheckpointProblem='';
+    swRecSaveSucceededCount=0;
+    swRecFolderCheckpointAt=0;
+    swRecFolderLastSavedAt=0;
+    swRecFolderLastSavedBytes=0;
     sentenceRecordingRecorder=rec;
 
     rec.ondataavailable=e=>{
-      if(e.data&&e.data.size)sentenceRecordingChunks.push(e.data);
+      if(e.data&&e.data.size){
+        localChunks.push(e.data);
+        swRecPersistChunk(activeSession,e.data);
+        if(sentenceRecordingRecorder===rec){
+          swRecWriteQueue.then(()=>swRecWriteCheckpoint(activeSession,localChunks.slice(),false)).catch(()=>{});
+        }
+      }
     };
-
     rec.onerror=()=>{
-      sentenceRecordingStopTracks();
-      sentenceRecordingRecorder=null;
-      sentenceRecordingToast('녹음 중 오류가 발생했습니다.');
+      sentenceRecordingToast('녹음 중 오류가 발생했습니다. 저장된 부분은 복구할 수 있습니다.');
     };
+    for(const track of stream.getAudioTracks())track.addEventListener('ended',()=>{
+      if(sentenceRecordingRecorder===rec && rec.state==='recording'){
+        sentenceRecordingToast('⚠ 마이크가 중단되어 녹음을 종료합니다. 자동 저장된 부분을 확인해 주세요.');
+        try{rec.stop()}catch(e){}
+      }
+    },{once:true});
 
-    rec.onstop=()=>{
-      sentenceRecordingDuration=(Date.now()-sentenceRecordingStartedAt)/1000;
+    rec.onstop=async()=>{
+      const duration=(Date.now()-activeSession.startedAt)/1000;
+      try{await swRecFinishSession(activeSession,duration)}catch(e){console.warn('Recording finish autosave failed',e)}
+      try{await swRecWriteCheckpoint(activeSession,localChunks.slice(),true)}catch(e){}
+      if(sentenceRecordingRecorder!==rec)return;
+      sentenceRecordingDuration=duration;
       if(sentenceRecordingUrl)URL.revokeObjectURL(sentenceRecordingUrl);
-
-      sentenceRecordingBlob=new Blob(
-        sentenceRecordingChunks,
-        {type:rec.mimeType||mime||'audio/webm'}
-      );
-
-      // 브라우저 메모리 재생 + 필요 시 MP3 변환 저장
-      sentenceRecordingUrl=URL.createObjectURL(sentenceRecordingBlob);
-
+      sentenceRecordingBlob=new Blob(localChunks,{type:rec.mimeType||mime||'audio/webm'});
+      sentenceRecordingUrl=sentenceRecordingBlob.size?URL.createObjectURL(sentenceRecordingBlob):'';
       sentenceRecordingStopTracks();
       sentenceRecordingRecorder=null;
-
+      if(sentenceRecordingUrl)sentenceRecordingToast('✅ 녹음 종료 · 임시저장 및 폴더 저장 처리 완료');
+      else sentenceRecordingToast('녹음 데이터가 없습니다. 임시 녹음을 확인해 주세요.');
       voiceRecorderRenderContext(q);
     };
 
-    // timeslice를 작게 해서 시작 반응을 빠르게.
-    rec.start(80);
+    // Export chunks about every 5s, not 80ms (avoids thousands of tiny blobs).
+    rec.start(SW_REC_INTERVAL_MS);
 
     // recorder가 실제 recording 상태에 들어간 직후 공용 UI 갱신
     voiceRecorderRenderContext(q);
@@ -10499,6 +10772,7 @@ function sentenceCompareEnsure(q){
 
 function sentenceRecordingBind(q){
   sentenceRecordingWarmMic();
+  swRecBindControls(q);
 
   // 3단계 진입 직후부터 녹음기 UI와 빈 파형을 바로 표시
   if(!sentenceRecordingRecorder && !sentenceRecordingUrl){
@@ -10516,6 +10790,8 @@ function sentenceRecordingBind(q){
       if(sentenceRecordingRecorder&&sentenceRecordingRecorder.state==='recording'){
         sentenceRecordingStop();
       }else{
+        // Best effort: ask Chrome to keep locally saved recording data when possible.
+        if(navigator.storage?.persist)navigator.storage.persist().catch(()=>{});
         sentenceRecordingStart(q);
       }
     };
@@ -12105,8 +12381,8 @@ function updateVoicePracticeFileActions(){
   if(save)save.disabled=!has;
   const note=document.getElementById('voicePracticePrivacy');
   if(note)note.textContent=has
-    ? '녹음은 브라우저 메모리에서 재생됩니다. MP3 파일 저장을 누른 경우에만 휴대폰에 파일로 저장됩니다.'
-    : '녹음을 완료하면 내 녹음을 듣거나 MP3 파일로 저장할 수 있습니다.';
+    ? '녹음은 5초 단위로 브라우저에 임시 저장됩니다. 폴더 권한을 허용하면 Download/sayword에도 진행 중 녹음을 보관합니다. MP3 변환·저장은 아래 버튼을 누르세요.'
+    : '녹음은 5초마다 브라우저에 자동 임시 저장됩니다. Download/sayword 폴더 지정 시 중간 녹음 파일도 저장합니다.';
 }
 function bindVoicePracticeFileActions(){
   const play=document.getElementById('voicePracticeMyPlayAction');
@@ -12453,6 +12729,7 @@ function mvOpenUpdateHistory(){
       <div class="mvInfoVersionCard"><b>v${window.SAYWARD_RELEASE}</b><span>현재 설치 버전</span></div>
       <section class="mvInfoSection">
         <h3>v${window.SAYWARD_RELEASE}</h3>
+         <ul><li>✓ 패턴 맞추기에서 ‘선택한 패턴 확인’을 눌렀을 때 첫 음성도 등록된 패턴 MP3를 우선 재생하도록 수정했습니다. MP3가 없을 때만 자연스러운 문구로 TTS 대체합니다.</li></ul>
         <ul>
           <li>✓ 홈 배너의 3줄 메뉴와 검색 버튼을 독립적인 작은 네이비 버튼으로 교체했습니다. 흰색 메뉴 중복 표시와 태블릿 과대 확대를 방지합니다.</li>
           <li>✓ 데이터 백업/복원 메뉴와 앱 내 JSON 백업·복원 화면·실행 코드를 완전히 제거했습니다. 기존 학습 데이터와 Supabase 연동은 유지됩니다.</li>
@@ -15439,7 +15716,13 @@ if(String(ACTIVE_STUDY_COURSE||'my')==='my')setTimeout(decorate,100);
 })();
 
 window.addEventListener('pagehide',()=>{
-  try{sentenceRecordingReset();}catch(e){}
+  // On Android, pagehide can be dispatched when the browser loses focus.
+  // Never end a live recorder from pagehide. The browser/OS may still suspend
+  // capture; requestData saves the latest slice if execution is allowed.
+  try{
+    const r=sentenceRecordingRecorder;
+    if(r&&r.state==='recording')r.requestData();
+  }catch(e){}
 });
 
 
@@ -22371,7 +22654,7 @@ window.mvCleanAudit540=function(){
   box-shadow:0 10px 22px rgba(15,28,75,.09)!important;
 }
 #homePage .homeHero>div{display:none!important}
-/* v6.4.41: only one home menu/search pair; no baked navigation graphics.
+/* v6.4.42: only one home menu/search pair; no baked navigation graphics.
    These are real independently sized controls, not blank overlay hit areas. */
 #homePage .homeHero #cleanHeroMenuHit,
 #homePage .homeHero #cleanHeroSearchHit{
@@ -29867,15 +30150,19 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    stop();const n=count();if(!n||!supported())return false;
    // Do NOT rewrite the reference sentence: its literal DB text defines
    // the MP3 SHA-256 filename. Cue placeholders are only normalized for TTS.
-   const sentence=String(reference||'').trim(),phrase=cue(pattern);
-   const units=(mode==='match'?[phrase,sentence]:[sentence]).filter(Boolean);
+   const sentence=String(reference||'').trim(),rawPattern=String(pattern||'').trim();
+   // MP3 lookup MUST use the exact DB canonical pattern. Normalizing placeholders
+   // before lookup changes the manifest key and caused the first spoken item to
+   // fall back to Android TTS although the MP3 was already present.
+   const units=(mode==='match'?[{audioText:rawPattern,ttsText:cue(rawPattern)},{audioText:sentence,ttsText:sentence}]:[{audioText:sentence,ttsText:sentence}]).filter(unit=>unit.audioText);
    if(!units.length)return false;
    const ticket=++generation;active=true;
    void (async()=>{
      try{
        for(let i=0;i<units.length*n;i++){
          if(ticket!==generation)return;
-         await window.speakOne(units[i%units.length],rate(),'en-US');
+         const unit=units[i%units.length];
+         await window.speakOne(unit.audioText,rate(),'en-US',undefined,{ttsText:unit.ttsText});
        }
      }catch(e){console.warn('[SAYWARD Studio Audio]',String(e?.message||e).slice(0,100));}
      finally{if(ticket===generation)active=false;}
@@ -30386,7 +30673,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  // Window capture precedes the older document capture handler which stops propagation
  // on the start button; this preserves existing repeat/resume logic unchanged.
  window.addEventListener('click',event=>{
-   const el=event.target?.closest?.('#sharedStudyStart,#myClassSelectedStart,#homeAllRepeatStart210');
+   const el=event.target?.closest?.('#sharedStudyStart,#myClassSelectedStart,#homeAllRepeatStart210,#sw5527Primary');
    if(!el)return;
    if(el.id==='homeAllRepeatStart210' && window.MV_ALL_REPEAT_219?.active)return;
    primeAudioFromGesture(el.id);
@@ -30566,7 +30853,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    if(!result&&!playing){try{a.pause()}catch(_){}}
    return result||ticket!==generation;
  }
- window.speakOne=async function(text,rate,lang,element){
+ window.speakOne=async function(text,rate,lang,element,options){
    const ticket=generation;
    lastRequestedText=norm(text).slice(0,230);currentFile='';fallbackReason='';
    const actualRate=rate===undefined||rate===null?(typeof window.getSpeechRate==='function'?window.getSpeechRate():1):rate;
@@ -30576,7 +30863,8 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    }
    if(ticket!==generation)return;
    if(/^en(?:-|$)/i.test(lang||'en-US')){if(!fallbackReason)fallbackReason='MP3_UNAVAILABLE';playbackMode='TTS';recordFallback(fallbackReason,text,'tts-fallback');}
-   return initialSpeak.call(this,text,rate,lang,element);
+   const fallback=typeof options?.ttsText==='string'&&options.ttsText.trim()?options.ttsText:text;
+   return initialSpeak.call(this,fallback,rate,lang,element);
  };
  window.stopSpeech=function(...args){generation++;halt();return initialStop.apply(this,args);};
  window.addEventListener('sayward:auth-out',clear);
@@ -30883,12 +31171,13 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
    lastElement=el;
    el.classList.add('swv6433-tap-speaking');
    try{window.saywardEnglishAudio?.prime?.('tap-english-once')}catch(_e){}
-   const content=(isPattern(el)||/[~+]/.test(raw))?readPattern(raw):raw;
+   const ttsText=(isPattern(el)||/[~+]/.test(raw))?readPattern(raw):raw;
+   const content=raw; // Keep manifest key unchanged for all single-tap MP3 lookups.
    let rate=1;try{if(typeof window.getSpeechRate==='function')rate=window.getSpeechRate()}catch(_e){}
    // One call = one utterance (or one exact MP3 file), ignoring repeat settings.
    // Start speech synchronously within the mobile tap for Android/Chrome gesture permission.
    let playing;
-   try{playing=window.speakOne(content,rate,'en-US',el)}
+   try{playing=window.speakOne(content,rate,'en-US',el,{ttsText})}
    catch(e){playing=Promise.reject(e)}
    void Promise.resolve(playing)
      .catch(e=>console.warn('[SAYWARD tap TTS]',String(e?.message||e).slice(0,110)))
