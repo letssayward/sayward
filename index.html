@@ -1,3 +1,7 @@
+<!-- SAYWARD v6.4.49: Result focus buttons recheck live DB before write, refresh current results, and report status inline. -->
+<!-- SAYWARD v6.4.48: Focus buttons in results confirm Supabase writes and show errors in-place; admin can focus unpublished drafts. -->
+<!-- SAYWARD v6.4.47: First-tap MP3 for all matching choices and answer feedback; shared curated pattern alias paths. -->
+<!-- SAYWARD v6.4.46: Studio first-pattern MP3 resolves curated Supabase spoken-text aliases. -->
 <!-- SAYWARD v6.4.45: Installable Android PWA; focus existing app via launch_handler; network-only service worker to preserve live data and version updates. -->
 <!-- SAYWARD v6.4.44: background navigation no longer forces recording stop; progressive local checkpoints and downloads/sayword write verification. -->
 <!-- SAYWARD v6.4.44: studio answer confirmation reuses exact pattern MP3 manifest key, with Android gesture priming and TTS-only placeholder normalization. -->
@@ -17,12 +21,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.45 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.45">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.49 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.49">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.45';
+  const release=marker?.content?.trim() || '6.4.49';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -3440,6 +3444,9 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 .sw-focus-toggle:disabled,.sw-focus-result:disabled{opacity:.5;cursor:wait}
 .sw-focus-summary{border-radius:10px;margin:9px 0 4px;padding:9px 12px;background:rgba(119,77,175,.08);font-size:12px;line-height:1.5;color:inherit}
 .sw-focus-result{margin-top:10px;max-width:100%;font-size:12px}
+#sw5527PracticePage .sw-focus-feedback{margin:7px 0 3px;font-size:12px;line-height:1.5;color:#6b6383;overflow-wrap:anywhere}
+#sw5527PracticePage .sw-focus-feedback[data-tone="success"]{color:#176e4d;font-weight:750}
+#sw5527PracticePage .sw-focus-feedback[data-tone="error"]{color:#a13d3d;font-weight:750}
 .sw5527-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 
 /* v6.4.35: after-answer action row; keep focus toggle immediately before Retry. */
@@ -26914,7 +26921,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
   const requestedTotal=()=>{const x=counts();return x.sentence+x.match;};
   function updateCountUI(){const x=counts();setText('sw5533RequestedTotal',`총 ${x.sentence+x.match}문제 · 문장 만들기 ${x.sentence} · 패턴 맞추기 ${x.match}${x.sentence+x.match>30?' (최대 30문제)':''}`);}
 
-  const state={uid:null,patterns:[],states:null,due:null,deck:[],index:0,results:new Map(),hint:false,latest:null,remotePractice:[],recentReadOk:false,focus:new Map(),focusProgress:new Map(),served:[],lastSelectionAudit:null,loading:false,saving:false,request:0,finished:false,visible:false};
+  const state={uid:null,patterns:[],states:null,due:null,deck:[],index:0,results:new Map(),hint:false,latest:null,remotePractice:[],recentReadOk:false,focus:new Map(),focusProgress:new Map(),focusSaving:false,focusPendingId:null,focusFeedback:new Map(),served:[],lastSelectionAudit:null,loading:false,saving:false,request:0,finished:false,visible:false};
   const setText=(id,t)=>{const e=g(id);if(e)e.textContent=t;};
   const notice=t=>setText('sw5527Notice',t);
   function updateFocusUI(){
@@ -26930,27 +26937,121 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     const graduated=[...state.focusProgress.values()].filter(x=>!x.active&&x.graduated_at).length;
     setText('swFocusSummary',`🎯 집중 학습 ${activeIds.length}개 · 오늘 학습 ${today}개 · 미출제 ${Math.max(0,activeIds.length-today)}개 · 졸업 ${graduated}개 · 앱+GPT 통합`);
   }
-  async function toggleFocus(id){
-    if(!isCurrent()||!id||state.focusSaving)return;
-    const before=state.focus.has(id),uid=state.uid;
-    state.focusSaving=true;updateFocusUI();
-    try{
-      const saved=await window.saywardAuth.setFocusPattern(id,!before);
-      if(!isCurrent()||uid!==state.uid)throw new Error('FOCUS_ACCOUNT_CHANGED');
-      if(saved?.pattern_id!==id||saved.active!==!before)throw new Error('FOCUS_DB_MISMATCH');
-      if(before){state.focus.delete(id);state.focusProgress.delete(id);}
-      else {state.focus.set(id,{pattern_id:id,active:true});state.focusProgress.set(id,{issued_today:0,app_today:0});}
-      notice(before?'🎯 집중 학습을 해제했습니다. 공식 DB 저장 완료.':'🎯 집중 학습 등록 완료 · 앱과 GPT 공식 출제 후보에 함께 반영합니다.');
-      // Verify the persisted DB response instead of treating a clicked button as proof.
-      const rows=await window.saywardAuth.readFocusPatterns();
-      if(!isCurrent()||uid!==state.uid)return;
-      state.focus=new Map(rows.filter(x=>x.active).map(x=>[x.pattern_id,x]));
-      if(state.focus.has(id)===before)notice('⚠ 집중 학습 변경 후 재조회 불일치 · 다시 확인해 주세요.');
-      else window.dispatchEvent(new CustomEvent('sayward:focus-changed',{detail:{uid,pattern_id:id,active:!before}}));
-    }catch(err){notice('집중 학습 DB 저장 미확인 · '+String(err?.message||'NETWORK_ERROR').slice(0,75));}
-    finally{state.focusSaving=false;if(isCurrent()){updateFocusUI();if(state.finished)renderCompletionResults();}}
+  function syncFocusResultButtons(id,message,tone){
+    if(id)state.focusFeedback.set(id,{message:String(message||''),tone:String(tone||'')});
+    const list=g('sw5411List');if(!list)return;
+    for(const button of list.querySelectorAll('button.sw-focus-result[data-pattern-id]')){
+      const patternId=button.dataset.patternId;
+      const active=state.focus.has(patternId);
+      const busy=!!state.focusSaving && state.focusPendingId===patternId;
+      button.disabled=!!state.focusSaving || !isCurrent();
+      button.textContent=busy?'🎯 DB 확인·저장 중…':active?'🎯 집중 학습 해제':'🎯 집중 학습 등록';
+      button.setAttribute('aria-pressed',String(active));
+      const info=button.parentElement?.querySelector('.sw-focus-feedback');
+      if(info){
+        const stateRow=state.focusFeedback.get(patternId);
+        info.textContent=stateRow?.message||'';
+        info.dataset.tone=stateRow?.tone||'';
+      }
+    }
   }
-  g('swFocusToggle').onclick=()=>{const p=state.deck[state.index];if(p)void toggleFocus(p.pattern_id);};
+  let focusResultRefreshSerial=0;
+  // The completed list can stay open for a long time or be restored from browser
+  // history. Read the real DB before showing any registration state, not an old
+  // snapshot taken when the practice deck was issued.
+  async function refreshFocusResults(){
+    if(!isCurrent()||!state.finished||state.focusSaving)return;
+    const uid=state.uid,serial=++focusResultRefreshSerial;
+    const list=g('sw5411List');if(!list)return;
+    const buttons=[...list.querySelectorAll('button.sw-focus-result[data-pattern-id]')];
+    if(!buttons.length)return;
+    for(const button of buttons){
+      button.disabled=true;
+      const info=button.parentElement?.querySelector('.sw-focus-feedback');
+      if(info&&!state.focusFeedback.has(button.dataset.patternId)){
+        info.textContent='등록 상태를 DB에서 확인 중…';info.dataset.tone='pending';
+      }
+    }
+    try{
+      const rows=await window.saywardAuth.readFocusPatterns();
+      if(serial!==focusResultRefreshSerial||!isCurrent()||uid!==state.uid||!state.finished)return;
+      if(!Array.isArray(rows))throw new Error('FOCUS_INVALID_DB_RESPONSE');
+      state.focus=new Map(rows.filter(x=>x.active).map(x=>[x.pattern_id,x]));
+      for(const button of buttons){
+        const id=button.dataset.patternId;
+        const info=button.parentElement?.querySelector('.sw-focus-feedback');
+        if(info&&!state.focusFeedback.has(id)){
+          info.textContent=state.focus.has(id)?'✓ 집중 학습 DB 등록 확인':'미등록 · 🎯 버튼으로 등록할 수 있습니다.';
+          info.dataset.tone=state.focus.has(id)?'success':'';
+        }
+      }
+      updateFocusUI();syncFocusResultButtons();
+    }catch(err){
+      if(serial!==focusResultRefreshSerial||!isCurrent()||uid!==state.uid)return;
+      const code=String(err?.message||'NETWORK_ERROR').slice(0,90);
+      for(const button of buttons){
+        const info=button.parentElement?.querySelector('.sw-focus-feedback');
+        if(info){info.textContent='⚠ 집중 학습 DB 조회 실패: '+code;info.dataset.tone='error';}
+      }
+      // Disallow ambiguous toggles while the real state is unknown.
+      for(const button of buttons)button.disabled=true;
+      notice('⚠ 집중 학습 상태를 확인하지 못했습니다. 재접속 후 다시 확인해 주세요: '+code);
+    }
+  }
+  async function toggleFocus(id,requestedTarget){
+    if(!id||state.focusSaving)return;
+    if(!isCurrent()){
+      syncFocusResultButtons(id,'⚠ 로그인 연결이 끊어졌습니다. 다시 로그인해 주세요.','error');
+      notice('집중 학습 DB 저장 전 로그인 상태 확인이 필요합니다.');
+      return;
+    }
+    const uid=state.uid;
+    const target=typeof requestedTarget==='boolean'?requestedTarget:!state.focus.has(id);
+    ++focusResultRefreshSerial; // Ignore in-flight stale list refresh.
+    state.focusSaving=true;state.focusPendingId=id;
+    updateFocusUI();syncFocusResultButtons(id,'실제 DB 등록 상태를 확인 중…','pending');
+    let message='',tone='error';
+    try{
+      // Never toggle using a stale UI value: a button labeled "register" must not
+      // *remove* an already-saved focus record during a delayed re-query.
+      const beforeRows=await window.saywardAuth.readFocusPatterns();
+      if(!isCurrent()||uid!==state.uid)throw new Error('FOCUS_ACCOUNT_CHANGED');
+      if(!Array.isArray(beforeRows))throw new Error('FOCUS_INVALID_DB_RESPONSE');
+      const remoteActive=beforeRows.some(x=>x.pattern_id===id&&x.active===true);
+      if(remoteActive!==target){
+        const saved=await window.saywardAuth.setFocusPattern(id,target);
+        if(!isCurrent()||uid!==state.uid)throw new Error('FOCUS_ACCOUNT_CHANGED');
+        if(saved?.pattern_id!==id||saved.active!==target)throw new Error('FOCUS_DB_RESPONSE_MISMATCH');
+      }
+      // Persisted read-back is required even if it was already active.
+      const rows=await window.saywardAuth.readFocusPatterns();
+      if(!isCurrent()||uid!==state.uid)throw new Error('FOCUS_ACCOUNT_CHANGED');
+      if(!Array.isArray(rows))throw new Error('FOCUS_INVALID_DB_RESPONSE');
+      const confirmed=rows.some(x=>x.pattern_id===id&&x.active===true);
+      if(confirmed!==target)throw new Error('FOCUS_DB_READBACK_MISMATCH');
+      state.focus=new Map(rows.filter(x=>x.active).map(x=>[x.pattern_id,x]));
+      if(!target)state.focusProgress.delete(id);
+      else if(!state.focusProgress.has(id))state.focusProgress.set(id,{issued_today:0,app_today:0});
+      message=target
+        ?(remoteActive?'✓ 이미 집중 학습에 등록되어 있습니다 · DB 확인 완료':'✓ 집중 학습 등록 완료 · DB 재조회 확인')
+        :'✓ 집중 학습 해제 완료 · DB 재조회 확인';
+      tone='success';
+      notice(message);
+      window.dispatchEvent(new CustomEvent('sayward:focus-changed',{detail:{uid,pattern_id:id,active:target}}));
+    }catch(err){
+      const code=String(err?.message||'NETWORK_ERROR').slice(0,110);
+      message=code.includes('FOCUS_PATTERN_NOT_PUBLISHED')
+        ?'⚠ 비공개 패턴은 관리자만 집중 등록할 수 있습니다. 해당 강의 공개 상태나 로그인 계정을 확인해 주세요.'
+        :'⚠ 집중 학습 DB 저장·확인 실패: '+code+' · 등록 여부는 다시 조회해야 합니다.';
+      notice(message);
+    }finally{
+      state.focusSaving=false;state.focusPendingId=null;
+      if(isCurrent()){updateFocusUI();syncFocusResultButtons(id,message,tone);}
+    }
+  }
+  g('swFocusToggle').onclick=()=>{
+    const p=state.deck[state.index];if(p)void toggleFocus(p.pattern_id,!state.focus.has(p.pattern_id));
+  };
 
   const randomShuffle=a=>{const v=[...a];for(let i=v.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[v[i],v[j]]=[v[j],v[i]];}return v;};
   const isCurrent=()=>!!auth().authenticated&&auth().uid===state.uid;
@@ -27263,9 +27364,20 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
         line(body,'앱 학습 저장',r?.selfSaved?('저장 확인 · '+(selfLabel[r.selfRating]||ratingLabels[r.selfRating]||'')):
           (r?.saveError?'저장 확인 실패 · 재확인 필요':r?.selfRating?'선택 기록 있음 · DB 저장 미확인':'미저장 또는 저장 미확인'));
         const pin=document.createElement('button');pin.type='button';pin.className='sw-focus-result';
+        pin.dataset.patternId=p.pattern_id;
         const isPinned=state.focus.has(p.pattern_id);pin.textContent=isPinned?'🎯 집중 학습 해제':'🎯 집중 학습 등록';
-        pin.setAttribute('aria-pressed',String(isPinned));pin.onclick=()=>void toggleFocus(p.pattern_id);
-        body.append(pin);
+        pin.setAttribute('aria-pressed',String(isPinned));pin.disabled=!!state.focusSaving;
+        pin.onclick=e=>{
+          e.preventDefault();e.stopPropagation();
+          // Explicit button intent is stable even if another app changed the DB.
+          void toggleFocus(p.pattern_id,pin.getAttribute('aria-pressed')!=='true');
+        };
+        const feedback=document.createElement('p');feedback.className='sw-focus-feedback';
+        feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');
+        const prevFeedback=state.focusFeedback.get(p.pattern_id);
+        feedback.textContent=prevFeedback?.message||'';
+        feedback.dataset.tone=prevFeedback?.tone||'';
+        body.append(pin,feedback);
         item.appendChild(body);sect.appendChild(item);
       }
       list.appendChild(sect);
@@ -27293,6 +27405,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     setText('sw5531DoneHeading',state.deck.length+'문제 연습 완료');
     setText('sw5527DoneText',`응답 ${count}개 · 앱 연습 DB 저장 ${savedCount}개 / 전체 ${state.deck.length}개. 문장 교정과 패턴 선택 결과는 전체 복사로 확인할 수 있습니다.`);
     renderCompletionResults();
+    void refreshFocusResults();
     setText('sw5527Step','GPT 채점 요청 준비');setText('sw5527Counter',`${state.deck.length} / ${state.deck.length}`);g('sw5527Track').style.width='100%';}
   function renderMatchOptions(p,entry){
     const area=g('sw5533MatchOptions');area.replaceChildren();
@@ -27309,6 +27422,9 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
         state.results.set(state.index,{answer:opt.canonical_pattern,selected_id:opt.pattern_id,submitted:false,hintUsed:false});
         renderMatchOptions(p,state.results.get(state.index));
       });area.appendChild(button);
+      // Warm every visible alternative, not only the current correct answer. A user
+      // may tap any of the four choices first; preload the verified path once.
+      if(opt.canonical_pattern)void window.saywardStudioAudio?.preparePattern?.(opt.canonical_pattern);
     }
   }
   // v6.4.35: Match feedback uses the same clearly separated information-card order as TOEFL.
@@ -27358,6 +27474,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     setText('sw5531KeyboardCounter',(state.index+1)+' / '+state.deck.length);
     setText('sw5531KeyboardText',p.example_ko);
     const isMatch=p.mode==='match';
+    if(isMatch)void window.saywardStudioAudio?.preparePattern?.(p.canonical_pattern);
     window.saywardUnifiedStudio?.sync('pattern',isMatch,done);
     setText('sw5527Step',done?(isMatch?'패턴 정답 확인':'문장 차이 확인'):(isMatch?'패턴 맞추기':'영어 문장 작성'));
     g('sw5527Track').style.width=(100*state.index/state.deck.length).toFixed(1)+'%';
@@ -27460,7 +27577,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       }
       return {...p,mode,options:randomShuffle([{pattern_id:p.pattern_id,canonical_pattern:p.canonical_pattern},...alternatives])};
     });
-    leaveKeyboardMode();state.deck=randomShuffle(assigned);state.index=0;state.results.clear();state.finished=false;
+    leaveKeyboardMode();++focusResultRefreshSerial;state.focusFeedback.clear();state.deck=randomShuffle(assigned);state.index=0;state.results.clear();state.finished=false;
     if(chosen.length){rememberOffered(chosen);}
     state.lastSelectionAudit={ready:true,course,mix,requested:targetCount,selected:chosen.length,
       dueAvailable:dueCandidates.length,dueSelected,focusAvailable:focusPool.length,focusSelected,review:actualReview,new:chosen.length-actualReview,
@@ -30131,7 +30248,33 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 (function(){'use strict';
  const KEY='myVocaConfigurationV1';
  let generation=0,active=false;
+ const patternPaths=new Map();let patternPathsUid='';
  const supported=()=>typeof window.speakOne==='function';
+ const validPatternPath=s=>/^audio\/[a-z][a-z0-9_-]{1,31}\/[a-f0-9]{24}\.mp3$/.test(String(s||''));
+ // The displayed pattern is a template, e.g. 'become somewhat + comparative/adjective'.
+ // Its Kokoro MP3 is generated from a curated spoken example, e.g. 'become somewhat better'.
+ // Resolve its actual Storage path from the verified DB rather than guessing the filename.
+ function preparePattern(pattern){
+   const canonical=String(pattern||'').trim();
+   const auth=window.saywardAuth?.snapshot?.();
+   const uid=auth?.authenticated?auth.uid:'';
+   if(uid!==patternPathsUid){patternPaths.clear();patternPathsUid=uid||'';}
+   if(!canonical||!uid)return Promise.resolve(null);
+   const saved=patternPaths.get(canonical);
+   if(saved&&Date.now()-saved.created<5000)return saved.pending;
+   const sb=window.saywardAuth?.getClient?.();
+   if(!sb)return Promise.resolve(null);
+   const pending=Promise.resolve().then(()=>sb.rpc('sayward_mp3_pattern_path_v1',{p_pattern:canonical}))
+     .then(({data,error})=>{
+       if(error||!data||data.status!=='READY'||!validPatternPath(data.audio_path))return null;
+       return {audioPath:data.audio_path,spokenText:String(data.spoken_text||'')};
+     })
+     .catch(e=>{console.warn('[SAYWARD pattern MP3 lookup]',String(e?.message||e).slice(0,120));return null;});
+   patternPaths.set(canonical,{pending,created:Date.now()});
+   return pending;
+ }
+ window.addEventListener('sayward:auth-out',()=>{patternPaths.clear();patternPathsUid='';});
+
  function count(){
    try{const raw=JSON.parse(localStorage.getItem(KEY)||'{}');const n=Number(raw.studioAnswerRepeat);
      return [0,1,2,3,5].includes(n)?n:2;
@@ -30145,7 +30288,11 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    if(wasActive)try{window.stopSpeech?.();}catch(_){}
  }
  function play(mode,pattern,reference){
-   stop();const n=count();if(!n||!supported())return false;
+   stop();
+   // A choice tap may already be playing its own one-off TTS/MP3.
+   // Confirming an answer starts a fresh studio sequence, not overlapping speech.
+   try{window.stopSpeech?.()}catch(_e){}
+   const n=count();if(!n||!supported())return false;
    // Do NOT rewrite the reference sentence: its literal DB text defines
    // the MP3 SHA-256 filename. Cue placeholders are only normalized for TTS.
    const sentence=String(reference||'').trim(),rawPattern=String(pattern||'').trim();
@@ -30155,12 +30302,20 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const units=(mode==='match'?[{audioText:rawPattern,ttsText:cue(rawPattern)},{audioText:sentence,ttsText:sentence}]:[{audioText:sentence,ttsText:sentence}]).filter(unit=>unit.audioText);
    if(!units.length)return false;
    const ticket=++generation;active=true;
+   // Start/keep the same unlocked media element while awaiting the DB alias.
+   // This avoids first-click TTS caused by a template/MP3 spoken-text mismatch.
+   try{window.saywardEnglishAudio?.prime?.('studio-answer-confirm')}catch(_e){}
+   const aliasTask=mode==='match'?preparePattern(rawPattern):Promise.resolve(null);
    void (async()=>{
      try{
+       const alias=await aliasTask;
+       if(ticket!==generation)return;
        for(let i=0;i<units.length*n;i++){
          if(ticket!==generation)return;
          const unit=units[i%units.length];
-         await window.speakOne(unit.audioText,rate(),'en-US',undefined,{ttsText:unit.ttsText});
+         const mp3Override=unit.audioText===rawPattern&&mode==='match'&&alias?.audioPath
+           ?{audioPath:alias.audioPath}:{};
+         await window.speakOne(unit.audioText,rate(),'en-US',undefined,{ttsText:unit.ttsText,...mp3Override});
        }
      }catch(e){console.warn('[SAYWARD Studio Audio]',String(e?.message||e).slice(0,100));}
      finally{if(ticket===generation)active=false;}
@@ -30170,7 +30325,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
  window.addEventListener('pagehide',stop);
  window.addEventListener('sayward:auth-out',stop);
- window.saywardStudioAudio={play,stop,count,supported};
+ window.saywardStudioAudio={play,stop,count,supported,preparePattern};
 })();
 </script>
 <style id="sw650CategoryCss">
@@ -30812,10 +30967,10 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const match=paths.find(p=>fileIndex?.has(p))||'';
    resolved.set(t,match);return match;
  }
- async function playFile(text,rate,lang,element,ticket){
+ async function playFile(text,rate,lang,element,ticket,verifiedAudioPath=''){
    if(!/^en(?:-|$)/i.test(lang||'en-US')){fallbackReason='NOT_ENGLISH';return false;}
    if(!await checkAccess()){fallbackReason=auth()?'MP3_PERMISSION_DISABLED_OR_CHECK_FAILED':'NOT_AUTHENTICATED';return false;}
-   const path=await findPath(text);
+   const path=(verifiedAudioPath&&validPath(verifiedAudioPath))?verifiedAudioPath:await findPath(text);
    if(ticket!==generation)return true;
    if(!path){playbackMode='unmapped';fallbackReason=manifestError&& !fileIndex?'MANIFEST_OR_STORAGE_UNAVAILABLE':'SENTENCE_NOT_MAPPED';return false;}
    currentFile=path;
@@ -30856,7 +31011,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    lastRequestedText=norm(text).slice(0,230);currentFile='';fallbackReason='';
    const actualRate=rate===undefined||rate===null?(typeof window.getSpeechRate==='function'?window.getSpeechRate():1):rate;
    if(norm(text)&&/^en(?:-|$)/i.test(lang||'en-US')){
-     let ok=false;try{ok=await playFile(text,actualRate,lang,element,ticket);}catch(e){console.warn('[SAYWARD Kokoro]',String(e?.message||e).slice(0,100));}
+     let ok=false;try{ok=await playFile(text,actualRate,lang,element,ticket,options?.audioPath||'');}catch(e){console.warn('[SAYWARD Kokoro]',String(e?.message||e).slice(0,100));}
      if(ticket!==generation)return;if(ok)return;
    }
    if(ticket!==generation)return;
@@ -31141,7 +31296,7 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
    .replace(/\s*\+\s*/g,' ').replace(/\s*~\s*/g,' something ')
    .replace(/\bone'?s\b/gi,"someone's").replace(/\s+/g,' ').trim();
  const isPattern=el=>el.matches('.sw5533-match-choice,#sw5527Pattern,#swWordPatternText,.myChunkPattern')
-   ||!!el.closest('.swStudioFeedback-phrase,.swStudioFeedback-answer');
+   ||!!el.closest('.swStudioFeedback-phrase,.swStudioFeedback-answer,.swStudioFeedback-chosen,.swStudioFeedback-wrong');
  let lastElement=null,serial=0;
  function actionable(e){
    const target=e?.target instanceof Element?e.target:e?.target?.parentElement;
@@ -31172,20 +31327,31 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
    const ttsText=(isPattern(el)||/[~+]/.test(raw))?readPattern(raw):raw;
    const content=raw; // Keep manifest key unchanged for all single-tap MP3 lookups.
    let rate=1;try{if(typeof window.getSpeechRate==='function')rate=window.getSpeechRate()}catch(_e){}
-   // One call = one utterance (or one exact MP3 file), ignoring repeat settings.
-   // Start speech synchronously within the mobile tap for Android/Chrome gesture permission.
-   let playing;
-   try{playing=window.speakOne(content,rate,'en-US',el,{ttsText})}
-   catch(e){playing=Promise.reject(e)}
-   void Promise.resolve(playing)
-     .catch(e=>console.warn('[SAYWARD tap TTS]',String(e?.message||e).slice(0,110)))
+   // v6.4.47: All pattern taps share the official pattern-to-audio path resolver.
+   // Unlike display templates ("+ noun", "~"), the curated Kokoro spoken text has
+   // its own SHA-256 key. Calling speakOne(raw) immediately would start TTS first.
+   // Prime the audio on the physical tap BEFORE waiting for the authorized DB path.
+   // A different tap or answer confirmation cancels stale pending readouts.
+   const patternTap=isPattern(el);
+   void (async()=>{
+     let options={ttsText};
+     if(patternTap){
+       const alias=await window.saywardStudioAudio?.preparePattern?.(content);
+       if(seq!==serial)return;
+       if(alias?.audioPath)options={...options,audioPath:alias.audioPath};
+     }
+     if(seq!==serial)return;
+     await window.speakOne(content,rate,'en-US',el,options);
+   })().catch(e=>console.warn('[SAYWARD tap MP3]',String(e?.message||e).slice(0,110)))
      .finally(()=>{if(seq===serial){el.classList.remove('swv6433-tap-speaking');lastElement=null;}});
    return true;
  }
  // Event delegation survives replacing dynamically rendered feedback and question cards.
  // Choice buttons may be rebuilt synchronously by the original selection handler.
  // Capture before the original handler removes the tapped button, and do not replay in bubble.
+ // Do not let an in-flight choice lookup speak after the learner confirms the answer.
  document.addEventListener('click',e=>{
+   if(e.target?.closest?.('#sw5527Primary,#swWordShow'))serial++;
    if(e.target?.closest?.('.sw5533-match-choice')){const item=actionable(e);if(item)once(item);}
  },true);
  document.addEventListener('click',e=>{
