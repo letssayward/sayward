@@ -1,3 +1,4 @@
+<!-- SAYWARD v6.4.45: Installable Android PWA; focus existing app via launch_handler; network-only service worker to preserve live data and version updates. -->
 <!-- SAYWARD v6.4.44: background navigation no longer forces recording stop; progressive local checkpoints and downloads/sayword write verification. -->
 <!-- SAYWARD v6.4.44: studio answer confirmation reuses exact pattern MP3 manifest key, with Android gesture priming and TTS-only placeholder normalization. -->
 <!-- SAYWARD v6.4.42: recording background mic guard, 5s IndexedDB checkpoints, user-granted Download/sayword folder and recovery. -->
@@ -16,12 +17,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.44 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.44">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.45 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.45">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.44';
+  const release=marker?.content?.trim() || '6.4.45';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -38,7 +39,12 @@
 })();
 </script>
 
-<meta name="theme-color" content="#2563eb">
+<meta name="theme-color" content="#16294f">
+<link rel="manifest" href="./sayward.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="./sayward-icon-192.png">
+<meta name="application-name" content="SAYWARD">
+<meta name="apple-mobile-web-app-title" content="SAYWARD">
+
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 
@@ -12036,20 +12042,14 @@ window.APP_VERSION=window.SAYWARD_RELEASE;
 window.addEventListener('pagehide',()=>{__repeatWakeSession=false;forceReleaseWakeLock();});
 
 
-// Single-file deployment: remove old service workers/caches so index.html is always the source of truth.
-if('serviceWorker' in navigator){
-  window.addEventListener('load',async()=>{
-    try{
-      const regs=await navigator.serviceWorker.getRegistrations();
-      await Promise.all(regs.map(r=>r.unregister()));
-    }catch(e){}
-    try{
-      if('caches' in window){
-        const keys=await caches.keys();
-        await Promise.all(keys.map(k=>caches.delete(k)));
-      }
-    }catch(e){}
-  });
+// PWA installation: keep a tiny network-only Service Worker registered.
+// Never cache the application shell, Supabase data or MP3 files: updates remain live.
+if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sayward-sw.js', {scope:'./',updateViaCache:'none'})
+      .then(reg => {try{reg.update()}catch(e){}})
+      .catch(err => {console.warn('SAYWARD PWA service worker unavailable',err)});
+  },{once:true});
 }
 
 function refreshUsageRecommendation(){
@@ -17877,17 +17877,15 @@ window.mvSoriGroup2Audit194=mvSoriGroup2Audit194;
 
 <script>
 (() => {
-  // Development mode: always use the current GitHub Pages files.
-  // Remove legacy service workers/caches that can keep an older app alive.
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations()
-      .then(regs => Promise.all(regs.map(r => r.unregister())))
-      .catch(()=>{});
-  }
-  if ('caches' in window) {
-    caches.keys()
-      .then(keys => Promise.all(keys.map(k => caches.delete(k))))
-      .catch(()=>{});
+  // Do not unregister the PWA service worker at startup.
+  // The worker is network-only and does not cache index.html.
+  if (window.launchQueue && typeof window.launchQueue.setConsumer === 'function') {
+    window.launchQueue.setConsumer((params) => {
+      // focus-existing activates the current screen without navigating/reloading.
+      // Keep quiz, audio and recording state untouched on a warm app launch.
+      window.dispatchEvent(new CustomEvent('sayward:existing-app-focused',
+        { detail: { hasTargetURL: !!params?.targetURL } }));
+    });
   }
 })();
 </script>
