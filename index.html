@@ -1,3 +1,4 @@
+<!-- SAYWARD v6.4.52: Update in-app Usage page and Config guidance to match actual learning, audio, recording and PWA features. -->
 <!-- SAYWARD v6.4.51: Enable swipe gestures starting on studio choice/action buttons; preserve taps and native scrolling. -->
 <!-- SAYWARD v6.4.48: Focus buttons in results confirm Supabase writes and show errors in-place; admin can focus unpublished drafts. -->
 <!-- SAYWARD v6.4.47: First-tap MP3 for all matching choices and answer feedback; shared curated pattern alias paths. -->
@@ -21,12 +22,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.51 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.51">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.52 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.52">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.51';
+  const release=marker?.content?.trim() || '6.4.52';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -3514,7 +3515,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 <button class="drawerItem" data-drawer-action="forget"><span class="drawerIcon">🧠</span><span class="drawerItemText">망각곡선<small>오늘의 복습 대상 확인</small></span></button>
 
 <button class="drawerItem" data-drawer-action="config"><span class="drawerIcon">⚙️</span><span class="drawerItemText">Config<small>음성 · 반복 · 퀴즈 설정</small></span></button>
-<button class="drawerItem" data-drawer-action="usage"><span class="drawerIcon">📘</span><span class="drawerItemText">사용 방법<small>MY VOCA 학습 방법과 기능 안내</small></span></button>
+<button class="drawerItem" data-drawer-action="usage"><span class="drawerIcon">📘</span><span class="drawerItemText">사용 방법<small>SAYWARD 최신 기능 · 패턴·MP3·녹음 안내</small></span></button>
 <button class="drawerItem" data-drawer-action="whatsnew"><span class="drawerIcon">🆕</span><span class="drawerItemText">업데이트 내역<small>이번 버전 변경 사항</small></span></button>
 <button class="drawerItem" data-drawer-action="info"><span class="drawerIcon">ℹ️</span><span class="drawerItemText">앱 정보<small>앱 버전과 주요 정보를 확인</small></span></button>
 </nav>
@@ -3781,51 +3782,16 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
     <section class="usageHero" aria-label="오늘의 추천 학습">
       <div class="usageHeroTitle">💡 오늘의 추천 학습</div>
       <div class="usageHeroText">현재 학습 기록을 기준으로 오늘 먼저 하면 좋은 순서를 안내합니다.</div>
-      <div class="usageRecommend"><b id="usageRecommendTitle">추천 순서를 계산하고 있어요</b><ul id="usageRecommendList"><li>잠시만 기다려 주세요.</li></ul></div>
+      <div class="usageRecommend"><b id="configUsageRecommendTitle">추천 순서를 계산하고 있어요</b><ul id="configUsageRecommendList"><li>잠시만 기다려 주세요.</li></ul></div>
     </section>
 
     <section class="configSection">
-      <div class="configSectionTitle">📘 MY VOCA 사용방법</div><p><b>이번 업데이트:</b> 홈 상단의 MY VOCA, 오늘의 학습, 학습 재생 설정 영역을 모바일 화면에 맞게 압축했습니다. 기능은 그대로 유지되며 첫 화면에서 DAY별 학습 영역을 더 빠르게 확인할 수 있습니다.</p>
-      <details class="usageDetail"><summary>⭐ DAY 시작 전 모르는 단어 선택</summary><div class="usageBody">홈에서 DAY 카드를 눌렀을 때 해당 DAY의 <b>모르는 단어가 0개</b>이면 안내 팝업이 표시됩니다. <b>모르는 단어 선택</b>에서 헷갈리거나 다시 볼 단어를 최소 1개 표시하면 이후 <b>모르는 단어만</b>, <b>틀린 단어만</b>, <b>틀린 단어 + 모르는 단어</b> 집중 학습을 바로 사용할 수 있습니다. 이미 모르는 단어가 1개 이상 저장된 DAY에서는 이 팝업이 다시 뜨지 않습니다.</div></details>
-      <details class="usageSection" open>
-        <summary>1. 처음 시작할 때</summary>
-        <div class="usageBody">
-          <ol class="usageSteps"><li>홈에서 공부할 <b>DAY</b>를 선택합니다.</li><li>퀴즈의 <b>모르는 단어 선택</b>에서 전체 단어와 뜻을 먼저 훑어봅니다.</li><li>모르는 단어를 체크하면 학습 화면의 <b>모르는 단어</b>와 자동으로 연동됩니다.</li><li>홈에서 <b>전체 반복</b> 또는 <b>틀린 단어 + 모르는 단어</b>를 선택해 학습을 시작합니다.</li></ol>
-          <div class="usageFlow"><span class="usageChip">DAY 선택</span><span class="usageArrow">→</span><span class="usageChip">모르는 단어 선택</span><span class="usageArrow">→</span><span class="usageChip">모르는 단어</span><span class="usageArrow">→</span><span class="usageChip">반복 학습</span></div>
-        </div>
-      </details>
-      <details class="usageSection">
-        <summary>2. 홈 화면과 반복 학습</summary>
-        <div class="usageBody">
-          <div class="usageMiniGrid"><div class="usageMini"><b>전체 반복</b>선택한 DAY의 모든 단어를 연속 학습합니다.</div><div class="usageMini"><b>틀린 단어만</b>퀴즈에서 한 번 이상 틀린 단어만 재생합니다.</div><div class="usageMini"><b>모르는 단어</b>직접 표시한 모르는 단어만 재생합니다.</div><div class="usageMini"><b>틀린 단어 + 모르는 단어</b>두 목록을 합쳐 중복 없이 재생합니다.</div><div class="usageMini"><b>기본 순서</b>DAY와 단어 번호 순서대로 학습합니다.</div><div class="usageMini"><b>랜덤</b>저장된 랜덤 순서를 유지해 중단 지점부터 이어서 학습합니다.</div></div>
-          <div class="usageTip">여러 DAY를 공부하다 앱을 닫아도 마지막 학습 DAY가 새 선택 범위에 포함되면 저장 위치부터 이어집니다.</div>
-        </div>
-      </details>
-      <details class="usageSection">
-        <summary>3. 학습 화면 사용법</summary>
-        <div class="usageBody">
-          <p><b>읽기 순서:</b> 단어 → 뜻 → 첫 예문 → 패러프레이징 → 회화 패턴 → Collocation → 유의어·반의어</p><p><b>패러프레이징의 사용된 유의어:</b> 패러프레이징 문장에 실제로 들어간 표현만 파란색으로 강조하고 <b>영어 표현 - 한국어 뜻</b>으로 표시합니다. 원문 단어가 그대로 유지되거나 등록된 유의어가 문장에 없으면 배지를 표시하지 않습니다.</p><p><b>유의어·반의어 목록:</b> 각 표현은 <b>영어 단어 - 한국어 뜻</b> 형식으로 표시됩니다. 🔊 버튼을 누르면 영어 표현을 들을 수 있습니다.</p>
-          <ul class="usageSteps"><li><b>🏠 홈:</b> 음성·자동 스크롤·반복을 즉시 중지하고 홈으로 이동합니다.</li><li><b>☆ 모르는 단어:</b> 현재 단어를 바로 등록하거나 해제합니다.</li><li><b>⏸ 재생 정지 / ▶ 재생 시작:</b> 현재 카드 위치를 유지한 채 음성을 멈추거나 다시 시작합니다.</li><li><b>좌우 스와이프:</b> 이전·다음 단어로 이동합니다.</li></ul>
-        </div>
-      </details>
-      <details class="usageSection">
-        <summary>4. 퀴즈 4가지</summary>
-        <div class="usageBody">
-          <ul class="usageSteps"><li><b>학습 조건 동기화:</b> Drawer의 모르는 단어·틀린 단어·틀린 단어 + 모르는 단어를 선택하면 DAY 위 학습 범위와 퀴즈 대상 콤보박스에도 즉시 반영됩니다. 어느 콤보박스에서 변경해도 다른 화면에 같은 조건이 저장됩니다.</li><li><b>퀴즈 대상 조건:</b> 전체 단어·틀린 단어만·모르는 단어·틀린 단어 + 모르는 단어 중 하나를 선택하면 모든 퀴즈 방식에 같은 조건이 적용됩니다.</li><li><b>퀴즈 하단 버튼:</b> 왼쪽부터 다음·이전·자동 넘기기 순서입니다. 자동 넘기기 ON이면 정답·오답 후 단어와 예문을 끝까지 읽고 다음 문제로 이동합니다. OFF이면 자동 음성과 자동 이동이 멈추며 다음 버튼으로 직접 진행합니다.</li><li><b>기존 객관식:</b> 자동 재생이 켜져 있으면 정답 선택 후 정답 단어와 예문을 끝까지 들은 뒤 다음 문제로 이동합니다.</li><li><b>단어 말하기:</b> 영어 또는 뜻을 보고 답을 소리 내어 말한 뒤 맞았어요·오답을 선택합니다. 정답을 열면 영어 예문 아래에 한글 해석도 함께 표시됩니다. 자동 재생이 켜져 있으면 정답 단어와 영어 예문을 읽고 이동합니다.</li><li><b>문장 말하기:</b> 한글 뜻 → 전체 문장 → 핵심 빈칸 → 전체 문장 말하기 순서로 기본·패러프레이징 문장을 연습합니다. 최종 채점 후 자동 재생을 시작하거나 정지할 수 있습니다.</li><li><b>모르는 단어 선택:</b> 선택한 조건에 해당하는 단어 목록에서 모르는 단어를 한꺼번에 관리합니다. 전체 DAY를 확인하려면 퀴즈 대상을 ‘전체 단어’로 선택하세요.</li><li><b>유의어·반의어:</b> 같은 뜻 찾기, 유의어 뜻 맞추기, 패러프레이징 문장에 사용된 유의어 찾기, 반의어 찾기를 섞어서 출제합니다. 뜻이 확인된 유의어만 문제로 사용하므로 ‘등록된 뜻이 없습니다.’ 선택지는 표시되지 않습니다. 등록된 데이터가 있는 단어만 문제로 나오며 결과는 해당 학습 단어의 퀴즈 통계와 망각곡선에 반영됩니다.</li></ul>
-          <div class="usageTip">문제를 풀지 않아도 다음 문제로 건너뛸 수 있으며, 건너뛴 문제는 정답·오답 통계에 포함되지 않습니다.</div>
-        </div>
-      </details>
-      <details class="usageSection">
-        <summary>5. 망각곡선과 스코어</summary>
-        <div class="usageBody">망각곡선은 학습 화면의 임의 버튼이 아니라 <b>퀴즈 정답·오답 결과</b>를 기준으로 계산됩니다. 오답은 빠르게 다시 복습 대상으로 들어가고, 연속 정답이 쌓이면 복습 간격이 점차 길어집니다. 스코어 화면에서는 DAY별 정답률과 취약 단어를 확인할 수 있습니다.</div>
-      </details>
-      <details class="usageSection">
-        <summary>6. 추천 학습 순서</summary>
-        <div class="usageBody">
-          <p><b>처음 학습:</b></p><div class="usageFlow"><span class="usageChip">모르는 단어 선택</span><span class="usageArrow">→</span><span class="usageChip">전체 반복</span><span class="usageArrow">→</span><span class="usageChip">객관식</span><span class="usageArrow">→</span><span class="usageChip">단어 말하기</span><span class="usageArrow">→</span><span class="usageChip">문장 말하기</span></div>
-          <p style="margin-top:12px"><b>복습:</b></p><div class="usageFlow"><span class="usageChip">틀린 단어 + 모르는 단어</span><span class="usageArrow">→</span><span class="usageChip">망각곡선</span><span class="usageArrow">→</span><span class="usageChip">문장 말하기</span></div>
-        </div>
-      </details>
+      <div class="configSectionTitle">📘 SAYWARD 사용 방법 · 최신 안내</div>
+      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.52의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
+      <details class="usageDetail"><summary>📚 DAY VOCA 시작·반복</summary><div class="usageBody">DAY를 선택하고 단어·뜻·예문 등 반복할 항목을 체크한 뒤 학습을 시작합니다. <b>모르는 단어 선택</b>으로 별표를 표시해 두면 퀴즈의 모르는 단어/틀린 단어 필터에도 반영됩니다. 설정에서 학습 순서, 읽기 횟수와 재생 위치를 관리하세요.</div></details>
+      <details class="usageDetail"><summary>✍️ 패턴 문장 만들기·패턴 맞추기</summary><div class="usageBody">3줄 메뉴의 <b>패턴 문장 만들기</b>에서 수업 영역·복습/신규 비율·문항 수를 선택합니다. 문장 만들기는 직접 답을 입력하고 패턴 맞추기는 보기에서 정답 패턴을 선택합니다. v6.4.51부터 연결된 예문을 <b>미학습 문장 우선</b>으로 순환하며, 저장된 개별 문장 이력은 공식 GPT 채점과 별도로 관리됩니다.</div></details>
+      <details class="usageDetail"><summary>🎯 집중 학습 등록과 조회</summary><div class="usageBody">문제 결과에서 <b>집중 학습 등록</b>을 누르고 DB 저장 상태를 확인합니다. 목록 조회는 <b>학습 대시보드 → 패턴 → 학습 패턴 목록 → 정렬 기준 → 🎯 집중 학습 패턴</b>을 이용하세요.</div></details>
+      <details class="usageDetail"><summary>🎧 MP3 음성·🎙️ 녹음 저장</summary><div class="usageBody">학습 음성은 MP3 우선, 미제작 또는 재생 실패 시 TTS로 대체됩니다. 음성 녹음 학습은 약 <b>5초 간격 브라우저 임시 저장</b>과 폴더 권한 허용 시 <b>Download/sayword</b> 약 15초 간격 저장을 지원합니다. 백그라운드 녹음은 Android 제약상 항상 지속되지는 않습니다.</div></details>
     </section>
 
     <section class="configSection">
@@ -3903,7 +3869,7 @@ Config의 <b>Day Loop 문장당 반복 횟수</b>에서 1회 / 2회 / 3회 / 5�
 
 <div id="usagePage" class="configPage hidden">
   <div class="configShell">
-    <div class="configHeader"><button id="usageBackBtn" class="configBackBtn" type="button" aria-label="홈으로">←</button><div><h1>📘 사용 방법</h1><p>MY VOCA의 학습 흐름과 각 기능의 사용법을 확인하세요.</p></div></div>
+    <div class="configHeader"><button id="usageBackBtn" class="configBackBtn" type="button" aria-label="홈으로">←</button><div><h1>📘 사용 방법</h1><p>SAYWARD 최신 기능과 문장별 학습 흐름을 확인하세요.</p></div></div>
     <div id="usagePageContent"></div>
   </div>
 </div>
@@ -12060,8 +12026,8 @@ if('serviceWorker' in navigator && (location.protocol==='https:' || location.hos
 }
 
 function refreshUsageRecommendation(){
-  const title=$('usageRecommendTitle'),list=$('usageRecommendList');
-  if(!title||!list)return;
+  const targets=[[$('usageRecommendTitle'),$('usageRecommendList')],[$('configUsageRecommendTitle'),$('configUsageRecommendList')]];
+  if(!targets.some(([title,list])=>title&&list))return;
   const due=typeof dueWordsAll==='function'?dueWordsAll().length:0;
   const weak=ALL_WORDS.filter(w=>(stats[w.word]?.quizWrong||0)>0).length;
   const favoriteCount=favs.length;
@@ -12078,9 +12044,14 @@ function refreshUsageRecommendation(){
   }else{
     items.push('2. 단어 학습 → 단어 퀴즈에서 단어 맞추기 또는 단어 말하기로 확인하세요.');
   }
-  items.push('3. 문장 말하기에서 문장 말하기 연습 또는 음성 녹음 학습으로 직접 말해 보세요.');
-  title.textContent=due>0?'오늘은 복습부터 시작하세요':`DAY ${nextDay} 학습을 이어가세요`;
-  list.innerHTML=items.map(x=>`<li>${x}</li>`).join('');
+  items.push('패턴 문장 만들기에서 미학습 문장을 연습하거나 패턴 맞추기로 복습하세요.');
+  items.push('문장 말하기 연습 또는 음성 녹음 학습으로 소리 내어 확인하세요.');
+  for(const [title,list] of targets){
+    if(!title||!list)continue;
+    title.textContent=due>0?'오늘은 복습부터 시작하세요':`DAY ${nextDay} 학습을 이어가세요`;
+    list.replaceChildren();
+    for(const entry of items){const li=document.createElement('li');li.textContent=entry;list.appendChild(li);}
+  }
 }
 
 function refreshHomeConfigSummary(){
@@ -12104,164 +12075,101 @@ function prepareSeparatedUsagePage(){
 
   usageContent.innerHTML=`
     <section class="usageNewHero">
-      <div class="usageNewEyebrow">MY VOCA 사용 가이드</div>
-      <h2>무엇을 공부할지 먼저 선택하세요</h2>
-      <p>MY VOCA는 <b>학습 → 단어 학습 → 문장 말하기</b>의 3단계 구조로 사용하면 가장 간단합니다.</p>
-      <div class="usageNewFlow">
-        <span>1. 학습</span><b>→</b><span>2. 단어 학습</span><b>→</b><span>3. 문장 말하기</span>
-      </div>
+      <div class="usageNewEyebrow">SAYWARD · v${window.SAYWARD_RELEASE} 사용 가이드</div>
+      <h2>듣고, 패턴을 고르고, 직접 말하세요</h2>
+      <p>DAY VOCA · MY 수업 · 소리영어 · OPIC · Friends에서 배운 표현을 문장 만들기와 패턴 맞추기로 응용하고, 취약 문장을 반복 복습합니다.</p>
+      <div class="usageNewFlow"><span>① 수업·패턴 학습</span><b>→</b><span>② 문장·패턴 퀴즈</span><b>→</b><span>③ 말하기·녹음</span><b>→</b><span>④ 복습</span></div>
     </section>
 
-    <section class="usageRecommendCard">
-      <div class="usageRecommendIcon">✨</div>
-      <div>
-        <div class="usageRecommendLabel">오늘 추천</div>
+    <section class="usageRecommendCard" aria-label="내 학습 기록 기반 추천">
+      <div class="usageRecommendIcon">✨</div><div>
+        <div class="usageRecommendLabel">오늘 추천 · 학습 기록 기준</div>
         <h3 id="usageRecommendTitle">학습 상태를 확인하고 있어요</h3>
         <ul id="usageRecommendList"></ul>
       </div>
     </section>
 
     <section class="usageNewSection">
-      <div class="usageNewSectionHead">
-        <span class="usageNewNo">1</span>
-        <div><h3>학습</h3><p>콘텐츠를 익히고 반복하는 영역입니다.</p></div>
-      </div>
-
+      <div class="usageNewSectionHead"><span class="usageNewNo">1</span><div><h3>첫 시작과 홈 화면</h3><p>로그인 → 학습 영역 선택 → 원하는 학습 시작</p></div></div>
       <div class="usageNewCards">
-        <article class="usageNewCard">
-          <div class="usageNewIcon">📚</div>
-          <div><h4>DAY VOCA</h4><p>DAY별 단어를 순서대로 학습합니다. 단어·뜻·예문·패러프레이징·패턴·유의어/반의어를 익힙니다.</p></div>
-        </article>
-        <article class="usageNewCard">
-          <div class="usageNewIcon">🎯</div>
-          <div><h4>MY 수업</h4><p>실제 수업에서 나온 핵심 교정, Chunk, 말하기 문장을 반복합니다.</p></div>
-        </article>
-        <article class="usageNewCard">
-          <div class="usageNewIcon">🎧</div>
-          <div><h4>소리영어</h4><p>Chunk → 핵심 문장 → 말하기 → 소리 Point 순서로 스크립트를 복습합니다.</p></div>
-        </article>
-        <article class="usageNewCard">
-          <div class="usageNewIcon">🎤</div>
-          <div><h4>OPIC</h4><p>OPIC 콘텐츠도 MY 수업·소리영어와 같은 표준 학습 구조를 사용합니다.</p></div>
-        </article>
-      </div>
-
-      <div class="usageNewTip"><b>공통 규칙</b> MY 수업·소리영어·OPIC의 동일한 재생/반복 기능은 같은 공통 엔진을 사용합니다.</div>
-    </section>
-
-    <section class="usageNewSection">
-      <div class="usageNewSectionHead">
-        <span class="usageNewNo">2</span>
-        <div><h3>단어 학습</h3><p>외운 단어를 확인하고 비교하는 영역입니다.</p></div>
-      </div>
-
-      <div class="usageNewCards">
-        <article class="usageNewCard">
-          <div class="usageNewIcon">📝</div>
-          <div>
-            <h4>단어 퀴즈</h4>
-            <p>퀴즈 방식은 아래 순서로 사용합니다.</p>
-            <ol class="usageNewList">
-              <li><b>단어 맞추기</b> — 영어/뜻을 보고 정답을 선택합니다.</li>
-              <li><b>유의어·반의어</b> — 뜻, 유의어, 반의어, 패러프레이징 표현을 확인합니다.</li>
-              <li><b>단어 말하기</b> — 정답을 직접 소리 내어 말한 뒤 스스로 채점합니다.</li>
-              <li><b>모르는 단어 선택</b> — 모르는 단어 목록을 한 번에 관리합니다.</li>
-            </ol>
-          </div>
-        </article>
-
-        <article class="usageNewCard">
-          <div class="usageNewIcon">🔎</div>
-          <div><h4>단어 비교</h4><p>비슷한 단어의 뜻과 예문을 나란히 보고 뉘앙스 차이를 확인합니다.</p></div>
-        </article>
-      </div>
-
-      <div class="usageNewTip"><b>기억하기</b> 문장 말하기는 더 이상 단어 퀴즈 안에 있지 않습니다. 3. 문장 말하기에서 독립적으로 사용합니다.</div>
-    </section>
-
-    <section class="usageNewSection">
-      <div class="usageNewSectionHead">
-        <span class="usageNewNo">3</span>
-        <div><h3>문장 말하기</h3><p>직접 말하고 녹음하는 영역입니다.</p></div>
-      </div>
-
-      <div class="usageNewCards">
-        <article class="usageNewCard">
-          <div class="usageNewIcon">🗣️</div>
-          <div>
-            <h4>문장 말하기 연습</h4>
-            <p>문장 소스를 선택하고 단계적으로 직접 영어로 말합니다.</p>
-            <div class="usageNewSteps">
-              <span>전체 문장 듣기</span><b>→</b><span>핵심 표현/빈칸</span><b>→</b><span>한글 Cue만 보고 말하기</span>
-            </div>
-            <p class="usageNewSub">학습 예문 · 실전 문장 · MY 수업 문장 · 소리영어 문장을 같은 문장 말하기 엔진으로 사용합니다.</p>
-          </div>
-        </article>
-
-        <article class="usageNewCard">
-          <div class="usageNewIcon">🎙️</div>
-          <div>
-            <h4>음성 녹음 학습</h4>
-            <p>별도 화면에서 원하는 영어 문장을 자유롭게 녹음합니다. 정답 음성과 내 녹음을 비교해서 들을 수 있습니다.</p>
-            <p class="usageNewSub">문장 말하기와 음성 녹음 학습은 마이크·녹음·재생 기능을 공통 코드로 사용합니다.</p>
-          </div>
-        </article>
+        <article class="usageNewCard"><div class="usageNewIcon">🔐</div><div><h4>로그인과 학습 기록</h4><p>상단 3줄 메뉴 → <b>로그인·회원가입</b>으로 계정에 로그인하세요. 공식 패턴, 개인 집중 학습, 앱 문장 학습 기록은 로그인 계정과 연결됩니다. 공개 승인 전 수업은 일반 학습자에게 보이지 않습니다.</p></div></article>
+        <article class="usageNewCard"><div class="usageNewIcon">🏠</div><div><h4>홈 바로가기</h4><p>홈의 <b>DAY VOCA·MY 수업·소리영어·OPIC</b>에서 수업을 선택합니다. <b>Friends</b>와 <b>패턴 문장 만들기</b>는 3줄 메뉴에서도 열 수 있습니다. 돋보기는 통합 검색입니다.</p></div></article>
+        <article class="usageNewCard"><div class="usageNewIcon">📲</div><div><h4>홈 화면에 설치해서 실행하기</h4><p>Android Chrome에서 PWA 설치가 가능하다면 <b>앱 설치</b>로 실행하세요. 설치형 앱은 기존 실행 화면을 다시 띄우도록 설정되어 있지만, 브라우저·운영체제가 앱을 종료했다면 새로 시작할 수 있습니다. 단순 URL 바로가기와 동작이 다를 수 있습니다.</p></div></article>
       </div>
     </section>
 
     <section class="usageNewSection">
-      <div class="usageNewSectionHead">
-        <span class="usageNewNo">∞</span>
-        <div><h3>재생과 반복</h3><p>학습 화면의 반복 버튼은 같은 규칙으로 동작합니다.</p></div>
+      <div class="usageNewSectionHead"><span class="usageNewNo">2</span><div><h3>수업 콘텐츠와 전체 반복</h3><p>수업을 먼저 듣고 패턴의 뜻과 쓰임을 익히세요.</p></div></div>
+      <div class="usageNewCards">
+        <article class="usageNewCard"><div class="usageNewIcon">📚</div><div><h4>DAY VOCA</h4><p>학습할 DAY를 체크하고 <b>단어·뜻·예문·패러프레이징·추가 표현</b> 중 반복할 항목을 선택하세요. 전체 반복/선택 항목 반복 학습과 DAY별 학습을 사용할 수 있습니다. 모르는 단어를 표시하면 퀴즈·복습 목록에도 연결됩니다.</p></div></article>
+        <article class="usageNewCard"><div class="usageNewIcon">🎓</div><div><h4>MY 수업</h4><p>영어 수업에서 추린 <b>핵심 교정·Chunk·말하기·습관</b>을 복습합니다. 화면에서 개별 듣기 또는 수업 전체 재생을 선택하세요.</p></div></article>
+        <article class="usageNewCard"><div class="usageNewIcon">🎧</div><div><h4>소리영어 · OPIC · Friends</h4><p>스크립트의 패턴과 대표 문장, 확장 예문을 학습합니다. 새로운 강의는 DB에서 동적으로 표시되고, 공개 설정에 따라 일부 수업은 관리자 승인 후 나타납니다.</p></div></article>
       </div>
+      <div class="usageNewTip"><b>반복 조작</b> ▶ 시작으로 재생하고 정지 버튼으로 멈춥니다. 같은 학습의 저장 위치가 있으면 이어듣기를 지원하며, 설정에서 재생 순서·반복 횟수·재생 위치 리셋을 관리할 수 있습니다.</div>
+    </section>
+
+    <section class="usageNewSection">
+      <div class="usageNewSectionHead"><span class="usageNewNo">3</span><div><h3>✍️ 패턴 문장 만들기 · 🧩 패턴 맞추기</h3><p>3줄 메뉴 → 패턴 문장 만들기</p></div></div>
+      <div class="usageNewCards">
+        <article class="usageNewCard"><div class="usageNewIcon">🎚️</div><div><h4>출제 범위 설정</h4><p>학습 영역·<b>복습/신규 비율</b>·<b>문장 만들기와 패턴 맞추기 문항 수</b>를 선택한 뒤 <b>문제 출제</b>를 누릅니다. 기존 공식 상태(New·Learning·Stable), 최근 출제 여부, 집중 학습 등록 상태를 반영합니다.</p></div></article>
+        <article class="usageNewCard"><div class="usageNewIcon">✍️</div><div><h4>문장 만들기</h4><p>한글 문장을 보고 직접 영어로 작성한 다음 <b>답안 제출·문장 비교</b>를 누르세요. 앱은 기준 문장과 차이를 보여주지만 최종 영어 정확성·자연스러움은 <b>GPT 정밀 채점</b>에서 평가합니다.</p></div></article>
+        <article class="usageNewCard"><div class="usageNewIcon">🧩</div><div><h4>패턴 맞추기</h4><p>한국어 문장에 맞는 공식 패턴을 4개 보기에서 선택하고 <b>선택한 패턴 확인</b>을 누릅니다. 정답 패턴·뜻·공식 DB 예문과 내가 선택한 패턴을 비교하고, 필요하면 다시 확인하세요.</p></div></article>
+        <article class="usageNewCard"><div class="usageNewIcon">🔄</div><div><h4>v6.4.51부터: 패턴별 문장 자동 순환</h4><p>처음에는 대표 문장을 우선 사용하고, 패턴 학습 경험이 쌓이면 <b>그 패턴에 연결된 아직 연습하지 않은 문장</b>을 우선 출제합니다. 모든 문장을 경험했다면 복습 필요·출제 횟수·최근 학습일을 반영해 다시 순환합니다. <b>문장별 기록은 별도로 저장</b>하며, 패턴이 Stable이라고 다른 문장까지 완료 처리하지 않습니다.</p></div></article>
+      </div>
+      <div class="usageNewTip"><b>예시</b> <em>belong in</em> 패턴에는 “You belong in Minsk.” 외에도 “This book belongs in the fiction section.”처럼 활용 문장이 연결돼 있습니다. 다만 <b>공개 승인된 공식 문장</b>만 일반 사용자에게 출제됩니다.</div>
+      <div class="usageNewTip"><b>스와이프</b> 문제 카드의 빈 공간뿐 아니라 선택지·확인·이전/다음 버튼 위에서도 <b>왼쪽 → 다음 / 오른쪽 → 이전</b>으로 이동할 수 있습니다. 짧게 누르면 버튼 기능이 실행되고, 위아래로 움직이면 화면을 스크롤합니다.</div>
+    </section>
+
+    <section class="usageNewSection">
+      <div class="usageNewSectionHead"><span class="usageNewNo">4</span><div><h3>정답 확인 · 자기평가 · 집중 학습</h3><p>문제풀이 결과와 공식 GPT 채점은 구분해서 관리합니다.</p></div></div>
       <div class="usageNewGrid">
-        <div><b>▶ 전체 시작</b><span>선택한 학습 내용을 연속 재생합니다.</span></div>
-        <div><b>⏸ 전체 정지</b><span>현재 재생을 멈추고 다시 누르면 이어서 시작합니다.</span></div>
-        <div><b>∞ 집중</b><span>현재 Chunk·핵심 문장·말하기 문장을 계속 반복합니다.</span></div>
-        <div><b>현재 문장</b><span>현재 보고 있는 항목을 반복 재생합니다.</span></div>
+        <div><b>혼자 성공</b><span>정답을 스스로 떠올린 문장을 평가합니다.</span></div>
+        <div><b>복습 필요</b><span>헷갈리거나 실수한 문장에 표시합니다.</span></div>
+        <div><b>정답 보고 학습</b><span>정답이나 도움말을 본 뒤 익힌 경우 선택합니다.</span></div>
+        <div><b>🎯 집중 학습 등록</b><span>결과 카드에서 현재 패턴을 개인 집중 목록에 등록합니다. 저장 결과는 DB 재조회로 확인합니다.</span></div>
+      </div>
+      <div class="usageNewTip"><b>중요</b> 앱의 선택지 정오답·자기평가는 <b>공식 GPT Perfect/Review/Miss</b> 및 Stable 승급과 별개입니다. 학습을 마친 뒤 <b>전체 복사</b>로 답안을 ChatGPT에 붙여 넣어 정밀 채점을 요청할 수 있습니다.</div>
+      <div class="usageNewTip"><b>집중 패턴 조회</b> 3줄 메뉴 → <b>학습 대시보드 → 패턴 → 학습 패턴 목록 → 정렬 기준 → 🎯 집중 학습 패턴</b>을 선택하세요. 이미 등록된 패턴은 등록 상태가 표시됩니다.</div>
+    </section>
+
+    <section class="usageNewSection">
+      <div class="usageNewSectionHead"><span class="usageNewNo">5</span><div><h3>🔊 MP3 음성 · TTS · 반복 설정</h3><p>공식 패턴과 문장을 터치해 들어 보세요.</p></div></div>
+      <div class="usageNewCards">
+        <article class="usageNewCard"><div class="usageNewIcon">🎧</div><div><h4>MP3 우선 재생</h4><p>연결된 음성 파일이 있으면 <b>Kokoro MP3</b>를 우선 재생합니다. 음색은 여성 3종·남성 3종 중 문구별로 배정됩니다. <b>MP3가 없거나 재생에 실패하면 TTS</b>로 대체될 수 있습니다.</p></div></article>
+        <article class="usageNewCard"><div class="usageNewIcon">🔉</div><div><h4>패턴명과 음성용 문구</h4><p><em>be on edge about + noun</em>처럼 기호가 들어간 패턴은 발음에 적합한 문구로 MP3를 제작합니다. <b>패턴 MP3와 예문 MP3는 서로 다른 파일</b>이므로 한쪽만 제작되어 있을 수도 있습니다.</p></div></article>
+        <article class="usageNewCard"><div class="usageNewIcon">⚙️</div><div><h4>반복 횟수</h4><p>3줄 메뉴 → <b>Config</b>에서 정답 자동 듣기(끔·1·2·3·5회), 영어 읽기 속도, 패턴·예문 반복, 문장 사이 쉼을 조절하세요.</p></div></article>
       </div>
     </section>
 
     <section class="usageNewSection">
-      <div class="usageNewSectionHead">
-        <span class="usageNewNo">🎨</span>
-        <div><h3>패턴 표시</h3><p>MY 수업·소리영어·OPIC에 동일한 색상 규칙을 사용합니다.</p></div>
+      <div class="usageNewSectionHead"><span class="usageNewNo">6</span><div><h3>🗣️ 문장 말하기 · 🎙️ 음성 녹음</h3><p>말하고 들어 보며 발음과 표현을 확인하세요.</p></div></div>
+      <div class="usageNewCards">
+        <article class="usageNewCard"><div class="usageNewIcon">🗣️</div><div><h4>문장 말하기 연습</h4><p>3줄 메뉴 → <b>문장 말하기 연습</b>에서 전체 문장 듣기 → 핵심 표현/빈칸 → 한글 뜻만 보고 말하기 순으로 연습합니다.</p></div></article>
+        <article class="usageNewCard"><div class="usageNewIcon">🎙️</div><div><h4>음성 녹음 학습</h4><p>3줄 메뉴 → <b>음성 녹음 학습</b>에서 녹음하고, <b>내 녹음 듣기</b>로 확인한 뒤 정답 음성과 비교하세요. <b>MP3 파일 저장</b>을 누르면 기기 파일로 내려받을 수 있습니다.</p></div></article>
+        <article class="usageNewCard"><div class="usageNewIcon">💾</div><div><h4>녹음 자동 저장 · 복구</h4><p>녹음 중 음성 조각을 <b>약 5초마다 브라우저 IndexedDB에 임시 저장</b>합니다. 지원 브라우저에서 <b>📁 Download/sayword 폴더 지정</b>으로 쓰기 권한을 허용하면 약 15초 간격의 폴더 저장도 시도합니다. 재접속 후에는 <b>임시 녹음 복구</b>를 사용하세요.</p></div></article>
       </div>
-      <div class="usagePatternDemo">
-        <span class="usagePatternSample">have the audacity to ~</span>
-        <span>패턴 = 청록/민트</span>
-        <span class="usagePlaybackSample">현재 재생</span>
-        <span>재생 상태 = 보라색</span>
-      </div>
-      <p class="usageNewSub">핵심 문장, Chunk 예문, 말하기 문장 안에 학습 패턴이 있으면 동일한 방식으로 색상 표시됩니다.</p>
+      <div class="usageNewTip"><b>Android 주의</b> 백그라운드 전환 시 앱이 스스로 녹음을 종료하지 않도록 처리했지만, <b>Android/Chrome이 마이크를 중단하면 백그라운드 녹음을 보장할 수 없습니다.</b> 중단된 구간의 음성은 복구되지 않으며, 폴더 직접 저장도 브라우저 권한 지원 여부에 따라 달라집니다.</div>
     </section>
 
     <section class="usageNewSection">
-      <div class="usageNewSectionHead">
-        <span class="usageNewNo">🧠</span>
-        <div><h3>기타 기능</h3><p>기록과 설정은 Drawer의 기타 메뉴에서 확인합니다.</p></div>
-      </div>
+      <div class="usageNewSectionHead"><span class="usageNewNo">7</span><div><h3>단어 퀴즈 · 학습 대시보드 · 복습</h3><p>기록을 확인하면서 다음 학습을 선택하세요.</p></div></div>
       <div class="usageNewGrid">
-        <div><b>학습 통계</b><span>DAY별 학습 기록과 스코어를 확인합니다.</span></div>
-        <div><b>망각곡선</b><span>퀴즈 결과를 바탕으로 오늘 복습할 단어를 확인합니다.</span></div>
-        <div><b>Config</b><span>음성 속도, 반복 횟수, 자동 넘김 등을 설정합니다.</span></div>
-        <div><b>업데이트 내역</b><span>최근 버전의 변경사항을 확인합니다.</span></div>
+        <div><b>단어 퀴즈</b><span>단어 맞추기, 유의어·반의어, 단어 말하기, 모르는 단어 선택을 사용합니다.</span></div>
+        <div><b>단어 비교</b><span>비슷한 단어·뜻·예문을 검색해 비교합니다.</span></div>
+        <div><b>학습 대시보드</b><span>종합·패턴·단어·학습 시간·취약점 및 집중 패턴을 확인합니다.</span></div>
+        <div><b>망각곡선·학습 통계</b><span>오늘의 복습 대상과 DAY별 학습 상태를 확인합니다.</span></div>
       </div>
+      <div class="usageNewTip"><b>패턴과 문장을 구분</b> 공식 패턴의 New / Focus / Learning / Stable 복습 운영과 <b>개별 문장 연습 이력</b>은 별도로 관리됩니다. 기존의 7·14·21·30·40·60일 복습 체계를 유지하면서 문장 다양성을 늘리는 구조입니다.</div>
     </section>
 
     <section class="usageNewSection usageNewLast">
-      <div class="usageNewSectionHead">
-        <span class="usageNewNo">✓</span>
-        <div><h3>추천 사용 순서</h3><p>매일 아래 흐름으로 사용하면 됩니다.</p></div>
-      </div>
+      <div class="usageNewSectionHead"><span class="usageNewNo">✓</span><div><h3>추천 학습 순서</h3><p>상황에 따라 순서를 바꾸거나 짧게 사용해도 됩니다.</p></div></div>
       <div class="usageNewDailyFlow">
-        <b>DAY VOCA / MY 수업 / 소리영어 / OPIC 학습</b>
-        <span>↓</span>
-        <b>단어 퀴즈 또는 단어 비교</b>
-        <span>↓</span>
-        <b>문장 말하기 또는 음성 녹음</b>
-        <span>↓</span>
-        <b>망각곡선으로 복습 대상 확인</b>
+        <b>DAY VOCA 또는 MY·소리영어·OPIC·Friends 수업 듣기</b><span>↓</span>
+        <b>패턴 문장 만들기 + 패턴 맞추기 (미학습 문장 순환)</b><span>↓</span>
+        <b>결과 자기평가 · 필요한 패턴 🎯 집중 학습 등록</b><span>↓</span>
+        <b>문장 말하기 · 녹음 후 정답 음성과 비교</b><span>↓</span>
+        <b>학습 대시보드 · 망각곡선 · GPT 정밀 채점</b>
       </div>
     </section>
   `;
@@ -12301,7 +12209,7 @@ function showConfigSavedToast(message='설정이 저장되었습니다 ✓'){
   clearTimeout(window.__configSavedToastTimer);
   window.__configSavedToastTimer=setTimeout(()=>{toast.style.opacity='0'},1200);
 }
-function openConfiguration(){if(document.getElementById('myClassPage')&&!document.getElementById('myClassPage').classList.contains('hidden')){try{myClassHardNavigationStop?.()}catch(e){}}else stopSpeech();prepareSeparatedUsagePage();fillConfigurationForm();configReturnState=captureConfigReturnState();$('homePage').classList.add('hidden');$('dayAppPage').classList.add('hidden');$('myClassPage')?.classList.add('hidden');$('myClassBottom')?.classList.add('hidden');hideStandalonePages();$('configPage').classList.remove('hidden');window.scrollTo(0,0)}
+function openConfiguration(){refreshUsageRecommendation();if(document.getElementById('myClassPage')&&!document.getElementById('myClassPage').classList.contains('hidden')){try{myClassHardNavigationStop?.()}catch(e){}}else stopSpeech();prepareSeparatedUsagePage();fillConfigurationForm();configReturnState=captureConfigReturnState();$('homePage').classList.add('hidden');$('dayAppPage').classList.add('hidden');$('myClassPage')?.classList.add('hidden');$('myClassBottom')?.classList.add('hidden');hideStandalonePages();$('configPage').classList.remove('hidden');window.scrollTo(0,0)}
 function closeConfiguration(){stopSpeech();restoreConfigReturnState()}
 function openUsagePage(){stopSpeech();prepareSeparatedUsagePage();refreshUsageRecommendation();$('homePage').classList.add('hidden');$('dayAppPage').classList.add('hidden');hideStandalonePages();$('usagePage').classList.remove('hidden');window.scrollTo(0,0)}
 function closeUsagePage(){stopSpeech();$('usagePage').classList.add('hidden');$('homePage').classList.remove('hidden');window.scrollTo(0,0)}
@@ -12736,7 +12644,7 @@ function mvOpenUpdateHistory(){
       <div class="mvInfoVersionCard"><b>v${window.SAYWARD_RELEASE}</b><span>현재 설치 버전</span></div>
       <section class="mvInfoSection">
         <h3>v${window.SAYWARD_RELEASE}</h3>
-         <ul><li>✓ 패턴 맞추기·단어 패턴 맞추기에서 선택지·확인·이전·다음 버튼 위를 좌우로 스와이프해도 문제를 이동합니다. 짧은 터치의 기존 버튼 동작과 세로 스크롤은 유지합니다.</li><li>✓ 패턴 맞추기에서 ‘선택한 패턴 확인’을 눌렀을 때 첫 음성도 등록된 패턴 MP3를 우선 재생하도록 수정했습니다. MP3가 없을 때만 자연스러운 문구로 TTS 대체합니다.</li></ul>
+         <ul><li>✓ 사용 방법을 SAYWARD 전체 학습 가이드로 개편하고 문장별 순환 출제·집중 학습·녹음 자동 저장·PWA·MP3 우선 재생 안내를 추가했습니다.</li><li>✓ 패턴 맞추기·단어 패턴 맞추기에서 선택지·확인·이전·다음 버튼 위를 좌우로 스와이프해도 문제를 이동합니다. 짧은 터치의 기존 버튼 동작과 세로 스크롤은 유지합니다.</li><li>✓ 패턴 맞추기에서 ‘선택한 패턴 확인’을 눌렀을 때 첫 음성도 등록된 패턴 MP3를 우선 재생하도록 수정했습니다. MP3가 없을 때만 자연스러운 문구로 TTS 대체합니다.</li></ul>
         <ul>
           <li>✓ 홈 배너의 3줄 메뉴와 검색 버튼을 독립적인 작은 네이비 버튼으로 교체했습니다. 흰색 메뉴 중복 표시와 태블릿 과대 확대를 방지합니다.</li>
           <li>✓ 데이터 백업/복원 메뉴와 앱 내 JSON 백업·복원 화면·실행 코드를 완전히 제거했습니다. 기존 학습 데이터와 Supabase 연동은 유지됩니다.</li>
@@ -30106,7 +30014,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const current=dashboard.dataset.sw62Tab||'summary',from=order.indexOf(current),next=from+delta;
    if(next>=0&&next<order.length)window.saywardLearningDashboard?.openTab?.(order[next]);
  },()=>!!dashboard?.classList.contains('sw5513-progress')&&!dashboard.classList.contains('hidden'));
- window.saywardSwipeStatus={version:'6.4.51',direction:'left-next/right-previous',threshold,
+ window.saywardSwipeStatus={version:'6.4.52',direction:'left-next/right-previous',threshold,
   buttonStart:true,verticalScroll:'native',tapSafety:'swipe-click-suppressed',edgeGuard:30};
 })();
 </script>
