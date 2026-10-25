@@ -1,4 +1,4 @@
-<!-- SAYWARD v6.4.50: Enable swipe gestures starting on studio choice/action buttons; preserve taps and native scrolling. -->
+<!-- SAYWARD v6.4.51: Enable swipe gestures starting on studio choice/action buttons; preserve taps and native scrolling. -->
 <!-- SAYWARD v6.4.48: Focus buttons in results confirm Supabase writes and show errors in-place; admin can focus unpublished drafts. -->
 <!-- SAYWARD v6.4.47: First-tap MP3 for all matching choices and answer feedback; shared curated pattern alias paths. -->
 <!-- SAYWARD v6.4.46: Studio first-pattern MP3 resolves curated Supabase spoken-text aliases. -->
@@ -21,12 +21,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.50 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.50">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.51 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.51">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.50';
+  const release=marker?.content?.trim() || '6.4.51';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -24166,7 +24166,7 @@ window.saywardAuth={
   async focusRpc(fn,args){
     const uid=activeUser?.id,token=activeSession?.access_token;
     if(!uid||!token||!authSnapshot().authenticated)throw new Error('FOCUS_AUTH_REQUIRED');
-    if(!['sayward_set_focus_pattern','sayward_record_focus_evidence','sayward_focus_progress'].includes(fn))throw new Error('FOCUS_RPC_INVALID');
+    if(!['sayward_set_focus_pattern','sayward_record_focus_evidence','sayward_focus_progress','sayward_app_pattern_variants_v1','sayward_record_app_pattern_variant_v1'].includes(fn))throw new Error('FOCUS_RPC_INVALID');
     const res=await fetchWithin(URL+'/rest/v1/rpc/'+fn,{
       method:'POST',mode:'cors',cache:'no-store',credentials:'omit',
       headers:{apikey:PUBLISHABLE_KEY,Authorization:'Bearer '+token,'Content-Type':'application/json',Accept:'application/json'},
@@ -24180,6 +24180,8 @@ window.saywardAuth={
   setFocusPattern:(id,active)=>window.saywardAuth.focusRpc('sayward_set_focus_pattern',{p_pattern_id:id,p_active:!!active}),
   readFocusProgress:()=>window.saywardAuth.focusRpc('sayward_focus_progress',{}),
   recordFocusEvidence:args=>window.saywardAuth.focusRpc('sayward_record_focus_evidence',args),
+  readPatternSentenceVariants:()=>window.saywardAuth.focusRpc('sayward_app_pattern_variants_v1',{}),
+  savePatternSentenceVariant:args=>window.saywardAuth.focusRpc('sayward_record_app_pattern_variant_v1',args),
   readStableReviewSchedule:()=>swDirectStudyGet('sayward_stable_review_schedule',{select:'pattern_id,stage,next_review_at',order:'next_review_at.asc',limit:1000}),
   readAppPracticeLatest:()=>swDirectStudyGet('sayward_app_practice_latest',{select:'pattern_id,self_rating,hint_used,created_at',limit:1000}),
   // Issue diversity uses only the learner's own authenticated RLS-scoped app history.
@@ -26921,7 +26923,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
   const requestedTotal=()=>{const x=counts();return x.sentence+x.match;};
   function updateCountUI(){const x=counts();setText('sw5533RequestedTotal',`총 ${x.sentence+x.match}문제 · 문장 만들기 ${x.sentence} · 패턴 맞추기 ${x.match}${x.sentence+x.match>30?' (최대 30문제)':''}`);}
 
-  const state={uid:null,patterns:[],states:null,due:null,deck:[],index:0,results:new Map(),hint:false,latest:null,remotePractice:[],recentReadOk:false,focus:new Map(),focusProgress:new Map(),focusSaving:false,focusPendingId:null,focusFeedback:new Map(),served:[],lastSelectionAudit:null,loading:false,saving:false,request:0,finished:false,visible:false};
+  const state={uid:null,patterns:[],states:null,due:null,deck:[],index:0,results:new Map(),hint:false,latest:null,remotePractice:[],recentReadOk:false,focus:new Map(),focusProgress:new Map(),focusSaving:false,focusPendingId:null,focusFeedback:new Map(),served:[],sentenceVariants:new Map(),sentenceVariantHistory:new Map(),variantPoolLoaded:false,lastSelectionAudit:null,loading:false,saving:false,request:0,finished:false,visible:false};
   const setText=(id,t)=>{const e=g(id);if(e)e.textContent=t;};
   const notice=t=>setText('sw5527Notice',t);
   function updateFocusUI(){
@@ -27482,7 +27484,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     setText('sw5527Prompt',p.example_ko);setText('sw5527Pattern',p.canonical_pattern);setText('sw5527PatternKo',p.pattern_ko);
     setText('sw5527Source',String(p.courses||'공식 패턴').replaceAll('|',' · '));updateFocusUI();
     const status=getStatus(p),self=state.latest?.get(p.pattern_id),due=dueInfo(p);
-    setText('sw5527State',(isMatch?'패턴 맞추기 · ':'')+(due?`STABLE 예정 복습 · ${due.stage}/6단계`:(status==='new'?(self?'APP 복습 · 공식 NEW':'NEW · 새 패턴'):status.toUpperCase()+' · 공식 복습')));
+    setText('sw5527State',(isMatch?'패턴 맞추기 · ':'')+(due?`STABLE 예정 복습 · ${due.stage}/6단계`:(status==='new'?(self?'APP 복습 · 공식 NEW':'NEW · 새 패턴'):status.toUpperCase()+' · 공식 복습'))+(p.variant_total>1?` · 예문 ${p.variant_number}/${p.variant_total}${p.sentence_key&&!variantProgress(p,p.sentence_key).attempts?' · 처음 학습':''}`:''));
     g('sw5533MatchArea').hidden=!isMatch;g('sw5533WriteTitle').hidden=isMatch;g('sw5527Answer').hidden=isMatch;
     g('sw5527Answer').value=isMatch?'':(entry?.answer||'');
     g('sw5527PatternBody').hidden=isMatch||!done;
@@ -27506,9 +27508,60 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     g('sw5527Next').textContent=state.index===state.deck.length-1?'연습 완료 →':'다음 문제 →';
     if(done){if(isMatch)renderMatchResult(p,entry);else markDifferences(p,entry.answer);renderSelfRating(entry);} 
   }
+  // v6.4.51: stable pattern planning remains intact; rotate its individual example pairs.
+  // Sentence progress is separate from pattern mastery and never grants Stable/Perfect.
+  function variantProgress(p,key){
+    return state.sentenceVariantHistory.get(p.pattern_id+'|'+key)||{attempts:0,successes:0,needs_review:0,last_at:null};
+  }
+  function choosePatternExample(p){
+    const rows=state.sentenceVariants.get(p.pattern_id)||[];
+    if(!rows.length)return {...p,sentence_key:null,variant_number:1,variant_total:1};
+    const master=rows.find(v=>v.en===p.example_en)||rows.find(v=>v.source==='master')||rows[0];
+    const isNew=getStatus(p)==='new'&&!isReviewed(p);
+    const hasPractice=rows.some(v=>variantProgress(p,v.sentence_key).attempts>0);
+    let selected;
+    if(isNew&&!hasPractice){selected=master;}
+    else{
+      const unseen=rows.filter(v=>!variantProgress(p,v.sentence_key).attempts);
+      if(unseen.length){
+        // Familiar patterns expand to new sentence contexts before repeating the master.
+        // If legacy history is absent, prefer non-master examples on reviewed/Stable patterns.
+        const expansion=(!isNew&&!hasPractice&&unseen.length>1)
+          ?unseen.filter(v=>v.sentence_key!==master.sentence_key):unseen;
+        const eligible=expansion.length?expansion:unseen;
+        // Avoid repeating an ungraded offered sentence within the same device/session.
+        const old=recentVariantKeys();
+        const fresh=eligible.filter(v=>!old.includes(p.pattern_id+'|'+v.sentence_key));
+        const pool=fresh.length?fresh:eligible;
+        selected=pool[Math.floor(Math.random()*pool.length)];
+      }else{
+        // Failed/learned sentences before mastered ones; least attempted and oldest first.
+        selected=[...rows].sort((a,b)=>{
+          const x=variantProgress(p,a.sentence_key),y=variantProgress(p,b.sentence_key);
+          const xr=Number(x.needs_review||0),yr=Number(y.needs_review||0);
+          if(!!xr!==!!yr)return Number(!!yr)-Number(!!xr);
+          if(x.attempts!==y.attempts)return x.attempts-y.attempts;
+          return (Date.parse(x.last_at||'')||0)-(Date.parse(y.last_at||'')||0);
+        })[0];
+      }
+    }
+    return {...p,example_en:selected.en,example_ko:selected.ko,
+      sentence_key:selected.sentence_key,variant_number:rows.indexOf(selected)+1,variant_total:rows.length,
+      variant_source:selected.source||'master'};
+  }
+  function recentVariantKeys(){
+    try{return JSON.parse(localStorage.getItem('sw_pattern_variant_offered_v1_'+state.uid)||'[]').slice(-120);}catch(_e){return [];}
+  }
+  function rememberVariantOffered(deck){
+    try{
+      const k='sw_pattern_variant_offered_v1_'+state.uid;
+      const entries=deck.filter(p=>p.sentence_key).map(p=>p.pattern_id+'|'+p.sentence_key);
+      localStorage.setItem(k,JSON.stringify([...recentVariantKeys(),...entries].slice(-120)));
+    }catch(_e){}
+  }
   function selectDeck(){
     window.saywardStudioAudio?.stop?.();
-    if(!state.states||!state.latest){notice('학습 상태를 조회하지 못했습니다. 복습과 New 문장을 섞으려면 DB 재조회가 필요합니다.');return;}
+    if(!state.states||!state.latest||!state.variantPoolLoaded){notice('학습 상태·문장별 출제 이력 DB 조회가 완료되지 않았습니다. 다시 조회해 주세요.');return;}
     const {sentence,match}=counts(),targetCount=sentence+match;
     if(targetCount<1||targetCount>30){notice('문장 만들기와 패턴 맞추기를 합쳐 1~30개로 설정해 주세요. 현재 연습은 유지됩니다.');return;}
     const course=g('sw5527Course').value;
@@ -27565,7 +27618,8 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     // Put focus patterns in matching slots first; match success is objective pattern recognition.
     const modeOrder=[...randomShuffle(chosen.filter(p=>!state.focus.has(p.pattern_id))),
       ...randomShuffle(chosen.filter(p=>state.focus.has(p.pattern_id)))];
-    const assigned=modeOrder.map((p,i)=>{
+    const assigned=modeOrder.map((original,i)=>{
+      const p=choosePatternExample(original);
       const mode=i<sentence?'sentence':'match';
       if(mode!=='match')return {...p,mode};
       const seenOptions=new Set([String(p.canonical_pattern).trim().toLowerCase()]),alternatives=[];
@@ -27578,13 +27632,14 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       return {...p,mode,options:randomShuffle([{pattern_id:p.pattern_id,canonical_pattern:p.canonical_pattern},...alternatives])};
     });
     leaveKeyboardMode();++focusResultRefreshSerial;state.focusFeedback.clear();state.deck=randomShuffle(assigned);state.index=0;state.results.clear();state.finished=false;
-    if(chosen.length){rememberOffered(chosen);}
+    if(chosen.length){rememberOffered(chosen);rememberVariantOffered(state.deck);}
     state.lastSelectionAudit={ready:true,course,mix,requested:targetCount,selected:chosen.length,
       dueAvailable:dueCandidates.length,dueSelected,focusAvailable:focusPool.length,focusSelected,review:actualReview,new:chosen.length-actualReview,
       recentlyReused:repeated,priorSeen:servedBefore,publishedPool:filtered.length};
     setText('sw5527Shuffle','↻ 문제 출제');setText('sw5527Restart','↻ 다시 문제 출제');
     g('sw5527CopyPanel').hidden=true;
-    setText('sw5527TotalInfo',`${filtered.length}개 공식 패턴 · 🎯 집중 ${focusSelected} · Stable 예정 ${dueCandidates.length}개 (이번 ${dueSelected}) · 복습 ${actualReview} / 신규 ${chosen.length-actualReview} · 최근 중복 ${repeated}개`);
+    const unseenChosen=state.deck.filter(x=>x.sentence_key&&!variantProgress(x,x.sentence_key).attempts).length;
+    setText('sw5527TotalInfo',`${filtered.length}개 공식 패턴 · 미학습 문장 ${unseenChosen}개 출제 · 🎯 집중 ${focusSelected} · Stable 예정 ${dueCandidates.length}개 (이번 ${dueSelected}) · 복습 ${actualReview} / 신규 ${chosen.length-actualReview} · 최근 중복 ${repeated}개`);
     if(!chosen.length)notice(mix===100?'복습 100%: 복습할 패턴이 없습니다. 다른 구성 또는 영역을 선택해 주세요.':mix===0?'신규 100%: 아직 학습하지 않은 패턴이 없습니다. 다른 구성 또는 영역을 선택해 주세요.':'선택한 학습 영역에 예문이 없습니다. 전체 패턴을 선택해 보세요.');
     else if(chosen.length<targetCount)notice('선택한 복습·신규 조건에서 중복 없이 출제 가능한 공식 예문이 부족해 '+chosen.length+'개만 출제합니다.');
     else if(repeated>0)notice(`최근 출제 패턴 ${repeated}개를 다시 사용했습니다. 선택한 학습 영역·구성에서 나머지 후보가 부족합니다. 다른 영역이나 비율을 선택하면 다양해집니다.`);
@@ -27594,15 +27649,16 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
   }
   async function load(){
     const s=auth();if(!s.authenticated||!s.uid){notice('활성 SAYWARD 회원으로 로그인해야 공식 패턴을 불러올 수 있습니다.');return;}
-    const ticket=++state.request,uid=s.uid;state.uid=uid;state.loading=true;state.patterns=[];state.states=null;state.latest=null;state.due=null;state.remotePractice=[];state.recentReadOk=false;state.focus=new Map();state.focusProgress=new Map();state.served=recentLocal();
+    const ticket=++state.request,uid=s.uid;state.uid=uid;state.loading=true;state.patterns=[];state.states=null;state.latest=null;state.due=null;state.remotePractice=[];state.recentReadOk=false;state.focus=new Map();state.focusProgress=new Map();state.sentenceVariants=new Map();state.sentenceVariantHistory=new Map();state.variantPoolLoaded=false;state.served=recentLocal();
     g('sw5527Course').disabled=true;g('sw5527Mix').disabled=true;SCOUNT.disabled=true;MCOUNT.disabled=true;g('sw5527Shuffle').disabled=true;
     g('sw5527Card').hidden=true;g('sw5527Done').hidden=true;g('sw5527CopyPanel').hidden=true;
     setText('sw5527Step','DB 조회 중');setText('sw5527TotalInfo','공식 문장과 개인 학습 상태 조회 중…');notice('회원별 학습 상태와 Stable 예정일을 DB에서 확인한 뒤 출제합니다.');
     try{
-      const [patterns,statuses,latest,schedule,recent,focusRows,focusProgress]=await Promise.all([
+      const [patterns,statuses,latest,schedule,recent,focusRows,focusProgress,variantPackage]=await Promise.all([
         window.saywardAuth.readPatternPractice(),window.saywardAuth.readPatternPracticeStates(),window.saywardAuth.readAppPracticeLatest(),
         window.saywardAuth.readStableReviewSchedule(),window.saywardAuth.readPatternPracticeRecent().then(rows=>({ok:true,rows})).catch(()=>({ok:false,rows:[]})),
-        window.saywardAuth.readFocusPatterns(),window.saywardAuth.readFocusProgress()
+        window.saywardAuth.readFocusPatterns(),window.saywardAuth.readFocusProgress(),
+        window.saywardAuth.readPatternSentenceVariants()
       ]);
       if(ticket!==state.request||!isCurrent())return;
       state.patterns=patterns.filter(x=>x?.pattern_id&&String(x.example_en||'').trim()&&String(x.example_ko||'').trim()&&String(x.canonical_pattern||'').trim()&&String(x.pattern_ko||'').trim());
@@ -27610,6 +27666,16 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       state.latest=new Map(latest.map(x=>[x.pattern_id,x]));
       state.due=new Map(schedule.filter(x=>x?.pattern_id).map(x=>[x.pattern_id,x]));
       state.remotePractice=recent.rows;state.recentReadOk=recent.ok;
+      if(variantPackage?.version!==1||!Array.isArray(variantPackage.variants)||!Array.isArray(variantPackage.history))throw new Error('PATTERN_VARIANT_POOL_NOT_VERIFIED');
+      for(const v of variantPackage.variants){
+        if(!v?.pattern_id||!v.sentence_key||!v.en||!v.ko)continue;
+        if(!state.sentenceVariants.has(v.pattern_id))state.sentenceVariants.set(v.pattern_id,[]);
+        state.sentenceVariants.get(v.pattern_id).push(v);
+      }
+      for(const h of variantPackage.history){
+        if(h?.pattern_id&&h?.sentence_key)state.sentenceVariantHistory.set(h.pattern_id+'|'+h.sentence_key,h);
+      }
+      state.variantPoolLoaded=true;
       const focusSnapshot=focusProgress?.items||focusRows;
       state.focus=new Map(focusSnapshot.filter(x=>x.active).map(x=>[x.pattern_id,x]));
       state.focusProgress=new Map((focusProgress?.items||[]).map(x=>[x.pattern_id,x]));
@@ -27699,9 +27765,18 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     entry.selfRating=rating;entry.practiceKey ||= newKey();entry.saveError='';state.saving=true;renderSelfRating(entry);
     g('sw5529RatingStatus').textContent='Supabase에 저장하고 다시 확인하는 중…';
     try{
-      await window.saywardAuth.saveAppPractice({practice_key:entry.practiceKey,pattern_id:p.pattern_id,
-        prompt_ko:p.example_ko,reference_en:p.example_en,user_answer:String(entry.answer||''),
-        hint_used:!!entry.hintUsed,self_rating:rating,content_version:p.content_version});
+      if(!p.sentence_key)throw new Error('PATTERN_SENTENCE_ID_MISSING');
+      const variantSaved=await window.saywardAuth.savePatternSentenceVariant({
+        p_practice_key:entry.practiceKey,p_pattern_id:p.pattern_id,p_sentence_key:p.sentence_key,
+        p_mode:p.mode,p_answer:String(entry.answer||''),p_self_rating:rating,
+        p_hint_used:!!entry.hintUsed,p_content_version:p.content_version
+      });
+      if(variantSaved?.verified!==true||variantSaved?.sentence_key!==p.sentence_key)throw new Error('PATTERN_SENTENCE_SAVE_NOT_VERIFIED');
+      const historyKey=p.pattern_id+'|'+p.sentence_key;
+      const hist=variantProgress(p,p.sentence_key);
+      state.sentenceVariantHistory.set(historyKey,{...hist,attempts:Number(hist.attempts||0)+1,
+        successes:Number(hist.successes||0)+(rating==='recalled'?1:0),
+        needs_review:Number(hist.needs_review||0)+(rating==='recalled'?0:1),last_at:new Date().toISOString()});
       if(!isCurrent())return;
       entry.selfSaved=true;entry.saveError='';
       try{
@@ -29937,7 +30012,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 </script>
 
 <style id="sayward-swipe-v650">
-/* v6.4.50: Keep vertical scrolling native; permit horizontal swipes that start
+/* v6.4.51: Keep vertical scrolling native; permit horizontal swipes that start
    ON the four answer choice buttons, as well as on feedback/action buttons.
    Do not change form input or browser-edge gestures. */
 #sw5527PracticePage #sw5527Card,
@@ -29954,7 +30029,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 #swWordPrev{margin:10px 0 0;border-color:#ded9ee;background:#f4f1ff;color:#534195}
 </style>
 <script id="sayward-swipe-v650">
-/* v6.4.50: shared sentence-studio navigation. A short tap remains the button's
+/* v6.4.51: shared sentence-studio navigation. A short tap remains the button's
  * native action. A deliberate horizontal drag changes question, never selects
  * an answer / launches MP3 / saves a result. Vertical scrolling remains native.
  */
@@ -30031,7 +30106,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const current=dashboard.dataset.sw62Tab||'summary',from=order.indexOf(current),next=from+delta;
    if(next>=0&&next<order.length)window.saywardLearningDashboard?.openTab?.(order[next]);
  },()=>!!dashboard?.classList.contains('sw5513-progress')&&!dashboard.classList.contains('hidden'));
- window.saywardSwipeStatus={version:'6.4.50',direction:'left-next/right-previous',threshold,
+ window.saywardSwipeStatus={version:'6.4.51',direction:'left-next/right-previous',threshold,
   buttonStart:true,verticalScroll:'native',tapSafety:'swipe-click-suppressed',edgeGuard:30};
 })();
 </script>
