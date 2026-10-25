@@ -1,4 +1,4 @@
-<!-- SAYWARD v6.4.49: Result focus buttons recheck live DB before write, refresh current results, and report status inline. -->
+<!-- SAYWARD v6.4.50: Enable swipe gestures starting on studio choice/action buttons; preserve taps and native scrolling. -->
 <!-- SAYWARD v6.4.48: Focus buttons in results confirm Supabase writes and show errors in-place; admin can focus unpublished drafts. -->
 <!-- SAYWARD v6.4.47: First-tap MP3 for all matching choices and answer feedback; shared curated pattern alias paths. -->
 <!-- SAYWARD v6.4.46: Studio first-pattern MP3 resolves curated Supabase spoken-text aliases. -->
@@ -21,12 +21,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.49 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.49">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.50 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.50">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.49';
+  const release=marker?.content?.trim() || '6.4.50';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -12736,7 +12736,7 @@ function mvOpenUpdateHistory(){
       <div class="mvInfoVersionCard"><b>v${window.SAYWARD_RELEASE}</b><span>현재 설치 버전</span></div>
       <section class="mvInfoSection">
         <h3>v${window.SAYWARD_RELEASE}</h3>
-         <ul><li>✓ 패턴 맞추기에서 ‘선택한 패턴 확인’을 눌렀을 때 첫 음성도 등록된 패턴 MP3를 우선 재생하도록 수정했습니다. MP3가 없을 때만 자연스러운 문구로 TTS 대체합니다.</li></ul>
+         <ul><li>✓ 패턴 맞추기·단어 패턴 맞추기에서 선택지·확인·이전·다음 버튼 위를 좌우로 스와이프해도 문제를 이동합니다. 짧은 터치의 기존 버튼 동작과 세로 스크롤은 유지합니다.</li><li>✓ 패턴 맞추기에서 ‘선택한 패턴 확인’을 눌렀을 때 첫 음성도 등록된 패턴 MP3를 우선 재생하도록 수정했습니다. MP3가 없을 때만 자연스러운 문구로 TTS 대체합니다.</li></ul>
         <ul>
           <li>✓ 홈 배너의 3줄 메뉴와 검색 버튼을 독립적인 작은 네이비 버튼으로 교체했습니다. 흰색 메뉴 중복 표시와 태블릿 과대 확대를 방지합니다.</li>
           <li>✓ 데이터 백업/복원 메뉴와 앱 내 JSON 백업·복원 화면·실행 코드를 완전히 제거했습니다. 기존 학습 데이터와 Supabase 연동은 유지됩니다.</li>
@@ -29936,50 +29936,91 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 })();
 </script>
 
-<style id="sayward-swipe-v642">
-/* Swipe navigation is optional; native scrolling/controls take priority. */
-#sw5527PracticePage .sw5527-card,#swWordExercise,#p2Panel.sw5513-progress {touch-action:pan-y;}
+<style id="sayward-swipe-v650">
+/* v6.4.50: Keep vertical scrolling native; permit horizontal swipes that start
+   ON the four answer choice buttons, as well as on feedback/action buttons.
+   Do not change form input or browser-edge gestures. */
+#sw5527PracticePage #sw5527Card,
+#sw5527PracticePage #sw5527Card .sw5533-match-options,
+#sw5527PracticePage #sw5527Card .sw5533-match-choice,
+#sw5527PracticePage #sw5527Card button,
+#swWordPage #swWordExercise,
+#swWordPage #swWordExercise .sw5533-match-options,
+#swWordPage #swWordExercise .sw5533-match-choice,
+#swWordPage #swWordExercise button,
+#p2Panel.sw5513-progress {touch-action:pan-y!important;overscroll-behavior-x:contain}
 #sw5527PracticePage textarea,#swWordExercise textarea,#p2Panel.sw5513-progress input,
-#p2Panel.sw5513-progress select {touch-action:auto;}
-#swWordPrev{margin:10px 0 0;border-color:#ded9ee;background:#f4f1ff;color:#534195;}
-
+#p2Panel.sw5513-progress select {touch-action:auto!important}
+#swWordPrev{margin:10px 0 0;border-color:#ded9ee;background:#f4f1ff;color:#534195}
 </style>
-<script id="sayward-swipe-v642">
-/* SAYWARD v6.4.35 — shared navigation gesture.
- * Browser back edges, vertical scrolling, fields and interactive controls are reserved.
- * No grading, Supabase or study-state writes happen in the gesture layer.
+<script id="sayward-swipe-v650">
+/* v6.4.50: shared sentence-studio navigation. A short tap remains the button's
+ * native action. A deliberate horizontal drag changes question, never selects
+ * an answer / launches MP3 / saves a result. Vertical scrolling remains native.
  */
 (()=>{'use strict';
- const block='button,input,textarea,select,option,label,a,summary,details,[contenteditable="true"],[role="button"],[role="textbox"],[role="combobox"],[data-no-swipe]';
- const excludedTarget=target=>{
+ const threshold=65;
+ const block='input,textarea,select,option,a,summary,details,[contenteditable="true"],[role="textbox"],[role="combobox"],[data-no-swipe],[data-horizontal-scroll]';
+ let suppressClickUntil=0,suppressClickRoot=null;
+ const isTargetBlocked=(target,root)=>{
    const el=target?.nodeType===3?target.parentElement:target;
-   if(!el?.closest)return true;
-   if(el.closest(block))return true;
-   return !!el.closest('[data-horizontal-scroll],.sw62-tabs,.sw5533-match-options,.swWordRatings,.swStudio-actions');
+   if(!el?.closest||el.closest(block))return true;
+   if(root?.id==='sw5527PracticePage'){
+     // Only the question card is a gesture surface. Leave filter, home and
+     // result-summary buttons with their original interaction and behavior.
+     return !el.closest('#sw5527Card');
+   }
+   if(root?.id==='swWordExercise')return false;
+   // Dashboard still excludes native buttons; studio choice buttons are the
+   // specific exception, not a blanket change to every button in the app.
+   return !!el.closest('button,label,[role="button"],.sw62-tabs,.swStudio-actions');
  };
  function bind(root,action,active){
    if(!root)return;
    let start=null;
    root.addEventListener('touchstart',event=>{
      start=null;
-     if(event.touches.length!==1||!active()||excludedTarget(event.target))return;
+     // A brand-new finger contact is a new intended tap/gesture, even if it
+     // happens immediately after a swipe. Only the old synthesized click is blocked.
+     suppressClickUntil=0;suppressClickRoot=null;
+     if(event.touches.length!==1||!active()||isTargetBlocked(event.target,root))return;
      const t=event.touches[0],width=window.innerWidth||document.documentElement.clientWidth||360;
-     // Reserve Android/browser back-swipe gestures from either screen edge.
+     // Android back-swipe from screen edge has priority.
      if(t.clientX<30||t.clientX>width-30)return;
-     start={x:t.clientX,y:t.clientY,time:Date.now(),id:t.identifier};
+     start={x:t.clientX,y:t.clientY,time:Date.now(),id:t.identifier,dragging:false};
    },{passive:true});
+   root.addEventListener('touchmove',event=>{
+     if(!start||!active())return;
+     if(event.touches.length!==1){start=null;return;}
+     const t=event.touches[0];if(t.identifier!==start.id)return;
+     const dx=t.clientX-start.x,dy=t.clientY-start.y;
+     if(!start.dragging&&Math.abs(dx)>=14&&Math.abs(dx)>Math.abs(dy)*1.35){
+       start.dragging=true;
+     }
+     if(start.dragging&&event.cancelable)event.preventDefault();
+   },{passive:false});
    root.addEventListener('touchcancel',()=>{start=null;},{passive:true});
    root.addEventListener('touchend',event=>{
      if(!start)return;const p=start;start=null;
-     if(!active()||excludedTarget(event.target)||event.changedTouches.length!==1)return;
+     if(!active()||event.changedTouches.length!==1)return;
      const t=event.changedTouches[0];if(t.identifier!==p.id)return;
      const dx=t.clientX-p.x,dy=t.clientY-p.y;
-     // Horizontal swipe >=65 px and appreciably more horizontal than vertical.
-     // Exclude extended accidental drags while the user reads a long page.
-     if(Math.abs(dx)<65||Math.abs(dx)<Math.abs(dy)*1.55||Date.now()-p.time>1100)return;
+     if(!p.dragging||Math.abs(dx)<threshold||Math.abs(dx)<Math.abs(dy)*1.55||Date.now()-p.time>1600)return;
+     // Cancel browser-synthesized click (and capture/bubble audio listeners)
+     // before it can select an answer or submit, but after navigation's own
+     // synchronous .click() has been dispatched.
+     if(event.cancelable)event.preventDefault();
      action(dx<0?1:-1);
-   },{passive:true});
+     suppressClickRoot=root;suppressClickUntil=Date.now()+650;
+   },{passive:false});
  }
+ // Registered before other click/audio delegates in document order. Only a
+ // completed horizontal swipe blocks the following touch-generated click.
+ document.addEventListener('click',event=>{
+   if(Date.now()>suppressClickUntil||!suppressClickRoot?.contains(event.target))return;
+   if(event.detail===0)return; // keyboard / legitimate programmatic click
+   event.preventDefault();event.stopImmediatePropagation();
+ },true);
  const pattern=document.getElementById('sw5527PracticePage');
  bind(pattern,delta=>window.saywardPatternSwipeNavigate?.(delta),()=>!!pattern&&!pattern.classList.contains('hidden')&&pattern.getAttribute('aria-hidden')!=='true');
  const word=document.getElementById('swWordExercise');
@@ -29990,9 +30031,9 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const current=dashboard.dataset.sw62Tab||'summary',from=order.indexOf(current),next=from+delta;
    if(next>=0&&next<order.length)window.saywardLearningDashboard?.openTab?.(order[next]);
  },()=>!!dashboard?.classList.contains('sw5513-progress')&&!dashboard.classList.contains('hidden'));
- window.saywardSwipeStatus={version:'6.4.2',direction:'left-next/right-previous',threshold:65};
+ window.saywardSwipeStatus={version:'6.4.50',direction:'left-next/right-previous',threshold,
+  buttonStart:true,verticalScroll:'native',tapSafety:'swipe-click-suppressed',edgeGuard:30};
 })();
-
 </script>
 
 <style id="sayward-admin-learning-css">
