@@ -1,4 +1,4 @@
-<!-- SAYWARD v6.4.54: Business course DB transport allowlist and signed-in catalog error state, drawer state count labels. -->
+<!-- SAYWARD v6.4.55: Business course DB transport allowlist and signed-in catalog error state, drawer state count labels. -->
 <!-- SAYWARD v6.4.51: Enable swipe gestures starting on studio choice/action buttons; preserve taps and native scrolling. -->
 <!-- SAYWARD v6.4.48: Focus buttons in results confirm Supabase writes and show errors in-place; admin can focus unpublished drafts. -->
 <!-- SAYWARD v6.4.47: First-tap MP3 for all matching choices and answer feedback; shared curated pattern alias paths. -->
@@ -22,12 +22,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.54 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.54">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.55 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.55">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.54';
+  const release=marker?.content?.trim() || '6.4.55';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -3484,6 +3484,96 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 #homePage .businessClassSection .businessCourseCard.myClassChecked{box-shadow:inset 0 0 0 2px #16a085}
 @media(max-width:380px){#homePage .businessClassSection{grid-template-columns:1fr 1fr}#homePage .businessClassSection .businessCourseCard{padding:8px}}
 </style>
+<style id="swBusinessCompactStandard6455">
+/* v6.4.55: use the same two-column catalog / 104px home-card contract
+   already in force for MY, SORI, OPIC and FRIENDS; no parallel card UI. */
+#homePage[data-clean-mode="business"] .businessClassSection{
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:8px!important;align-items:stretch!important;margin-top:14px!important;
+  margin-bottom:16px!important;min-width:0!important;
+}
+#homePage[data-clean-mode="business"] .daySection,
+#homePage[data-clean-mode="business"] .myClassSection,
+#homePage[data-clean-mode="business"] .soriClassSection,
+#homePage[data-clean-mode="business"] .opicClassSection,
+#homePage[data-clean-mode="business"] .friendsClassSection{display:none!important}
+#homePage:not([data-clean-mode="business"]) .businessClassSection{display:none!important}
+#homePage .businessClassSection>.sectionHead,
+#homePage .businessClassSection>.studyCourseInfo,
+#homePage .businessClassSection>#swBusinessCatalogNotice{
+  grid-column:1/-1!important;min-width:0!important;
+}
+#homePage .businessClassSection .businessCourseCard{
+  position:relative!important;display:flex!important;flex-direction:column!important;
+  width:100%!important;min-width:0!important;height:108px!important;
+  min-height:108px!important;max-height:108px!important;
+  margin:0!important;padding:9px 9px 8px!important;
+  border-radius:14px!important;overflow:hidden!important;
+  box-sizing:border-box!important;box-shadow:0 3px 10px rgba(15,23,42,.05)!important;
+  touch-action:manipulation;
+}
+#homePage .businessClassSection .businessCourseCard .myClassTop{
+  height:19px!important;min-height:19px!important;margin:0!important;padding:0 34px 0 0!important;
+  display:flex!important;align-items:center!important;gap:3px!important;overflow:hidden!important;
+}
+#homePage .businessClassSection .businessCourseCard .myClassTop b{
+  font-size:11.5px!important;line-height:1.1!important;font-weight:950!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+}
+#homePage .businessClassSection .businessCourseCard .myClassBadge{display:none!important}
+#homePage .businessClassSection .businessCourseCard.sw-admin-preview{
+  border-style:dashed!important;
+}
+#homePage .businessClassSection .businessCourseCard .myClassTitle{
+  margin:4px 0 0!important;height:29px!important;min-height:29px!important;max-height:29px!important;
+  font-size:10.4px!important;line-height:1.25!important;font-weight:850!important;
+  color:#344054!important;overflow:hidden!important;overflow-wrap:anywhere!important;
+  display:-webkit-box!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:2!important;
+}
+#homePage .businessClassSection .businessCourseCard .myClassDesc{display:none!important}
+#homePage .businessClassSection .businessCourseCard .myClassMeta{
+  margin:auto 0 0!important;padding-top:4px!important;display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:2px 4px!important;
+  overflow:hidden!important;
+}
+#homePage .businessClassSection .businessCourseCard .myClassMeta>span{
+  font-size:8.1px!important;line-height:1.1!important;white-space:nowrap!important;
+  overflow:hidden!important;text-overflow:ellipsis!important;padding:4px 4px!important;
+}
+#homePage .businessClassSection .businessCourseCard .studySelectMini{
+  position:absolute!important;right:6px!important;top:6px!important;
+  width:30px!important;height:30px!important;padding:2px!important;
+  border-radius:8px!important;display:flex!important;align-items:center!important;
+  justify-content:center!important;z-index:5!important;
+}
+#homePage .businessClassSection .businessCourseCard .studySelectMini span{display:none!important}
+#homePage .businessClassSection .businessCourseCard .studySelectMini input{
+  width:16px!important;height:16px!important;margin:0!important;
+}
+/* Same shared actions, compact height for the five Business repeat options. */
+#sharedStudySelectBar[data-study-mode="business"]{padding:11px 12px!important;border-radius:19px!important}
+#sharedStudySelectBar[data-study-mode="business"] .sharedStudySelectHead{margin-bottom:8px!important}
+#sharedStudySelectBar[data-study-mode="business"] .sharedStudySelectHead b{font-size:15px!important}
+#sharedStudySelectBar[data-study-mode="business"] #sharedStudySelectHint{
+  display:block!important;font-size:10.5px!important;line-height:1.3!important;
+  overflow:hidden!important;display:-webkit-box!important;-webkit-box-orient:vertical!important;
+  -webkit-line-clamp:2!important;
+}
+#sharedStudySelectBar[data-study-mode="business"] .sharedStudySelectActions{gap:7px!important}
+#sharedStudySelectBar[data-study-mode="business"] #sharedStudyRepeatParts206{padding:7px 8px!important;gap:4px!important;min-width:0!important}
+#sharedStudySelectBar[data-study-mode="business"] #sharedStudyRepeatParts206 .rp206Checks{gap:5px 7px!important}
+#sharedStudySelectBar[data-study-mode="business"] #sharedStudyRepeatParts206 label{font-size:9.3px!important;line-height:1.2!important}
+#sharedStudySelectBar[data-study-mode="business"] #sharedStudySelectAll,
+#sharedStudySelectBar[data-study-mode="business"] #sharedStudyClearAll{min-height:39px!important;padding:8px!important}
+#homePage .businessClassSection>.studyCourseInfo{padding:7px 9px!important;margin:7px 0 9px!important;font-size:11px!important;line-height:1.45!important}
+@media(max-width:480px){
+  #homePage .businessClassSection .businessCourseCard{
+    height:104px!important;min-height:104px!important;max-height:104px!important;
+    padding:8px 7px 7px!important;
+  }
+  #sharedStudySelectBar[data-study-mode="business"]{padding:10px!important}
+}
+</style>
 </head><body>
 
 <button id="drawerMenuButton" class="drawerMenuButton" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
@@ -3811,7 +3901,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 
     <section class="configSection">
       <div class="configSectionTitle">📘 SAYWARD 사용 방법 · 최신 안내</div>
-      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.54의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
+      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.55의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
       <details class="usageDetail"><summary>📚 DAY VOCA 시작·반복</summary><div class="usageBody">DAY를 선택하고 단어·뜻·예문 등 반복할 항목을 체크한 뒤 학습을 시작합니다. <b>모르는 단어 선택</b>으로 별표를 표시해 두면 퀴즈의 모르는 단어/틀린 단어 필터에도 반영됩니다. 설정에서 학습 순서, 읽기 횟수와 재생 위치를 관리하세요.</div></details>
       <details class="usageDetail"><summary>✍️ 패턴 문장 만들기·패턴 맞추기</summary><div class="usageBody">3줄 메뉴의 <b>패턴 문장 만들기</b>에서 수업 영역·복습/신규 비율·문항 수를 선택합니다. 문장 만들기는 직접 답을 입력하고 패턴 맞추기는 보기에서 정답 패턴을 선택합니다. v6.4.51부터 연결된 예문을 <b>미학습 문장 우선</b>으로 순환하며, 저장된 개별 문장 이력은 공식 GPT 채점과 별도로 관리됩니다.</div></details>
       <details class="usageDetail"><summary>🎯 집중 학습 등록과 조회</summary><div class="usageBody">문제 결과에서 <b>집중 학습 등록</b>을 누르고 DB 저장 상태를 확인합니다. 목록 조회는 <b>학습 대시보드 → 패턴 → 학습 패턴 목록 → 정렬 기준 → 🎯 집중 학습 패턴</b>을 이용하세요.</div></details>
@@ -30124,7 +30214,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const current=dashboard.dataset.sw62Tab||'summary',from=order.indexOf(current),next=from+delta;
    if(next>=0&&next<order.length)window.saywardLearningDashboard?.openTab?.(order[next]);
  },()=>!!dashboard?.classList.contains('sw5513-progress')&&!dashboard.classList.contains('hidden'));
- window.saywardSwipeStatus={version:'6.4.54',direction:'left-next/right-previous',threshold,
+ window.saywardSwipeStatus={version:'6.4.55',direction:'left-next/right-previous',threshold,
   buttonStart:true,verticalScroll:'native',tapSafety:'swipe-click-suppressed',edgeGuard:30};
 })();
 </script>
