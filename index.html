@@ -1,4 +1,4 @@
-<!-- SAYWARD v6.4.53: Update in-app Usage page and Config guidance to match actual learning, audio, recording and PWA features. -->
+<!-- SAYWARD v6.4.54: Business course DB transport allowlist and signed-in catalog error state, drawer state count labels. -->
 <!-- SAYWARD v6.4.51: Enable swipe gestures starting on studio choice/action buttons; preserve taps and native scrolling. -->
 <!-- SAYWARD v6.4.48: Focus buttons in results confirm Supabase writes and show errors in-place; admin can focus unpublished drafts. -->
 <!-- SAYWARD v6.4.47: First-tap MP3 for all matching choices and answer feedback; shared curated pattern alias paths. -->
@@ -22,12 +22,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.53 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.53">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.54 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.54">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.53';
+  const release=marker?.content?.trim() || '6.4.54';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -3496,8 +3496,9 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
       <div><b id="sw5526Stable">—</b><span>Stable</span></div>
       <div><b id="sw5526Learning">—</b><span>Learning</span></div>
       <div><b id="sw5526Focus">—</b><span>Focus</span></div>
-      <div><b id="sw5526New">—</b><span>New</span></div>
+      <div><b id="sw5526New">—</b><span title="아직 학습하지 않은 패턴">New · 미학습</span></div>
     </div>
+    <p class="sw-state-count-note" style="margin:7px 0 3px;font-size:10px;color:#d8dafa;line-height:1.35;text-align:center">위 4개는 패턴 상태별 수량 · 합계가 아래 전체 패턴 수입니다.</p>
     <div class="drawerProgressCard sw5526-sentence-progress" aria-label="전체 문장 학습 진행률">
       <div class="sw5526-progress-head">
         <div class="sw5526-progress-title">📝 문장 학습 진행률</div>
@@ -3810,7 +3811,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 
     <section class="configSection">
       <div class="configSectionTitle">📘 SAYWARD 사용 방법 · 최신 안내</div>
-      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.53의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
+      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.54의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
       <details class="usageDetail"><summary>📚 DAY VOCA 시작·반복</summary><div class="usageBody">DAY를 선택하고 단어·뜻·예문 등 반복할 항목을 체크한 뒤 학습을 시작합니다. <b>모르는 단어 선택</b>으로 별표를 표시해 두면 퀴즈의 모르는 단어/틀린 단어 필터에도 반영됩니다. 설정에서 학습 순서, 읽기 횟수와 재생 위치를 관리하세요.</div></details>
       <details class="usageDetail"><summary>✍️ 패턴 문장 만들기·패턴 맞추기</summary><div class="usageBody">3줄 메뉴의 <b>패턴 문장 만들기</b>에서 수업 영역·복습/신규 비율·문항 수를 선택합니다. 문장 만들기는 직접 답을 입력하고 패턴 맞추기는 보기에서 정답 패턴을 선택합니다. v6.4.51부터 연결된 예문을 <b>미학습 문장 우선</b>으로 순환하며, 저장된 개별 문장 이력은 공식 GPT 채점과 별도로 관리됩니다.</div></details>
       <details class="usageDetail"><summary>🎯 집중 학습 등록과 조회</summary><div class="usageBody">문제 결과에서 <b>집중 학습 등록</b>을 누르고 DB 저장 상태를 확인합니다. 목록 조회는 <b>학습 대시보드 → 패턴 → 학습 패턴 목록 → 정렬 기준 → 🎯 집중 학습 패턴</b>을 이용하세요.</div></details>
@@ -24034,7 +24035,7 @@ function swContentFrom(table){
     eq(field,value){
       if(!['lesson_no','course','visible'].includes(field))throw new Error('CONTENT_FILTER_INVALID');
       if(field==='lesson_no'&&(!Number.isInteger(Number(value))||Number(value)<1))throw new Error('CONTENT_LESSON_INVALID');
-      if(field==='course'&&!['opic','sori','friends'].includes(String(value)))throw new Error('CONTENT_COURSE_INVALID');
+      if(field==='course'&&!['opic','sori','friends','business'].includes(String(value)))throw new Error('CONTENT_COURSE_INVALID');
       if(field==='visible'&&typeof value!=='boolean')throw new Error('CONTENT_VISIBLE_INVALID');
       state.filters.push([field,'eq.'+String(value)]);return builder;
     },
@@ -25143,6 +25144,21 @@ const sourceLabel={sori:'소리영어',opic:'OPIC',friends:'Friends',business:'B
 const stores=Object.fromEntries(COURSES.map(course=>[course,{meta:new Map(),data:new Map(),pending:new Map(),indexTask:null,at:0}]));
 let uid='',client=null,epoch=0;
 const safeError=e=>String(e?.code||e?.message||'DB 조회 오류').slice(0,100);
+function catalogLoadError(course,error){
+ // A signed-in user must never be told to log in again when the real failure is DB/transport.
+ const target=course==='business'?'swBusinessCatalogNotice':course==='sori'?'sw5542SoriCatalogNotice':null;
+ const notice=target&&document.getElementById(target);
+ if(!notice)return;
+ notice.hidden=false;
+ const code=safeError(error);
+ notice.replaceChildren();
+ const message=document.createElement('span');
+ message.textContent='수업 DB 조회에 실패했습니다 ('+code+').';
+ const retry=document.createElement('button');retry.type='button';
+ retry.textContent='↻ 다시 불러오기';retry.style.cssText='margin:7px 0 0;padding:7px 11px;border-radius:10px;border:1px solid #99cfbe;background:white;color:#166a5c;font-size:12px;font-weight:800;display:block';
+ retry.onclick=()=>{retry.disabled=true;void index(course,true).catch(e=>{catalogLoadError(course,e);console.warn('[DB catalog retry]',safeError(e))});};
+ notice.append(message,retry);
+}
 // Only the active authenticated Supabase profile can enable unpublished previews.
 // Server RLS independently grants hidden rows only to their authenticated admin owner.
 function adminPreview(){
@@ -25291,7 +25307,7 @@ for(const course of COURSES){
   refreshCatalog:()=>index(course,true),ensurePlayback:n=>hydrate(course,n)};
  window[course==='sori'?'saywardSoriPilot':course==='opic'?'saywardOpicPilot':course==='business'?'saywardBusinessPilot':'saywardFriendsPilot']=publicApi;
  const button=document.getElementById('homeMode'+(course==='sori'?'Sori':course==='opic'?'Opic':course==='business'?'Business':'Friends'));
- button?.addEventListener('click',()=>{if(uid)void index(course,true).catch(e=>console.warn('[DB catalog refresh]',safeError(e))) });
+ button?.addEventListener('click',()=>{recoverSignedInCatalog();if(uid)void index(course,true).catch(e=>{catalogLoadError(course,e);console.warn('[DB catalog refresh]',safeError(e))}) });
 }
 window.saywardDynamicCourses={list:c=>[...(stores[c]?.meta?.keys()||[])].sort((a,b)=>a-b),
  meta:(c,n)=>stores[c]?.meta?.get(Number(n)),ensure:(c,n)=>hydrate(c,n),refresh:c=>index(c,true),diagnostics:()=>Object.fromEntries(COURSES.map(c=>[c,{catalog:stores[c].meta.size,loaded:stores[c].data.size}]))};
@@ -25303,15 +25319,27 @@ window.addEventListener('sayward:content-auth',e=>{
  epoch++;uid=e.detail?.uid||'';client=e.detail?.client||null;clear();if(!uid||!client)return;
  for(const c of COURSES)void index(c,true).then(()=>{
   if(isCurrent(c,Number(myClassLessonNo))&&stores[c].meta.has(Number(myClassLessonNo)))return hydrate(c,Number(myClassLessonNo));
- }).catch(e=>console.warn('[DB index '+c+']',safeError(e)));
+ }).catch(e=>{catalogLoadError(c,e);console.warn('[DB index '+c+']',safeError(e))});
 });
 // Role is verified AFTER content-auth. A second lookup is essential to show staged lessons.
 window.addEventListener('sayward:auth-role',e=>{
  if(!uid||!client||e.detail?.uid!==uid)return;
- for(const c of COURSES)void index(c,true).catch(err=>console.warn('[DB role catalog '+c+']',safeError(err)));
+ for(const c of COURSES)void index(c,true).catch(err=>{catalogLoadError(c,err);console.warn('[DB role catalog '+c+']',safeError(err))});
 });
+// Recover content catalogs if authentication was established before this module attached its listener.
+// This never grants Admin preview by itself: a verified server role AND RLS still decide visibility.
+function recoverSignedInCatalog(){
+ const s=window.saywardAuth?.snapshot?.();
+ const authenticatedClient=window.saywardAuth?.getClient?.();
+ if(!s?.authenticated||!s.uid||!authenticatedClient)return;
+ if(uid===s.uid&&client===authenticatedClient)return;
+ epoch++;uid=s.uid;client=authenticatedClient;clear();
+ for(const course of COURSES)void index(course,true).catch(e=>{catalogLoadError(course,e);console.warn('[DB session recovery '+course+']',safeError(e))});
+}
+window.addEventListener('sayward:auth-state',recoverSignedInCatalog);
+queueMicrotask(recoverSignedInCatalog);
 window.addEventListener('sayward:auth-out',()=>{epoch++;uid='';client=null;clear()});
-window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.now()-stores[c].at>30000)void index(c,true).catch(()=>{})});
+window.addEventListener('pageshow',()=>{recoverSignedInCatalog();if(uid)for(const c of COURSES)if(Date.now()-stores[c].at>30000)void index(c,true).catch(e=>catalogLoadError(c,e))});
 })();
 </script>
 
@@ -30096,7 +30124,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const current=dashboard.dataset.sw62Tab||'summary',from=order.indexOf(current),next=from+delta;
    if(next>=0&&next<order.length)window.saywardLearningDashboard?.openTab?.(order[next]);
  },()=>!!dashboard?.classList.contains('sw5513-progress')&&!dashboard.classList.contains('hidden'));
- window.saywardSwipeStatus={version:'6.4.53',direction:'left-next/right-previous',threshold,
+ window.saywardSwipeStatus={version:'6.4.54',direction:'left-next/right-previous',threshold,
   buttonStart:true,verticalScroll:'native',tapSafety:'swipe-click-suppressed',edgeGuard:30};
 })();
 </script>
