@@ -1,4 +1,4 @@
-<!-- SAYWARD v6.4.52: Update in-app Usage page and Config guidance to match actual learning, audio, recording and PWA features. -->
+<!-- SAYWARD v6.4.53: Update in-app Usage page and Config guidance to match actual learning, audio, recording and PWA features. -->
 <!-- SAYWARD v6.4.51: Enable swipe gestures starting on studio choice/action buttons; preserve taps and native scrolling. -->
 <!-- SAYWARD v6.4.48: Focus buttons in results confirm Supabase writes and show errors in-place; admin can focus unpublished drafts. -->
 <!-- SAYWARD v6.4.47: First-tap MP3 for all matching choices and answer feedback; shared curated pattern alias paths. -->
@@ -22,12 +22,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.52 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.52">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.53 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.53">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.52';
+  const release=marker?.content?.trim() || '6.4.53';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -3468,6 +3468,22 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 .swRecAutoActions button:disabled{opacity:.45;cursor:not-allowed}
 .swRecAutoHint{font-size:11px;color:#667085;margin-top:5px;word-break:keep-all}
 </style>
+<style id="sw-business-standard-v6453">
+#homePage .homeStudyModeSwitch.standardFourModes{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
+#homePage .homeStudyModeSwitch.standardFourModes .homeStudyModeBtn{min-width:0!important;font-size:clamp(10px,2.8vw,12px)!important;padding:11px 3px!important;line-height:1.3!important}
+#homePage .businessClassSection{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;align-items:stretch;margin-top:14px}
+#homePage .businessClassSection>.sectionHead,#homePage .businessClassSection>.studyCourseInfo{grid-column:1/-1}
+#homePage .businessClassSection .businessCourseCard{margin:0;min-width:0;min-height:108px;padding:11px;border:1px solid #9ed8ca;border-radius:15px;background:linear-gradient(135deg,#f0fdfa,#f6fffb);cursor:pointer}
+#homePage .businessClassSection .businessCourseCard .myClassTop b{font-size:12px;color:#166a5c}
+#homePage .businessClassSection .businessCourseCard .myClassBadge{background:#d1fae5;color:#065f46;font-size:9px}
+#homePage .businessClassSection .businessCourseCard .myClassTitle{font-size:12px;line-height:1.28;font-weight:850;overflow-wrap:anywhere}
+#homePage .businessClassSection .businessCourseCard .myClassMeta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+#homePage .businessClassSection .businessCourseCard .myClassMeta span{font-size:9px;white-space:normal;padding:3px;text-align:center}
+#homePage .businessClassSection .businessCourseCard .studySelectMini{position:relative;z-index:2}
+#homePage .businessClassSection .businessCourseCard.sw-admin-preview{border-style:dashed}
+#homePage .businessClassSection .businessCourseCard.myClassChecked{box-shadow:inset 0 0 0 2px #16a085}
+@media(max-width:380px){#homePage .businessClassSection{grid-template-columns:1fr 1fr}#homePage .businessClassSection .businessCourseCard{padding:8px}}
+</style>
 </head><body>
 
 <button id="drawerMenuButton" class="drawerMenuButton" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
@@ -3502,6 +3518,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 <div class="drawerDivider"></div><div class="drawerSectionTitle">학습 바로가기</div>
 <button class="drawerItem" data-drawer-action="patternSentence" type="button"><span class="drawerIcon">✍️</span><span class="drawerItemText">패턴 문장 만들기<small>복습+새 패턴 혼합 · GPT 채점 요청</small></span></button>
 <button class="drawerItem" data-drawer-action="studyFriends"><span class="drawerIcon">🎬</span><span class="drawerItemText">Friends<small>드라마 대사 · Chunk · 핵심 문장 · 말하기</small></span></button>
+<button class="drawerItem" data-drawer-action="studyBusiness"><span class="drawerIcon">💼</span><span class="drawerItemText">Business 영어<small>프레젠테이션 · 핵심 표현 · 발표 연습</small></span></button>
 <div class="drawerDivider"></div><div class="drawerSectionTitle">3. 단어 학습</div>
 <button class="drawerItem" data-drawer-action="quiz"><span class="drawerIcon">📝</span><span class="drawerItemText">단어 퀴즈<small>단어 맞추기 · 유의어/반의어 · 단어 말하기 · 모르는 단어 선택</small></span></button>
 <button class="drawerItem" data-drawer-action="compare"><span class="drawerIcon">🔎</span><span class="drawerItemText">단어 비교<small>비슷한 단어와 뜻 · 예문 비교</small></span></button>
@@ -3747,6 +3764,12 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
     </section>
 
 
+    <section class="businessClassSection swStandardCourseCatalog" style="display:none" aria-label="Business 영어 수업 목록">
+      <div class="sectionHead"><div><b>💼 Business 영어</b><span class="sectionSub">프레젠테이션 · 인사 · 회사 소개 · 발표 영어를 공식 DB의 공통 수업 카드로 학습합니다.</span></div></div>
+      <div class="studyCourseInfo">소리영어와 동일한 표준 화면 · Chunk → 핵심 표현 → 발표 말하기 → 학습 Point · MP3 우선 재생 · 녹음</div>
+      <div id="swBusinessCatalogNotice" role="status" style="grid-column:1/-1;border:1px solid #c6e8df;background:#f3faf8;border-radius:14px;padding:14px;color:#166a5c;font-weight:750;font-size:13px">로그인 후 Business 영어 수업 목록을 불러옵니다.</div>
+    </section>
+
 <div id="myClassPage" class="myClassPage hidden">
   <div class="myClassShell">
     <div class="myClassHeader">
@@ -3787,7 +3810,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 
     <section class="configSection">
       <div class="configSectionTitle">📘 SAYWARD 사용 방법 · 최신 안내</div>
-      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.52의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
+      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.53의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
       <details class="usageDetail"><summary>📚 DAY VOCA 시작·반복</summary><div class="usageBody">DAY를 선택하고 단어·뜻·예문 등 반복할 항목을 체크한 뒤 학습을 시작합니다. <b>모르는 단어 선택</b>으로 별표를 표시해 두면 퀴즈의 모르는 단어/틀린 단어 필터에도 반영됩니다. 설정에서 학습 순서, 읽기 횟수와 재생 위치를 관리하세요.</div></details>
       <details class="usageDetail"><summary>✍️ 패턴 문장 만들기·패턴 맞추기</summary><div class="usageBody">3줄 메뉴의 <b>패턴 문장 만들기</b>에서 수업 영역·복습/신규 비율·문항 수를 선택합니다. 문장 만들기는 직접 답을 입력하고 패턴 맞추기는 보기에서 정답 패턴을 선택합니다. v6.4.51부터 연결된 예문을 <b>미학습 문장 우선</b>으로 순환하며, 저장된 개별 문장 이력은 공식 GPT 채점과 별도로 관리됩니다.</div></details>
       <details class="usageDetail"><summary>🎯 집중 학습 등록과 조회</summary><div class="usageBody">문제 결과에서 <b>집중 학습 등록</b>을 누르고 DB 저장 상태를 확인합니다. 목록 조회는 <b>학습 대시보드 → 패턴 → 학습 패턴 목록 → 정렬 기준 → 🎯 집중 학습 패턴</b>을 이용하세요.</div></details>
@@ -4105,7 +4128,7 @@ body:has(#sw5527PracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButto
   <div class="sw5527-shell swStudio-shell">
     <header class="sw5527-top"><button type="button" id="sw5527Back" class="sw5527-back" aria-label="홈으로 돌아가기">‹</button><div class="sw5527-headtext"><div class="sw5527-eyebrow">SAYWARD  /  SENTENCE STUDIO</div><h1>패턴 문장 만들기</h1><p>복습과 새 패턴을 한 번에</p></div><span class="sw5527-trial">실전 연습</span></header>
     <div class="sw5527-filter-card">
-      <div class="sw5527-filter-line"><label>학습 영역<select id="sw5527Course"><option value="all">전체 패턴</option><option value="MY">MY 수업</option><option value="OPIC">OPIC</option><option value="SORI">소리영어</option><option value="FRIENDS">Friends</option></select></label><label>출제 구성<select id="sw5527Mix"><option value="50">복습 50 · 신규 50</option><option value="70">복습 70 · 신규 30</option><option value="30">복습 30 · 신규 70</option><option value="100">복습 100 · 신규 0</option><option value="0">복습 0 · 신규 100</option></select></label></div>
+      <div class="sw5527-filter-line"><label>학습 영역<select id="sw5527Course"><option value="all">전체 패턴</option><option value="MY">MY 수업</option><option value="OPIC">OPIC</option><option value="SORI">소리영어</option><option value="FRIENDS">Friends</option><option value="BUSINESS">Business 영어</option></select></label><label>출제 구성<select id="sw5527Mix"><option value="50">복습 50 · 신규 50</option><option value="70">복습 70 · 신규 30</option><option value="30">복습 30 · 신규 70</option><option value="100">복습 100 · 신규 0</option><option value="0">복습 0 · 신규 100</option></select></label></div>
       <div class="sw5533-toolbar" aria-label="유형별 출제 문항 수">
         <label class="sw5533-toolbar-item" for="sw5533SentenceCount"><span class="sw5533-toolbar-label">✍️ 문장 만들기</span><select id="sw5533SentenceCount" aria-label="문장 만들기 문제 수"></select></label>
         <label class="sw5533-toolbar-item" for="sw5533MatchCount"><span class="sw5533-toolbar-label">🧩 패턴 맞추기</span><select id="sw5533MatchCount" aria-label="패턴 맞추기 문제 수"></select></label>
@@ -5341,7 +5364,7 @@ window.studyApplyAllSentencePatternHighlights=studyApplyAllSentencePatternHighli
 
 function studyPatternStandardAudit313(){
   const rows=[];
-  ['my','sori','opic','friends'].forEach(course=>{
+  ['my','sori','opic','friends','business'].forEach(course=>{
     const max=studyCourseLessonCount(course);
     for(let lesson=1;lesson<=max;lesson++){
       const data=studyCourseData(course,lesson)||{};
@@ -6134,6 +6157,12 @@ const STUDY_COURSES = {
     tabs:{corrections:'⭐ 핵심 문장',chunks:'🧩 Chunk',speaking:'🗣 말하기',habits:'🎧 소리 Point'},
     singular:{corrections:'핵심 문장',chunks:'Chunk',speaking:'말하기',habits:'소리 Point'}
   },
+  business:{key:'business',title:'Business 영어',icon:'💼',homeMode:'business',
+    studyOrder:['chunks','corrections','speaking','habits'],speakingMode:'pattern',
+    meta:()=>({}),data:()=>({corrections:[],chunks:[],speaking:[],habits:[]}),
+    tabs:{corrections:'⭐ 핵심 표현',chunks:'🧩 Chunk',speaking:'🗣 발표 연습',habits:'💼 Business Point'},
+    singular:{corrections:'핵심 표현',chunks:'Chunk',speaking:'발표 연습',habits:'Business Point'}
+  },
   opic:{key:'opic',title:'OPIC',icon:'🎤',homeMode:'opic',
     studyOrder:['corrections','chunks','speaking','habits'],speakingMode:'free',
     meta:()=>({}),data:()=>({corrections:[],chunks:[],speaking:[],habits:[]}),
@@ -6190,7 +6219,7 @@ window.studyCourseSpeakingGuide=studyCourseSpeakingGuide;
 function studyCourseSelectedLessons(course=ACTIVE_STUDY_COURSE){
   const c=(typeof STUDY_COURSES!=='undefined'&&STUDY_COURSES[course])?course:'my';
   const all=Object.keys(studyCourseMeta(c)||{}).map(Number).filter(Number.isFinite).sort((a,b)=>a-b);
-  const key=c==='my'?'mv_myClassSelectedLessons':(c==='sori'?'mv_studySelected_sori':c==='friends'?'mv_studySelected_friends':'mv_studySelected_opic');
+  const key=c==='my'?'mv_myClassSelectedLessons':(c==='sori'?'mv_studySelected_sori':c==='friends'?'mv_studySelected_friends':c==='business'?'mv_studySelected_business':'mv_studySelected_opic');
   const raw=localStorage.getItem(key);
   if(raw===null){
     localStorage.setItem(key,JSON.stringify(all));
@@ -6211,6 +6240,7 @@ function studySyncCourseUI(){
     if(ACTIVE_STUDY_COURSE==='my')a.textContent=`MY 수업 · 수업 ${myClassLessonNo} / ${total}`;
     else if(ACTIVE_STUDY_COURSE==='sori')a.textContent=`${c.icon} 소리영어 · 수업 ${myClassLessonNo} / ${total}`;
     else if(ACTIVE_STUDY_COURSE==='opic')a.textContent=`${c.icon} OPIC ${myClassLessonNo} / ${total}`;
+    else if(ACTIVE_STUDY_COURSE==='business')a.textContent=`${c.icon} Business 영어 · 수업 ${myClassLessonNo} / ${total}`;
     else if(ACTIVE_STUDY_COURSE==='friends')a.textContent=`${c.icon} FRIENDS · S01 E${String(myClassLessonNo).padStart(2,'0')}`;
     else a.textContent=`${c.icon} ${c.title}`;
   }
@@ -6232,7 +6262,7 @@ function studySyncCourseUI(){
   });
 
   const habit=document.querySelector('#myClassPage .myClassHabit b');
-  if(habit)habit.textContent=ACTIVE_STUDY_COURSE==='sori'?'🎧 소리영어 복습 원칙':ACTIVE_STUDY_COURSE==='friends'?'🎬 FRIENDS 학습 원칙':'이번 수업의 핵심 목표';
+  if(habit)habit.textContent=ACTIVE_STUDY_COURSE==='sori'?'🎧 소리영어 복습 원칙':ACTIVE_STUDY_COURSE==='friends'?'🎬 FRIENDS 학습 원칙':ACTIVE_STUDY_COURSE==='business'?'💼 Business 영어 발표 학습 원칙':'이번 수업의 핵심 목표';
 }
 
 function studySyncOrderedTabs(){
@@ -6334,6 +6364,12 @@ function studyStampCourseCards(){
     card.classList.toggle('sw-personal-hidden',window.swLessonEnabled?.('friends',Number(card.dataset.studyLesson))===false);
     card.setAttribute('role','button');
     card.setAttribute('tabindex','0');
+  });
+  document.querySelectorAll('#homePage .businessClassSection .businessCourseCard').forEach((card,i)=>{
+    card.dataset.studyCourse='business';
+    card.dataset.studyLesson=String(Number(card.dataset.studyLesson)||i+1);
+    card.classList.toggle('sw-personal-hidden',window.swLessonEnabled?.('business',Number(card.dataset.studyLesson))===false);
+    card.setAttribute('role','button');card.setAttribute('tabindex','0');
   });
 }
 window.studyStampCourseCards=studyStampCourseCards;
@@ -12473,12 +12509,12 @@ function mvSetActivityContext(context){
 window.mvSetActivityContext=mvSetActivityContext;
 
 function mvOpenStudyMode(mode){
-  const m=['day','my','sori','opic','friends'].includes(mode)?mode:'day';
+  const m=['day','my','sori','opic','friends','business'].includes(mode)?mode:'day';
   mvSetActivityContext('learn');
   try{goHome()}catch(e){document.getElementById('homePage')?.classList.remove('hidden')}
   setTimeout(()=>{
     try{setHomeStudyMode(m)}catch(e){}
-    const sel=m==='day'?'.daySection':m==='my'?'.myClassSection':m==='sori'?'.soriClassSection':m==='opic'?'.opicClassSection':'.friendsClassSection';
+    const sel=m==='day'?'.daySection':m==='my'?'.myClassSection':m==='sori'?'.soriClassSection':m==='opic'?'.opicClassSection':m==='friends'?'.friendsClassSection':'.businessClassSection';
     document.querySelector(`#homePage ${sel}`)?.scrollIntoView({behavior:'smooth',block:'start'});
   },40);
 }
@@ -13001,6 +13037,7 @@ document.addEventListener('keydown',(e)=>{
     if(action==='studySori'){mvOpenStudyMode('sori');return}
     if(action==='studyOpic'){mvOpenStudyMode('opic');return}
     if(action==='studyFriends'){mvOpenStudyMode('friends');return}
+    if(action==='studyBusiness'){mvOpenStudyMode('business');return}
     if(action==='quiz'){mvOpenQuizActivity(currentDay||1);return}
     if(action==='patternSentence'){window.sw5527OpenPatternPractice?.();return}
     if(action==='sentenceSpeaking'){mvOpenSentenceSpeakingActivity(currentDay||1);return}
@@ -15649,7 +15686,7 @@ function mvLesson6PatternAudit188(){
     lesson6Speaking:d.speaking.map((x,i)=>({no:i+1,prompt:x.prompt,en:x.text,ko:x.ko})),
     speaking2MatchesSleep:/sleep deprivation/i.test(d.speaking[1]?.text||'') && /수면 부족/.test(d.speaking[1]?.ko||''),
     correctionPatterns:d.corrections.map((x,i)=>({no:i+1,patterns:studyChunkCandidatesForCore(x,d)})),
-    sharedCourses:['my','sori','opic','friends']
+    sharedCourses:['my','sori','opic','friends','business']
   };
 }
 window.mvLesson6PatternAudit188=mvLesson6PatternAudit188;
@@ -16274,19 +16311,21 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
         <button id="homeModeSori" class="homeStudyModeBtn" type="button">🎧 소리영어</button>
         <button id="homeModeOpic" class="homeStudyModeBtn" type="button">🎤 OPIC</button>
         <button id="homeModeFriends" class="homeStudyModeBtn" type="button">🎬 FRIENDS</button>
+        <button id="homeModeBusiness" class="homeStudyModeBtn" type="button">💼 Business</button>
       </div>
-      <div id="homeStudyModeHelp" class="homeStudyModeHelp">DAY VOCA / MY 수업 / 소리영어 / OPIC은 공통 학습 구조를 사용합니다.</div>`;
+      <div id="homeStudyModeHelp" class="homeStudyModeHelp">모든 수업은 공통 학습 화면을 사용합니다. Business 영어도 소리영어와 동일합니다.</div>`;
 
     document.getElementById('homeModeDay').onclick=()=>setHomeStudyMode('day');
     document.getElementById('homeModeMy').onclick=()=>setHomeStudyMode('my');
     document.getElementById('homeModeSori').onclick=()=>setHomeStudyMode('sori');
     document.getElementById('homeModeOpic').onclick=()=>setHomeStudyMode('opic');
     document.getElementById('homeModeFriends').onclick=()=>setHomeStudyMode('friends');
+    document.getElementById('homeModeBusiness').onclick=()=>setHomeStudyMode('business');
     // Restore the last mode explicitly; do not let a rebuild silently reset the
     // integrated-repeat start point to DAY.
     try{
       const savedMode=localStorage.getItem('mv_homeStudyMode212');
-      if(['day','my','sori','opic','friends'].includes(savedMode)){
+      if(['day','my','sori','opic','friends','business'].includes(savedMode)){
         window.MV_HOME_MODE_212=savedMode;
         setTimeout(()=>window.setHomeStudyMode?.(savedMode),0);
       }
@@ -16302,7 +16341,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
       allRepeatStart.style.opacity=(on||running)?'1':'.45';
       allRepeatStart.style.cursor=(on||running)?'pointer':'default';
       if(running){
-        const names={day:'DAY VOCA',my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'FRIENDS'};
+        const names={day:'DAY VOCA',my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'FRIENDS',business:'Business 영어'};
         allRepeatStart.textContent=`⏹ 전체 반복 정지 · ${names[window.MV_ALL_REPEAT_219?.current]||''}`.trim();
       }else{
         allRepeatStart.textContent=on?'▶ 전체 반복 시작':'▶ 체크 후 시작';
@@ -16320,7 +16359,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
       allRepeatStart.onclick=()=>{
         if(!allRepeat?.checked && !window.MV_ALL_REPEAT_219?.active)return;
         const activeBtn=document.querySelector('#homeStudyModePanel .homeStudyModeBtn.active');
-        const modeMap={homeModeDay:'day',homeModeMy:'my',homeModeSori:'sori',homeModeOpic:'opic',homeModeFriends:'friends'};
+        const modeMap={homeModeDay:'day',homeModeMy:'my',homeModeSori:'sori',homeModeOpic:'opic',homeModeFriends:'friends',homeModeBusiness:'business'};
         const startMode=modeMap[activeBtn?.id]
           ||window.MV_HOME_MODE_212
           ||localStorage.getItem('mv_homeStudyMode212')
@@ -16338,14 +16377,16 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     const misplacedSori=document.querySelector('.soriClassSection');
     const misplacedOpic=document.querySelector('.opicClassSection');
     const misplacedFriends=document.querySelector('.friendsClassSection');
+    const misplacedBusiness=document.querySelector('.businessClassSection');
     if(homeRoot && modePanel){
       const sharedBar=document.getElementById('sharedStudySelectBar');
       const anchor=sharedBar||modePanel;
       if(misplacedSori && misplacedSori.parentElement!==homeRoot) anchor.insertAdjacentElement('afterend',misplacedSori);
       if(misplacedOpic && misplacedOpic.parentElement!==homeRoot) (misplacedSori||anchor).insertAdjacentElement('afterend',misplacedOpic);
       if(misplacedFriends && misplacedFriends.parentElement!==homeRoot) (misplacedOpic||misplacedSori||anchor).insertAdjacentElement('afterend',misplacedFriends);
+      if(misplacedBusiness && misplacedBusiness.parentElement!==homeRoot) (misplacedFriends||misplacedOpic||misplacedSori||anchor).insertAdjacentElement('afterend',misplacedBusiness);
     }
-    const valid=['day','my','sori','opic','friends'];
+    const valid=['day','my','sori','opic','friends','business'];
     const m=valid.includes(mode)?mode:'day';
     window.MV_HOME_MODE_212=m;
     try{localStorage.setItem('mv_homeStudyMode212',m)}catch(e){}
@@ -16354,14 +16395,16 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     const soriSection=document.querySelector('#homePage .soriClassSection');
     const opicSection=document.querySelector('#homePage .opicClassSection');
     const friendsSection=document.querySelector('#homePage .friendsClassSection');
+    const businessSection=document.querySelector('#homePage .businessClassSection');
 
     if(daySection)daySection.style.display=m==='day'?'':'none';
     if(mySection)mySection.style.display=m==='my'?'':'none';
     if(soriSection)soriSection.style.display=m==='sori'?'':'none';
     if(opicSection)opicSection.style.display=m==='opic'?'':'none';
     if(friendsSection)friendsSection.style.display=m==='friends'?'':'none';
+    if(businessSection)businessSection.style.display=m==='business'?'':'none';
 
-    [['homeModeDay','day'],['homeModeMy','my'],['homeModeSori','sori'],['homeModeOpic','opic'],['homeModeFriends','friends']]
+    [['homeModeDay','day'],['homeModeMy','my'],['homeModeSori','sori'],['homeModeOpic','opic'],['homeModeFriends','friends'],['homeModeBusiness','business']]
       .forEach(([id,key])=>document.getElementById(id)?.classList.toggle('active',m===key));
 
     const help=document.getElementById('homeStudyModeHelp');
@@ -16374,7 +16417,8 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
             ?'토요일 소리영어 3개 스크립트를 한 박스에서 Chunk → 핵심 문장 → 말하기 → 소리 Point로 복습합니다.'
             :m==='opic'
               ?'OPIC 번호별 질문을 핵심 교정 → Chunk → 말하기 순서로 학습합니다.'
-              :'FRIENDS를 에피소드별 카드로 선택해 Chunk → 핵심 문장 → 말하기 → 소리 Point 순서로 학습합니다.';
+              :m==='friends'?'FRIENDS를 에피소드별 카드로 선택해 Chunk → 핵심 문장 → 말하기 → 소리 Point 순서로 학습합니다.'
+              :'Business 영어의 PT 발표 표현을 소리영어와 동일한 표준 화면에서 Chunk → 핵심 표현 → 발표 말하기로 학습합니다.';
     }
   };
 
@@ -16391,7 +16435,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     setHomeStudyMode(
       ACTIVE_STUDY_COURSE==='sori'?'sori':
       ACTIVE_STUDY_COURSE==='opic'?'opic':
-      ACTIVE_STUDY_COURSE==='friends'?'friends':'my'
+      ACTIVE_STUDY_COURSE==='friends'?'friends':ACTIVE_STUDY_COURSE==='business'?'business':'my'
     );
     window.scrollTo(0,0);
   }
@@ -16539,7 +16583,8 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
   const STUDY_SELECT_KEYS = {
     sori:'mv_studySelected_sori',
     opic:'mv_studySelected_opic',
-    friends:'mv_studySelected_friends'
+    friends:'mv_studySelected_friends',
+    business:'mv_studySelected_business'
   };
 
   function readJson(key,fallback=[]){
@@ -16558,7 +16603,8 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     if(active?.id==='homeModeSori')return 'sori';
     if(active?.id==='homeModeOpic')return 'opic';
     if(active?.id==='homeModeDay')return 'day';
-    const valid=['day','my','sori','opic','friends'];
+    if(active?.id==='homeModeBusiness')return 'business';
+    const valid=['day','my','sori','opic','friends','business'];
     const live=String(window.MV_HOME_MODE_212||'');
     if(valid.includes(live))return live;
     try{const saved=localStorage.getItem('mv_homeStudyMode212');if(valid.includes(saved))return saved}catch(e){}
@@ -16598,6 +16644,8 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     if(soriSection)bar.insertAdjacentElement('afterend',soriSection);
     if(opicSection)(soriSection||bar).insertAdjacentElement('afterend',opicSection);
     if(friendsSection)(opicSection||soriSection||bar).insertAdjacentElement('afterend',friendsSection);
+    const businessSection=document.querySelector('#homePage .businessClassSection');
+    if(businessSection)(friendsSection||opicSection||soriSection||bar).insertAdjacentElement('afterend',businessSection);
 
     document.getElementById('sharedStudySelectAll').onclick=()=>studySelectionSelectAll(currentHomeStudyMode());
     document.getElementById('sharedStudyClearAll').onclick=()=>studySelectionClearAll(currentHomeStudyMode());
@@ -16610,7 +16658,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
      unchecked choices unchecked, even when a lesson is refreshed. */
   const LESSON_AUTO_KEYS={
     my:'mv_myClassSelectedLessons',sori:STUDY_SELECT_KEYS.sori,
-    opic:STUDY_SELECT_KEYS.opic,friends:STUDY_SELECT_KEYS.friends
+    opic:STUDY_SELECT_KEYS.opic,friends:STUDY_SELECT_KEYS.friends,business:STUDY_SELECT_KEYS.business
   };
   const autoSeenKey=mode=>'sw_seen_lessons_'+mode+'_v644';
   function autoSelectNewLessons(mode){
@@ -16816,6 +16864,29 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     studyStampCourseCards();
   }
 
+  function ensureBusinessCards(){
+    const sec=document.querySelector('#homePage .businessClassSection');
+    if(!sec)return;
+    const lessons=Object.keys(studyCourseMeta('business')||{}).map(Number).filter(Number.isInteger).sort((a,b)=>a-b);
+    const selected=new Set(readJson(STUDY_SELECT_KEYS.business,lessons).map(Number));
+    sec.querySelectorAll('.businessCourseCard').forEach(card=>{
+      const n=Number(card.dataset.studyLesson);
+      if(!Number.isInteger(n)||!lessons.includes(n))return;
+      const check=ensureStandardCourseCheckbox(card,'business',n,`Business 영어 ${n}`);
+      check.checked=selected.has(n);
+      card.classList.toggle('myClassChecked',check.checked);
+      if(check.dataset.businessBound!=='1'){
+        check.dataset.businessBound='1';
+        check.addEventListener('change',()=>{
+          const next=new Set(readJson(STUDY_SELECT_KEYS.business,[]).map(Number));
+          if(check.checked)next.add(n);else next.delete(n);
+          writeJson(STUDY_SELECT_KEYS.business,[...next].sort((a,b)=>a-b));
+          card.classList.toggle('myClassChecked',check.checked);
+          syncSharedStudySelectionUI('business');
+        });
+      }
+    });
+  }
   function dayChecks(){
     return [...document.querySelectorAll('#dayGrid .daySelectCheck:not(:disabled)')];
   }
@@ -16828,6 +16899,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
   function opicChecks(){
     return [...document.querySelectorAll('#homePage .opicClassSection .studySelectCheck[data-study-mode="opic"]')];
   }
+  function businessChecks(){return [...document.querySelectorAll('#homePage .businessClassSection .studySelectCheck[data-study-mode="business"]')]}
   function friendsChecks(){
     return [...document.querySelectorAll('#homePage .friendsClassSection .studySelectCheck[data-study-mode="friends"]')];
   }
@@ -16838,6 +16910,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     if(mode==='sori')return soriChecks();
     if(mode==='opic')return opicChecks();
     if(mode==='friends')return friendsChecks();
+    if(mode==='business')return businessChecks();
     return [];
   }
 
@@ -16897,6 +16970,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
       hint:'OPIC 학습 세트는 Chunk → 핵심 답변 → 말하기 순서로, MY 수업과 동일한 공통 엔진을 사용합니다.',
       start:'선택 항목 반복 학습'
     };
+    if(mode==='business')return {title:'💼 Business 영어 선택 학습',hint:'소리영어와 동일한 표준 화면으로 PT 영어의 Chunk → 핵심 표현 → 발표 말하기를 반복합니다.',start:'선택 강의 반복 학습'};
     if(mode==='friends')return {
       title:'🎬 FRIENDS 에피소드 선택 학습',
       hint:'체크한 에피소드를 순서대로 Chunk → 핵심 문장 → 말하기 → 소리 Point로 반복합니다.',
@@ -16916,6 +16990,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     my:{items:[['corrections','핵심 교정'],['chunks','Chunk'],['speaking','말하기']],defaults:['corrections','chunks','speaking']},
     sori:{items:[['chunks','Chunk'],['corrections','핵심 문장'],['speaking','말하기']],defaults:['chunks','corrections','speaking']},
     friends:{items:[['chunks','Chunk'],['corrections','핵심 문장'],['speaking','말하기']],defaults:['chunks','corrections','speaking']},
+    business:{items:[['chunks','Chunk'],['corrections','핵심 표현'],['speaking','발표 말하기'],['habits','학습 Point']],defaults:['chunks','corrections','speaking']},
     opic:{items:[['corrections','핵심 교정'],['chunks','Chunk'],['speaking','말하기']],defaults:['corrections','chunks','speaking']}
   };
   function studyRepeatPartsKey206(mode){return `mv_repeatParts206_${mode}`}
@@ -16949,12 +17024,13 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
 
   function syncSharedStudySelectionUI(mode=currentHomeStudyMode()){
     // The catalog may arrive before (or after) the cloud preferences.
-    for(const course of ['my','sori','opic','friends'])autoSelectNewLessons(course);
+    for(const course of ['my','sori','opic','friends','business'])autoSelectNewLessons(course);
     ensureSharedToolbar();
     normalizeMyCheckboxes();
     ensureSoriCheckbox();
     convertOpicPlaceholderToStandardCard();
     ensureFriendsCards();
+    ensureBusinessCards();
 
     const copy=modeCopy(mode);
     const bar=document.getElementById('sharedStudySelectBar');
@@ -17012,7 +17088,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
 
   function studyHandleIndividualSelection186(check){
     const mode=studySelectionModeFromCheck186(check);
-    if(!['day','my','sori','opic','friends'].includes(mode))return false;
+    if(!['day','my','sori','opic','friends','business'].includes(mode))return false;
 
     // V5.3.276 common rule: checking a study item must never navigate or move the viewport.
     // Keep the same rule for MY / SORI / OPIC / FRIENDS (and DAY) so future modes do not diverge.
@@ -17043,7 +17119,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
       if(!check||check.disabled)return;
 
       const mode=studySelectionModeFromCheck186(check);
-      if(!['day','my','sori','opic','friends'].includes(mode))return;
+      if(!['day','my','sori','opic','friends','business'].includes(mode))return;
 
       // Prevent old screen-specific onchange handlers from running after the
       // standardized handler and rewriting other checkbox states.
@@ -17056,7 +17132,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
   /* ===== V5.3.275 · CROSS-COURSE ALL REPEAT STANDARD ===== */
   const MV_ALL_REPEAT_209={
     active:false,
-    order:['day','my','sori','opic','friends'],
+    order:['day','my','sori','opic','friends','business'],
     queue:[],
     index:0,
     cycle:0,
@@ -17186,7 +17262,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
   function startAllRepeat209(explicitStartMode){
     // v5.3.275: start from the exact mode the learner has clicked.
     // Do not infer a stale/default DAY state from a rebuilt DOM.
-    const validModes=['day','my','sori','opic','friends'];
+    const validModes=['day','my','sori','opic','friends','business'];
     const startMode=validModes.includes(explicitStartMode)?explicitStartMode:currentHomeStudyMode();
     try{persistModeSelection(startMode)}catch(e){}
     const q=allRepeatQueue209(startMode);
@@ -17227,7 +17303,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
 
   function allRepeatVisibleMode215(){
     const a=document.querySelector('#homeStudyModePanel .homeStudyModeBtn.active');
-    const map={homeModeDay:'day',homeModeMy:'my',homeModeSori:'sori',homeModeOpic:'opic',homeModeFriends:'friends'};
+    const map={homeModeDay:'day',homeModeMy:'my',homeModeSori:'sori',homeModeOpic:'opic',homeModeFriends:'friends',homeModeBusiness:'business'};
     return map[a?.id]||window.MV_HOME_MODE_212||'day';
   }
   function allRepeatReadArray215(key,fallback=[]){
@@ -17247,7 +17323,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     try{writeJson(STUDY_SELECT_KEYS.opic,s.opic||[])}catch(e){}
   }
   function allRepeatQueue215(startMode,s){
-    const base=['day','my','sori','opic','friends'];
+    const base=['day','my','sori','opic','friends','business'];
     const has={day:!!s.day?.length,my:!!s.my?.length,sori:!!s.sori?.length,opic:!!s.opic?.length};
     let k=base.indexOf(startMode);if(k<0)k=0;
     return [...base.slice(k),...base.slice(0,k)].filter(c=>has[c]);
@@ -17347,7 +17423,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
 
   function startAllRepeat215(explicitStartMode){
     if(MV_ALL_REPEAT_215.active)return false;
-    const startMode=['day','my','sori','opic','friends'].includes(explicitStartMode)?explicitStartMode:allRepeatVisibleMode215();
+    const startMode=['day','my','sori','opic','friends','business'].includes(explicitStartMode)?explicitStartMode:allRepeatVisibleMode215();
     try{persistModeSelection(startMode)}catch(e){}
     const snap=allRepeatSnapshot215();
     allRepeatPersistSnapshots215(snap);
@@ -17399,7 +17475,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
   }
 
   function queue219(startMode,snap){
-    const base=['day','my','sori','opic','friends'];
+    const base=['day','my','sori','opic','friends','business'];
     let n=base.indexOf(startMode);if(n<0)n=0;
     const trainedOnly=!!window.mvSentenceTrainedOnlyEnabled5477?.();
     return [...base.slice(n),...base.slice(0,n)].filter(c=>
@@ -17560,7 +17636,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     // Restore the favorite-only choice captured when 전체 반복 began.
     // This prevents a hidden course UI from silently reverting to full playback.
     const favoriteOnly=!!MV_ALL_REPEAT_219.favoriteOnlySnapshot?.[course];
-    if(['my','sori','opic','friends'].includes(course)){
+    if(['my','sori','opic','friends','business'].includes(course)){
       try{window.studyFavoriteSetOnly239?.(course,favoriteOnly)}catch(e){}
     }
 
@@ -17603,7 +17679,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
 
   function visibleMode219(){
     const a=document.querySelector('#homeStudyModePanel .homeStudyModeBtn.active');
-    const map={homeModeDay:'day',homeModeMy:'my',homeModeSori:'sori',homeModeOpic:'opic',homeModeFriends:'friends'};
+    const map={homeModeDay:'day',homeModeMy:'my',homeModeSori:'sori',homeModeOpic:'opic',homeModeFriends:'friends',homeModeBusiness:'business'};
     return map[a?.id]||window.MV_HOME_MODE_212||'day';
   }
 
@@ -17670,9 +17746,9 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     }
 
     // v5.5.25: do not equate an unhydrated DB cache with missing content.
-    if(mode==='opic'){
-      const selectedOpic=studyCourseSelectedLessons('opic');
-      const hasContent=selectedOpic.some(n=>studyCourseSentenceCards('opic',n).length);
+    if(mode==='opic'||mode==='business'){
+      const selectedOpic=studyCourseSelectedLessons(mode);
+      const hasContent=selectedOpic.some(n=>studyCourseSentenceCards(mode,n).length);
       if(!hasContent){
         if(!window.MV_ALL_REPEAT_INTERNAL_START_222){
           const expectedMode=mode;
@@ -17680,8 +17756,8 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
             progress:(i,total)=>window.sw5525PlaybackLoading?.(expectedMode,i,total)
           }).then(()=>{
             window.sw5525PlaybackLoading?.(null);
-            if(window.saywardAuth?.snapshot?.().authenticated && selectedOpic.some(n=>studyCourseSentenceCards('opic',n).length))studySelectionStart(expectedMode);
-            else alert('DB 읽기 완료 후에도 선택된 OPIC 수업에 재생할 문장이 없습니다. 관리자 표시 설정을 확인해 주세요.');
+            if(window.saywardAuth?.snapshot?.().authenticated && selectedOpic.some(n=>studyCourseSentenceCards(mode,n).length))studySelectionStart(expectedMode);
+            else alert('DB 조회 후에도 선택된 수업에 재생할 문장이 없습니다. 관리자 표시 설정을 확인해 주세요.');
           }).catch(e=>{
             window.sw5525PlaybackLoading?.(null);
             alert('OPIC DB 연결에 실패했습니다. 다시 시도하세요. ('+String(e?.message||e).slice(0,75)+')');
@@ -17719,7 +17795,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     let selected=[];
     try{
       const raw=localStorage.getItem(key);
-      if(raw===null)selected=(c==='friends'?valid:(c==='sori'?[1]:[]));
+      if(raw===null)selected=(c==='friends'||c==='business'?valid:(c==='sori'?[1]:[]));
       else selected=JSON.parse(raw)||[];
     }catch(e){selected=[]}
     return [...new Set((Array.isArray(selected)?selected:[]).map(Number).filter(n=>valid.includes(n)))].sort((a,b)=>a-b);
@@ -17752,10 +17828,12 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     ensureSoriCheckbox();
     convertOpicPlaceholderToStandardCard();
     ensureFriendsCards();
+    ensureBusinessCards();
 
     // If SORI has never been configured, default its single current box ON.
     if(localStorage.getItem(STUDY_SELECT_KEYS.sori)===null)writeJson(STUDY_SELECT_KEYS.sori,[1]);
     if(localStorage.getItem(STUDY_SELECT_KEYS.opic)===null)writeJson(STUDY_SELECT_KEYS.opic,[]);
+    if(localStorage.getItem(STUDY_SELECT_KEYS.business)===null)writeJson(STUDY_SELECT_KEYS.business,Object.keys(studyCourseMeta('business')||{}).map(Number).filter(Number.isFinite));
     if(localStorage.getItem(STUDY_SELECT_KEYS.friends)===null)writeJson(STUDY_SELECT_KEYS.friends,Object.keys(studyCourseMeta('friends')||{}).map(Number).filter(Number.isFinite));
 
     syncSharedStudySelectionUI(currentHomeStudyMode());
@@ -17991,7 +18069,7 @@ m536SpeakItem=async function(item,focusEl,guard=null){
 window.m536SpeakItem=m536SpeakItem;
 
 function mvSpeakingQuestionPlaybackAudit192(){
-  const courses=['my','sori','opic','friends'];
+  const courses=['my','sori','opic','friends','business'];
   return {
     version:'v5.3.192',
     sharedCourses:courses.map(course=>({course,enabled:!!STUDY_COURSES?.[course]})),
@@ -18158,7 +18236,7 @@ function mvSpeakingQuestionAudioAudit238(){
 window.mvSpeakingQuestionAudioAudit238=mvSpeakingQuestionAudioAudit238;
 
 function mvSpeakingQuestionFirstAudit236(){
-  const courses=['my','sori','opic','friends'];
+  const courses=['my','sori','opic','friends','business'];
   return {
     version:'v5.3.275',
     courses:courses,
@@ -18276,7 +18354,7 @@ function mvSpeakingPlaybackAudit193(){
     currentTab:myClassTab,
     currentStartIndex:m536CurrentScreenStartIndex193(course),
     canonicalQuestionThenAnswer:m536SpeakItem!==baseM536SpeakItem193,
-    sharedCourses:['my','sori','opic','friends'].map(x=>({course:x,enabled:!!STUDY_COURSES?.[x]})),
+    sharedCourses:['my','sori','opic','friends','business'].map(x=>({course:x,enabled:!!STUDY_COURSES?.[x]})),
     behavior:'idle 전체 재생 = current visible tab/card; paused 전체 재생 = resume saved cursor'
   };
 }
@@ -18500,16 +18578,16 @@ function studyFavoriteDecorateCards239(){
   });
 }
 function studyFavoriteOnly239(mode){
-  if(!['my','sori','opic','friends'].includes(String(mode||'')))return false;
+  if(!['my','sori','opic','friends','business'].includes(String(mode||'')))return false;
   return localStorage.getItem(`mv_study_favorite_only_239_${mode}`)==='1';
 }
 function studyFavoriteSetOnly239(mode,on){
-  if(!['my','sori','opic','friends'].includes(String(mode||'')))return;
+  if(!['my','sori','opic','friends','business'].includes(String(mode||'')))return;
   try{localStorage.setItem(`mv_study_favorite_only_239_${mode}`,on?'1':'0')}catch(e){}
 }
 function studyFavoriteRenderFilter239(mode,box){
   if(!box)return;
-  const favoriteMode=['my','sori','opic','friends'].includes(String(mode||''));
+  const favoriteMode=['my','sori','opic','friends','business'].includes(String(mode||''));
   box.classList.toggle('favoriteOnly239',studyFavoriteOnly239(mode));
   box.classList.toggle('hasFavorite239',favoriteMode);
   box.querySelector('.studyFavoriteOnly239')?.remove();
@@ -18529,7 +18607,7 @@ function studyFavoriteRenderFilter239(mode,box){
 }
 function studyFavoriteSyncStartLabel239(mode){
   const start=document.getElementById('sharedStudyStart');
-  if(!start||!['my','sori','opic','friends'].includes(String(mode||'')))return;
+  if(!start||!['my','sori','opic','friends','business'].includes(String(mode||'')))return;
   if(studyFavoriteOnly239(mode)){
     start.textContent='즐겨찾기 집중 반복';
   }
@@ -18577,7 +18655,7 @@ window.mvStudyFavoriteAudit239=function(){
     version:'v5.3.275',
     storage:MV_STUDY_FAVORITES_KEY_239,
     tabs:['corrections','chunks','speaking'],
-    courses:['my','sori','opic','friends'],
+    courses:['my','sori','opic','friends','business'],
     favoriteOnly:{
       my:studyFavoriteOnly239('my'),
       sori:studyFavoriteOnly239('sori'),
@@ -18823,7 +18901,7 @@ window.mvSwipePageAudit246=()=>({
  followsX:true,followsY:true,velocityAware:true,
  navigation:'once on touchend',
  destinationStartsAtTop:true,
- scope:['my','sori','opic','friends']
+ scope:['my','sori','opic','friends','business']
 });
 })();
 </script>
@@ -19060,7 +19138,7 @@ window.mvVerticalLessonSwipeAudit252=()=>({
   xFreedom:true,
   velocityAware:true,
   destinationStartsAtTop:true,
-  scope:['my','sori','opic','friends']
+  scope:['my','sori','opic','friends','business']
 });
 })();
 </script>
@@ -19252,7 +19330,7 @@ window.mvAutoPlaybackPageTurnAudit255=()=>({
   style:'same full-screen swipe-card standard',
   destinationStartsAtTop:true,
   noVisibleScrollToTop:true,
-  scope:['my','sori','opic','friends']
+  scope:['my','sori','opic','friends','business']
 });
 })();
 </script>
@@ -20321,7 +20399,7 @@ renderMyClass=function(){
 };
 
 window.mvSpeakingPairAudit280=function(){
-  const courses=['my','sori','opic','friends'];
+  const courses=['my','sori','opic','friends','business'];
   const report={version:'v5.3.280',rule:'Never index-pair a summary/instruction with English sentences',courses:{},splitExamples:{
     am:myClassSplitSentences('I wake up at 2 a.m. and go back to sleep.'),
     us:myClassSplitSentences('I check U.S. interest rates every day.'),
@@ -20372,8 +20450,8 @@ setTimeout(refreshSpeakingKo280,0);
 (function(){
 'use strict';
 
-const COURSE_NAMES_281={day:'DAY VOCA',my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'FRIENDS'};
-const VALID_281=['day','my','sori','opic','friends'];
+const COURSE_NAMES_281={day:'DAY VOCA',my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'FRIENDS',business:'Business 영어'};
+const VALID_281=['day','my','sori','opic','friends','business'];
 const MV281=window.MV_PLAYBACK_STANDARD_281={
   version:'5.3.284',
   kind:'idle',              // idle | course | overall | single
@@ -20407,6 +20485,7 @@ function mv281ModeSelection(mode){
   if(mode==='sori')return mv281Read('mv_studySelected_sori',[]);
   if(mode==='opic')return mv281Read('mv_studySelected_opic',[]);
   if(mode==='friends')return mv281Read('mv_studySelected_friends',Object.keys(studyCourseMeta('friends')||{}).map(Number).filter(Number.isFinite));
+  if(mode==='business')return mv281Read('mv_studySelected_business',Object.keys(studyCourseMeta('business')||{}).map(Number).filter(Number.isFinite));
   return [];
 }
 function mv281PersistVisible(mode){
@@ -20420,7 +20499,7 @@ function mv281PersistVisible(mode){
       mv281Write('mv_myClassSelectedLessons',ids);return;
     }
     if(mode==='friends')return;
-    const key=mode==='sori'?'mv_studySelected_sori':'mv_studySelected_opic';
+    const key=mode==='sori'?'mv_studySelected_sori':mode==='business'?'mv_studySelected_business':'mv_studySelected_opic';
     const ids=[...document.querySelectorAll(`#homePage .studySelectCheck[data-study-mode="${mode}"]:checked`)].map(x=>Number(x.dataset.studyId));
     mv281Write(key,ids);
   }catch(e){}
@@ -20489,7 +20568,7 @@ function mv419NormalizeCheckpoint(cp,scope){
 }
 function mv419SaveResume(kind,scope,lesson=null,cp=null,screen=null){
   if(!['course','single'].includes(String(kind||'')))return false;
-  const c=String(scope||'');if(!['my','sori','opic','friends'].includes(c))return false;
+  const c=String(scope||'');if(!['my','sori','opic','friends','business'].includes(c))return false;
   const normalized=mv419NormalizeCheckpoint(cp,c);if(!normalized)return false;
   try{if(cp?.itemKey)normalized.itemKey=String(cp.itemKey)}catch(e){}
   const store=mv419ResumeStore();
@@ -20526,7 +20605,7 @@ function mv419SaveActiveResume(){
     const kind=MV281.kind==='single'?'single':(MV281.kind==='course'?'course':null);
     if(!kind)return false;
     const scope=String(M536?.course||MV281.scope||ACTIVE_STUDY_COURSE||'my');
-    if(!['my','sori','opic','friends'].includes(scope))return false;
+    if(!['my','sori','opic','friends','business'].includes(scope))return false;
     const cp=mv281CaptureM536();
     const screen=mv281Screen();
     return mv419SaveResume(kind,scope,kind==='single'?(MV281.lesson||myClassLessonNo):null,cp,screen);
@@ -21741,7 +21820,7 @@ const S292={index:null,query:'',filter:'all',results:[],lastScroll:0,lastTarget:
 const RECENT_KEY='mv_unified_search_recent_292';
 const FILTERS=[['all','전체'],['word','단어'],['pattern','패턴'],['chunk','Chunk'],['sentence','문장']];
 const TYPE_LABEL={word:'단어',pattern:'패턴',chunk:'Chunk',sentence:'문장'};
-const COURSE_LABEL={my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'FRIENDS'};
+const COURSE_LABEL={my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'FRIENDS',business:'Business 영어'};
 
 const esc292=(s)=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const norm292=(s)=>String(s??'').normalize('NFKC').toLowerCase().replace(/[’‘]/g,"'").replace(/\s+/g,' ').trim();
@@ -21777,7 +21856,7 @@ function buildIndex292(force=false){
     pats.forEach((p,j)=>add292(out,{id:`p:${wid}:${j}`,type:'pattern',course:'day',lesson:day,wordId:wid,title:p.title,ko:p.ko||String(w?.patternMeaning||''),example:String(w?.example||''),exampleKo:String(w?.translation||''),extra:String(w?.word||''),source:source292('day',day,'패턴')}));
   });
 
-  ['my','sori','opic','friends'].forEach(course=>{
+  ['my','sori','opic','friends','business'].forEach(course=>{
     let count=0;try{count=Number(studyCourseLessonCount(course))||0}catch(e){}
     for(let lesson=1;lesson<=count;lesson++){
       let d=null;try{d=studyCourseData(course,lesson)}catch(e){d=null}
@@ -21812,7 +21891,7 @@ function resetRemote6430(){
   S292.index=null;
 }
 function remoteCatalog6430(){
-  const courses=['my','sori','opic','friends'];const lists={};
+  const courses=['my','sori','opic','friends','business'];const lists={};
   for(const course of courses){
     let nums=[];
     try{nums=course==='my'?window.saywardMyPilot?.stats?.().dbLessons:
@@ -21870,7 +21949,7 @@ async function refreshRemote6430(force=false){
   const ticket=++S292.remoteSerial;S292.remoteLoading=true;S292.remoteError=null;
   const task=(async()=>{
     const all=[];
-    for(const course of ['my','sori','opic','friends']){
+    for(const course of ['my','sori','opic','friends','business']){
       if(!lists[course].length)continue;
       const permitted=new Set(lists[course]);
       const rows=await fetchCourseItems6430(course,lists[course]);
@@ -22197,7 +22276,7 @@ body.mv540HomeVisible #drawerMenuButton{opacity:0!important;visibility:hidden!im
 'use strict';
 if(window.__MV540_CLEAN_HOME__) return;
 window.__MV540_CLEAN_HOME__=true;
-const MODES=['day','my','sori','opic','friends'];
+const MODES=['day','my','sori','opic','friends','business'];
 const MAIN_MODES=['day','my','sori','opic'];
 const MAIN_MODE_KEY='mv_mainHomeStudyMode540';
 const scrollByMode={day:0,my:0,sori:0,opic:0,friends:0};
@@ -23012,7 +23091,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
         <p class="p2-note"><strong>v5.4.97 시험 모드:</strong> DAY 1~69 기본 잠금을 모두 해제했습니다(DAY 59 포함). 배포용 버전에서는 별도 정책으로 전환합니다.</p><p class="p2-note">사용자별로 수업 홈 카드·학습 탭·개별 카드 표시를 선택합니다. 문장 원본과 History는 수정하지 않습니다. 저장 시 해당 계정에 적용됩니다. 다른 사용자는 별도로 수업 콘텐츠가 등록돼 있어야 학습할 수 있습니다.</p>
         <div class="swvis-grid">
           <label>사용자<select id="swVisUser" aria-label="설정 대상 사용자"></select></label>
-          <label>학습 영역<select id="swVisCourse"><option value="my">🎯 MY 수업</option><option value="opic">🎤 OPIC</option><option value="sori">🎧 소리영어</option><option value="friends">🎬 Friends</option><option value="day">📚 DAY 전체</option></select></label>
+          <label>학습 영역<select id="swVisCourse"><option value="my">🎯 MY 수업</option><option value="opic">🎤 OPIC</option><option value="sori">🎧 소리영어</option><option value="friends">🎬 Friends</option><option value="business">💼 Business 영어</option><option value="day">📚 DAY 전체</option></select></label>
           <label>수업 / DAY<select id="swVisLesson"></select></label>
         </div>
         <label class="swvis-line"><input type="checkbox" id="swVisEnabled" checked> <b>이 수업의 홈 카드와 학습 화면 표시</b></label>
@@ -25058,9 +25137,9 @@ else void init();
    This replaces the three prior pilot catalog implementations. MY keeps its validated DB loader.
    Server RLS and verified administrator policy always control access. */
 (function(){'use strict';
-const COURSES=['sori','opic','friends'],TABS=['corrections','chunks','speaking','habits'];
+const COURSES=['sori','opic','friends','business'],TABS=['corrections','chunks','speaking','habits'];
 const empty=()=>({corrections:[],chunks:[],speaking:[],habits:[]});
-const sourceLabel={sori:'소리영어',opic:'OPIC',friends:'Friends'};
+const sourceLabel={sori:'소리영어',opic:'OPIC',friends:'Friends',business:'Business 영어'};
 const stores=Object.fromEntries(COURSES.map(course=>[course,{meta:new Map(),data:new Map(),pending:new Map(),indexTask:null,at:0}]));
 let uid='',client=null,epoch=0;
 const safeError=e=>String(e?.code||e?.message||'DB 조회 오류').slice(0,100);
@@ -25089,18 +25168,18 @@ async function countAdminItems(course,rows){
  return rows.map(r=>({...r,item_counts:totals.get(Number(r.lesson_no))||r.item_counts}));
 }
 function canAccess(course,n){return window.swStudioPolicyReady?.()===true&&window.swLessonEnabled?.(course,n)!==false}
-function cardContainer(course){return document.querySelector('#homePage .'+(course==='sori'?'sori':course==='opic'?'opic':'friends')+'ClassSection')}
+function cardContainer(course){return document.querySelector('#homePage .'+course+'ClassSection')}
 function isCurrent(course,n){return ACTIVE_STUDY_COURSE===course&&Number(myClassLessonNo)===Number(n)}
 function makeCard(course,row){
  const n=Number(row.lesson_no),card=document.createElement('div');
- card.className='myClassCard '+(course==='sori'?'sori':course==='opic'?'opic':'friends')+'CourseCard';
+ card.className='myClassCard '+course+'CourseCard';
  if(row.visible===false){card.classList.add('sw-admin-preview');card.dataset.adminPreview='true';}
- card.id=course==='sori'?`soriGroup${n}Card`:course==='opic'?`opicGroup${n}Card`:`friendsEpisode${n}Card`;
+ card.id=course==='sori'?`soriGroup${n}Card`:course==='opic'?`opicGroup${n}Card`:course==='business'?`businessLesson${n}Card`:`friendsEpisode${n}Card`;
  card.dataset.studyCourse=course;card.dataset.studyLesson=String(n);card.tabIndex=0;card.setAttribute('role','button');
  card.onclick=e=>{if(e.target.closest('input,label.studySelectMini'))return;window.studyDirectOpenCourse?.(course,n)};
  card.addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)&&!e.target.closest('input')){e.preventDefault();window.studyDirectOpenCourse?.(course,n)}});
  const top=document.createElement('div');top.className='myClassTop';
- const name=document.createElement('b');name.textContent=course==='sori'?'소리영어 · 수업 '+n:course==='opic'?'OPIC '+n:`FRIENDS · S01E${String(n).padStart(2,'0')}`;
+ const name=document.createElement('b');name.textContent=course==='sori'?'소리영어 · 수업 '+n:course==='opic'?'OPIC '+n:course==='business'?'Business 영어 · 수업 '+n:`FRIENDS · S01E${String(n).padStart(2,'0')}`;
  const badge=document.createElement('span');badge.className='myClassBadge';
  badge.textContent=row.visible===false?'관리자 미리보기 · 승인 대기':row.seed_complete===false?'관리자 미리보기 · 준비 중':'DB 학습';
  top.append(name,badge);
@@ -25115,11 +25194,11 @@ function makeCard(course,row){
 function syncCards(course,rows){
  const parent=cardContainer(course);if(!parent)return;
  const present=new Set(rows.map(r=>Number(r.lesson_no)));
- for(const card of [...parent.querySelectorAll('.'+(course==='sori'?'sori':course==='opic'?'opic':'friends')+'CourseCard')]){
+ for(const card of [...parent.querySelectorAll('.'+course+'CourseCard')]){
   if(!present.has(Number(card.dataset.studyLesson)))card.remove();
  }
  for(const row of rows){
-  const n=Number(row.lesson_no),id=course==='sori'?`soriGroup${n}Card`:course==='opic'?`opicGroup${n}Card`:`friendsEpisode${n}Card`;
+  const n=Number(row.lesson_no),id=course==='sori'?`soriGroup${n}Card`:course==='opic'?`opicGroup${n}Card`:course==='business'?`businessLesson${n}Card`:`friendsEpisode${n}Card`;
   const prev=document.getElementById(id),sig=JSON.stringify([row.title,row.short_title,row.item_counts,row.content_version,row.visible,row.seed_complete]);
   if(prev?.dataset.dbSignature===sig)continue;
   const card=makeCard(course,row);if(prev)prev.replaceWith(card);else parent.appendChild(card);
@@ -25128,6 +25207,8 @@ function syncCards(course,rows){
  try{window.studyStampCourseCards?.();window.syncSharedStudySelectionUI?.(course);window.swVisibilityApply?.()}catch(e){console.warn('[DB catalog UI]',safeError(e))}
  const notice=document.getElementById('sw5542SoriCatalogNotice');
  if(course==='sori'&&notice){notice.hidden=rows.length>0;notice.textContent=rows.length?'':uid?'공개된 소리영어 수업이 없습니다.':'로그인 후 수업 목록을 불러옵니다.';}
+ const bn=document.getElementById('swBusinessCatalogNotice');
+ if(course==='business'&&bn){bn.hidden=rows.length>0;bn.textContent=rows.length?'':uid?'학습 가능한 Business 영어 수업이 없습니다. 승인 여부를 확인하세요.':'로그인 후 수업 목록을 불러옵니다.';}
  window.dispatchEvent(new CustomEvent('sayward:dynamic-course-catalog',{detail:{course,lessons:rows.map(r=>Number(r.lesson_no))}}));
 }
 async function index(course,force=false){
@@ -25196,8 +25277,9 @@ async function hydrate(course,lesson,force=false){
  })().finally(()=>{if(state.pending.get(n)===task)state.pending.delete(n)});
  state.pending.set(n,task);return task;
 }
-function clear(){for(const c of COURSES){const s=stores[c];s.meta.clear();s.data.clear();s.pending.clear();s.indexTask=null;s.at=0;cardContainer(c)?.querySelectorAll('.'+(c==='sori'?'sori':c==='opic'?'opic':'friends')+'CourseCard').forEach(x=>x.remove())}
+function clear(){for(const c of COURSES){const s=stores[c];s.meta.clear();s.data.clear();s.pending.clear();s.indexTask=null;s.at=0;cardContainer(c)?.querySelectorAll('.'+c+'CourseCard').forEach(x=>x.remove())}
  const notice=document.getElementById('sw5542SoriCatalogNotice');if(notice){notice.hidden=false;notice.textContent='로그인 후 수업 목록을 불러옵니다.';}
+ const businessNotice=document.getElementById('swBusinessCatalogNotice');if(businessNotice){businessNotice.hidden=false;businessNotice.textContent='로그인 후 Business 영어 수업 목록을 불러옵니다.';}
 }
 for(const course of COURSES){
  const config=STUDY_COURSES[course],state=stores[course];
@@ -25207,8 +25289,8 @@ for(const course of COURSES){
  const publicApi={stats:()=>({loggedIn:!!uid,dbLessons:[...state.meta.keys()],loadedLessons:[...state.data.keys()]}),
   refresh:async()=>{await index(course,true);const n=Number(myClassLessonNo);if(state.meta.has(n))await hydrate(course,n,true)},
   refreshCatalog:()=>index(course,true),ensurePlayback:n=>hydrate(course,n)};
- window[course==='sori'?'saywardSoriPilot':course==='opic'?'saywardOpicPilot':'saywardFriendsPilot']=publicApi;
- const button=document.getElementById('homeMode'+(course==='sori'?'Sori':course==='opic'?'Opic':'Friends'));
+ window[course==='sori'?'saywardSoriPilot':course==='opic'?'saywardOpicPilot':course==='business'?'saywardBusinessPilot':'saywardFriendsPilot']=publicApi;
+ const button=document.getElementById('homeMode'+(course==='sori'?'Sori':course==='opic'?'Opic':course==='business'?'Business':'Friends'));
  button?.addEventListener('click',()=>{if(uid)void index(course,true).catch(e=>console.warn('[DB catalog refresh]',safeError(e))) });
 }
 window.saywardDynamicCourses={list:c=>[...(stores[c]?.meta?.keys()||[])].sort((a,b)=>a-b),
@@ -25236,8 +25318,8 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 <script id="sw5525-preload-coordinator">
 /* v5.5.25 - Playback must await actual DB hydration, not screenshot/card metadata. */
 (function(){'use strict';
-  const label={my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'Friends'};
-  function loader(course){return ({my:window.saywardMyPilot,sori:window.saywardSoriPilot,opic:window.saywardOpicPilot,friends:window.saywardFriendsPilot})[course]}
+  const label={my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'Friends',business:'Business 영어'};
+  function loader(course){return ({my:window.saywardMyPilot,sori:window.saywardSoriPilot,opic:window.saywardOpicPilot,friends:window.saywardFriendsPilot,business:window.saywardBusinessPilot})[course]}
   function show(course,done=0,total=0){
     let el=document.getElementById('sw5525PlaybackLoad');
     if(!course){if(el)el.remove();return;}
@@ -25637,11 +25719,11 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
 <script id="sw-lesson-visibility-v5497">
 (function(){'use strict';
   const $=id=>document.getElementById(id);
-  const CATEGORIES={my:'MY 수업',opic:'OPIC',sori:'소리영어',friends:'Friends',day:'DAY'};
+  const CATEGORIES={my:'MY 수업',opic:'OPIC',sori:'소리영어',friends:'Friends',business:'Business 영어',day:'DAY'};
   const SECTIONS={corrections:'⭐ 교정 / 핵심 문장',chunks:'🧩 Chunk',speaking:'🗣 말하기',habits:'🎧 습관 / 소리 Point'};
   const DEFAULT={enabled:true,sections:{},hidden_item_keys:[]};
   let db=null,uid='',role='',ticket=0,own=new Map(),adminUsers=[],adminRows=new Map();
-  const STUDIO_COURSES=new Set(['my','opic','sori','friends','day']);
+  const STUDIO_COURSES=new Set(['my','opic','sori','friends','business','day']);
   let studioGlobals=new Map(),studioOverrides=new Map(),policyReady=false;
   let policyRefreshPromise=null,policyRefreshAt=0,policyRefreshSerial=0,lastPolicyError='',policyDirtyWhileBusy=false;
   let policyFingerprint='',realtimeChannel=null,policyTimer=null,policyNoticeAt=0;
@@ -26213,11 +26295,11 @@ window.addEventListener('pageshow',()=>{if(uid)for(const c of COURSES)if(Date.no
        <button type="button" id="swModeAdmin">🧪 전체 검증</button>
      </div>
      <div class="formgrid">
-       <label class="policyLabel">학습 영역<select id="swPolicyCourse"><option value="my">MY 수업</option><option value="opic">OPIC</option><option value="sori">소리영어</option><option value="friends">Friends</option><option value="day">DAY 단어</option></select></label>
+       <label class="policyLabel">학습 영역<select id="swPolicyCourse"><option value="my">MY 수업</option><option value="opic">OPIC</option><option value="sori">소리영어</option><option value="friends">Friends</option><option value="business">💼 Business 영어</option><option value="day">DAY 단어</option></select></label>
        <label class="policyLabel" id="swPolicyUserWrap" hidden>대상 사용자<select id="swPolicyUser"></select></label>
      </div>
      <div id="swPolicyStatus" role="status" aria-live="polite">Admin 권한 및 DB 조회 대기 중</div>
-     <div class="notice" id="swPolicyNotice">공통 설정은 모든 사용자의 기본값입니다. 변경 저장 후 MY·OPIC·소리영어·Friends·DAY에 자동 반영됩니다. 접속 중인 기기도 자동 동기화합니다.</div>
+     <div class="notice" id="swPolicyNotice">공통 설정은 모든 사용자의 기본값입니다. 변경 저장 후 MY·OPIC·소리영어·Friends·Business 영어·DAY에 자동 반영됩니다. 접속 중인 기기도 자동 동기화합니다.</div>
    </section>
     <section class="panel" id="swCategoryRelease" hidden>
       <div class="course-list-head"><strong style="font-size:17px">🆕 카테고리별 신규 콘텐츠 공개</strong><button type="button" id="swCategoryRefresh" class="sw649-refresh">DB 다시 읽기</button></div>
@@ -28663,7 +28745,7 @@ const POLICY_KEY='sayward_v545_playback_mode';
 const OVERALL_KEY='sayward_v545_overall_checkpoint';
 const RANDOM_KEY='sayward_v545_random_session';
 const MODES=new Set(['resume','restart','random']);
-const COURSES=['my','sori','opic','friends'];
+const COURSES=['my','sori','opic','friends','business'];
 const jparse=(key)=>{try{return JSON.parse(localStorage.getItem(key)||'null')}catch(e){return null}};
 const store=(key,val)=>{try{localStorage.setItem(key,JSON.stringify(val))}catch(e){}};
 const behavior=()=>{try{const m=localStorage.getItem(POLICY_KEY)||'resume';return MODES.has(m)?m:'resume'}catch(e){return 'resume'}};
@@ -28676,7 +28758,7 @@ function getSession(){return window.MV_PLAYBACK_SESSION_281||null}
 function selection(course){
   try{
     if(course==='day')return JSON.parse(localStorage.getItem(selectedDaysKey())||'[]');
-    const k={my:'mv_myClassSelectedLessons',sori:'mv_studySelected_sori',opic:'mv_studySelected_opic',friends:'mv_studySelected_friends'}[course];
+    const k={my:'mv_myClassSelectedLessons',sori:'mv_studySelected_sori',opic:'mv_studySelected_opic',friends:'mv_studySelected_friends',business:'mv_studySelected_business'}[course];
     const arr=JSON.parse(localStorage.getItem(k)||'[]');return Array.isArray(arr)?arr:[];
   }catch(e){return []}
 }
@@ -30014,7 +30096,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const current=dashboard.dataset.sw62Tab||'summary',from=order.indexOf(current),next=from+delta;
    if(next>=0&&next<order.length)window.saywardLearningDashboard?.openTab?.(order[next]);
  },()=>!!dashboard?.classList.contains('sw5513-progress')&&!dashboard.classList.contains('hidden'));
- window.saywardSwipeStatus={version:'6.4.52',direction:'left-next/right-previous',threshold,
+ window.saywardSwipeStatus={version:'6.4.53',direction:'left-next/right-previous',threshold,
   buttonStart:true,verticalScroll:'native',tapSafety:'swipe-click-suppressed',edgeGuard:30};
 })();
 </script>
@@ -30594,7 +30676,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const root=document.getElementById('myClassContent');if(!root)return;
    const course=String(window.ACTIVE_STUDY_COURSE||ACTIVE_STUDY_COURSE||'');
    const lesson=Number(window.myClassLessonNo||myClassLessonNo)||0;
-   if(!['my','sori','opic','friends'].includes(course)||!lesson)return;
+   if(!['my','sori','opic','friends','business'].includes(course)||!lesson)return;
    const data=typeof studyCourseData==='function'?studyCourseData(course,lesson)||{}:{};
    const items=[...root.querySelectorAll('.myStudyCard,.mySpeakBlock')];
    for(const el of items){
@@ -30686,7 +30768,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  }
  async function refresh(){
    const ticket=++requestNo, session=auth(), {course,lesson}=byCourse();
-   if(!session||!['my','sori','opic','friends'].includes(course)||!lesson||myClassTab!=='chunks')return;
+   if(!session||!['my','sori','opic','friends','business'].includes(course)||!lesson||myClassTab!=='chunks')return;
    const page=document.getElementById('myClassPage');if(!page||page.classList.contains('hidden'))return;
    const items=[...document.querySelectorAll('#myClassContent .myStudyCard[data-sw-v23-item]')];if(!items.length)return;
    items.forEach(el=>{if(!el.querySelector('.sw6413LevelFavoriteGroup'))placeSentenceLevelBeforeFavorite(el,{level:null});});
@@ -31064,7 +31146,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 
   // Read-only diagnostics: lists exact selected-repeat items that have no MP3.
   window.saywardRepeatAudioAudit=async function(course='my',max=1500){
-    if(!['my','sori','opic','friends'].includes(course))throw Error('Unsupported course');
+    if(!['my','sori','opic','friends','business'].includes(course))throw Error('Unsupported course');
     const source=typeof window.m536BuildPlaylist==='function'?window.m536BuildPlaylist(course):[];
     const unique=[...new Set(source.map(item=>String(item?.text||'').trim()).filter(Boolean))].slice(0,Math.max(1,Math.min(Number(max)||1500,2000)));
     if(!await checkAccess())return {course,canRead:false,selectedItems:source.length,uniqueSentences:unique.length};
