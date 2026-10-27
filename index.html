@@ -1,4 +1,4 @@
-<!-- SAYWARD v6.4.57: Unify duplicate score/forgetting drawer navigation under learning dashboard; preserve DAY score/forget tabs and per-device records. -->
+<!-- SAYWARD v6.4.58: Unify duplicate score/forgetting drawer navigation under learning dashboard; preserve DAY score/forget tabs and per-device records. -->
 <!-- SAYWARD v6.4.55: Business course DB transport allowlist and signed-in catalog error state, drawer state count labels. -->
 <!-- SAYWARD v6.4.51: Enable swipe gestures starting on studio choice/action buttons; preserve taps and native scrolling. -->
 <!-- SAYWARD v6.4.48: Focus buttons in results confirm Supabase writes and show errors in-place; admin can focus unpublished drafts. -->
@@ -23,12 +23,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.57 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.57">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.58 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.58">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.57';
+  const release=marker?.content?.trim() || '6.4.58';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -3899,7 +3899,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 
     <section class="configSection">
       <div class="configSectionTitle">📘 SAYWARD 사용 방법 · 최신 안내</div>
-      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.57의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
+      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.58의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
       <details class="usageDetail"><summary>📚 DAY VOCA 시작·반복</summary><div class="usageBody">DAY를 선택하고 단어·뜻·예문 등 반복할 항목을 체크한 뒤 학습을 시작합니다. <b>모르는 단어 선택</b>으로 별표를 표시해 두면 퀴즈의 모르는 단어/틀린 단어 필터에도 반영됩니다. 설정에서 학습 순서, 읽기 횟수와 재생 위치를 관리하세요.</div></details>
       <details class="usageDetail"><summary>✍️ 패턴 문장 만들기·패턴 맞추기</summary><div class="usageBody">3줄 메뉴의 <b>패턴 문장 만들기</b>에서 수업 영역·복습/신규 비율·문항 수를 선택합니다. 문장 만들기는 직접 답을 입력하고 패턴 맞추기는 보기에서 정답 패턴을 선택합니다. v6.4.51부터 연결된 예문을 <b>미학습 문장 우선</b>으로 순환하며, 저장된 개별 문장 이력은 공식 GPT 채점과 별도로 관리됩니다.</div></details>
       <details class="usageDetail"><summary>🎯 집중 학습 등록과 조회</summary><div class="usageBody">문제 결과에서 <b>집중 학습 등록</b>을 누르고 DB 저장 상태를 확인합니다. 목록 조회는 <b>학습 대시보드 → 패턴 → 학습 패턴 목록 → 정렬 기준 → 🎯 집중 학습 패턴</b>을 이용하세요.</div></details>
@@ -7862,7 +7862,17 @@ function mvDomStartHighlight(text,preferredEl=null){
   MV_DOM_HL.sentence=el;MV_DOM_HL.spoken=mvDomNorm(text);
   el.classList.add('mvTtsSentenceNow');
   mvDomWrapWords(el,MV_DOM_HL.spoken);
-  try{el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'})}catch(e){}
+  // v6.4.58: Once a pattern-match result is visible, do not chase each MP3/TTS
+  // utterance with scrollIntoView. That used to move the '혼자 성공 / 복습 필요'
+  // rating buttons away while the learner was trying to tap them. Keep highlighting.
+  const matchReveal=document.getElementById('sw5527Reveal');
+  const matchResult=document.getElementById('sw5533MatchResult');
+  const matchRating=document.getElementById('sw5529SelfRating');
+  const ratingOnScreen=!!(matchReveal && !matchReveal.hidden && matchResult && !matchResult.hidden
+    && matchRating && !matchRating.hidden && matchResult.getClientRects().length);
+  if(!ratingOnScreen){
+    try{el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'})}catch(e){}
+  }
   return el;
 }
 function mvDomBoundary(charIndex){
@@ -26399,7 +26409,7 @@ window.addEventListener('pageshow',()=>{recoverSignedInCatalog();if(uid)for(cons
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD <span id="swAdminReleaseVersion">v6.4.57</span> 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD <span id="swAdminReleaseVersion">v6.4.58</span> 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
@@ -27543,12 +27553,12 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     if(window.saywardUnifiedStudio?.renderFeedback){
       window.saywardUnifiedStudio.renderFeedback(el,{
         correct,correctLabel:'패턴을 정확하게 선택했습니다.',incorrectLabel:'패턴을 다시 복습해 보세요.',
-        summary:'정답 패턴: '+String(p.canonical_pattern||'—'),
+        summary:'선택한 패턴과 정답을 아래에서 비교해 보세요.',
         cards:[
-          {label:'정답 패턴·의미',value:p.canonical_pattern,detail:p.pattern_ko,kind:'answer'},
-          {label:'공식 DB 기준 문장',value:p.example_en,kind:'reference'},
           {label:'내가 선택한 패턴',value:entry.answer||'선택 기록 없음',kind:correct?'chosen':'wrong'},
-          {label:'이 예문에 사용된 표현·패턴',value:p.canonical_pattern,detail:p.pattern_ko,kind:'phrase'}
+          {label:'이 예문에 사용된 표현·패턴',value:p.canonical_pattern,detail:p.pattern_ko,kind:'phrase'},
+          {label:'정답 패턴·의미',value:p.canonical_pattern,detail:p.pattern_ko,kind:'answer'},
+          {label:'공식 DB 기준 문장',value:p.example_en,kind:'reference'}
         ]
       });return;
     }
@@ -27558,7 +27568,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     heading.textContent=correct?'✓ 패턴을 정확하게 선택했습니다.':'↻ 패턴을 다시 복습해 보세요.';
     el.appendChild(heading);
     const summary=document.createElement('p');summary.className='swStudioFeedbackSummary';
-    summary.textContent='정답 패턴: '+String(p.canonical_pattern||'—');el.appendChild(summary);
+    summary.textContent='선택한 패턴과 정답을 아래에서 비교해 보세요.';el.appendChild(summary);
     const card=(label,main,secondary,kind)=>{
       const section=document.createElement('section');section.className='swStudioFeedbackCard'+(kind?' swStudioFeedback-'+kind:'');
       const title=document.createElement('b');title.className='swStudioFeedbackLabel';title.textContent=label;section.appendChild(title);
@@ -27566,10 +27576,10 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       if(secondary){const detail=document.createElement('p');detail.className='swStudioFeedbackDetail';detail.textContent=String(secondary);section.appendChild(detail);}
       el.appendChild(section);
     };
-    card('정답 패턴·의미',p.canonical_pattern,p.pattern_ko,'answer');
-    card('공식 DB 기준 문장',p.example_en,'','reference');
     card('내가 선택한 패턴',entry.answer||'선택 기록 없음','',correct?'chosen':'wrong');
     card('이 예문에 사용된 표현·패턴',p.canonical_pattern,p.pattern_ko,'phrase');
+    card('정답 패턴·의미',p.canonical_pattern,p.pattern_ko,'answer');
+    card('공식 DB 기준 문장',p.example_en,'','reference');
     const note=document.createElement('p');note.className='sw5533-match-hint';
     note.textContent='패턴 선택 결과는 앱 내 연습 판정입니다. Perfect/Review/Miss 및 공식 Stable 승급과 별도입니다.';
     el.appendChild(note);
@@ -30213,7 +30223,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const current=dashboard.dataset.sw62Tab||'summary',from=order.indexOf(current),next=from+delta;
    if(next>=0&&next<order.length)window.saywardLearningDashboard?.openTab?.(order[next]);
  },()=>!!dashboard?.classList.contains('sw5513-progress')&&!dashboard.classList.contains('hidden'));
- window.saywardSwipeStatus={version:'6.4.57',direction:'left-next/right-previous',threshold,
+ window.saywardSwipeStatus={version:'6.4.58',direction:'left-next/right-previous',threshold,
   buttonStart:true,verticalScroll:'native',tapSafety:'swipe-click-suppressed',edgeGuard:30};
 })();
 </script>
@@ -30580,7 +30590,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 @media(max-width:390px){.sw650-row{padding:13px 10px}.sw650-choice{font-size:12px;gap:4px}.sw650-choice .sw650-check{width:16px;height:16px}}
 </style>
 <script id="sw650CategoryReleaseScript">
-/* SAYWARD v6.4.57: DB-backed six-category publish policy (additional DB categories tolerated). */
+/* SAYWARD v6.4.58: DB-backed six-category publish policy (additional DB categories tolerated). */
 (()=>{'use strict';
  const root=document.getElementById('swCategoryRelease');if(!root)return;
  const rowsRoot=document.getElementById('swCategoryCards');
@@ -31502,6 +31512,10 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
 #myClassPage .myChunkPattern::after,
 #myClassPage .myChunkExample::after{content:' 🔊';font-size:12px;opacity:.55;vertical-align:middle}
 .swv6433-tap-speaking {background-color:rgba(105,86,200,.12)!important;border-radius:6px;transition:background-color .2s}
+/* v6.4.58: Keep pattern-match result and its self-rating stationary during audio highlighting. */
+#sw5527PracticePage .swStudio-is-match-result,
+#sw5527PracticePage .swStudio-is-match-result .sw5533-match-result,
+#sw5527PracticePage .swStudio-is-match-result #sw5529SelfRating{overflow-anchor:none}
 </style>
 <script id="swv6433TapReadOnce">
 /* SAYWARD v6.4.35: click the displayed ENGLISH text to hear it ONCE.
