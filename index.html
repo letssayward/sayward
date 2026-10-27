@@ -1,4 +1,4 @@
-<!-- SAYWARD v6.4.56: Consolidate legacy DAY score/forgetting-curve menu entries inside Learning Dashboard; keep quiz and review engines/data intact. -->
+<!-- SAYWARD v6.4.57: Unify duplicate score/forgetting drawer navigation under learning dashboard; preserve DAY score/forget tabs and per-device records. -->
 <!-- SAYWARD v6.4.55: Business course DB transport allowlist and signed-in catalog error state, drawer state count labels. -->
 <!-- SAYWARD v6.4.51: Enable swipe gestures starting on studio choice/action buttons; preserve taps and native scrolling. -->
 <!-- SAYWARD v6.4.48: Focus buttons in results confirm Supabase writes and show errors in-place; admin can focus unpublished drafts. -->
@@ -23,12 +23,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.56 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.56">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.57 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.57">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.56';
+  const release=marker?.content?.trim() || '6.4.57';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -3620,7 +3620,6 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 <button class="drawerItem" data-drawer-action="voicePractice"><span class="drawerIcon">🎙️</span><span class="drawerItemText">음성 녹음 학습<small>자유 문장 녹음 · 정답 음성 · 비교 듣기</small></span></button>
 <div class="drawerDivider"></div><div class="drawerSectionTitle">기타</div>
 
-
 <button class="drawerItem" data-drawer-action="config"><span class="drawerIcon">⚙️</span><span class="drawerItemText">Config<small>음성 · 반복 · 퀴즈 설정</small></span></button>
 <button class="drawerItem" data-drawer-action="usage"><span class="drawerIcon">📘</span><span class="drawerItemText">사용 방법<small>SAYWARD 최신 기능 · 패턴·MP3·녹음 안내</small></span></button>
 <button class="drawerItem" data-drawer-action="whatsnew"><span class="drawerIcon">🆕</span><span class="drawerItemText">업데이트 내역<small>이번 버전 변경 사항</small></span></button>
@@ -3900,7 +3899,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 
     <section class="configSection">
       <div class="configSectionTitle">📘 SAYWARD 사용 방법 · 최신 안내</div>
-      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 최신 학습 흐름과 문장별 순환 출제, 집중 학습, DAY 점수·복습 통합, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
+      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.57의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
       <details class="usageDetail"><summary>📚 DAY VOCA 시작·반복</summary><div class="usageBody">DAY를 선택하고 단어·뜻·예문 등 반복할 항목을 체크한 뒤 학습을 시작합니다. <b>모르는 단어 선택</b>으로 별표를 표시해 두면 퀴즈의 모르는 단어/틀린 단어 필터에도 반영됩니다. 설정에서 학습 순서, 읽기 횟수와 재생 위치를 관리하세요.</div></details>
       <details class="usageDetail"><summary>✍️ 패턴 문장 만들기·패턴 맞추기</summary><div class="usageBody">3줄 메뉴의 <b>패턴 문장 만들기</b>에서 수업 영역·복습/신규 비율·문항 수를 선택합니다. 문장 만들기는 직접 답을 입력하고 패턴 맞추기는 보기에서 정답 패턴을 선택합니다. v6.4.51부터 연결된 예문을 <b>미학습 문장 우선</b>으로 순환하며, 저장된 개별 문장 이력은 공식 GPT 채점과 별도로 관리됩니다.</div></details>
       <details class="usageDetail"><summary>🎯 집중 학습 등록과 조회</summary><div class="usageBody">문제 결과에서 <b>집중 학습 등록</b>을 누르고 DB 저장 상태를 확인합니다. 목록 조회는 <b>학습 대시보드 → 패턴 → 학습 패턴 목록 → 정렬 기준 → 🎯 집중 학습 패턴</b>을 이용하세요.</div></details>
@@ -3946,7 +3945,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
       <div class="configRow"><div class="configCopy"><b>정답·오답 후 자동 넘기기</b><span>켜면 퀴즈 화면의 ‘자동 넘기기 ON’ 상태에서 단어와 예문을 끝까지 읽은 뒤 다음 문제로 이동합니다. 끄면 자동 이동 없이 다음 버튼으로 직접 진행합니다.</span></div><input id="cfgQuizAutoNext" class="configCheck" type="checkbox"></div>
     </section>
     <details class="usageDetail"><summary>🔎 단어 비교 사용법</summary><div class="usageBody">Drawer 메뉴의 <b>단어 비교</b>에서 영어 단어나 한글 뜻을 검색하세요. 마스터에 등록된 유의어와 뜻이 비슷한 학습 단어를 예문과 함께 비교할 수 있습니다. 비교 카드의 단어를 누르면 그 단어를 새 기준으로 계속 탐색합니다.</div></details>
-    <details class="usageDetail"><summary>🔊 학습 모드 음성 설정</summary><div class="usageBody">읽기 속도와 학습 반복 설정을 한곳에서 관리합니다. 예문·패턴·Collocation·유의어 반복 횟수, 단어만 읽기 횟수, 연속 재생 학습 횟수를 같은 섹션에서 설정할 수 있으며 각 값은 서로 독립적으로 적용됩니다.</div></details><details class="usageDetail"><summary>⚙ 단어 읽기와 연속 학습 횟수</summary><div class="usageBody"><b>단어만 읽기 횟수</b>와 <b>연속 재생 학습 횟수</b>는 서로 독립적으로 설정됩니다. 기본값은 각각 <b>3회</b>와 <b>1회</b>입니다. 단어 읽기 횟수는 한 카드에서 영어 단어와 한글 뜻을 읽는 횟수이고, 연속 학습 횟수는 선택한 DAY 전체를 처음부터 끝까지 반복하는 회수입니다.</div></details><details class="usageDetail"><summary>🔤 단어 읽기 모드</summary><div class="usageBody">홈의 <b>자동 읽기 범위</b>에서 <b>단어 읽기</b>를 선택하면 각 카드에서 <b>영어 단어 → 한글 뜻</b>만 Config에서 지정한 횟수만큼 읽고 다음 단어로 이동합니다. 이 상태에서 <b>현재 단어</b>를 누르면 영어 단어와 한글 뜻을 제한 없이 반복합니다. 반복 종료 방식은 선택 학습과 일반 DAY 학습의 규칙을 그대로 따릅니다.</div></details><details class="usageDetail"><summary>🔁 현재 단어 반복</summary><div class="usageBody"><b>DAY별 선택 학습 중</b>에는 현재 단어를 제한 없이 반복합니다. <b>반복 종료</b>를 누르면 현재 읽기를 끝까지 마친 뒤 다음 단어부터 전체 반복 학습을 자연스럽게 이어갑니다.<br><br><b>일반 DAY 학습 중</b>에는 현재 단어만 제한 없이 반복합니다. <b>반복 종료</b>를 누르면 현재 읽기를 끝까지 마친 뒤 그 자리에서 정지합니다.</div></details><details class="usageDetail"><summary>📝 퀴즈 조작과 음성 설정</summary><div class="usageBody">Config의 <b>퀴즈 단어 읽기 횟수</b>에서 1~5회를 선택할 수 있습니다. 퀴즈 화면에서는 왼쪽으로 밀면 다음 문제, 오른쪽으로 밀면 이전 문제로 이동합니다. ☰ 메뉴는 학습·퀴즈·스코어·망각곡선 등 주요 화면에서 언제든 사용할 수 있습니다.</div></details><details class="usageDetail" open><summary>🎧 Day Loop Training 사용법</summary><div class="usageBody">
+    <details class="usageDetail"><summary>🔊 학습 모드 음성 설정</summary><div class="usageBody">읽기 속도와 학습 반복 설정을 한곳에서 관리합니다. 예문·패턴·Collocation·유의어 반복 횟수, 단어만 읽기 횟수, 연속 재생 학습 횟수를 같은 섹션에서 설정할 수 있으며 각 값은 서로 독립적으로 적용됩니다.</div></details><details class="usageDetail"><summary>⚙ 단어 읽기와 연속 학습 횟수</summary><div class="usageBody"><b>단어만 읽기 횟수</b>와 <b>연속 재생 학습 횟수</b>는 서로 독립적으로 설정됩니다. 기본값은 각각 <b>3회</b>와 <b>1회</b>입니다. 단어 읽기 횟수는 한 카드에서 영어 단어와 한글 뜻을 읽는 횟수이고, 연속 학습 횟수는 선택한 DAY 전체를 처음부터 끝까지 반복하는 회수입니다.</div></details><details class="usageDetail"><summary>🔤 단어 읽기 모드</summary><div class="usageBody">홈의 <b>자동 읽기 범위</b>에서 <b>단어 읽기</b>를 선택하면 각 카드에서 <b>영어 단어 → 한글 뜻</b>만 Config에서 지정한 횟수만큼 읽고 다음 단어로 이동합니다. 이 상태에서 <b>현재 단어</b>를 누르면 영어 단어와 한글 뜻을 제한 없이 반복합니다. 반복 종료 방식은 선택 학습과 일반 DAY 학습의 규칙을 그대로 따릅니다.</div></details><details class="usageDetail"><summary>🔁 현재 단어 반복</summary><div class="usageBody"><b>DAY별 선택 학습 중</b>에는 현재 단어를 제한 없이 반복합니다. <b>반복 종료</b>를 누르면 현재 읽기를 끝까지 마친 뒤 다음 단어부터 전체 반복 학습을 자연스럽게 이어갑니다.<br><br><b>일반 DAY 학습 중</b>에는 현재 단어만 제한 없이 반복합니다. <b>반복 종료</b>를 누르면 현재 읽기를 끝까지 마친 뒤 그 자리에서 정지합니다.</div></details><details class="usageDetail"><summary>📝 퀴즈 조작과 음성 설정</summary><div class="usageBody">Config의 <b>퀴즈 단어 읽기 횟수</b>에서 1~5회를 선택할 수 있습니다. 퀴즈 화면에서는 왼쪽으로 밀면 다음 문제, 오른쪽으로 밀면 이전 문제로 이동합니다. ☰ 메뉴는 주요 화면에서 열 수 있습니다. 전체 통계는 학습 대시보드에서 확인하고 DAY별 스코어·망각곡선은 DAY VOCA의 하단 탭에서 이용하세요.</div></details><details class="usageDetail" open><summary>🎧 Day Loop Training 사용법</summary><div class="usageBody">
 <b>Day Loop Training</b>은 실전 문장 말하기의 마지막 문장까지 학습하면 자동으로 시작됩니다. 해당 Day의 모든 실전 문장을 <b>2단계와 동일하게 50% 이상 가린 상태</b>로 한 화면에 보여주고, 완전한 영어 문장을 반복해서 들려줍니다.<br><br>
 
 <b>① 전체 반복</b><br>
@@ -12163,7 +12162,7 @@ function refreshUsageRecommendation(){
     if(p.learned<p.total){nextDay=d;break}
   }
   const items=[];
-  if(due>0)items.push(`망각곡선에서 오늘 복습 대상 ${due}개를 먼저 확인하세요.`);
+  if(due>0)items.push(`DAY VOCA → 망각곡선에서 오늘 복습 대상 ${due}개를 먼저 확인하세요.`);
   items.push(`새 단어는 1. 학습 → DAY VOCA에서 DAY ${nextDay}부터 이어가세요.`);
   if(weak>0||favoriteCount>0){
     items.push(`2. 단어 학습 → 단어 퀴즈에서 오답 ${weak}개와 모르는 단어 ${favoriteCount}개를 복습하세요.`);
@@ -12283,7 +12282,7 @@ function prepareSeparatedUsagePage(){
         <div><b>단어 퀴즈</b><span>단어 맞추기, 유의어·반의어, 단어 말하기, 모르는 단어 선택을 사용합니다.</span></div>
         <div><b>단어 비교</b><span>비슷한 단어·뜻·예문을 검색해 비교합니다.</span></div>
         <div><b>학습 대시보드</b><span>종합·패턴·단어·학습 시간·취약점 및 집중 패턴을 확인합니다.</span></div>
-        <div><b>DAY 학습 점수·오늘 복습</b><span>3줄 메뉴 → 학습 대시보드 → 종합에서 DAY 점수와 망각곡선 복습을 실행합니다. 기존 기기별 기록은 클라우드 통계와 구분됩니다.</span></div>
+        <div><b>DAY VOCA 스코어·망각곡선</b><span>단어 DAY 화면 하단의 스코어·망각곡선 탭에서 이 기기의 학습 현황과 오늘 복습할 단어를 확인합니다. 전체 현황은 학습 대시보드에서 통합 조회합니다.</span></div>
       </div>
       <div class="usageNewTip"><b>패턴과 문장을 구분</b> 공식 패턴의 New / Focus / Learning / Stable 복습 운영과 <b>개별 문장 연습 이력</b>은 별도로 관리됩니다. 기존의 7·14·21·30·40·60일 복습 체계를 유지하면서 문장 다양성을 늘리는 구조입니다.</div>
     </section>
@@ -12295,7 +12294,7 @@ function prepareSeparatedUsagePage(){
         <b>패턴 문장 만들기 + 패턴 맞추기 (미학습 문장 순환)</b><span>↓</span>
         <b>결과 자기평가 · 필요한 패턴 🎯 집중 학습 등록</b><span>↓</span>
         <b>문장 말하기 · 녹음 후 정답 음성과 비교</b><span>↓</span>
-        <b>학습 대시보드 (DAY 점수·복습 포함) · GPT 정밀 채점</b>
+        <b>학습 대시보드 · DAY 복습 · GPT 정밀 채점</b>
       </div>
     </section>
   `;
@@ -12770,6 +12769,7 @@ function mvOpenUpdateHistory(){
       <div class="mvInfoVersionCard"><b>v${window.SAYWARD_RELEASE}</b><span>현재 설치 버전</span></div>
       <section class="mvInfoSection">
         <h3>v${window.SAYWARD_RELEASE}</h3>
+         <ul><li>✓ 3줄 메뉴에서 중복된 ‘학습 통계’·‘망각곡선’ 바로가기를 제거하고 ‘학습 대시보드’로 통합했습니다. 기존 DAY별 스코어·망각곡선 탭과 기기별 기록은 유지합니다.</li><li>✓ 대시보드 ‘DAY VOCA 망각곡선에서 복습’ 버튼을 기존 메뉴 없이도 직접 동작하도록 연결했습니다.</li></ul>
          <ul><li>✓ 사용 방법을 SAYWARD 전체 학습 가이드로 개편하고 문장별 순환 출제·집중 학습·녹음 자동 저장·PWA·MP3 우선 재생 안내를 추가했습니다.</li><li>✓ 패턴 맞추기·단어 패턴 맞추기에서 선택지·확인·이전·다음 버튼 위를 좌우로 스와이프해도 문제를 이동합니다. 짧은 터치의 기존 버튼 동작과 세로 스크롤은 유지합니다.</li><li>✓ 패턴 맞추기에서 ‘선택한 패턴 확인’을 눌렀을 때 첫 음성도 등록된 패턴 MP3를 우선 재생하도록 수정했습니다. MP3가 없을 때만 자연스러운 문구로 TTS 대체합니다.</li></ul>
         <ul>
           <li>✓ 홈 배너의 3줄 메뉴와 검색 버튼을 독립적인 작은 네이비 버튼으로 교체했습니다. 흰색 메뉴 중복 표시와 태블릿 과대 확대를 방지합니다.</li>
@@ -23246,7 +23246,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     <h3>최근 7일 학습량</h3><p class="sw62-note">완료된 학습 기록 건수입니다. 동일한 항목의 반복 연습도 학습량에 포함하며, 공식·앱·단어 기록을 구분합니다.</p>
     <div class="sw62-legend"><span class="sw62-dot sw62-gpt"></span>GPT 공식 <span class="sw62-dot sw62-app"></span>패턴 앱 <span class="sw62-dot sw62-word"></span>TOEFL 단어</div>
     <div class="sw62-week" id="sw62Week" aria-label="최근 7일 학습량 그래프">조회 중</div>
-    <div class="sw62-action-card"><strong>기존 DAY 학습·복습 (이 기기)</strong><p id="sw64LegacySummary">기존 기록 확인 중…</p><p class="sw62-note">기기별 DAY 점수·망각곡선 기록으로, 위 Supabase 클라우드 통계와 별도로 관리합니다.</p><div class="sw62-actions"><button type="button" id="sw64DayScoreGo">DAY 학습 점수 보기</button><button type="button" id="sw64DayReviewGo">DAY 복습 현황 · 시작</button></div></div>
+    <div class="sw62-action-card"><strong>기존 DAY 학습·망각곡선 (이 기기)</strong><p id="sw64LegacySummary">기존 기록 확인 중…</p><p class="sw62-note">아직 DB 이전되지 않은 기존 퀴즈·복습 통계이며, 위 클라우드 통계에 합산하지 않습니다.</p></div>
     <div class="sw62-action-card"><strong>오늘의 집중 보완</strong><p id="sw62Suggestion">최근 오답과 복습 예정 기록을 분석하고 있습니다.</p><div class="sw62-actions"><button type="button" id="sw62GotoPattern">패턴 취약 목록</button><button type="button" id="sw62GotoWord">단어 취약 목록</button></div></div>
   </section>
   <section id="sw62Word" class="sw62-pane" role="tabpanel" hidden>
@@ -23266,7 +23266,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     <div class="sw62-action-card" id="sw64LegacyStatsCard"><strong>기존 학습 통계·망각곡선에서 가져온 핵심 지표</strong><p id="sw64LegacyDetail">기존 DAY 기록 확인 중…</p>
       <div class="sw64-due-grid"><div><small>오늘 복습 (기기별)</small><strong id="sw64LegacyDue">—</strong></div><div><small>내일 예정</small><strong id="sw64LegacySoon">—</strong></div></div>
       <p class="sw62-note">기존 MY VOCA 퀴즈에서 많이 틀린 단어</p><div id="sw64LegacyWeak"></div>
-      <button type="button" id="sw64LegacyReview" disabled>DAY 복습 시작</button><p class="sw62-note">이 기기의 기존 퀴즈 점수·망각곡선 자료입니다. TOEFL 단어 문장 만들기 DB와 합산하지 않으며, DAY 복습은 종합 탭에서도 열 수 있습니다.</p>
+      <button type="button" id="sw64LegacyReview" disabled>DAY VOCA 망각곡선에서 복습</button><p class="sw62-note">이 기기의 이전 퀴즈 점수·망각곡선 자료입니다. TOEFL 단어 문장 만들기 DB와 합산하지 않습니다. DAY별 스코어·복습은 DAY VOCA 하단 탭 또는 이 복습 버튼에서 계속 이용할 수 있습니다.</p>
     </div>
     <p class="sw62-note">기존 기록에 객관식 정오답 정보가 없는 경우 오답 0회로 단정하지 않고 ‘기록 없음’으로 표시합니다. 문장 생성은 자기평가와 구분합니다.</p>
   </section>
@@ -26399,7 +26399,7 @@ window.addEventListener('pageshow',()=>{recoverSignedInCatalog();if(uid)for(cons
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD <span id="swAdminReleaseVersion">v6.4.40</span> 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD <span id="swAdminReleaseVersion">v6.4.57</span> 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
@@ -26420,7 +26420,7 @@ window.addEventListener('pageshow',()=>{recoverSignedInCatalog();if(uid)for(cons
    </section>
     <section class="panel" id="swCategoryRelease" hidden>
       <div class="course-list-head"><strong style="font-size:17px">🆕 카테고리별 신규 콘텐츠 공개</strong><button type="button" id="swCategoryRefresh" class="sw649-refresh">DB 다시 읽기</button></div>
-      <p>설정은 <b>MY · 소리영어 · OPIC · Friends · 단어 DAY</b> 5개 카테고리에 딱 한 번만 합니다. 앞으로 추가되는 모든 수업과 콘텐츠가 소속 카테고리 설정을 자동 상속합니다.</p>
+      <p>설정은 <b>MY · 소리영어 · OPIC · Friends · Business 영어 · 단어 DAY</b> 6개 카테고리에 딱 한 번만 합니다. 앞으로 추가되는 모든 수업과 콘텐츠가 소속 카테고리 설정을 자동 상속합니다.</p>
       <div id="swCategoryMsg" role="status" aria-live="polite">관리자 설정 조회 대기 중</div>
       <div class="sw650-setting-box"><div id="swCategorySummary" class="sw650-summary">DB 설정 확인 중</div><div id="swCategoryCards" class="sw650-list"></div></div>
       <p style="font-size:12px;color:#747b91">기존 공개 수업과 콘텐츠는 유지됩니다. 승인 후 공개에서는 신규 수업과 콘텐츠가 대기에 쌓이고, 승인 후 공개됩니다. 단어 DAY에는 TOEFL DAY와 OPIC 단어 DAY가 포함됩니다.</p>
@@ -30009,15 +30009,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  el('sw62GotoPattern').addEventListener('click',()=>chooseTab('pattern'));el('sw62GotoWord').addEventListener('click',()=>chooseTab('word'));
  el('sw62WordSort').addEventListener('change',e=>{sort=e.target.value;renderWord()});el('sw62WordDay').addEventListener('change',e=>{day=e.target.value;renderWord()});
  el('sw64Refresh').addEventListener('click',()=>void refresh(true));
- function openLegacyDayView(target){
-  if(typeof openDay!=='function')return;
-  document.getElementById('p2Close')?.click();
-  const day=(typeof currentDay!=='undefined' && Number(currentDay)>0)?Number(currentDay):1;
-  openDay(day,target);
- }
- el('sw64DayScoreGo').addEventListener('click',()=>openLegacyDayView('score'));
- el('sw64DayReviewGo').addEventListener('click',()=>openLegacyDayView('forget'));
- el('sw64LegacyReview').addEventListener('click',()=>openLegacyDayView('forget'));
+ el('sw64LegacyReview').addEventListener('click',()=>{document.getElementById('p2Close')?.click();openDay(currentDay||1,'forget');});
  el('sw62WordMakeup').addEventListener('click',()=>{const ids=window.sw62WordMakeupIds||[];if(!ids.length)return;void window.saywardWordSentence?.startMakeup?.(ids);});
  // Opening uses the owner's onOpen hook. The drawer click is intercepted before late listeners.
  window.addEventListener('sayward:auth-state',e=>{if(!e.detail?.authenticated){ticket++;cache=null;set('sw62PatternValue','—');set('sw62WordValue','—');set('sw64DuePattern','—');set('sw64DueWord','—');set('sw62LoadStatus','로그인하면 통계를 조회합니다.');el('sw62WordList').replaceChildren();}else if(panel.classList.contains('sw5513-progress'))void refresh(true);});
@@ -30221,7 +30213,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const current=dashboard.dataset.sw62Tab||'summary',from=order.indexOf(current),next=from+delta;
    if(next>=0&&next<order.length)window.saywardLearningDashboard?.openTab?.(order[next]);
  },()=>!!dashboard?.classList.contains('sw5513-progress')&&!dashboard.classList.contains('hidden'));
- window.saywardSwipeStatus={version:'6.4.55',direction:'left-next/right-previous',threshold,
+ window.saywardSwipeStatus={version:'6.4.57',direction:'left-next/right-previous',threshold,
   buttonStart:true,verticalScroll:'native',tapSafety:'swipe-click-suppressed',edgeGuard:30};
 })();
 </script>
@@ -30588,13 +30580,31 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 @media(max-width:390px){.sw650-row{padding:13px 10px}.sw650-choice{font-size:12px;gap:4px}.sw650-choice .sw650-check{width:16px;height:16px}}
 </style>
 <script id="sw650CategoryReleaseScript">
-/* SAYWARD v6.4.35: persistent five-category publish policy. */
+/* SAYWARD v6.4.57: DB-backed six-category publish policy (additional DB categories tolerated). */
 (()=>{'use strict';
  const root=document.getElementById('swCategoryRelease');if(!root)return;
  const rowsRoot=document.getElementById('swCategoryCards');
  const feedback=document.getElementById('swCategoryMsg');
  const reload=document.getElementById('swCategoryRefresh');
- const categories=[['my','MY 수업'],['sori','소리영어'],['opic','OPIC'],['friends','Friends'],['day','단어 DAY']];
+ const coreCategories=[['my','MY 수업'],['sori','소리영어'],['opic','OPIC'],['friends','Friends'],['business','Business 영어'],['day','단어 DAY']];
+  let categories=coreCategories.slice();
+  // DB is authoritative. Accept additional categories safely instead of blocking all controls.
+  function checkCatalog(rows){
+    if(!Array.isArray(rows) || rows.length<coreCategories.length)
+      throw Error('카테고리 공개 설정 일부가 누락되었습니다.');
+    const seen=new Set();
+    for(const row of rows){
+      if(!row || typeof row.category!=='string' || !/^[a-z][a-z0-9_]*$/.test(row.category)
+         || typeof row.auto_open!=='boolean' || seen.has(row.category))
+        throw Error('카테고리 공개 설정 형식 또는 중복 오류');
+      seen.add(row.category);
+    }
+    if(!coreCategories.every(([id])=>seen.has(id)))
+      throw Error('기본 6개 카테고리 중 일부의 설정이 누락되었습니다.');
+    categories=coreCategories.concat(rows.filter(row=>!coreCategories.some(([id])=>id===row.category))
+      .map(row=>[row.category,row.category]));
+    return rows;
+  }
  const state={rows:[],busy:false,epoch:0};
  const auth=()=>window.saywardAuth?.snapshot?.()||{};
  const isAdmin=()=>auth().authenticated && auth().role==='admin';
@@ -30606,7 +30616,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  function render(){
    const allowed=isAdmin();root.hidden=!allowed;if(!allowed)return;
    reload.disabled=state.busy;
-   const complete=state.rows.length===categories.length;
+   const complete=categories.length>0 && categories.every(([id])=>state.rows.some(r=>r.category===id));
    const automatic=state.rows.filter(r=>r.auto_open===true).length;
    document.getElementById('swCategorySummary').textContent=complete
     ?`DB 적용: 자동 공개 ${automatic}개 · 승인 후 공개 ${categories.length-automatic}개`
@@ -30636,8 +30646,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    try{
      const rows=await request('sayward_admin_category_release_catalog');
      if(token!==state.epoch)return;
-     if(!Array.isArray(rows)||rows.length!==categories.length||!categories.every(([id])=>rows.some(r=>r.category===id&&typeof r.auto_open==='boolean')))
-       throw Error('카테고리 5개 설정 조회 결과가 올바르지 않습니다.');
+     checkCatalog(rows);
      state.rows=rows;
      note('✓ Supabase DB에서 저장된 공개 설정을 확인했습니다.','ok');
    }catch(e){if(token===state.epoch){state.rows=[];note('DB 조회 실패 · '+String(e?.message||e),'error');}}
@@ -30653,8 +30662,8 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
      const result=await request('sayward_admin_set_category_release',{p_category:id,p_auto_open:newAuto});
      if(result?.category!==id||result.auto_open!==newAuto)throw Error('DB 저장 응답 불일치');
      const verified=await request('sayward_admin_category_release_catalog');
-     if(!Array.isArray(verified)||verified.length!==5||verified.find(r=>r.category===id)?.auto_open!==newAuto)
-       throw Error('저장 후 DB 재조회 검증 실패');
+     checkCatalog(verified);
+     if(verified.find(r=>r.category===id)?.auto_open!==newAuto) throw Error('저장 후 DB 재조회 검증 실패');
      state.rows=verified;
      note(`✓ ${catName(id)}: '${newAuto?'자동 공개':'승인 후 공개'}' 저장 완료 · DB 재조회 확인`,'ok');
    }catch(e){note(`✕ ${catName(id)} 저장 실패 · ${String(e?.message||e)} · DB 다시 읽기로 확인해 주세요.`,'error');}
@@ -30672,8 +30681,8 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
         Number(response?.released_count||0)+Number(response?.released_lessons||0)!==pending)
        throw Error('공개 건수 불일치');
      const verified=await request('sayward_admin_category_release_catalog');
-     if(!Array.isArray(verified)||Number(verified.find(r=>r.category===id)?.pending)!==0)
-       throw Error('DB 재조회 시 승인 대기가 남아 있습니다');
+     checkCatalog(verified);
+     if(Number(verified.find(r=>r.category===id)?.pending)!==0) throw Error('DB 재조회 시 승인 대기가 남아 있습니다');
      state.rows=verified;
      note(`✓ ${catName(id)}: 신규 수업 ${response.released_lessons}개, 카드 ${response.released_count}개 공개 완료`,'ok');
      window.dispatchEvent(new Event('sayward:visibility-refresh'));
