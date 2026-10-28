@@ -1,3 +1,4 @@
+<!-- SAYWARD v6.4.59: Restore automatic scroll to the spoken pattern/sentence during MP3 or TTS; keep reordered result cards. -->
 <!-- SAYWARD v6.4.58: Unify duplicate score/forgetting drawer navigation under learning dashboard; preserve DAY score/forget tabs and per-device records. -->
 <!-- SAYWARD v6.4.55: Business course DB transport allowlist and signed-in catalog error state, drawer state count labels. -->
 <!-- SAYWARD v6.4.51: Enable swipe gestures starting on studio choice/action buttons; preserve taps and native scrolling. -->
@@ -23,12 +24,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.58 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.58">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.59 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.59">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.58';
+  const release=marker?.content?.trim() || '6.4.59';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -3899,7 +3900,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 
     <section class="configSection">
       <div class="configSectionTitle">📘 SAYWARD 사용 방법 · 최신 안내</div>
-      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.58의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
+      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.59의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
       <details class="usageDetail"><summary>📚 DAY VOCA 시작·반복</summary><div class="usageBody">DAY를 선택하고 단어·뜻·예문 등 반복할 항목을 체크한 뒤 학습을 시작합니다. <b>모르는 단어 선택</b>으로 별표를 표시해 두면 퀴즈의 모르는 단어/틀린 단어 필터에도 반영됩니다. 설정에서 학습 순서, 읽기 횟수와 재생 위치를 관리하세요.</div></details>
       <details class="usageDetail"><summary>✍️ 패턴 문장 만들기·패턴 맞추기</summary><div class="usageBody">3줄 메뉴의 <b>패턴 문장 만들기</b>에서 수업 영역·복습/신규 비율·문항 수를 선택합니다. 문장 만들기는 직접 답을 입력하고 패턴 맞추기는 보기에서 정답 패턴을 선택합니다. v6.4.51부터 연결된 예문을 <b>미학습 문장 우선</b>으로 순환하며, 저장된 개별 문장 이력은 공식 GPT 채점과 별도로 관리됩니다.</div></details>
       <details class="usageDetail"><summary>🎯 집중 학습 등록과 조회</summary><div class="usageBody">문제 결과에서 <b>집중 학습 등록</b>을 누르고 DB 저장 상태를 확인합니다. 목록 조회는 <b>학습 대시보드 → 패턴 → 학습 패턴 목록 → 정렬 기준 → 🎯 집중 학습 패턴</b>을 이용하세요.</div></details>
@@ -7862,17 +7863,9 @@ function mvDomStartHighlight(text,preferredEl=null){
   MV_DOM_HL.sentence=el;MV_DOM_HL.spoken=mvDomNorm(text);
   el.classList.add('mvTtsSentenceNow');
   mvDomWrapWords(el,MV_DOM_HL.spoken);
-  // v6.4.58: Once a pattern-match result is visible, do not chase each MP3/TTS
-  // utterance with scrollIntoView. That used to move the '혼자 성공 / 복습 필요'
-  // rating buttons away while the learner was trying to tap them. Keep highlighting.
-  const matchReveal=document.getElementById('sw5527Reveal');
-  const matchResult=document.getElementById('sw5533MatchResult');
-  const matchRating=document.getElementById('sw5529SelfRating');
-  const ratingOnScreen=!!(matchReveal && !matchReveal.hidden && matchResult && !matchResult.hidden
-    && matchRating && !matchRating.hidden && matchResult.getClientRects().length);
-  if(!ratingOnScreen){
-    try{el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'})}catch(e){}
-  }
+  // v6.4.59: Restore the original audio-follow scrolling on pattern-match results.
+  // v6.4.58 reordered the feedback cards; retain that layout and word highlighting.
+  try{el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'})}catch(e){}
   return el;
 }
 function mvDomBoundary(charIndex){
@@ -26409,7 +26402,7 @@ window.addEventListener('pageshow',()=>{recoverSignedInCatalog();if(uid)for(cons
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD <span id="swAdminReleaseVersion">v6.4.58</span> 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD <span id="swAdminReleaseVersion">v6.4.59</span> 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
@@ -30223,7 +30216,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const current=dashboard.dataset.sw62Tab||'summary',from=order.indexOf(current),next=from+delta;
    if(next>=0&&next<order.length)window.saywardLearningDashboard?.openTab?.(order[next]);
  },()=>!!dashboard?.classList.contains('sw5513-progress')&&!dashboard.classList.contains('hidden'));
- window.saywardSwipeStatus={version:'6.4.58',direction:'left-next/right-previous',threshold,
+ window.saywardSwipeStatus={version:'6.4.59',direction:'left-next/right-previous',threshold,
   buttonStart:true,verticalScroll:'native',tapSafety:'swipe-click-suppressed',edgeGuard:30};
 })();
 </script>
@@ -31512,10 +31505,6 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
 #myClassPage .myChunkPattern::after,
 #myClassPage .myChunkExample::after{content:' 🔊';font-size:12px;opacity:.55;vertical-align:middle}
 .swv6433-tap-speaking {background-color:rgba(105,86,200,.12)!important;border-radius:6px;transition:background-color .2s}
-/* v6.4.58: Keep pattern-match result and its self-rating stationary during audio highlighting. */
-#sw5527PracticePage .swStudio-is-match-result,
-#sw5527PracticePage .swStudio-is-match-result .sw5533-match-result,
-#sw5527PracticePage .swStudio-is-match-result #sw5529SelfRating{overflow-anchor:none}
 </style>
 <script id="swv6433TapReadOnce">
 /* SAYWARD v6.4.35: click the displayed ENGLISH text to hear it ONCE.
