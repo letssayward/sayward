@@ -3608,6 +3608,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 <button class="drawerItem" id="sw5520DrawerAccount" data-drawer-action="accountLogin" type="button"><span class="drawerIcon" id="sw5520DrawerAccountIcon">🔐</span><span class="drawerItemText"><span id="sw5520DrawerAccountName">로그인 · 회원가입</span><small id="sw5520DrawerAccountEmail">이메일 인증 · 가입 신청 · 로그인</small></span></button>
 <button class="drawerItem" id="sw5520DrawerLogout" data-drawer-action="accountLogout" type="button" hidden><span class="drawerIcon">🚪</span><span class="drawerItemText">로그아웃<small>현재 계정에서 안전하게 나가기</small></span></button>
 <button class="drawerItem" id="sw5513DrawerAdmin" data-drawer-action="adminCenter" hidden><span class="drawerIcon">🛡️</span><span class="drawerItemText">관리자 센터<small>가입 승인 · 학습 배정 · 콘텐츠 관리</small></span></button>
+<button class="drawerItem" id="swOfficialSubmitOpen" type="button"><span class="drawerIcon">📤</span><span class="drawerItemText">공식 아침 답안 제출<small>10/29 답안 15개 · 인증된 DB 제출</small></span></button>
 <button class="drawerItem" data-drawer-action="accountDashboard"><span class="drawerIcon">📈</span><span class="drawerItemText">학습 대시보드<small>종합 · 패턴 · 단어 · 학습 시간 · 취약점</small></span></button>
 <div class="drawerDivider"></div><div class="drawerSectionTitle">학습 바로가기</div>
 <button class="drawerItem" data-drawer-action="patternSentence" type="button"><span class="drawerIcon">✍️</span><span class="drawerItemText">패턴 문장 만들기<small>복습+새 패턴 혼합 · GPT 채점 요청</small></span></button>
@@ -24215,7 +24216,7 @@ window.saywardAuth={
       counts[status]++;
       if(status!=='new')touchedPatternIds.push(id);
     }
-    return {uid:who,total:active.size,counts,touchedPatternIds};
+    return {uid:who,total:active.size,counts,touchedPatternIds,activePatternIds:[...active]};
   },
   async readTrainedEvents(){
     // Do not equate stage/status with prior sentence attempts. All four source types
@@ -26929,16 +26930,22 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     const total=c.stable+c.learning+c.focus+c.new;
     if(total!==data.total)return false;
     for(const key of Object.keys(ids))put(ids[key],c[key]);
-    const touched=c.stable+c.learning+c.focus;
+    // Status (Stable/Learning/Focus/New) is not evidence of a learning attempt.
+    // Count distinct active Master pattern IDs with actual persisted GPT/app history.
+    const activeIds=new Set(data.activePatternIds||[]);
+    if(activeIds.size!==total) return false;
     const latest=Array.isArray(data.appLatest)?data.appLatest:[];
-    const officialTouched=new Set(data.touchedPatternIds||[]);
-    const appOnly=new Set(latest.map(x=>x.pattern_id).filter(Boolean).filter(id=>!officialTouched.has(id)));
-    const experienced=Math.min(total,touched+appOnly.size);
+    const events=Array.isArray(data.trainedEvents)?data.trainedEvents:[];
+    const gptIds=new Set(events.map(x=>x.pattern_id).filter(id=>activeIds.has(id)));
+    const appIds=new Set(latest.map(x=>x.pattern_id).filter(id=>activeIds.has(id)));
+    const combined=new Set([...gptIds,...appIds]);
+    const appOnly=[...appIds].filter(id=>!gptIds.has(id)).length;
+    const experienced=combined.size;
     const progress=total?100*experienced/total:0;
     put('sw5526SentencePercent',total?progress.toFixed(1)+'%':'0%');
     put('sw5526SentenceTotal',total);put('sw5526SentenceTouched',experienced);
     const bar=get('sw5526SentenceBar');if(bar)bar.style.width=progress.toFixed(2)+'%';
-    put('sw5526SentenceStatus','학습경험 '+experienced+' (GPT 학습 '+touched+', 앱 학습 '+appOnly.size+')');
+    put('sw5526SentenceStatus','학습 경험 '+experienced+'개 (공식 학습 이력 '+gptIds.size+'개 + 앱에서만 학습 '+appOnly+'개) · 상태별 수량은 별도 지표');
     const countsApp={recalled:0,review:0,learned:0};
     for(const x of latest){if(Object.prototype.hasOwnProperty.call(countsApp,x.self_rating))countsApp[x.self_rating]++;}
     put('sw5529DrawerAppSummary','✍️ 앱 연습 '+latest.length+'개 패턴 · 혼자 성공 '+countsApp.recalled+' / 복습 '+countsApp.review+' / 정답 확인 '+countsApp.learned+' · 공식 승급과 별도');
@@ -26952,13 +26959,14 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     if(cache?.uid===uid)show(cache);
     status((reason==='save'?'학습 저장 확인 · ':'')+'Supabase 최신 현황 조회 중…'+(lastSuccessAt?' · 마지막 확인 '+fmt(lastSuccessAt):''));
     try{
-      const [official,app]=await Promise.all([
+      const [official,app,trainedEvents]=await Promise.all([
         window.saywardAuth.readSentenceCounts(),
-        window.saywardAuth.readAppPracticeLatest()
+        window.saywardAuth.readAppPracticeLatest(),
+        window.saywardAuth.readTrainedEvents()
       ]);
       if(ticket!==serial||auth().uid!==uid||!auth().authenticated)return;
-      if(!show({...official,appLatest:app}))throw new Error('SENTENCE_DATA_INVALID');
-      cache={...official,appLatest:app,uid};lastSuccessAt=Date.now();
+      if(!show({...official,appLatest:app,trainedEvents}))throw new Error('SENTENCE_DATA_INVALID');
+      cache={...official,appLatest:app,trainedEvents,uid};lastSuccessAt=Date.now();
       status('✓ 최신 DB 확인 '+fmt(lastSuccessAt));
     }catch(err){
       if(ticket!==serial||auth().uid!==uid||!auth().authenticated)return;
@@ -31653,4 +31661,31 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
 #p2Panel.sw5513-progress #sw5538FocusToggle[aria-pressed="true"]{background:#e9e1ff}
 @media(max-width:390px){#p2Panel.sw5513-progress .sw5539-focus-row{gap:5px}#p2Panel.sw5513-progress .sw5539-focus-row>.sw5539-card{padding:9px 6px}#p2Panel.sw5513-progress .sw5539-focus-toggle{min-width:68px;max-width:80px;font-size:10px;padding:9px 5px}#p2Panel.sw5513-progress .sw5540-list-main{grid-template-columns:minmax(0,1fr) 34px 34px;gap:4px}#p2Panel.sw5513-progress .sw5540-list-name{font-size:12px}}
 </style>
+<style>#swOfficialModal{position:fixed;inset:0;z-index:99999;background:#0f172abf;display:none;align-items:center;justify-content:center;padding:14px}#swOfficialModal.is-open{display:flex}#swOfficialModal .sw-official-box{width:min(100%,540px);max-height:90vh;overflow:auto;background:white;border-radius:20px;padding:20px;color:#111827}#swOfficialModal textarea{width:100%;min-height:54px;margin:5px 0 12px;padding:9px;border:1px solid #cbd5e1;border-radius:10px;font:14px system-ui}#swOfficialModal button{border:0;border-radius:11px;padding:11px 14px;font-weight:850;margin:4px;background:#e2e8f0}#swOfficialModal #swOfficialSend{background:#1d4ed8;color:white}#swOfficialModal #swOfficialStatus{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f9;padding:10px;border-radius:10px;font-size:13px}</style>
+<div id="swOfficialModal" role="dialog" aria-modal="true" aria-label="SAYWARD 공식 답안 제출"><div class="sw-official-box"><h2>10월 29일 공식 아침 답안 제출</h2><p>채팅에 제출한 15개 답안을 불러왔습니다. 확인 후 누르면 로그인된 계정으로 공식 제출 함수만 호출합니다. 채점 확정은 별도 검증이 필요합니다.</p><div id="swOfficialFields"></div><button id="swOfficialSend" type="button">15개 답안 공식 DB 제출</button><button id="swOfficialClose" type="button">닫기</button><div id="swOfficialStatus" role="status">아직 제출하지 않았습니다.</div></div></div>
+<script>(function(){'use strict';
+const SESSION='SW-a33e2cfb-07e6-40a3-86a2-913bf7eee399';
+const ANSWERS=["I think the community fields should be opend on weekend becase people are busy on the week.for example parents can plant some vegetables with their kids on saturaday. so I believe it is important to use weekend", "people from different teams collaborated as an one team", "I seems like a tip screen pops up eveywhere", "I'm in charge of research on global semiconductor industry", "as improving people's life standards, people have more invested in houses", "we have th be considerate of out neighbors", "I had to work though even lunch time", "I am usted to the procedure", "bank hours overlap with my working time", "I spent over 25 minutes grabing a cab", "it's not fency but it gets job done", "tend to~", "doesn't it make you ~~", "make sure to confirm", "i don't know"];
+const PROMPTS=["동네 공동 텃밭은 주말에도 열어야 한다고 생각합니다.", "여러 팀의 사람들이 하나의 프로젝트 팀으로 협업했습니다.", "팁 화면이 어디서나 뜨는 것 같다.", "글로벌 반도체 산업 조사 업무를 담당했습니다.", "생활 수준이 향상되면서 사람들은 집에 더 많이 투자해 왔습니다.", "우리는 이웃을 배려해야 합니다.", "오늘은 점심시간에도 계속 일해야 했다.", "나는 그 절차에 익숙해.", "은행 영업시간이 제 근무시간과 겹칩니다.", "택시를 잡으려고 25분 넘게 기다렸다.", "화려하진 않지만 필요한 역할은 한다", "~하는 경향이 있다", "그게 너를 ~하게 하지 않아?", "반드시 ~하도록 확인하다", "~가 어땠는지"];
+const modal=document.getElementById('swOfficialModal'),fields=document.getElementById('swOfficialFields'),status=document.getElementById('swOfficialStatus'),send=document.getElementById('swOfficialSend');
+function show(){fields.replaceChildren();ANSWERS.forEach((answer,i)=>{const wrap=document.createElement('div'),lab=document.createElement('label'),ta=document.createElement('textarea');lab.textContent='Q'+(i+1)+' · '+PROMPTS[i];lab.style.fontWeight='700';ta.value=answer;ta.dataset.question=String(i+1);wrap.append(lab,ta);fields.append(wrap)});status.textContent='공식 DB 제출 전입니다.';modal.classList.add('is-open');document.body.classList.remove('drawer-open')}
+document.getElementById('swOfficialSubmitOpen').addEventListener('click',show);
+document.getElementById('swOfficialClose').addEventListener('click',()=>modal.classList.remove('is-open'));
+send.addEventListener('click',async()=>{send.disabled=true;try{
+const snap=window.saywardAuth?.snapshot?.(),client=window.saywardAuth?.getClient?.();if(!snap?.authenticated||!snap.uid||!client)throw Error('SAYWARD 앱에 로그인된 활성 계정이 필요합니다.');
+status.textContent='공식 Attempt 15건을 확인 중…';
+const {data:session,error:se}=await client.from('sayward_study_sessions').select('session_id,user_id,status,expected_count').eq('session_id',SESSION).single();if(se)throw se;if(!session||session.user_id!==snap.uid||Number(session.expected_count)!==15)throw Error('세션 소유권 또는 문제 수가 일치하지 않습니다.');
+const {data:rows,error:re}=await client.from('sayward_study_attempts').select('attempt_id,question_number,prompt_ko,status,user_answer').eq('session_id',SESSION).order('question_number');if(re)throw re;if(!rows||rows.length!==15)throw Error('Attempt 15개를 확인할 수 없습니다.');
+const values=[...fields.querySelectorAll('textarea')].map(e=>e.value);if(values.length!==15||values.some(x=>!x.trim()))throw Error('15개 답안을 모두 확인해 주세요.');
+const payload=rows.map((r,i)=>{if(Number(r.question_number)!==i+1||!r.attempt_id||!String(r.prompt_ko||'').includes(PROMPTS[i]))throw Error('Q'+(i+1)+' 원문/Attempt 불일치');if(!['issued','submitted','graded'].includes(r.status))throw Error('Q'+(i+1)+' 제출 불가능 상태');return {attempt_id:r.attempt_id,user_answer:values[i]}});
+if(session.status==='graded')throw Error('이미 채점 완료된 세션입니다. 중복 제출하지 않습니다.');
+status.textContent='인증된 공식 제출 함수를 호출 중…';
+const key='SAYWARD-MORNING-20261029-15Q-V1-SUBMISSION';
+const {data,error}=await client.rpc('sayward_submit_answers',{p_session_id:SESSION,p_answers:payload,p_submission_key:key});if(error)throw error;
+const {data:verify,error:ve}=await client.from('sayward_study_attempts').select('attempt_id,status,user_answer').eq('session_id',SESSION);if(ve)throw ve;
+if(!verify||verify.length!==15||verify.some((r,i)=>!['submitted','graded'].includes(r.status)||!payload.some(p=>p.attempt_id===r.attempt_id&&p.user_answer===r.user_answer)))throw Error('함수 호출 후 15개 Attempt 독립 검증 실패. DB 상태를 확인하세요.');
+status.textContent='공식 답안 제출 완료 · Attempt 15건 독립 확인. 채점 및 History/State/Level 반영은 별도 공식 채점 commit이 필요합니다.
+'+JSON.stringify(data);
+}catch(e){status.textContent='Pending: '+(e?.message||String(e))}finally{send.disabled=false}});
+})();</script>
 </body></html>
