@@ -1,3 +1,4 @@
+<!-- SAYWARD v6.4.61: Unified official morning/lunch/evening answer submission UI; prior learning behavior retained. -->
 <!-- SAYWARD v6.4.60: Pattern-match audio follows the correct-pattern card, then the official DB sentence card; preserve scroll-follow and order. -->
 <!-- SAYWARD v6.4.60: Restore automatic scroll to the spoken pattern/sentence during MP3 or TTS; keep reordered result cards. -->
 <!-- SAYWARD v6.4.58: Unify duplicate score/forgetting drawer navigation under learning dashboard; preserve DAY score/forget tabs and per-device records. -->
@@ -25,12 +26,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.60 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.60">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.61 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.61">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.60';
+  const release=marker?.content?.trim() || '6.4.61';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -3608,7 +3609,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 <button class="drawerItem" id="sw5520DrawerAccount" data-drawer-action="accountLogin" type="button"><span class="drawerIcon" id="sw5520DrawerAccountIcon">🔐</span><span class="drawerItemText"><span id="sw5520DrawerAccountName">로그인 · 회원가입</span><small id="sw5520DrawerAccountEmail">이메일 인증 · 가입 신청 · 로그인</small></span></button>
 <button class="drawerItem" id="sw5520DrawerLogout" data-drawer-action="accountLogout" type="button" hidden><span class="drawerIcon">🚪</span><span class="drawerItemText">로그아웃<small>현재 계정에서 안전하게 나가기</small></span></button>
 <button class="drawerItem" id="sw5513DrawerAdmin" data-drawer-action="adminCenter" hidden><span class="drawerIcon">🛡️</span><span class="drawerItemText">관리자 센터<small>가입 승인 · 학습 배정 · 콘텐츠 관리</small></span></button>
-<button class="drawerItem" id="swOfficialSubmitOpen" type="button"><span class="drawerIcon">📤</span><span class="drawerItemText">공식 아침 답안 제출<small>10/29 답안 15개 · 인증된 DB 제출</small></span></button>
+<button class="drawerItem" id="swOfficialSubmitOpen" type="button"><span class="drawerIcon">📤</span><span class="drawerItemText">공식 학습 답안 제출<small>아침·점심·저녁 · 인증된 DB 제출</small></span></button>
 <button class="drawerItem" data-drawer-action="accountDashboard"><span class="drawerIcon">📈</span><span class="drawerItemText">학습 대시보드<small>종합 · 패턴 · 단어 · 학습 시간 · 취약점</small></span></button>
 <div class="drawerDivider"></div><div class="drawerSectionTitle">학습 바로가기</div>
 <button class="drawerItem" data-drawer-action="patternSentence" type="button"><span class="drawerIcon">✍️</span><span class="drawerItemText">패턴 문장 만들기<small>복습+새 패턴 혼합 · GPT 채점 요청</small></span></button>
@@ -3902,7 +3903,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 
     <section class="configSection">
       <div class="configSectionTitle">📘 SAYWARD 사용 방법 · 최신 안내</div>
-      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.60의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
+      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.61의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
       <details class="usageDetail"><summary>📚 DAY VOCA 시작·반복</summary><div class="usageBody">DAY를 선택하고 단어·뜻·예문 등 반복할 항목을 체크한 뒤 학습을 시작합니다. <b>모르는 단어 선택</b>으로 별표를 표시해 두면 퀴즈의 모르는 단어/틀린 단어 필터에도 반영됩니다. 설정에서 학습 순서, 읽기 횟수와 재생 위치를 관리하세요.</div></details>
       <details class="usageDetail"><summary>✍️ 패턴 문장 만들기·패턴 맞추기</summary><div class="usageBody">3줄 메뉴의 <b>패턴 문장 만들기</b>에서 수업 영역·복습/신규 비율·문항 수를 선택합니다. 문장 만들기는 직접 답을 입력하고 패턴 맞추기는 보기에서 정답 패턴을 선택합니다. v6.4.51부터 연결된 예문을 <b>미학습 문장 우선</b>으로 순환하며, 저장된 개별 문장 이력은 공식 GPT 채점과 별도로 관리됩니다.</div></details>
       <details class="usageDetail"><summary>🎯 집중 학습 등록과 조회</summary><div class="usageBody">문제 결과에서 <b>집중 학습 등록</b>을 누르고 DB 저장 상태를 확인합니다. 목록 조회는 <b>학습 대시보드 → 패턴 → 학습 패턴 목록 → 정렬 기준 → 🎯 집중 학습 패턴</b>을 이용하세요.</div></details>
@@ -12774,6 +12775,7 @@ function mvOpenUpdateHistory(){
       <div class="mvInfoVersionCard"><b>v${window.SAYWARD_RELEASE}</b><span>현재 설치 버전</span></div>
       <section class="mvInfoSection">
         <h3>v${window.SAYWARD_RELEASE}</h3>
+        <ul><li>✓ 3줄 메뉴에 아침(15문항)·점심(15문항)·저녁(20문항) 통합 「공식 학습 답안 제출」 메뉴를 추가했습니다. 시간대와 Session ID를 구분해 로그인 계정으로 공식 DB 제출을 요청합니다. 실제 제출 및 채점 확정 여부는 서버 응답 확인이 필요합니다.</li></ul>
          <ul><li>✓ 패턴 맞추기 결과에서 자동 재생 음성의 위치를 정답 패턴·의미 → 공식 DB 기준 문장 카드로 고정했습니다. MP3/TTS 자동 스크롤과 글자 강조를 유지하고 상단의 중복 카드에서는 재생 아이콘을 숨겼습니다.</li></ul>
          <ul><li>✓ 3줄 메뉴에서 중복된 ‘학습 통계’·‘망각곡선’ 바로가기를 제거하고 ‘학습 대시보드’로 통합했습니다. 기존 DAY별 스코어·망각곡선 탭과 기기별 기록은 유지합니다.</li><li>✓ 대시보드 ‘DAY VOCA 망각곡선에서 복습’ 버튼을 기존 메뉴 없이도 직접 동작하도록 연결했습니다.</li></ul>
          <ul><li>✓ 사용 방법을 SAYWARD 전체 학습 가이드로 개편하고 문장별 순환 출제·집중 학습·녹음 자동 저장·PWA·MP3 우선 재생 안내를 추가했습니다.</li><li>✓ 패턴 맞추기·단어 패턴 맞추기에서 선택지·확인·이전·다음 버튼 위를 좌우로 스와이프해도 문제를 이동합니다. 짧은 터치의 기존 버튼 동작과 세로 스크롤은 유지합니다.</li><li>✓ 패턴 맞추기에서 ‘선택한 패턴 확인’을 눌렀을 때 첫 음성도 등록된 패턴 MP3를 우선 재생하도록 수정했습니다. MP3가 없을 때만 자연스러운 문구로 TTS 대체합니다.</li></ul>
@@ -26405,7 +26407,7 @@ window.addEventListener('pageshow',()=>{recoverSignedInCatalog();if(uid)for(cons
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD <span id="swAdminReleaseVersion">v6.4.60</span> 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD <span id="swAdminReleaseVersion">v6.4.61</span> 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
@@ -30226,7 +30228,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const current=dashboard.dataset.sw62Tab||'summary',from=order.indexOf(current),next=from+delta;
    if(next>=0&&next<order.length)window.saywardLearningDashboard?.openTab?.(order[next]);
  },()=>!!dashboard?.classList.contains('sw5513-progress')&&!dashboard.classList.contains('hidden'));
- window.saywardSwipeStatus={version:'6.4.60',direction:'left-next/right-previous',threshold,
+ window.saywardSwipeStatus={version:'6.4.61',direction:'left-next/right-previous',threshold,
   buttonStart:true,verticalScroll:'native',tapSafety:'swipe-click-suppressed',edgeGuard:30};
 })();
 </script>
@@ -31661,31 +31663,40 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
 #p2Panel.sw5513-progress #sw5538FocusToggle[aria-pressed="true"]{background:#e9e1ff}
 @media(max-width:390px){#p2Panel.sw5513-progress .sw5539-focus-row{gap:5px}#p2Panel.sw5513-progress .sw5539-focus-row>.sw5539-card{padding:9px 6px}#p2Panel.sw5513-progress .sw5539-focus-toggle{min-width:68px;max-width:80px;font-size:10px;padding:9px 5px}#p2Panel.sw5513-progress .sw5540-list-main{grid-template-columns:minmax(0,1fr) 34px 34px;gap:4px}#p2Panel.sw5513-progress .sw5540-list-name{font-size:12px}}
 </style>
-<style>#swOfficialModal{position:fixed;inset:0;z-index:99999;background:#0f172abf;display:none;align-items:center;justify-content:center;padding:14px}#swOfficialModal.is-open{display:flex}#swOfficialModal .sw-official-box{width:min(100%,540px);max-height:90vh;overflow:auto;background:white;border-radius:20px;padding:20px;color:#111827}#swOfficialModal textarea{width:100%;min-height:54px;margin:5px 0 12px;padding:9px;border:1px solid #cbd5e1;border-radius:10px;font:14px system-ui}#swOfficialModal button{border:0;border-radius:11px;padding:11px 14px;font-weight:850;margin:4px;background:#e2e8f0}#swOfficialModal #swOfficialSend{background:#1d4ed8;color:white}#swOfficialModal #swOfficialStatus{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f9;padding:10px;border-radius:10px;font-size:13px}</style>
-<div id="swOfficialModal" role="dialog" aria-modal="true" aria-label="SAYWARD 공식 답안 제출"><div class="sw-official-box"><h2>10월 29일 공식 아침 답안 제출</h2><p>채팅에 제출한 15개 답안을 불러왔습니다. 확인 후 누르면 로그인된 계정으로 공식 제출 함수만 호출합니다. 채점 확정은 별도 검증이 필요합니다.</p><div id="swOfficialFields"></div><button id="swOfficialSend" type="button">15개 답안 공식 DB 제출</button><button id="swOfficialClose" type="button">닫기</button><div id="swOfficialStatus" role="status">아직 제출하지 않았습니다.</div></div></div>
+<style>#swOfficialModal{position:fixed;inset:0;z-index:99999;background:#0f172abf;display:none;align-items:center;justify-content:center;padding:14px}#swOfficialModal.is-open{display:flex}#swOfficialModal .sw-official-box{width:min(100%,540px);max-height:90vh;overflow:auto;background:white;border-radius:20px;padding:20px;color:#111827}#swOfficialModal textarea,#swOfficialModal input,#swOfficialModal select{width:100%;min-height:42px;margin:5px 0 12px;padding:9px;border:1px solid #cbd5e1;border-radius:10px;font:14px system-ui}#swOfficialModal textarea{min-height:65px}#swOfficialModal button{border:0;border-radius:11px;padding:11px 14px;font-weight:850;margin:4px;background:#e2e8f0}#swOfficialModal #swOfficialSend{background:#1d4ed8;color:white}#swOfficialModal #swOfficialStatus{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f9;padding:10px;border-radius:10px;font-size:13px}</style>
+<div id="swOfficialModal" role="dialog" aria-modal="true" aria-label="SAYWARD 공식 학습 답안 제출"><div class="sw-official-box"><h2>공식 학습 답안 제출</h2><p>아침·점심·저녁 중 학습을 선택하고 해당 Session ID를 입력하세요. 세션에 발급된 문제를 확인한 뒤 로그인된 계정으로 공식 제출합니다. 채점 확정은 별도 단계입니다.</p><label>학습 시간대<select id="swOfficialPeriod"><option value="morning">아침 (15문항)</option><option value="lunch">점심 (15문항)</option><option value="evening">저녁 (20문항)</option></select></label><label>Session ID<input id="swOfficialSession" type="text" placeholder="SW-..." autocomplete="off"></label><button id="swOfficialLoad" type="button">세션 문제 불러오기</button><div id="swOfficialFields"></div><button id="swOfficialSend" type="button" disabled>공식 DB 제출</button><button id="swOfficialClose" type="button">닫기</button><div id="swOfficialStatus" role="status">세션을 선택하고 문제를 불러오세요.</div></div></div>
 <script>(function(){'use strict';
-const SESSION='SW-a33e2cfb-07e6-40a3-86a2-913bf7eee399';
-const ANSWERS=["I think the community fields should be opend on weekend becase people are busy on the week.for example parents can plant some vegetables with their kids on saturaday. so I believe it is important to use weekend", "people from different teams collaborated as an one team", "I seems like a tip screen pops up eveywhere", "I'm in charge of research on global semiconductor industry", "as improving people's life standards, people have more invested in houses", "we have th be considerate of out neighbors", "I had to work though even lunch time", "I am usted to the procedure", "bank hours overlap with my working time", "I spent over 25 minutes grabing a cab", "it's not fency but it gets job done", "tend to~", "doesn't it make you ~~", "make sure to confirm", "i don't know"];
-const PROMPTS=["동네 공동 텃밭은 주말에도 열어야 한다고 생각합니다.", "여러 팀의 사람들이 하나의 프로젝트 팀으로 협업했습니다.", "팁 화면이 어디서나 뜨는 것 같다.", "글로벌 반도체 산업 조사 업무를 담당했습니다.", "생활 수준이 향상되면서 사람들은 집에 더 많이 투자해 왔습니다.", "우리는 이웃을 배려해야 합니다.", "오늘은 점심시간에도 계속 일해야 했다.", "나는 그 절차에 익숙해.", "은행 영업시간이 제 근무시간과 겹칩니다.", "택시를 잡으려고 25분 넘게 기다렸다.", "화려하진 않지만 필요한 역할은 한다", "~하는 경향이 있다", "그게 너를 ~하게 하지 않아?", "반드시 ~하도록 확인하다", "~가 어땠는지"];
-const modal=document.getElementById('swOfficialModal'),fields=document.getElementById('swOfficialFields'),status=document.getElementById('swOfficialStatus'),send=document.getElementById('swOfficialSend');
-function show(){fields.replaceChildren();ANSWERS.forEach((answer,i)=>{const wrap=document.createElement('div'),lab=document.createElement('label'),ta=document.createElement('textarea');lab.textContent='Q'+(i+1)+' · '+PROMPTS[i];lab.style.fontWeight='700';ta.value=answer;ta.dataset.question=String(i+1);wrap.append(lab,ta);fields.append(wrap)});status.textContent='공식 DB 제출 전입니다.';modal.classList.add('is-open');document.body.classList.remove('drawer-open')}
+const MORNING_SESSION='SW-a33e2cfb-07e6-40a3-86a2-913bf7eee399';
+const MORNING_ANSWERS=["I think the community fields should be opend on weekend becase people are busy on the week.for example parents can plant some vegetables with their kids on saturaday. so I believe it is important to use weekend", "people from different teams collaborated as an one team", "I seems like a tip screen pops up eveywhere", "I'm in charge of research on global semiconductor industry", "as improving people's life standards, people have more invested in houses", "we have th be considerate of out neighbors", "I had to work though even lunch time", "I am usted to the procedure", "bank hours overlap with my working time", "I spent over 25 minutes grabing a cab", "it's not fency but it gets job done", "tend to~", "doesn't it make you ~~", "make sure to confirm", "i don't know"];
+const modal=document.getElementById('swOfficialModal'),fields=document.getElementById('swOfficialFields'),status=document.getElementById('swOfficialStatus'),send=document.getElementById('swOfficialSend'),period=document.getElementById('swOfficialPeriod'),sessionInput=document.getElementById('swOfficialSession');
+let loaded=null;
+function authClient(){const snap=window.saywardAuth?.snapshot?.(),client=window.saywardAuth?.getClient?.();if(!snap?.authenticated||!snap.uid||!client)throw Error('SAYWARD 앱에 로그인된 활성 계정이 필요합니다.');return {uid:snap.uid,client};}
+function reset(){loaded=null;fields.replaceChildren();send.disabled=true;status.textContent='세션 문제를 불러와 주세요.';}
+function show(){period.value='morning';sessionInput.value=MORNING_SESSION;reset();modal.classList.add('is-open');document.body.classList.remove('drawer-open');}
 document.getElementById('swOfficialSubmitOpen').addEventListener('click',show);
 document.getElementById('swOfficialClose').addEventListener('click',()=>modal.classList.remove('is-open'));
+period.addEventListener('change',()=>{sessionInput.value=period.value==='morning'?MORNING_SESSION:'';reset();});sessionInput.addEventListener('input',reset);
+document.getElementById('swOfficialLoad').addEventListener('click',async()=>{reset();try{
+ const {uid,client}=authClient(),id=sessionInput.value.trim(),expected=period.value==='evening'?20:15;if(!/^SW-[a-zA-Z0-9-]{8,}$/.test(id))throw Error('올바른 Session ID를 입력해 주세요.');
+ status.textContent='인증된 세션과 문제를 조회 중…';
+ const {data:session,error:se}=await client.from('sayward_study_sessions').select('session_id,user_id,status,expected_count').eq('session_id',id).single();if(se)throw se;
+ if(!session||session.user_id!==uid||Number(session.expected_count)!==expected)throw Error('세션 소유권 또는 '+expected+'문항 구성이 일치하지 않습니다.');
+ const {data:rows,error:re}=await client.from('sayward_study_attempts').select('attempt_id,question_number,prompt_ko,status,user_answer').eq('session_id',id).order('question_number');if(re)throw re;
+ if(!rows||rows.length!==expected||rows.some((r,i)=>Number(r.question_number)!==i+1||!r.attempt_id))throw Error('발급된 Attempt 개수 또는 순서가 일치하지 않습니다.');
+ if(rows.some(r=>!['issued','submitted','graded'].includes(r.status)))throw Error('제출 불가능한 Attempt 상태가 있습니다.');
+ rows.forEach((r,i)=>{const wrap=document.createElement('div'),lab=document.createElement('label'),ta=document.createElement('textarea');lab.textContent='Q'+(i+1)+' · '+(r.prompt_ko||'');lab.style.fontWeight='700';ta.value=(id===MORNING_SESSION?MORNING_ANSWERS[i]:r.user_answer)||'';ta.dataset.question=String(i+1);wrap.append(lab,ta);fields.append(wrap);});
+ loaded={id,period:period.value,session,rows};send.disabled=session.status==='graded';status.textContent=session.status==='graded'?'이미 채점 완료된 세션입니다. 재제출할 수 없습니다.':expected+'개 문항을 불러왔습니다. 답안을 확인한 후 제출하세요.';
+ }catch(e){status.textContent='Pending: '+(e?.message||String(e));}});
 send.addEventListener('click',async()=>{send.disabled=true;try{
-const snap=window.saywardAuth?.snapshot?.(),client=window.saywardAuth?.getClient?.();if(!snap?.authenticated||!snap.uid||!client)throw Error('SAYWARD 앱에 로그인된 활성 계정이 필요합니다.');
-status.textContent='공식 Attempt 15건을 확인 중…';
-const {data:session,error:se}=await client.from('sayward_study_sessions').select('session_id,user_id,status,expected_count').eq('session_id',SESSION).single();if(se)throw se;if(!session||session.user_id!==snap.uid||Number(session.expected_count)!==15)throw Error('세션 소유권 또는 문제 수가 일치하지 않습니다.');
-const {data:rows,error:re}=await client.from('sayward_study_attempts').select('attempt_id,question_number,prompt_ko,status,user_answer').eq('session_id',SESSION).order('question_number');if(re)throw re;if(!rows||rows.length!==15)throw Error('Attempt 15개를 확인할 수 없습니다.');
-const values=[...fields.querySelectorAll('textarea')].map(e=>e.value);if(values.length!==15||values.some(x=>!x.trim()))throw Error('15개 답안을 모두 확인해 주세요.');
-const payload=rows.map((r,i)=>{if(Number(r.question_number)!==i+1||!r.attempt_id||!String(r.prompt_ko||'').includes(PROMPTS[i]))throw Error('Q'+(i+1)+' 원문/Attempt 불일치');if(!['issued','submitted','graded'].includes(r.status))throw Error('Q'+(i+1)+' 제출 불가능 상태');return {attempt_id:r.attempt_id,user_answer:values[i]}});
-if(session.status==='graded')throw Error('이미 채점 완료된 세션입니다. 중복 제출하지 않습니다.');
-status.textContent='인증된 공식 제출 함수를 호출 중…';
-const key='SAYWARD-MORNING-20261029-15Q-V1-SUBMISSION';
-const {data,error}=await client.rpc('sayward_submit_answers',{p_session_id:SESSION,p_answers:payload,p_submission_key:key});if(error)throw error;
-const {data:verify,error:ve}=await client.from('sayward_study_attempts').select('attempt_id,status,user_answer').eq('session_id',SESSION);if(ve)throw ve;
-if(!verify||verify.length!==15||verify.some((r,i)=>!['submitted','graded'].includes(r.status)||!payload.some(p=>p.attempt_id===r.attempt_id&&p.user_answer===r.user_answer)))throw Error('함수 호출 후 15개 Attempt 독립 검증 실패. DB 상태를 확인하세요.');
-status.textContent='공식 답안 제출 완료 · Attempt 15건 독립 확인. 채점 및 History/State/Level 반영은 별도 공식 채점 commit이 필요합니다.
-'+JSON.stringify(data);
-}catch(e){status.textContent='Pending: '+(e?.message||String(e))}finally{send.disabled=false}});
+ const {uid,client}=authClient();if(!loaded||loaded.id!==sessionInput.value.trim()||loaded.period!==period.value)throw Error('세션을 다시 불러와 주세요.');
+ const {id,session,rows}=loaded;if(session.user_id!==uid||session.status==='graded')throw Error('세션 소유권 또는 상태를 확인하세요.');
+ const values=[...fields.querySelectorAll('textarea')].map(e=>e.value.trim());if(values.length!==rows.length||values.some(x=>!x))throw Error('모든 답안을 입력해 주세요.');
+ const payload=rows.map((r,i)=>({attempt_id:r.attempt_id,user_answer:values[i]}));
+ status.textContent='공식 제출 함수를 호출 중…';const key='SAYWARD-'+period.value.toUpperCase()+'-'+id+'-SUBMISSION';
+ const {data,error}=await client.rpc('sayward_submit_answers',{p_session_id:id,p_answers:payload,p_submission_key:key});if(error)throw error;
+ const {data:verify,error:ve}=await client.from('sayward_study_attempts').select('attempt_id,status,user_answer').eq('session_id',id);if(ve)throw ve;
+ if(!verify||verify.length!==rows.length||verify.some(r=>!['submitted','graded'].includes(r.status)||!payload.some(p=>p.attempt_id===r.attempt_id&&p.user_answer===r.user_answer)))throw Error('공식 제출 후 독립 검증에 실패했습니다.');
+ status.textContent='공식 답안 제출 완료 · '+rows.length+'건 확인. 채점 및 History/State/Level 반영은 별도 공식 채점 commit이 필요합니다.\n'+JSON.stringify(data);
+ }catch(e){status.textContent='Pending: '+(e?.message||String(e))}finally{send.disabled=false;}});
 })();</script>
 </body></html>
