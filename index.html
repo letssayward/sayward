@@ -1,4 +1,5 @@
-<!-- SAYWARD v6.4.59: Restore automatic scroll to the spoken pattern/sentence during MP3 or TTS; keep reordered result cards. -->
+<!-- SAYWARD v6.4.60: Pattern-match audio follows the correct-pattern card, then the official DB sentence card; preserve scroll-follow and order. -->
+<!-- SAYWARD v6.4.60: Restore automatic scroll to the spoken pattern/sentence during MP3 or TTS; keep reordered result cards. -->
 <!-- SAYWARD v6.4.58: Unify duplicate score/forgetting drawer navigation under learning dashboard; preserve DAY score/forget tabs and per-device records. -->
 <!-- SAYWARD v6.4.55: Business course DB transport allowlist and signed-in catalog error state, drawer state count labels. -->
 <!-- SAYWARD v6.4.51: Enable swipe gestures starting on studio choice/action buttons; preserve taps and native scrolling. -->
@@ -24,12 +25,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.59 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.59">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.60 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.60">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.59';
+  const release=marker?.content?.trim() || '6.4.60';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -3900,7 +3901,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 
     <section class="configSection">
       <div class="configSectionTitle">📘 SAYWARD 사용 방법 · 최신 안내</div>
-      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.59의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
+      <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.60의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
       <details class="usageDetail"><summary>📚 DAY VOCA 시작·반복</summary><div class="usageBody">DAY를 선택하고 단어·뜻·예문 등 반복할 항목을 체크한 뒤 학습을 시작합니다. <b>모르는 단어 선택</b>으로 별표를 표시해 두면 퀴즈의 모르는 단어/틀린 단어 필터에도 반영됩니다. 설정에서 학습 순서, 읽기 횟수와 재생 위치를 관리하세요.</div></details>
       <details class="usageDetail"><summary>✍️ 패턴 문장 만들기·패턴 맞추기</summary><div class="usageBody">3줄 메뉴의 <b>패턴 문장 만들기</b>에서 수업 영역·복습/신규 비율·문항 수를 선택합니다. 문장 만들기는 직접 답을 입력하고 패턴 맞추기는 보기에서 정답 패턴을 선택합니다. v6.4.51부터 연결된 예문을 <b>미학습 문장 우선</b>으로 순환하며, 저장된 개별 문장 이력은 공식 GPT 채점과 별도로 관리됩니다.</div></details>
       <details class="usageDetail"><summary>🎯 집중 학습 등록과 조회</summary><div class="usageBody">문제 결과에서 <b>집중 학습 등록</b>을 누르고 DB 저장 상태를 확인합니다. 목록 조회는 <b>학습 대시보드 → 패턴 → 학습 패턴 목록 → 정렬 기준 → 🎯 집중 학습 패턴</b>을 이용하세요.</div></details>
@@ -7863,7 +7864,7 @@ function mvDomStartHighlight(text,preferredEl=null){
   MV_DOM_HL.sentence=el;MV_DOM_HL.spoken=mvDomNorm(text);
   el.classList.add('mvTtsSentenceNow');
   mvDomWrapWords(el,MV_DOM_HL.spoken);
-  // v6.4.59: Restore the original audio-follow scrolling on pattern-match results.
+  // v6.4.60: Restore the original audio-follow scrolling on pattern-match results.
   // v6.4.58 reordered the feedback cards; retain that layout and word highlighting.
   try{el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'})}catch(e){}
   return el;
@@ -12772,6 +12773,7 @@ function mvOpenUpdateHistory(){
       <div class="mvInfoVersionCard"><b>v${window.SAYWARD_RELEASE}</b><span>현재 설치 버전</span></div>
       <section class="mvInfoSection">
         <h3>v${window.SAYWARD_RELEASE}</h3>
+         <ul><li>✓ 패턴 맞추기 결과에서 자동 재생 음성의 위치를 정답 패턴·의미 → 공식 DB 기준 문장 카드로 고정했습니다. MP3/TTS 자동 스크롤과 글자 강조를 유지하고 상단의 중복 카드에서는 재생 아이콘을 숨겼습니다.</li></ul>
          <ul><li>✓ 3줄 메뉴에서 중복된 ‘학습 통계’·‘망각곡선’ 바로가기를 제거하고 ‘학습 대시보드’로 통합했습니다. 기존 DAY별 스코어·망각곡선 탭과 기기별 기록은 유지합니다.</li><li>✓ 대시보드 ‘DAY VOCA 망각곡선에서 복습’ 버튼을 기존 메뉴 없이도 직접 동작하도록 연결했습니다.</li></ul>
          <ul><li>✓ 사용 방법을 SAYWARD 전체 학습 가이드로 개편하고 문장별 순환 출제·집중 학습·녹음 자동 저장·PWA·MP3 우선 재생 안내를 추가했습니다.</li><li>✓ 패턴 맞추기·단어 패턴 맞추기에서 선택지·확인·이전·다음 버튼 위를 좌우로 스와이프해도 문제를 이동합니다. 짧은 터치의 기존 버튼 동작과 세로 스크롤은 유지합니다.</li><li>✓ 패턴 맞추기에서 ‘선택한 패턴 확인’을 눌렀을 때 첫 음성도 등록된 패턴 MP3를 우선 재생하도록 수정했습니다. MP3가 없을 때만 자연스러운 문구로 TTS 대체합니다.</li></ul>
         <ul>
@@ -26402,7 +26404,7 @@ window.addEventListener('pageshow',()=>{recoverSignedInCatalog();if(uid)for(cons
 #swAdminStudioFrame{width:100%;flex:1 1 auto;border:0;min-height:0;background:#eff2f7}
 </style>
 <div id="swAdminStudioOverlay" hidden aria-modal="true" role="dialog" aria-label="Admin 관리 스튜디오">
-  <div id="swAdminStudioTop"><span>🎛️ SAYWARD <span id="swAdminReleaseVersion">v6.4.59</span> 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
+  <div id="swAdminStudioTop"><span>🎛️ SAYWARD <span id="swAdminReleaseVersion">v6.4.60</span> 관리 스튜디오 <span style="color:#86809c;font-weight:500;font-size:12px">학습 박스·카테고리별 신규 공개 DB 저장</span></span><button class="swViewBtn" id="swStudioLiveBtn" type="button">학습·공개 설정</button><button class="swViewBtn" id="swStudioDemoBtn" type="button" hidden style="background:#ece9ff;color:#423997">관리 기능 시안 (DB 저장 불가)</button><button id="swStudioClose" type="button">✕ 닫기</button></div>
   
 <div id="swRealPolicy" hidden>
  <div class="wrap">
@@ -30216,7 +30218,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const current=dashboard.dataset.sw62Tab||'summary',from=order.indexOf(current),next=from+delta;
    if(next>=0&&next<order.length)window.saywardLearningDashboard?.openTab?.(order[next]);
  },()=>!!dashboard?.classList.contains('sw5513-progress')&&!dashboard.classList.contains('hidden'));
- window.saywardSwipeStatus={version:'6.4.59',direction:'left-next/right-previous',threshold,
+ window.saywardSwipeStatus={version:'6.4.60',direction:'left-next/right-previous',threshold,
   buttonStart:true,verticalScroll:'native',tapSafety:'swipe-click-suppressed',edgeGuard:30};
 })();
 </script>
@@ -30513,6 +30515,18 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  function stop(){const wasActive=active;generation++;active=false;
    if(wasActive)try{window.stopSpeech?.();}catch(_){}
  }
+ // v6.4.60: Duplicate pattern text appears in three different result cards.
+ // Never let a text search choose the first matching card while autoplaying;
+ // route the pattern and full sentence to their explicit, visible result cards.
+ function matchResultAudioTarget(kind){
+   const result=document.getElementById('sw5533MatchResult');
+   if(!result||!result.isConnected||result.hidden||result.closest('[hidden]'))return null;
+   const selector=kind==='pattern'
+     ?'.swStudioFeedback-answer .swStudioFeedbackValue'
+     :'.swStudioFeedback-reference .swStudioFeedbackValue';
+   const el=result.querySelector(selector);
+   return el&&el.isConnected&&el.getClientRects().length?el:null;
+ }
  function play(mode,pattern,reference){
    stop();
    // A choice tap may already be playing its own one-off TTS/MP3.
@@ -30525,7 +30539,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    // MP3 lookup MUST use the exact DB canonical pattern. Normalizing placeholders
    // before lookup changes the manifest key and caused the first spoken item to
    // fall back to Android TTS although the MP3 was already present.
-   const units=(mode==='match'?[{audioText:rawPattern,ttsText:cue(rawPattern)},{audioText:sentence,ttsText:sentence}]:[{audioText:sentence,ttsText:sentence}]).filter(unit=>unit.audioText);
+   const units=(mode==='match'?[{audioText:rawPattern,ttsText:cue(rawPattern),focusKind:'pattern'},{audioText:sentence,ttsText:sentence,focusKind:'sentence'}]:[{audioText:sentence,ttsText:sentence}]).filter(unit=>unit.audioText);
    if(!units.length)return false;
    const ticket=++generation;active=true;
    // Start/keep the same unlocked media element while awaiting the DB alias.
@@ -30541,7 +30555,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
          const unit=units[i%units.length];
          const mp3Override=unit.audioText===rawPattern&&mode==='match'&&alias?.audioPath
            ?{audioPath:alias.audioPath}:{};
-         await window.speakOne(unit.audioText,rate(),'en-US',undefined,{ttsText:unit.ttsText,...mp3Override});
+         await window.speakOne(unit.audioText,rate(),'en-US',mode==='match'?matchResultAudioTarget(unit.focusKind):undefined,{ttsText:unit.ttsText,...mp3Override});
        }
      }catch(e){console.warn('[SAYWARD Studio Audio]',String(e?.message||e).slice(0,100));}
      finally{if(ticket===generation)active=false;}
@@ -31504,6 +31518,13 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
 #swWordPage .swStudioFeedbackValue::after,
 #myClassPage .myChunkPattern::after,
 #myClassPage .myChunkExample::after{content:' 🔊';font-size:12px;opacity:.55;vertical-align:middle}
+/* v6.4.60: only the answer and official sentence show sound affordances. */
+#sw5527PracticePage #sw5533MatchResult .swStudioFeedback-chosen .swStudioFeedbackValue,
+#sw5527PracticePage #sw5533MatchResult .swStudioFeedback-wrong .swStudioFeedbackValue,
+#sw5527PracticePage #sw5533MatchResult .swStudioFeedback-phrase .swStudioFeedbackValue {cursor:default}
+#sw5527PracticePage #sw5533MatchResult .swStudioFeedback-chosen .swStudioFeedbackValue::after,
+#sw5527PracticePage #sw5533MatchResult .swStudioFeedback-wrong .swStudioFeedbackValue::after,
+#sw5527PracticePage #sw5533MatchResult .swStudioFeedback-phrase .swStudioFeedbackValue::after {content:none}
 .swv6433-tap-speaking {background-color:rgba(105,86,200,.12)!important;border-radius:6px;transition:background-color .2s}
 </style>
 <script id="swv6433TapReadOnce">
@@ -31546,6 +31567,10 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
    if(!target)return null;
    const el=target.closest(targetSelector);
    if(!el||!el.isConnected||el.getClientRects().length===0||el.closest('[hidden]'))return null;
+   // v6.4.60: in pattern-match feedback only the two target cards are
+   // audio controls. The chosen/phrase copies remain readable, not tappable.
+   if(el.closest('#sw5527PracticePage #sw5533MatchResult')&&
+      !el.closest('.swStudioFeedback-answer,.swStudioFeedback-reference'))return null;
    if(el.classList.contains('myHiddenEnglish'))return null;
    // Buttons controlling navigation, saving, answer confirmation, or other TTS retain original behavior.
    if(target.closest('button,[role=button],a,input,textarea,select,summary,[contenteditable]')
