@@ -26,12 +26,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.64 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.64">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.67 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.66">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.64';
+  const release=marker?.content?.trim() || '6.4.66';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -3905,7 +3905,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
       <div class="configSectionTitle">📘 SAYWARD 사용 방법 · 최신 안내</div>
       <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.63의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
       <details class="usageDetail"><summary>📚 DAY VOCA 시작·반복</summary><div class="usageBody">DAY를 선택하고 단어·뜻·예문 등 반복할 항목을 체크한 뒤 학습을 시작합니다. <b>모르는 단어 선택</b>으로 별표를 표시해 두면 퀴즈의 모르는 단어/틀린 단어 필터에도 반영됩니다. 설정에서 학습 순서, 읽기 횟수와 재생 위치를 관리하세요.</div></details>
-      <details class="usageDetail"><summary>✍️ 패턴 문장 만들기·패턴 맞추기</summary><div class="usageBody">3줄 메뉴의 <b>패턴 문장 만들기</b>에서 수업 영역·복습/신규 비율·문항 수를 선택합니다. 문장 만들기는 직접 답을 입력하고 패턴 맞추기는 보기에서 정답 패턴을 선택합니다. v6.4.51부터 연결된 예문을 <b>미학습 문장 우선</b>으로 순환하며, 저장된 개별 문장 이력은 공식 GPT 채점과 별도로 관리됩니다.</div></details>
+      <details class="usageDetail"><summary>✍️ 패턴 문장 만들기·패턴 맞추기</summary><div class="usageBody">3줄 메뉴의 <b>패턴 문장 만들기</b>에서 수업 영역·복습/신규 비율·문항 수를 선택합니다. 문장 만들기는 직접 답을 입력하고 패턴 맞추기는 보기에서 정답 패턴을 선택합니다. v6.4.51부터 연결된 예문을 <b>미학습 문장 우선</b>으로 순환하며, 저장된 개별 문장 이력은 공식 학습 상태와 연결되며, 앱 혼자 성공은 48시간 이상 간격의 혼자 성공 5회로 Stable 승급됩니다.</div></details>
       <details class="usageDetail"><summary>🎯 집중 학습 등록과 조회</summary><div class="usageBody">문제 결과에서 <b>집중 학습 등록</b>을 누르고 DB 저장 상태를 확인합니다. 목록 조회는 <b>학습 대시보드 → 패턴 → 학습 패턴 목록 → 정렬 기준 → 🎯 집중 학습 패턴</b>을 이용하세요.</div></details>
       <details class="usageDetail"><summary>🎧 MP3 음성·🎙️ 녹음 저장</summary><div class="usageBody">학습 음성은 MP3 우선, 미제작 또는 재생 실패 시 TTS로 대체됩니다. 음성 녹음 학습은 약 <b>5초 간격 브라우저 임시 저장</b>과 폴더 권한 허용 시 <b>Download/sayword</b> 약 15초 간격 저장을 지원합니다. 백그라운드 녹음은 Android 제약상 항상 지속되지는 않습니다.</div></details>
     </section>
@@ -14478,6 +14478,26 @@ async function m536RunFull(startAt=0,startRep=0){
       }
     }
 
+    // v6.4.66: at the end of the hydrated portion, join the remaining lessons.
+    // Never silently skip a selected lesson because its cards were not loaded yet.
+    if(M536.cursor===M536.playlist.length-1){
+      const batch=window.sw6465LazyBatch;
+      if(batch?.course===course && batch.lessons?.length>1){
+        window.sw6465LazyBatch=null;
+        const ok=await batch.ready;
+        if(token!==M536.token || hardEpoch!==MY_CLASS_HARD_STOP_EPOCH || M536.mode!=='full')return;
+        if(!ok){
+          M536.busy=false;M536.mode='idle';MY_CLASS_PLAY.active=false;
+          window.sw5525PlaybackLoading?.(null);
+          alert('다음 수업 콘텐츠를 불러오지 못했습니다. 인터넷 연결을 확인하고 다시 시작해 주세요.');
+          return;
+        }
+        const expanded=m536BuildPlaylist(course);
+        if(expanded.length>M536.playlist.length){
+          M536.playlist=expanded;
+        }
+      }
+    }
     const next=(M536.cursor+1)%M536.playlist.length;
     m536BgCheckpoint207({
       cursor:M536.cursor,rep:reps,reps,repDone:true,itemDone:true,nextCursor:next,
@@ -17600,6 +17620,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     if(!s.active)return false;
     s.active=false;s.queue=[];s.index=0;s.current='';s.token++;
     window.sw5525PlaybackLoading?.(null);
+    window.sw6465LazyBatch=null;
     window.MV_DAY_ONCE_COMPLETE_219=null;
     window.MV_COURSE_ONCE_COMPLETE_219=null;
     window.MV_ALL_REPEAT_INTERNAL_START_222=false;
@@ -25468,20 +25489,31 @@ window.addEventListener('pageshow',()=>{recoverSignedInCatalog();if(uid)for(cons
     if(!unique.length)return false; // no permitted lessons, not a network failure
     const api=loader(course);
     if(typeof api?.ensurePlayback!=='function')throw new Error('CONTENT_LOADER_MISSING_'+course);
-    let next=0,done=0;
+    // v6.4.66: hydrate the first lesson only before starting playback.
+    // Remaining lessons load in the background and are joined at the playlist boundary.
     const alive=()=>typeof options.alive==='function'?options.alive():true;
-    const worker=async()=>{
-      while(next<unique.length){
-        if(!alive())return;
-        const lesson=unique[next++];
-        await api.ensurePlayback(lesson);
-        if(!alive())return;
-        done++;
-        options.progress?.(done,unique.length);
-      }
-    };
+    const first=unique[0];
     options.progress?.(0,unique.length);
-    await Promise.all(Array.from({length:Math.min(3,unique.length)},worker));
+    await api.ensurePlayback(first);
+    if(!alive())return false;
+    options.progress?.(1,unique.length);
+    const rest=unique.slice(1);
+    const pending=(async()=>{
+      let next=0,done=1;
+      const worker=async()=>{
+        while(next<rest.length){
+          if(!alive())return;
+          const n=rest[next++];
+          await api.ensurePlayback(n);
+          if(!alive())return;
+          options.progress?.(++done,unique.length);
+        }
+      };
+      await Promise.all(Array.from({length:Math.min(2,rest.length)},worker));
+    })();
+    // Attach a handler immediately to avoid unhandled background rejections.
+    const settled=pending.then(()=>true,error=>{console.warn('[SAYWARD playback lazy load]',error);return false});
+    window.sw6465LazyBatch={course,lessons:unique,ready:settled,alive};
     return alive();
   };
   window.addEventListener('sayward:auth-out',()=>show(null));
@@ -27873,7 +27905,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       button.setAttribute('aria-pressed',String(!!saved&&button.dataset.sw5529Rating===entry.selfRating));
     }
     status.classList.toggle('is-saved',saved);
-    status.textContent=saved?'✓ 앱 연습 DB 저장 및 재조회 확인 · '+ratingLabels[entry.selfRating]+' (공식 GPT 채점과 별도)'
+    status.textContent=saved?'✓ 앱 연습 DB 저장 및 재조회 확인 · '+ratingLabels[entry.selfRating]+' (앱 혼자 성공 5회·48시간 간격 시 Stable 승급 가능)'
       :entry?.saveError||'평가를 선택하면 본인 계정의 앱 연습 기록으로 저장됩니다.';
   }
   const newKey=()=>('APP-'+Date.now().toString(36)+'-'+(globalThis.crypto?.randomUUID?.()||Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2)));
@@ -27922,7 +27954,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       }
       state.latest.set(p.pattern_id,{pattern_id:p.pattern_id,self_rating:rating,hint_used:!!entry.hintUsed,created_at:new Date().toISOString()});
       window.dispatchEvent(new CustomEvent('sayward:app-practice-updated',{detail:{uid:state.uid,pattern_id:p.pattern_id}}));
-      notice('앱 학습 기록이 공식 Supabase 개인 영역에 저장되었습니다. GPT 공식 승급 상태는 변경되지 않았습니다.');
+      notice('앱 학습 기록이 공식 Supabase 개인 영역에 저장되었습니다. 앱 혼자 성공은 서버에서 48시간 간격으로 인정하며 5회 누적 시 Stable로 자동 승급합니다. 복습 필요를 누르면 연속 성공 기록은 초기화됩니다. 공식 상태는 재조회 후 확인하세요.');
     }catch(e){
       if(isCurrent()){
         entry.saveError='저장 확인 실패 · '+String(e?.message||'NETWORK_ERROR').slice(0,85)+' · 같은 버튼을 다시 눌러 재확인하세요.';
@@ -31061,7 +31093,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  let accessUid='',accessEnabled=false,accessAt=0,accessTask=null;
  const ACCESS_TTL_MS=30*1000;
  const signedCache=new Map(), resolved=new Map();
- // v6.4.64: Bounded, per-login warm MP3 blobs; only actual user-visible quiz
+ // v6.4.66: Bounded, per-login warm MP3 blobs; only actual user-visible quiz
  // choices / answers are fetched. In-flight requests are shared with playback.
  const warmFiles=new Map();const WARM_LIMIT=8;
  function clearWarm(){for(const v of warmFiles.values())if(v.url)URL.revokeObjectURL(v.url);warmFiles.clear();}
