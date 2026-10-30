@@ -23882,7 +23882,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
       if(!metaMap.has(n))throw new Error('LESSON_NOT_PUBLISHED_'+n);
       const expected=String(metaMap.get(n).content_version);
       if(loadedVersions.get(n)!==expected)await loadLesson(n);
-      if(loadedVersions.get(n)!==expected)throw new Error('LESSON_DB_NOT_READY_'+n);
+      if(loadedVersions.get(n)!==expected)throw new Error('LESSON_DB_NOT_READY_'+n+' (수업 DB 로드 실패)');
       return true;
     }
   };
@@ -25542,7 +25542,7 @@ window.addEventListener('pageshow',()=>{recoverSignedInCatalog();if(uid)for(cons
     window.sw6465LazyBatch={course,lessons:unique,ready:settled,alive};
     return alive();
   };
-  window.addEventListener('sayward:auth-out',()=>show(null));
+  window.addEventListener('sayward:auth-out',closeNotice);
 })();
 </script>
 
