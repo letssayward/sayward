@@ -26,12 +26,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.71 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.71">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.72 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.72">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.71';
+  const release=marker?.content?.trim() || '6.4.72';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -25488,61 +25488,73 @@ window.addEventListener('pageshow',()=>{recoverSignedInCatalog();if(uid)for(cons
 </script>
 
 <script id="sw5525-preload-coordinator">
-/* v5.5.25 - Playback must await actual DB hydration, not screenshot/card metadata. */
+/* v6.4.72: first-lesson readiness only; no persistent background loading banner. */
 (function(){'use strict';
-  const label={my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'Friends',business:'Business 영어'};
-  function loader(course){return ({my:window.saywardMyPilot,sori:window.saywardSoriPilot,opic:window.saywardOpicPilot,friends:window.saywardFriendsPilot,business:window.saywardBusinessPilot})[course]}
+  const labels={my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'Friends',business:'Business 영어'};
+  const loader=c=>({my:window.saywardMyPilot,sori:window.saywardSoriPilot,opic:window.saywardOpicPilot,friends:window.saywardFriendsPilot,business:window.saywardBusinessPilot})[c];
+  let bannerTimer=null;
+  function clearBanner(){
+    if(bannerTimer){clearTimeout(bannerTimer);bannerTimer=null;}
+    document.getElementById('sw5525PlaybackLoad')?.remove();
+  }
   function show(course,done=0,total=0){
-    let el=document.getElementById('sw5525PlaybackLoad');
-    if(!course){if(el)el.remove();return;}
-    if(!el){
-      el=document.createElement('div');el.id='sw5525PlaybackLoad';el.setAttribute('role','status');el.setAttribute('aria-live','polite');
-      el.style.cssText='position:fixed;left:12px;right:12px;bottom:90px;z-index:140000;background:#28245f;color:white;padding:14px 18px;border-radius:13px;box-shadow:0 10px 32px #0005;font-weight:700;font-size:14px;text-align:center;';
-      document.body.appendChild(el);
-    }
-    el.textContent=`${label[course]||course} DB 콘텐츠 준비 중 · ${done}/${total}개 수업`;
+    clearBanner();
+    if(!course)return;
+    const el=document.createElement('div');
+    el.id='sw5525PlaybackLoad';
+    el.setAttribute('role','status');
+    el.style.cssText='position:fixed;left:12px;right:12px;bottom:90px;z-index:140000;background:#28245f;color:white;padding:14px 18px;border-radius:13px;box-shadow:0 10px 32px #0005;font-weight:700;font-size:14px;text-align:center;';
+    el.textContent=`${labels[course]||course} DB 콘텐츠 준비 중 · ${done}/${total}개 수업`;
+    document.body.appendChild(el);
+    bannerTimer=setTimeout(clearBanner,12000);
   }
   window.sw5525PlaybackLoading=show;
+  function bounded(p,ms,code){
+    let timer;
+    return Promise.race([
+      Promise.resolve(p),
+      new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error(code)),ms)})
+    ]).finally(()=>clearTimeout(timer));
+  }
   window.sw5525PreparePlayback=async function(course,lessons,options={}){
     if(course==='day')return true;
-    if(!label[course])throw new Error('UNKNOWN_COURSE');
-    if(!window.saywardAuth?.snapshot?.().authenticated)throw new Error('LOGIN_REQUIRED');
-    if(!window.swStudioPolicyReady?.())await window.swVisibilityRefresh?.();
-    if(!window.swStudioPolicyReady?.())throw new Error('POLICY_NOT_READY');
-    if(window.mvSentenceTrainedOnlyEnabled5477?.())await window.saywardTrainedPatterns?.ensure?.();
-    const unique=[...new Set((lessons||[]).map(Number).filter(Number.isInteger))]
-      .filter(n=>window.swLessonEnabled?.(course,n)!==false);
-    if(!unique.length)return false; // no permitted lessons, not a network failure
-    const api=loader(course);
-    if(typeof api?.ensurePlayback!=='function')throw new Error('CONTENT_LOADER_MISSING_'+course);
-    // v6.4.66: hydrate the first lesson only before starting playback.
-    // Remaining lessons load in the background and are joined at the playlist boundary.
-    const alive=()=>typeof options.alive==='function'?options.alive():true;
-    const first=unique[0];
-    options.progress?.(0,unique.length);
-    await api.ensurePlayback(first);
-    if(!alive())return false;
-    options.progress?.(1,unique.length);
-    const rest=unique.slice(1);
-    const pending=(async()=>{
-      let next=0,done=1;
-      const worker=async()=>{
-        while(next<rest.length){
-          if(!alive())return;
-          const n=rest[next++];
-          await api.ensurePlayback(n);
-          if(!alive())return;
-          options.progress?.(++done,unique.length);
-        }
-      };
-      await Promise.all(Array.from({length:Math.min(2,rest.length)},worker));
-    })();
-    // Attach a handler immediately to avoid unhandled background rejections.
-    const settled=pending.then(()=>true,error=>{console.warn('[SAYWARD playback lazy load]',error);return false});
-    window.sw6465LazyBatch={course,lessons:unique,ready:settled,alive};
-    return alive();
+    if(!labels[course])throw new Error('UNKNOWN_COURSE');
+    try{
+      if(!window.saywardAuth?.snapshot?.().authenticated)throw new Error('LOGIN_REQUIRED');
+      if(!window.swStudioPolicyReady?.())await bounded(window.swVisibilityRefresh?.(),8000,'POLICY_TIMEOUT');
+      if(!window.swStudioPolicyReady?.())throw new Error('POLICY_NOT_READY');
+      if(window.mvSentenceTrainedOnlyEnabled5477?.())await bounded(window.saywardTrainedPatterns?.ensure?.(),8000,'TRAINED_FILTER_TIMEOUT');
+      const unique=[...new Set((lessons||[]).map(Number).filter(Number.isInteger))]
+        .filter(n=>window.swLessonEnabled?.(course,n)!==false);
+      if(!unique.length)return false;
+      const api=loader(course);
+      if(typeof api?.ensurePlayback!=='function')throw new Error('CONTENT_LOADER_MISSING_'+course);
+      const alive=()=>typeof options.alive==='function'?options.alive():true;
+      const first=unique[0];
+      options.progress?.(0,unique.length);
+      await bounded(api.ensurePlayback(first),12000,'FIRST_LESSON_TIMEOUT_'+first);
+      if(!alive())return false;
+      // Critical: the first lesson is ready. Close the banner BEFORE playback starts.
+      clearBanner();
+      const rest=unique.slice(1);
+      const pending=(async()=>{
+        let next=0;
+        const worker=async()=>{
+          while(next<rest.length&&alive()){
+            const n=rest[next++];
+            try{await bounded(api.ensurePlayback(n),12000,'BACKGROUND_LESSON_TIMEOUT_'+n)}
+            catch(e){console.warn('[SAYWARD background lesson '+n+']',e?.message||e)}
+          }
+        };
+        await Promise.all(Array.from({length:Math.min(2,rest.length)},worker));
+      })();
+      window.sw6465LazyBatch={course,lessons:unique,ready:pending.then(()=>true,()=>false),alive};
+      return alive();
+    }catch(error){clearBanner();throw error}
+    finally{clearBanner()}
   };
-  window.addEventListener('sayward:auth-out',closeNotice);
+  window.addEventListener('sayward:auth-out',clearBanner);
+  window.addEventListener('pagehide',clearBanner);
 })();
 </script>
 
