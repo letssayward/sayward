@@ -26,7 +26,7 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.67 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.68 · Learning Dashboard</title>
 <meta name="sayward-release" content="6.4.66">
 <script id="sayward-version-source">
 (function(){
@@ -25315,7 +25315,7 @@ function makeCard(course,row){
  const top=document.createElement('div');top.className='myClassTop';
  const name=document.createElement('b');name.textContent=course==='sori'?'소리영어 · 수업 '+n:course==='opic'?'OPIC '+n:course==='business'?'Business 영어 · 수업 '+n:`FRIENDS · S01E${String(n).padStart(2,'0')}`;
  const badge=document.createElement('span');badge.className='myClassBadge';
- badge.textContent=row.visible===false?'관리자 미리보기 · 승인 대기':row.seed_complete===false?'관리자 미리보기 · 준비 중':'DB 학습';
+ badge.textContent=row.visible===false?(adminPreview()?'관리자 학습 가능 · 비공개':'승인 대기'):row.seed_complete===false?'관리자 미리보기 · 준비 중':'DB 학습';
  top.append(name,badge);
  const title=document.createElement('div');title.className='myClassTitle';title.textContent=String(row.short_title||row.title||'수업 '+n).replace(/^S\d+E\d+\s*·\s*/,'');
  const meta=document.createElement('div');meta.className='myClassMeta';
@@ -31557,7 +31557,25 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
      const data=result.data,rows=data?.categories;
      if(data?.user_id!==a.uid||!Array.isArray(rows)||rows.length!==5||!Object.keys(names).every(k=>rows.some(x=>x.category===k)))
        throw Error('학습 영역별 응답 무결성 오류');
-     show(rows);lastUid=a.uid;loadedAt=Date.now();
+     show(rows);
+     // The official breakdown RPC covers five categories. Add an admin-only
+     // Business learning-access card without pretending item count is progress.
+     if(window.saywardAuth?.snapshot?.().role==='admin'){
+       const business=await a.client.from('sayward_course_items').select('item_id',{count:'exact',head:true}).eq('course','business');
+       if(ticket!==seq||auth()?.uid!==a.uid)return;
+       if(!business.error){
+         const total=Number(business.count)||0;
+         const card=document.createElement('article');card.className='swcp-card';
+         const top=document.createElement('div');top.className='swcp-top';
+         const name=document.createElement('b');name.textContent='비즈니스 영어';
+         const access=document.createElement('strong');access.textContent='관리자 전체 공개';
+         access.style.fontSize='14px';top.append(name,access);
+         const desc=document.createElement('p');desc.textContent=total.toLocaleString('ko-KR')+'개 학습 항목 이용 가능';
+         const note=document.createElement('small');note.textContent='학습률이 아닌 관리자 접근 가능 항목 수입니다. 일반 회원 공개 상태는 변경되지 않습니다.';
+         card.append(top,desc,note);grid.append(card);
+       }
+     }
+     lastUid=a.uid;loadedAt=Date.now();
      status.textContent='✓ 최신 DB 조회 '+new Date(data.checked_at||Date.now()).toLocaleTimeString('ko-KR',{hour12:false});
    }catch(e){if(ticket!==seq)return;status.textContent='영역별 현황 조회 실패 · '+String(e?.code||e?.message||e).slice(0,90)+' · 재조회해 주세요.';}
  }
