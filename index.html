@@ -4274,6 +4274,7 @@ body:has(#sw5527PracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButto
             <button type="button" data-sw5529-rating="learned">📖 정답 보고 학습</button>
           </div>
           <div id="sw5529RatingStatus" class="sw5529-rating-status" role="status">평가를 선택하면 내 계정에 자동 저장됩니다.</div>
+          <div id="swCurrentScore" class="sw5529-rating-status" aria-live="polite">현재 점수: DB 조회 후 표시</div>
         </section>
       </div>
       <div class="sw5527-actions"><button id="sw5527Primary" class="sw5527-primary" type="button">답안 제출 · 문장 비교 →</button><div id="sw5527After" class="sw5527-after" hidden><button id="swFocusToggle" type="button" class="sw-focus-toggle" aria-pressed="false" aria-label="현재 패턴 집중 학습 등록 또는 해제">🎯 집중 학습 등록</button><button id="sw5527Retry" class="sw5527-retry" type="button">↺ 다시 작성</button><button id="sw5527Next" class="sw5527-next" type="button">다음 문장 →</button></div><button type="button" id="sw5527Prev" class="sw5527-prev">← 이전 문제</button></div>
@@ -27934,8 +27935,18 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
   }
   function close(){window.saywardStudioAudio?.stop?.();leaveKeyboardMode();if(state.saving){notice('연습 기록 저장 후 이동할 수 있습니다.');return;}++state.request;state.visible=false;saveDraft();view.classList.add('hidden');view.setAttribute('aria-hidden','true');window.speechSynthesis?.cancel?.();if(typeof goHome==='function')goHome();}
   const ratingLabels={recalled:'혼자 성공',review:'복습 필요',learned:'정답 확인 후 학습'};
+  function renderCurrentScore(entry){
+    const el=g('swCurrentScore'),p=state.deck[state.index];if(!el||!p)return;
+    const latest=entry?.selfSaved?{self_rating:entry.selfRating}:state.latest?.get(p.pattern_id);
+    const rating=latest?.self_rating;
+    const score=rating==='recalled'?'1 / 1점':rating==='review'||rating==='learned'?'0 / 1점':'기록 없음';
+    const label=ratingLabels[rating]||'평가 전';
+    const official=state.states?.get(p.pattern_id)||'조회 전';
+    el.textContent='📊 현재 점수(최근 앱 자기평가): '+score+' · '+label+' | 현재 학습 상태: '+official+' | Stable 누적 인정 횟수: 서버 조회 필요';
+  }
   function renderSelfRating(entry){
     const status=g('sw5529RatingStatus'),saved=!!entry?.selfSaved;
+    renderCurrentScore(entry);
     for(const button of view.querySelectorAll('[data-sw5529-rating]')){
       button.disabled=!!state.saving||!!saved||(state.deck[state.index]?.mode==='match'&&button.dataset.sw5529Rating==='recalled'&&entry?.selected_id!==state.deck[state.index]?.pattern_id);
       button.setAttribute('aria-pressed',String(!!saved&&button.dataset.sw5529Rating===entry.selfRating));
