@@ -26,12 +26,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.68 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.66">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.69 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.69">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.66';
+  const release=marker?.content?.trim() || '6.4.69';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -12783,6 +12783,7 @@ function mvOpenUpdateHistory(){
       <div class="mvInfoVersionCard"><b>v${window.SAYWARD_RELEASE}</b><span>현재 설치 버전</span></div>
       <section class="mvInfoSection">
         <h3>v${window.SAYWARD_RELEASE}</h3>
+        <ul><li>✓ 학습 평가 화면에 현재 자기평가 점수 및 평가 결과를 표시합니다. 서버 승급 누적 횟수는 확인되지 않으면 임의 수치 대신 조회 필요로 안내합니다.</li><li>✓ 홈·앱 정보·업데이트 내역의 릴리스 버전을 v6.4.69로 통일했습니다.</li></ul>
         <ul><li>✓ 3줄 메뉴에 아침(15문항)·점심(15문항)·저녁(20문항) 통합 「GPT 활용 공식 학습 답안제출」 메뉴를 추가했습니다. 시간대와 Session ID를 구분해 로그인 계정으로 공식 DB 제출을 요청합니다. 실제 제출 및 채점 확정 여부는 서버 응답 확인이 필요합니다.</li></ul>
          <ul><li>✓ 패턴 맞추기 결과에서 자동 재생 음성의 위치를 정답 패턴·의미 → 공식 DB 기준 문장 카드로 고정했습니다. MP3/TTS 자동 스크롤과 글자 강조를 유지하고 상단의 중복 카드에서는 재생 아이콘을 숨겼습니다.</li></ul>
          <ul><li>✓ 3줄 메뉴에서 중복된 ‘학습 통계’·‘망각곡선’ 바로가기를 제거하고 ‘학습 대시보드’로 통합했습니다. 기존 DAY별 스코어·망각곡선 탭과 기기별 기록은 유지합니다.</li><li>✓ 대시보드 ‘DAY VOCA 망각곡선에서 복습’ 버튼을 기존 메뉴 없이도 직접 동작하도록 연결했습니다.</li></ul>
