@@ -26,12 +26,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.72 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.72">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.68 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.66">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.72';
+  const release=marker?.content?.trim() || '6.4.66';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -2966,6 +2966,9 @@ html,body{
   touch-action:pan-x pan-y;
 }
 
+#sw5527PracticePage .sw-translation-natural{margin:12px 0;padding:12px 14px;border:1px solid var(--border-color,#d7dce4);border-radius:12px;background:rgba(128,128,128,.06)}
+#sw5527PracticePage .sw-translation-natural-toggle{display:flex;gap:8px;align-items:center;font-weight:650;cursor:pointer}
+#sw5527PracticePage .sw-translation-natural-text{margin-top:9px;line-height:1.6}
 </style>
 
 
@@ -4243,6 +4246,10 @@ body:has(#sw5527PracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButto
    <div class="sw5527-reference-head"><span>✓ 기준 문장과 비교</span><button type="button" id="sw5527Speak">🔊 문장 듣기</button></div>
         <div class="sw5527-reference-caption">공식 DB 기준 문장 <small>(표시된 부분은 내 답안과 다른 표현)</small></div>
         <div id="sw5527English" class="sw5527-reference-en"></div>
+        <div id="swTranslationNaturalPanel" class="sw-translation-natural" hidden>
+          <label class="sw-translation-natural-toggle"><input id="swTranslationNaturalToggle" type="checkbox" checked> 자연스러운 한국어 함께 보기</label>
+          <div id="swTranslationNaturalText" class="sw-translation-natural-text"></div>
+        </div>
         <div class="sw5527-reference-caption">내 답안 <small>(색 표시: 기준 문장과 다른 부분)</small></div>
         <div id="sw5527UserDiff" class="sw5527-user-diff"></div>
         <div id="sw5527DiffStatus" class="sw5527-diff-status"></div>
@@ -23703,33 +23710,14 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     });
     line.appendChild(button);
   }
-  function myAdminPreview(){
-    const a=window.saywardAuth?.snapshot?.();
-    return Boolean(db&&owner&&a?.authenticated&&a?.uid===owner&&a?.role==='admin');
-  }
-  async function myAdminCounts(rows){
-    const numbers=rows.map(r=>Number(r.lesson_no));
-    const totals=new Map(numbers.map(n=>[n,{chunks:0,corrections:0,speaking:0,habits:0}]));
-    for(let i=0;i<numbers.length;i+=10){
-      const res=await window.saywardAuth.contentFrom('sayward_my_lesson_items')
-        .select('lesson_no,section').in('lesson_no',numbers.slice(i,i+10)).limit(1500);
-      if(res.error)throw res.error;
-      if((res.data||[]).length>=1500)throw new Error('MY_ADMIN_COUNT_LIMIT');
-      for(const item of res.data||[]){
-        const target=totals.get(Number(item.lesson_no));
-        if(target&&Object.hasOwn(target,item.section))target[item.section]++;
-      }
-    }
-    return rows.map(r=>({...r,item_counts:totals.get(Number(r.lesson_no))||r.item_counts}));
-  }
   function applyIndex(rows){
     metaMap=new Map();
-    const keep=new Set(rows.filter(r=>(myAdminPreview()||r.visible&&r.seed_complete)).map(r=>Number(r.lesson_no)));
+    const keep=new Set(rows.filter(r=>r.visible&&r.seed_complete).map(r=>Number(r.lesson_no)));
     for(const n of Object.keys(MY_CLASS_META))delete MY_CLASS_META[n];
     for(const n of Object.keys(MY_CLASS_LESSONS))if(!keep.has(Number(n)))delete MY_CLASS_LESSONS[n];
     for(const n of [...loadedVersions.keys()])if(!keep.has(n))loadedVersions.delete(n);
     for(const row of rows){
-      if(!myAdminPreview()&&(!row.visible||!row.seed_complete))continue;
+      if(!row.visible||!row.seed_complete)continue;
       const n=Number(row.lesson_no);metaMap.set(n,row);
       MY_CLASS_META[n]={title:row.title,sub:row.subtitle,goal:row.goal_html,__counts:row.item_counts,__version:row.content_version};
       if(loadedVersions.has(n)&&loadedVersions.get(n)!==String(row.content_version)){loadedVersions.delete(n);delete MY_CLASS_LESSONS[n];}
@@ -23761,7 +23749,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
       // DB-only: never create or repopulate lessons in an end-user browser.
       // An absent/incomplete lesson requires an explicit, audited migration.
       if(ticket!==generation)return false;
-      applyIndex(myAdminPreview()?await myAdminCounts(r.data||[]):r.data||[]);
+      applyIndex(r.data||[]);
       indexCheckedAt=Date.now();
       state.lastIndexMs=perf()-before;
       return true;
@@ -23797,7 +23785,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     const row=metaMap.get(n);
     if(!row){info('DB 수업 정보 없음 · 관리자에게 데이터 등록 상태를 확인하세요.');return;}
     const saved=cached(n),start=perf(),ticket=generation;
-    const cacheCurrent=!myAdminPreview()&&saved&&String(saved.version)===String(row.content_version)
+    const cacheCurrent=saved&&String(saved.version)===String(row.content_version)
       &&TABS.every(tab=>saved.data[tab].length===Number(row.item_counts?.[tab]||0));
     if(cacheCurrent && !force){
       state.lastLessonMs=perf()-start;setLesson(n,saved.data,saved.version,'cache');return;
@@ -23805,10 +23793,9 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     if(cacheCurrent){state.lastLessonMs=perf()-start;setLesson(n,saved.data,saved.version,'cache');}
     else info('MY 수업 '+n+' · DB에서 콘텐츠를 불러오는 중…');
     try{
-      let itemQuery=window.saywardAuth.contentFrom('sayward_my_lesson_items')
-        .select('item_id,item_key,section,sort_index,content').eq('lesson_no',n);
-      if(!myAdminPreview())itemQuery=itemQuery.eq('visible',true);
-      const res=await itemQuery.order('sort_index',{ascending:true}).limit(1500);
+      const res=await window.saywardAuth.contentFrom('sayward_my_lesson_items')
+        .select('item_id,item_key,section,sort_index,content').eq('lesson_no',n).eq('visible',true)
+        .order('sort_index',{ascending:true}).limit(1500);
       if(res.error)throw res.error;
       if(ticket!==generation)return;
       const data=empty();
@@ -23816,7 +23803,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
         data[item.section].push({...item.content,__dbItemId:item.item_id,__dbItemKey:item.item_key});}
       for(const tab of TABS){if(data[tab].length!==Number(row.item_counts?.[tab]||0))throw new Error('ITEM_COUNT_MISMATCH_'+tab);}
       state.lastLessonMs=perf()-start;
-      if(!myAdminPreview())saveCache(n,row.content_version,data);
+      saveCache(n,row.content_version,data);
       setLesson(n,data,row.content_version,'db');
       homeCount(n,row.item_counts);
     }catch(err){
@@ -23882,7 +23869,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
       if(!metaMap.has(n))throw new Error('LESSON_NOT_PUBLISHED_'+n);
       const expected=String(metaMap.get(n).content_version);
       if(loadedVersions.get(n)!==expected)await loadLesson(n);
-      if(loadedVersions.get(n)!==expected)throw new Error('LESSON_DB_NOT_READY_'+n+' (수업 DB 로드 실패)');
+      if(loadedVersions.get(n)!==expected)throw new Error('LESSON_DB_NOT_READY_'+n);
       return true;
     }
   };
@@ -23909,12 +23896,6 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     void fetchIndex().then(()=>{
       if(ACTIVE_STUDY_COURSE==='my'&&(metaMap.has(Number(myClassLessonNo))))return loadLesson(Number(myClassLessonNo));
     }).catch(e=>{state.error=String(e?.message||e);info('MY DB 준비 오류 · 기존 콘텐츠 유지 ('+String(e?.code||e?.message||'network').slice(0,45)+')');});
-  });
-  window.addEventListener('sayward:auth-role',event=>{
-    if(!db||!owner||event.detail?.uid!==owner)return;
-    void fetchIndex({force:true}).then(()=>{
-      if(ACTIVE_STUDY_COURSE==='my'&&metaMap.has(Number(myClassLessonNo)))return loadLesson(Number(myClassLessonNo),{force:true});
-    }).catch(e=>console.warn('[MY admin role catalog]',String(e?.message||e)));
   });
   window.addEventListener('sayward:auth-out',()=>{
     ++generation;loadedVersions.clear();pendingLessons.clear();db=null;owner='';
@@ -24288,7 +24269,7 @@ window.saywardAuth={
   readPatternPractice:async()=>{
     const rows=[];
     for(let offset=0;offset<20000;offset+=1000){
-      const part=await swDirectStudyGet('sayward_patterns',{select:'pattern_id,canonical_pattern,pattern_ko,example_en,example_ko,courses,lesson_refs,content_version,active',order:'pattern_id.asc',offset,limit:1000});
+      const part=await swDirectStudyGet('sayward_patterns',{select:'pattern_id,canonical_pattern,pattern_ko,example_en,example_ko,example_ko_natural,courses,lesson_refs,content_version,active',order:'pattern_id.asc',offset,limit:1000});
       rows.push(...part);if(part.length<1000)return rows;
     }
     throw new Error('PATTERN_MASTER_PAGE_LIMIT');
@@ -25488,73 +25469,61 @@ window.addEventListener('pageshow',()=>{recoverSignedInCatalog();if(uid)for(cons
 </script>
 
 <script id="sw5525-preload-coordinator">
-/* v6.4.72: first-lesson readiness only; no persistent background loading banner. */
+/* v5.5.25 - Playback must await actual DB hydration, not screenshot/card metadata. */
 (function(){'use strict';
-  const labels={my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'Friends',business:'Business 영어'};
-  const loader=c=>({my:window.saywardMyPilot,sori:window.saywardSoriPilot,opic:window.saywardOpicPilot,friends:window.saywardFriendsPilot,business:window.saywardBusinessPilot})[c];
-  let bannerTimer=null;
-  function clearBanner(){
-    if(bannerTimer){clearTimeout(bannerTimer);bannerTimer=null;}
-    document.getElementById('sw5525PlaybackLoad')?.remove();
-  }
+  const label={my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'Friends',business:'Business 영어'};
+  function loader(course){return ({my:window.saywardMyPilot,sori:window.saywardSoriPilot,opic:window.saywardOpicPilot,friends:window.saywardFriendsPilot,business:window.saywardBusinessPilot})[course]}
   function show(course,done=0,total=0){
-    clearBanner();
-    if(!course)return;
-    const el=document.createElement('div');
-    el.id='sw5525PlaybackLoad';
-    el.setAttribute('role','status');
-    el.style.cssText='position:fixed;left:12px;right:12px;bottom:90px;z-index:140000;background:#28245f;color:white;padding:14px 18px;border-radius:13px;box-shadow:0 10px 32px #0005;font-weight:700;font-size:14px;text-align:center;';
-    el.textContent=`${labels[course]||course} DB 콘텐츠 준비 중 · ${done}/${total}개 수업`;
-    document.body.appendChild(el);
-    bannerTimer=setTimeout(clearBanner,12000);
+    let el=document.getElementById('sw5525PlaybackLoad');
+    if(!course){if(el)el.remove();return;}
+    if(!el){
+      el=document.createElement('div');el.id='sw5525PlaybackLoad';el.setAttribute('role','status');el.setAttribute('aria-live','polite');
+      el.style.cssText='position:fixed;left:12px;right:12px;bottom:90px;z-index:140000;background:#28245f;color:white;padding:14px 18px;border-radius:13px;box-shadow:0 10px 32px #0005;font-weight:700;font-size:14px;text-align:center;';
+      document.body.appendChild(el);
+    }
+    el.textContent=`${label[course]||course} DB 콘텐츠 준비 중 · ${done}/${total}개 수업`;
   }
   window.sw5525PlaybackLoading=show;
-  function bounded(p,ms,code){
-    let timer;
-    return Promise.race([
-      Promise.resolve(p),
-      new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error(code)),ms)})
-    ]).finally(()=>clearTimeout(timer));
-  }
   window.sw5525PreparePlayback=async function(course,lessons,options={}){
     if(course==='day')return true;
-    if(!labels[course])throw new Error('UNKNOWN_COURSE');
-    try{
-      if(!window.saywardAuth?.snapshot?.().authenticated)throw new Error('LOGIN_REQUIRED');
-      if(!window.swStudioPolicyReady?.())await bounded(window.swVisibilityRefresh?.(),8000,'POLICY_TIMEOUT');
-      if(!window.swStudioPolicyReady?.())throw new Error('POLICY_NOT_READY');
-      if(window.mvSentenceTrainedOnlyEnabled5477?.())await bounded(window.saywardTrainedPatterns?.ensure?.(),8000,'TRAINED_FILTER_TIMEOUT');
-      const unique=[...new Set((lessons||[]).map(Number).filter(Number.isInteger))]
-        .filter(n=>window.swLessonEnabled?.(course,n)!==false);
-      if(!unique.length)return false;
-      const api=loader(course);
-      if(typeof api?.ensurePlayback!=='function')throw new Error('CONTENT_LOADER_MISSING_'+course);
-      const alive=()=>typeof options.alive==='function'?options.alive():true;
-      const first=unique[0];
-      options.progress?.(0,unique.length);
-      await bounded(api.ensurePlayback(first),12000,'FIRST_LESSON_TIMEOUT_'+first);
-      if(!alive())return false;
-      // Critical: the first lesson is ready. Close the banner BEFORE playback starts.
-      clearBanner();
-      const rest=unique.slice(1);
-      const pending=(async()=>{
-        let next=0;
-        const worker=async()=>{
-          while(next<rest.length&&alive()){
-            const n=rest[next++];
-            try{await bounded(api.ensurePlayback(n),12000,'BACKGROUND_LESSON_TIMEOUT_'+n)}
-            catch(e){console.warn('[SAYWARD background lesson '+n+']',e?.message||e)}
-          }
-        };
-        await Promise.all(Array.from({length:Math.min(2,rest.length)},worker));
-      })();
-      window.sw6465LazyBatch={course,lessons:unique,ready:pending.then(()=>true,()=>false),alive};
-      return alive();
-    }catch(error){clearBanner();throw error}
-    finally{clearBanner()}
+    if(!label[course])throw new Error('UNKNOWN_COURSE');
+    if(!window.saywardAuth?.snapshot?.().authenticated)throw new Error('LOGIN_REQUIRED');
+    if(!window.swStudioPolicyReady?.())await window.swVisibilityRefresh?.();
+    if(!window.swStudioPolicyReady?.())throw new Error('POLICY_NOT_READY');
+    if(window.mvSentenceTrainedOnlyEnabled5477?.())await window.saywardTrainedPatterns?.ensure?.();
+    const unique=[...new Set((lessons||[]).map(Number).filter(Number.isInteger))]
+      .filter(n=>window.swLessonEnabled?.(course,n)!==false);
+    if(!unique.length)return false; // no permitted lessons, not a network failure
+    const api=loader(course);
+    if(typeof api?.ensurePlayback!=='function')throw new Error('CONTENT_LOADER_MISSING_'+course);
+    // v6.4.66: hydrate the first lesson only before starting playback.
+    // Remaining lessons load in the background and are joined at the playlist boundary.
+    const alive=()=>typeof options.alive==='function'?options.alive():true;
+    const first=unique[0];
+    options.progress?.(0,unique.length);
+    await api.ensurePlayback(first);
+    if(!alive())return false;
+    options.progress?.(1,unique.length);
+    const rest=unique.slice(1);
+    const pending=(async()=>{
+      let next=0,done=1;
+      const worker=async()=>{
+        while(next<rest.length){
+          if(!alive())return;
+          const n=rest[next++];
+          await api.ensurePlayback(n);
+          if(!alive())return;
+          options.progress?.(++done,unique.length);
+        }
+      };
+      await Promise.all(Array.from({length:Math.min(2,rest.length)},worker));
+    })();
+    // Attach a handler immediately to avoid unhandled background rejections.
+    const settled=pending.then(()=>true,error=>{console.warn('[SAYWARD playback lazy load]',error);return false});
+    window.sw6465LazyBatch={course,lessons:unique,ready:settled,alive};
+    return alive();
   };
-  window.addEventListener('sayward:auth-out',clearBanner);
-  window.addEventListener('pagehide',clearBanner);
+  window.addEventListener('sayward:auth-out',()=>show(null));
 })();
 </script>
 
@@ -26687,9 +26656,9 @@ if(!st.people.some(x=>x.id===st.target))st.target=st.people[0]?.id||'';
 $('swPolicyUser').innerHTML=st.people.map(x=>`<option value="${esc(x.id)}">${esc(x.label)}</option>`).join('');$('swPolicyUser').value=st.target;
 }
 async function loadLessons(){const uid=auth().uid;let r=[];
-if(st.course==='my'){r=await selectRows('sayward_my_lessons','lesson_no,title,item_counts,visible,seed_complete',[['owner_user_id',uid]]);r=r.filter(x=>window.saywardAuth?.snapshot?.()?.role==='admin'||(x.visible!==false&&x.seed_complete)).map(x=>({no:x.lesson_no,name:'MY '+x.lesson_no+' · '+x.title,counts:x.item_counts||{},count:Object.values(x.item_counts||{}).reduce((a,b)=>a+(Number(b)||0),0)}));}
-else if(st.course==='day'){r=await selectRows('sayward_day_units','word_course,day_no,title,item_count,visible,seed_complete',[['owner_user_id',uid]]);r=r.filter(x=>window.saywardAuth?.snapshot?.()?.role==='admin'||(x.visible!==false&&x.seed_complete)).map(x=>({no:x.word_course==='opic'?x.day_no+56:x.day_no,name:'DAY '+String(x.word_course==='opic'?x.day_no+56:x.day_no).padStart(2,'0')+' · '+x.title,count:Number(x.item_count)||0}));}
-else{r=await selectRows('sayward_course_lessons','course,lesson_no,title,item_counts,visible,seed_complete',[['owner_user_id',uid],['course',st.course]]);r=r.filter(x=>window.saywardAuth?.snapshot?.()?.role==='admin'||(x.visible!==false&&x.seed_complete)).map(x=>({no:x.lesson_no,name:st.course.toUpperCase()+' '+x.lesson_no+' · '+x.title,counts:x.item_counts||{},count:Object.values(x.item_counts||{}).reduce((a,b)=>a+(Number(b)||0),0)}));}
+if(st.course==='my'){r=await selectRows('sayward_my_lessons','lesson_no,title,item_counts,visible,seed_complete',[['owner_user_id',uid]]);r=r.filter(x=>x.visible!==false&&x.seed_complete).map(x=>({no:x.lesson_no,name:'MY '+x.lesson_no+' · '+x.title,counts:x.item_counts||{},count:Object.values(x.item_counts||{}).reduce((a,b)=>a+(Number(b)||0),0)}));}
+else if(st.course==='day'){r=await selectRows('sayward_day_units','word_course,day_no,title,item_count,visible,seed_complete',[['owner_user_id',uid]]);r=r.filter(x=>x.visible!==false&&x.seed_complete).map(x=>({no:x.word_course==='opic'?x.day_no+56:x.day_no,name:'DAY '+String(x.word_course==='opic'?x.day_no+56:x.day_no).padStart(2,'0')+' · '+x.title,count:Number(x.item_count)||0}));}
+else{r=await selectRows('sayward_course_lessons','course,lesson_no,title,item_counts,visible,seed_complete',[['owner_user_id',uid],['course',st.course]]);r=r.filter(x=>x.visible!==false&&x.seed_complete).map(x=>({no:x.lesson_no,name:st.course.toUpperCase()+' '+x.lesson_no+' · '+x.title,counts:x.item_counts||{},count:Object.values(x.item_counts||{}).reduce((a,b)=>a+(Number(b)||0),0)}));}
 st.lessons=r.sort((a,b)=>a.no-b.no);
 }
 function parseTarget(){const [type,id]=st.target.split('|');if(!['eval','user'].includes(type)||!/^[a-f0-9-]{36}$/i.test(id||''))throw Error('유효한 사용자를 선택하세요.');return {type,id};}
@@ -27687,6 +27656,20 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     else{state.hint=!!entry?.hintUsed||done;showHint();}
     g('sw5527Reveal').classList.toggle('swStudio-is-match-result',isMatch);
     g('sw5527Reveal').hidden=!done;g('sw5527After').hidden=!done;g('sw5527Primary').hidden=done;
+    // Show natural Korean only after answer reveal, and only for the exact master sentence.
+    // Sentence variants may have a different translation; never attach the master's paraphrase to them.
+    const naturalPanel=g('swTranslationNaturalPanel');
+    const naturalText=g('swTranslationNaturalText');
+    const naturalToggle=g('swTranslationNaturalToggle');
+    const master=state.patterns.find(x=>x.pattern_id===p.pattern_id);
+    const exactMaster=master&&String(master.example_en||'').trim()===String(p.example_en||'').trim()
+      &&String(master.example_ko||'').trim()===String(p.example_ko||'').trim();
+    const natural=exactMaster?String(master.example_ko_natural||'').trim():'';
+    if(naturalPanel&&naturalText&&naturalToggle){
+      naturalText.textContent=natural;
+      naturalPanel.hidden=!(done&&!isMatch&&natural);
+      naturalText.hidden=!naturalToggle.checked;
+    }
     g('sw5533SentenceResult').hidden=isMatch;g('sw5533MatchResult').hidden=!isMatch;
     // Restore the original wording when returning from matching to sentence creation.
     const ratingPanel=g('sw5529SelfRating'),ratingHeading=ratingPanel?.querySelector('h3'),ratingExplanation=ratingPanel?.querySelector('p');
@@ -27914,6 +27897,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
   function leaveKeyboardMode(){
     keyboardAdjustTicket++;view.classList.remove('sw5531-typing');keyboardDock.hidden=true;
   }
+  g('swTranslationNaturalToggle')?.addEventListener('change',event=>{g('swTranslationNaturalText').hidden=!event.target.checked;});
   answerField.addEventListener('focus',enterKeyboardMode);
   answerField.addEventListener('blur',leaveKeyboardMode);
   // Preserve the keyboard viewport until a touch activation has completed;
