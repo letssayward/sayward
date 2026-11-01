@@ -26,8 +26,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.68 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.80">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.81 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.81">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -3598,6 +3598,22 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 #sw5527PracticePage .sw6478StatRow span{color:#667085;flex:1}
 #sw5527PracticePage .sw6478StatRow strong{text-align:right;color:#27364c;flex:1;font-size:13px}
 </style>
+
+<style id="sw6481-match-result-refine">
+/* v6.4.81: remove duplicate play buttons; tap English sentence directly. */
+#sw5527PracticePage #sw5527Reveal.sw6481CompactMatch{padding:10px 11px!important;margin-top:8px!important;border-radius:13px!important}
+#sw5527PracticePage #sw5533MatchResult .sw6477MatchCard{padding:11px 12px!important;margin:8px 0!important;border-radius:13px!important}
+#sw5527PracticePage #sw5533MatchResult .sw6477Sentence{margin:7px 0 3px!important;line-height:1.5!important;font-size:16px!important}
+#sw5527PracticePage #sw5533MatchResult .sw6477Speak{display:none!important}
+#sw5527PracticePage #sw5533MatchResult .swStudioFeedbackDetail{margin:4px 0!important;line-height:1.45!important}
+#sw5527PracticePage #sw5533MatchResult .swStudioFeedbackSummary{margin:3px 0 7px!important;font-size:12px!important}
+#sw5527PracticePage #sw6481PatternStatsHost[hidden]{display:none!important}
+#sw5527PracticePage #sw6481PatternStatsHost{background:var(--card,#fff);border:1px solid #e0e5ed;border-radius:16px;padding:12px 14px;margin:14px 0 20px}
+#sw5527PracticePage #sw6481PatternStatsHost .sw6478PatternStats{border-top:0!important;margin-top:0!important;padding:0!important}
+#sw5527PracticePage #sw6481PatternStatsHost .sw6478PatternStats>b{margin-bottom:6px!important;font-size:15px}
+#sw5527PracticePage #sw6481PatternStatsHost .sw6478StatRow{padding:7px 2px!important;font-size:12px!important}
+#sw5527PracticePage #sw6481PatternStatsHost .sw6478StatRow strong{font-size:12px;text-align:right;max-width:64%;overflow-wrap:anywhere}
+</style>
 </head><body>
 
 <button id="drawerMenuButton" class="drawerMenuButton" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
@@ -4297,6 +4313,7 @@ body:has(#sw5527PracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButto
     </div>
     <div class="sw5527-export"><div><strong>GPT 8항목 정밀 채점</strong><small>답안 전체 복사 → ChatGPT 붙여넣기</small></div><button type="button" id="sw5527Copy">📋 전체 복사</button></div>
     <div id="sw5527CopyPanel" class="sw5527-copy-panel" hidden><label for="sw5527CopyText">복사할 채점 요청 <span>자동 복사할 수 없다면 직접 선택하여 복사하세요</span></label><textarea id="sw5527CopyText" readonly rows="6"></textarea><button id="sw5527CopyAgain" type="button">📋 다시 복사</button></div>
+    <section id="sw6481PatternStatsHost" class="sw6481-pattern-stats-host" aria-label="현재 패턴 학습 현황" hidden></section>
     <div id="sw5527Notice" class="sw5527-notice" role="status">공식 DB의 예문으로 연습합니다. 자기평가는 앱 기록에 저장되며 GPT 공식 채점·승급과 구분됩니다.</div>
     <div id="sw5527Done" class="sw5527-done" hidden><div class="sw5527-done-icon">🎉</div><h2 id="sw5531DoneHeading">10문장 연습 완료</h2><p id="sw5527DoneText">전체 복사로 ChatGPT 채점을 요청하세요.</p><div id="sw5411Summary" class="sw5411-summary" aria-label="학습 결과 요약"></div><section id="sw5411Review" class="sw5411-review" aria-labelledby="sw5411ReviewHeading"><h3 id="sw5411ReviewHeading">📋 문항별 결과</h3><p class="sw5411-help">패턴 맞추기는 내가 선택한 학습 평가(혼자 성공 · 복습 필요 · 정답 보고 학습)를 표시합니다. 선택지 정오답은 각 문항을 펼쳐 확인할 수 있습니다. 문장 만들기는 GPT 채점 전입니다.</p><div id="sw5411Filter" class="sw5411-filter" role="group" aria-label="결과 필터"><button type="button" data-sw5411-filter="all" aria-pressed="true">전체 결과</button><button type="button" data-sw5411-filter="review" aria-pressed="false">복습할 문제</button></div><div id="sw5411List"></div><p class="sw5411-note">※ 패턴 선택 정오답과 내 학습 평가는 서로 다릅니다. 자기평가는 Supabase 저장이 확인된 기록을 기준으로 집계하며, 공식 GPT Perfect/Review/Miss 및 Stable 승급과 별도입니다.</p></section><button type="button" id="sw5527Restart">새로운 10문장 시작</button></div>
   </div>
@@ -27573,7 +27590,7 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
     applyFilter('all');
   }
 
-  function finish(){state.finished=true;g('sw5527Card').hidden=true;g('sw5527Done').hidden=false;
+  function finish(){state.finished=true;g('sw5527Card').hidden=true;g('sw5527Done').hidden=false;g('sw6481PatternStatsHost').hidden=true;
     const count=Array.from(state.results.values()).filter(x=>x.submitted&&x.answer.trim()).length;
     const savedCount=Array.from(state.results.values()).filter(x=>x.selfSaved).length;
     setText('sw5531DoneHeading',state.deck.length+'문제 연습 완료');
@@ -27615,6 +27632,38 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
     if(data)swMatchParaphraseCache.set(patternId,data);
     return data;
   }
+  async function refreshCurrentPatternStats(patternId){
+    const host=g('sw6481PatternStatsHost');
+    if(!host||host.hidden||host.dataset.patternId!==patternId||!isCurrent())return;
+    const uid=state.uid;
+    const rows=host.querySelectorAll('.sw6478StatRow strong');
+    // Current rows: official grade, latest self-rating, recent app practice, stage,
+    // official GPT counts, and official DB app Stable score.
+    if(rows.length<6)return;
+    rows[4].textContent='DB 조회 중…';rows[5].textContent='DB 조회 중…';
+    const client=window.saywardAuth?.getClient?.();
+    if(!client){rows[4].textContent='로그인 필요';rows[5].textContent='로그인 필요';return;}
+    const same=()=>host.isConnected&&!host.hidden&&host.dataset.patternId===patternId&&
+      state.uid===uid&&state.deck[state.index]?.pattern_id===patternId&&isCurrent();
+    const [history,score]=await Promise.allSettled([
+      client.from('sayward_learning_history').select('grade')
+        .eq('user_id',uid).eq('pattern_id',patternId).limit(1000),
+      client.rpc('sayward_my_stable_score',{p_pattern:patternId})
+    ]);
+    if(!same())return;
+    if(history.status==='fulfilled'&&!history.value.error&&Array.isArray(history.value.data)){
+      const counts={perfect:0,review:0,miss:0};
+      for(const item of history.value.data){const grade=String(item.grade||'').toLowerCase();if(grade in counts)counts[grade]++;}
+      rows[4].textContent=`${counts.perfect} / ${counts.review} / ${counts.miss}`;
+    }else rows[4].textContent='조회 실패 · DB 권한 확인';
+    if(score.status==='fulfilled'&&!score.value.error){
+      const result=Array.isArray(score.value.data)?score.value.data[0]:score.value.data;
+      if(result&&Number.isFinite(Number(result.score))){
+        // This score measures app self-practice, NOT GPT official grading.
+        rows[5].textContent=Number(result.score)+'/100점'+(result.score_ready?'':' · 앱 기록 없음');
+      }else rows[5].textContent='기록 없음';
+    }else rows[5].textContent='조회 실패 · DB 점수 확인';
+  }
   function renderMatchResult(p,entry){
     const el=g('sw5533MatchResult'),correct=entry.selected_id===p.pattern_id;
     el.replaceChildren();
@@ -27634,17 +27683,6 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
     const addText=(section,value,cls)=>{
       const node=document.createElement('p');node.className=cls;node.textContent=value||'—';section.appendChild(node);return node;
     };
-    const addSpeak=(section,text)=>{
-      if(!text)return;
-      const button=document.createElement('button');button.type='button';button.className='sw6477Speak';
-      button.textContent='🔊 문장 듣기';button.setAttribute('aria-label','영어 문장 듣기');
-      button.addEventListener('click',()=>{
-        if(typeof window.speakOne==='function')void window.speakOne(text,typeof window.getSpeechRate==='function'?window.getSpeechRate():1,'en-US',button);
-        else if(window.saywardKokoroMixed?.speak)void window.saywardKokoroMixed.speak(text);
-        else if(window.saywardStudioAudio?.speak)void window.saywardStudioAudio.speak(text);
-        else if('speechSynthesis' in window){const u=new SpeechSynthesisUtterance(text);u.lang='en-US';window.speechSynthesis.speak(u);}
-      });section.appendChild(button);
-    };
     const addTapSentence=(section,value)=>{
       const node=addText(section,value,'sw6477Sentence sw6478TapSentence');
       node.tabIndex=0;node.setAttribute('role','button');node.setAttribute('aria-label','영어 문장 재생: '+value);
@@ -27656,7 +27694,6 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
     addText(answer,p.pattern_ko,'swStudioFeedbackDetail');
     addTapSentence(answer,p.example_en);
     addText(answer,p.example_ko,'swStudioFeedbackDetail');
-    addSpeak(answer,p.example_en);
     const para=makeCard('패러프레이징 패턴 · 문장','phrase');
     const loading=addText(para,'공식 DB 패러프레이징 조회 중…','swStudioFeedbackDetail');
     const requestedId=p.pattern_id;
@@ -27664,14 +27701,13 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
       if(!para.isConnected||state.deck[state.index]?.pattern_id!==requestedId)return;
       loading.remove();
       if(!data||data.error||!data.paraphrase_en){
-        addText(para,data?.error||'없음','swStudioFeedbackDetail');return;
+        addText(para,data?.error||'패러프레이징 문장이 없습니다.','swStudioFeedbackDetail');return;
       }
       // This table stores the alternative sentence, not a separately approved alternative pattern.
-      addText(para,'대체 표현 · 원문과 비교','swStudioFeedbackDetail');
+      addText(para,'대체 문장 · 원문과 비교','swStudioFeedbackDetail');
       addTapSentence(para,data.paraphrase_en);
       addText(para,data.paraphrase_ko||'한국어 번역 미등록','swStudioFeedbackDetail');
-      addSpeak(para,data.paraphrase_en);
-      if(data.qa_status!=='verified')addText(para,'※ 최종 QA 승인 전 학습 참고용 문장','sw6477QaNote');
+      if(data.qa_status!=='verified')addText(para,'※ 검수 진행 중인 문장 (학습 참고용)','sw6477QaNote');
     }).catch(()=>{
       if(para.isConnected){loading.textContent='패러프레이징을 불러오지 못했습니다.';}
     });
@@ -27687,19 +27723,18 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
       ['최근 앱 자기평가',app?(mapRating[app.self_rating]||app.self_rating||'기록 없음'):'기록 없음'],
       ['최근 앱 학습',state.recentReadOk?recent.length+'회 (최근 조회 기록 기준)':'조회 불가'],
       ['Stable 복습 단계',status==='stable'?(state.due?.get(p.pattern_id)?.stage?String(state.due.get(p.pattern_id).stage)+'/6단계':'일정 정보 없음'):'해당 없음'],
-      ['공식 GPT Perfect / Review / Miss','이 화면에서 점수 미조회']
+      ['공식 GPT Perfect / Review / Miss','DB 조회 중…'],
+      ['앱 Stable 점수','DB 조회 중…']
     ];
     for(const [key,val] of statsRows){const line=document.createElement('div');line.className='sw6478StatRow';const k=document.createElement('span');k.textContent=key;const v=document.createElement('strong');v.textContent=val;line.append(k,v);stats.appendChild(line);}
-    // Match mode: show current pattern learning status ABOVE self-rating.
-    const ratingPanelForStats=g('sw5529SelfRating');
-    if(ratingPanelForStats?.parentNode){
-      // Re-rendering a submitted question must replace, not accumulate, status panels.
-      ratingPanelForStats.parentElement.querySelectorAll(':scope > .sw6478PatternStats').forEach(old=>old.remove());
-      ratingPanelForStats.insertAdjacentElement('beforebegin',stats);
-    }else el.appendChild(stats);
-    const note=document.createElement('p');note.className='sw5533-match-hint';
-    note.textContent='패턴 선택 결과와 자기평가는 공식 GPT 채점·Stable 승급과 별도로 관리됩니다.';
-    el.appendChild(note);
+    // The learning status belongs BELOW GPT 8-item grading, outside the practice card.
+    const host=g('sw6481PatternStatsHost');
+    if(host){
+      host.replaceChildren(stats);
+      host.dataset.patternId=p.pattern_id;
+      host.hidden=false;
+      void refreshCurrentPatternStats(p.pattern_id);
+    }
   }
   function render(){
     if(!state.deck.length){g('sw5527Card').hidden=true;g('sw5527Done').hidden=true;setText('sw5527Step','조건에 맞는 문장이 없습니다');setText('sw5527Counter','0 / 0');g('sw5527Track').style.width='0%';return;}
@@ -27710,6 +27745,9 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
     setText('sw5531KeyboardCounter',(state.index+1)+' / '+state.deck.length);
     setText('sw5531KeyboardText',p.example_ko);
     const isMatch=p.mode==='match';
+    const scoreHost=g('sw6481PatternStatsHost');
+    if(scoreHost)scoreHost.hidden=!done||!isMatch;
+    g('sw5527Reveal')?.classList.toggle('sw6481CompactMatch',isMatch);
     if(isMatch)void window.saywardStudioAudio?.preparePattern?.(p.canonical_pattern);
     void window.saywardKokoroMixed?.prefetch?.(p.example_en);
     window.saywardUnifiedStudio?.sync('pattern',isMatch,done);
@@ -27755,7 +27793,7 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
       ratingPanel.classList.toggle('sw6479CompactRating',isMatch);
     }
     // Clear previous pattern summary when navigating to another question or mode.
-    if(!done||!isMatch){g('sw5529SelfRating')?.parentElement?.querySelectorAll(':scope > .sw6478PatternStats').forEach(n=>n.remove());}
+    if(!done||!isMatch){const host=g('sw6481PatternStatsHost');if(host){host.replaceChildren();host.hidden=true;delete host.dataset.patternId;}}
 
     g('sw5527Prev').hidden=state.index===0;
     g('sw5527Next').textContent=state.index===state.deck.length-1?'연습 완료 →':'다음 문제 →';
@@ -27918,7 +27956,7 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
     const s=auth();if(!s.authenticated||!s.uid){notice('활성 SAYWARD 회원으로 로그인해야 공식 패턴을 불러올 수 있습니다.');return;}
     const ticket=++state.request,uid=s.uid;state.uid=uid;state.loading=true;state.patterns=[];state.states=null;state.latest=null;state.due=null;state.remotePractice=[];state.recentReadOk=false;state.focus=new Map();state.focusProgress=new Map();state.sentenceVariants=new Map();state.sentenceVariantHistory=new Map();state.variantPoolLoaded=false;state.served=recentLocal();
     g('sw5527Course').disabled=true;g('sw5527Mix').disabled=true;SCOUNT.disabled=true;MCOUNT.disabled=true;g('sw5527Shuffle').disabled=true;
-    g('sw5527Card').hidden=true;g('sw5527Done').hidden=true;g('sw5527CopyPanel').hidden=true;
+    g('sw5527Card').hidden=true;g('sw5527Done').hidden=true;g('sw5527CopyPanel').hidden=true;g('sw6481PatternStatsHost').hidden=true;
     setText('sw5527Step','DB 조회 중');setText('sw5527TotalInfo','공식 문장과 개인 학습 상태 조회 중…');notice('회원별 학습 상태와 Stable 예정일을 DB에서 확인한 뒤 출제합니다.');
     try{
       const [patterns,statuses,latest,schedule,recent,focusRows,focusProgress,variantPackage]=await Promise.all([
@@ -28072,6 +28110,7 @@ if(event.pointerType==='touch' && document.activeElement===answerField)event.pre
         notice('앱 자기평가 저장 완료, 집중 학습 세부 증빙 동기화 실패 · 다시 열어 확인해 주세요.');
       }
       state.latest.set(p.pattern_id,{pattern_id:p.pattern_id,self_rating:rating,hint_used:!!entry.hintUsed,created_at:new Date().toISOString()});
+      if(p.mode==='match'){void refreshCurrentPatternStats(p.pattern_id);}
       window.dispatchEvent(new CustomEvent('sayward:app-practice-updated',{detail:{uid:state.uid,pattern_id:p.pattern_id}}));
       notice('앱 학습 기록이 공식 Supabase 개인 영역에 저장되었습니다. 앱 혼자 성공은 서버에서 48시간 간격으로 인정하며 5회 누적 시 Stable로 자동 승급합니다. 복습 필요를 누르면 연속 성공 기록은 초기화됩니다. 공식 상태는 재조회 후 확인하세요.');
     }catch(e){
