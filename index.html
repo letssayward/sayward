@@ -26,7 +26,7 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.85 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.86 · Learning Dashboard</title>
 <meta name="sayward-release" content="6.4.85">
 <script id="sayward-version-source">
 (function(){
@@ -32155,7 +32155,7 @@ async function processOfficialJson(text,manual){
   if(!['issued','submitted','graded'].includes(session.status))throw Error('공식 세션 상태가 제출 가능하지 않습니다: '+session.status);
   if(![15,20].includes(Number(session.expected_count)))throw Error('공식 학습의 발급 문항 수가 15/20개가 아닙니다.');
   let grades=pkg.grades;
-  // v6.4.85: A self-contained JSON bundle can submit the user's answers first.
+  // v6.4.86: A self-contained JSON bundle can submit the user's answers first.
   // Only authenticated RPCs write; all official question/answer pairs are checked before submission.
   const bundle=readJsonText(text);
   const isBundle=String(bundle?.format||'')==='SAYWARD_OFFICIAL_GRADING_BUNDLE';
@@ -32165,6 +32165,18 @@ async function processOfficialJson(text,manual){
    if(ordered.some((g,i)=>Number(g.question_number)!==i+1||g.prompt_ko!==rows[i].prompt_ko||typeof g.user_answer!=='string'||!g.user_answer.trim()))throw Error('JSON의 문항 번호/원문/답안이 공식 Attempt와 일치하지 않습니다.');
    grades=ordered.map((g,i)=>({attempt_id:rows[i].attempt_id,grade:g.recall?.grade,feedback:{prompt_ko:g.prompt_ko,user_answer:g.user_answer,corrected_en:g.corrected_en,corrected_ko:g.corrected_ko,target_pattern:g.target_pattern,target_meaning_ko:g.target_meaning_ko,correction_points:g.correction_points,recall:g.recall}}));
   }
+  // v6.4.86: official SQL validator requires a nonempty correction_points ARRAY.
+  // Older exported bundles used a string. Normalize only this representation,
+  // never alter a grade, canonical pattern, answer, or evidence span.
+  grades=grades.map(g=>{
+   if(!g||!g.feedback)return g;
+   const f=g.feedback;
+   if(typeof f.correction_points==='string'){
+    const point=f.correction_points.trim();
+    return {...g,feedback:{...f,correction_points:point?[point]:[]}};
+   }
+   return g;
+  });
   if(grades.length!==rows.length)throw Error('채점 결과 '+grades.length+'개 / 공식 발급 '+rows.length+'개가 일치하지 않습니다. 미작성 문항도 공식 규칙대로 검토해 주세요.');
   const lookup=new Map(rows.map(r=>[r.attempt_id,r]));
   const seen=new Set();
@@ -32177,6 +32189,12 @@ async function processOfficialJson(text,manual){
    if(Object.keys(f).length!==8||keys.some(k=>!(k in f)))throw Error('Q'+r.question_number+' 피드백은 공식 8항목이 정확히 필요합니다.');
    if(f.prompt_ko!==r.prompt_ko||f.user_answer!==(session.status==='issued'&&isBundle?grades.find(x=>x.attempt_id===r.attempt_id)?.feedback.user_answer:r.user_answer)||f.target_pattern!==r.canonical_pattern_snapshot||f.target_meaning_ko!==r.pattern_ko_snapshot)
     throw Error('Q'+r.question_number+' 원문/답안/공식 목표 패턴이 DB와 일치하지 않습니다. 값을 자동 보정하지 않았습니다.');
+   if(!Array.isArray(f.correction_points)||!f.correction_points.length||typeof f.correction_points[0]!=='string'||!f.correction_points[0].trim())throw Error('Q'+r.question_number+' correction_points는 내용이 있는 배열이어야 합니다.');
+   if(typeof f.corrected_en!=='string'||!f.corrected_en.trim()||typeof f.corrected_ko!=='string'||!f.corrected_ko.trim())throw Error('Q'+r.question_number+' 교정 영어/한국어가 비어 있습니다.');
+   if(!f.recall||typeof f.recall.reason!=='string'||!f.recall.reason.trim()||typeof f.recall.structure_ok!=='boolean'||typeof f.recall.meaning_ok!=='boolean')throw Error('Q'+r.question_number+' Recall 필수 필드/boolean 값 오류');
+   if(typeof f.recall.corrected_target_span!=='string'||!f.recall.corrected_target_span||!f.corrected_en.includes(f.recall.corrected_target_span))throw Error('Q'+r.question_number+' corrected_target_span이 교정 영어의 실제 부분 문자열이 아닙니다.');
+   if(g.grade!=='Perfect'&&f.recall.structure_ok===true&&f.recall.meaning_ok===true)throw Error('Q'+r.question_number+' Review/Miss인데 structure_ok와 meaning_ok가 모두 true입니다. 공식 검증과 충돌합니다.');
+   if(g.grade==='Perfect'&&(f.recall.structure_ok!==true||f.recall.meaning_ok!==true||!f.recall.user_target_span||!r.user_answer?.includes(f.recall.user_target_span)))throw Error('Q'+r.question_number+' Perfect의 원답안 패턴 증거가 부족합니다.');
    if(f.recall?.grade!==g.grade)throw Error('Q'+r.question_number+' Recall 등급이 일치하지 않습니다.');
   }
   const label=dbPeriod==='morning'?'아침':dbPeriod==='lunch'?'점심':dbPeriod==='evening'?'저녁':'유형 미확인';
@@ -32200,7 +32218,7 @@ async function processOfficialJson(text,manual){
    }else if(rows.some(r=>r.status!=='submitted'||r.user_answer===null))throw Error('공식 제출 Attempt가 완결되지 않았습니다.');
    statusOf(label+' 학습 · '+id+' · '+grades.length+'문항 확인. DB 공식 Commit 실행 중…',manual);
    writeMayHaveHappened=true;
-   const {error}=await client.rpc('sayward_admin_commit_manual_grades',{p_session_id:id,p_results:grades,p_verifier_version:'CHATGPT_MANUAL_APP_v6.4.84_AUTO_JSON'});
+   const {error}=await client.rpc('sayward_admin_commit_manual_grades',{p_session_id:id,p_results:grades,p_verifier_version:'CHATGPT_MANUAL_APP_v6.4.86_AUTO_JSON'});
    if(error)throw error;
   }
   const {data:verify,error:ve}=await client.from('sayward_study_attempts').select('attempt_id,status,grade').eq('session_id',id);
@@ -32211,7 +32229,7 @@ async function processOfficialJson(text,manual){
   if(!hist||hist.length!==grades.length||hist.some(r=>!grades.some(g=>g.attempt_id===r.attempt_id&&g.grade===r.grade)))throw Error('History 재조회 검증에 실패했습니다. DB 상태를 확인하세요.');
   sessionInput.value=id; if(dbPeriod)period.value=dbPeriod;
   statusOf('✓ '+label+' 학습 · '+id+'\n'+grades.length+'개 공식 채점 '+(session.status==='graded'?'기존 결과 재조회 확인':'Commit 완료')+' · Attempt/History 검증 통과',manual);
- }catch(e){statusOf('Pending · 공식 채점 미확정: '+(e?.message||String(e))+'\n'+(writeMayHaveHappened?'DB 저장을 요청했으나 완료 여부를 확인하지 못했습니다. DB 재조회가 필요합니다.':'DB 저장은 요청하지 않았습니다. 원본 JSON과 기존 기록을 유지합니다.'),manual);}
+ }catch(e){statusOf('Pending · 공식 채점 미확정: '+(e?.message||String(e))+'\n'+(writeMayHaveHappened?'DB 반영 상태를 확인하지 못했습니다. 중복 제출 전에 DB 재조회가 필요합니다.':'DB 저장은 요청하지 않았습니다. 원본 JSON과 기존 기록을 유지합니다.'),manual);}
  finally{commitBusy=false;commitButton.disabled=false;quickFile.disabled=false;quickBox.classList.remove('is-processing');}
 }
 async function processFile(file){
