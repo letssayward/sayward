@@ -998,7 +998,7 @@ body.practiceReadingMode #morePanel{
 }
 .sentencePatternUnifiedTitle{
   font-size:11.5px !important;
-  line-height:1.25 !important;
+line-height:1.25 !important;
   margin-bottom:3px !important;
 }
 .sentencePatternLegend{
@@ -1498,7 +1498,7 @@ body.practiceReadingMode #morePanel{
 /* ===== V5.3.118 · 통합 녹음/재생 UI ===== */
 .sentenceRecorderUnified{
   margin-top:12px;
-  padding:16px 14px 14px;
+padding:16px 14px 14px;
   border-radius:18px;
   border:1px solid #ececf2;
   background:linear-gradient(180deg,#ffffff 0%,#fcfcff 100%);
@@ -2498,7 +2498,7 @@ button.myTitleInfinityBtn[aria-pressed="true"] *{
 .opicCourseCard{
   position:relative;
   border-color:#ddd6fe!important;
-  background:linear-gradient(135deg,#faf5ff,#f5f3ff)!important;
+background:linear-gradient(135deg,#faf5ff,#f5f3ff)!important;
 }
 #homePage .myClassSection .myClassSelectActions,
 #homePage .myClassSection .v534MyControls{
@@ -2998,7 +2998,7 @@ html,body{
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
-  gap:4px!important;
+gap:4px!important;
   min-height:34px!important;
   padding:7px 9px!important;
   border:1px solid #d0d5dd!important;
@@ -3998,7 +3998,7 @@ Config의 <b>Day Loop 문장당 반복 횟수</b>에서 1회 / 2회 / 3회 / 5�
       </div>
     </section>
     <div class="configActions"><button id="configResetBtn" class="configAction configReset" type="button">기본값 복원</button><button id="configSaveBtn" class="configAction configSave" type="button">설정 저장</button></div>
-    <div class="configNotice">설정은 서버 계정이 아니라 현재 휴대폰의 브라우저 저장소(localStorage)에 저장됩니다. 따라서 서로 다른 휴대폰에서는 각자 다른 설정을 사용할 수 있습니다.</div>
+<div class="configNotice">설정은 서버 계정이 아니라 현재 휴대폰의 브라우저 저장소(localStorage)에 저장됩니다. 따라서 서로 다른 휴대폰에서는 각자 다른 설정을 사용할 수 있습니다.</div>
   </div>
 </div>
 
@@ -4498,7 +4498,7 @@ body:has(#sw5527PracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButto
 <div class="forgetListHead">
     <b>복습 예정 단어</b>
     <select id="forgetSort" class="select" style="width:auto">
-      <option value="due">복습 시급순</option>
+<option value="due">복습 시급순</option>
       <option value="weak">취약도순</option>
       <option value="time">복습 예정시간순</option>
     </select>
@@ -4998,7 +4998,7 @@ function studyCoreChunkLinks(item,data){
     if(!chunk && surface){
       chunk=chunks.find(c=>{
         const p=String(c?.pattern||'').trim();
-        const ex=String(c?.example||'');
+const ex=String(c?.example||'');
         return (p&&studyFindPatternHits(surface,p).length>0) ||
                (ex&&ex.toLowerCase().includes(surface.toLowerCase()));
       })||null;
@@ -5498,7 +5498,7 @@ window.studyPatternStandardAudit313=studyPatternStandardAudit313;
 
 /* ===== V5.3.189 · UNIVERSAL SPEAKING HEADER STANDARD ===== */
 function studyNormalizeSpeakingLabel(text){
-  return String(text||'')
+return String(text||'')
     .toLowerCase()
     .replace(/[~…]+/g,' ')
     .replace(/[?!.,:;'"()[\]{}]/g,' ')
@@ -5998,7 +5998,6 @@ function mvOpenSpeakingBridge183(){
   return true;
 }
 window.mvOpenSpeakingBridge183=mvOpenSpeakingBridge183;
-
 function mvSpeakingBridgeReturn183(){
   const ctx=MV_SPEAKING_BRIDGE_183;
   if(!ctx)return false;
@@ -6498,7 +6497,6 @@ function studyOpenCard(card){
 }
 window.studyCardCourseLesson=studyCardCourseLesson;
 window.studyOpenCard=studyOpenCard;
-
 function studyCourseCardFromEventTarget(target){
   if(!target?.closest)return null;
   if(target.closest('input,label,button,a,select,textarea,[data-no-card-open]'))return null;
@@ -6998,7 +6996,7 @@ async function waitForRenderedCard(w,version){
     const exOk=$('ex')&&$('ex').textContent.replace(/\s+/g,' ').trim()===(w.example||'').replace(/\s+/g,' ').trim();
     const expectedPara=(w.paraphrase||w.example||'').replace(/\s+/g,' ').trim();
     const paraOk=$('q')&&$('q').textContent.replace(/\s+/g,' ').trim()===expectedPara;
-    if(__renderedCardKey===key&&wordOk&&exOk&&paraOk){
+if(__renderedCardKey===key&&wordOk&&exOk&&paraOk){
       await nextPaint();
       return version===__renderVersion&&cardKey(cur())===key;
     }
@@ -7998,7 +7996,7 @@ function speakOne(text,rate=getSpeechRate(),lang='en-US',preferredEl=null){
         resolve();
       }
     },resetDelay);
-  })
+})
 }
 function splitSpeechChunks(text,maxLen=150){
   const clean=decodeHtmlEntities(String(text||'')).replace(/\s+/g,' ').trim();
@@ -8998,7 +8996,7 @@ function updateQuizDayNav(){
   }else{
     const dayWords=ALL_WORDS.filter(w=>Number(w.newDay)===Number(quizSelectedDay));
     const wrongCount=dayWords.filter(w=>(stats[w.word]?.quizWrong||0)>0).length;
-    label.innerHTML=`<b>${dayDisplayLabel(quizSelectedDay)}</b><span>${dayWords.length}개 · 오답 ${wrongCount}개</span>`;
+label.innerHTML=`<b>${dayDisplayLabel(quizSelectedDay)}</b><span>${dayWords.length}개 · 오답 ${wrongCount}개</span>`;
   }
 
   $('quizPrevDay').disabled=quizSelectedDay<=1;
@@ -9498,7 +9496,7 @@ function showRecallAnswer(q,recordWrongNow=false){
   if(!q)return;
   $('opts').innerHTML=`
     <div class="recallAnswerCard">
-      <div class="recallAnswerWordRow">
+<div class="recallAnswerWordRow">
         <div class="recallAnswerWord">${recallEscape(q.word||'')}</div>
         <div class="recallAnswerWordActions">
           <button id="recallWordSpeakBtn" class="recallWordMiniBtn" type="button" aria-label="${recallEscape(q.word||'')} 발음 듣기" title="단어 발음 듣기">🔊</button>
@@ -9998,7 +9996,7 @@ function sentenceRecordingMime(){
 
 
 async function sentenceRecordingPrepareMic(){
-  if(sentenceRecordingPreparedStream && sentenceRecordingPreparedStream.active){
+if(sentenceRecordingPreparedStream && sentenceRecordingPreparedStream.active){
     return sentenceRecordingPreparedStream;
   }
   if(sentenceRecordingPreparePromise){
@@ -10498,7 +10496,7 @@ async function sentenceRecordingToMp3(blob){
   const sampleRate=Math.round(audioBuffer.sampleRate||48000);
   const pcm=sentenceRecordingFloatToInt16(audioBuffer);
   const encoder=new lame.Mp3Encoder(1,sampleRate,128);
-  const chunks=[];
+const chunks=[];
   const block=1152;
   for(let i=0;i<pcm.length;i+=block){
     const part=pcm.subarray(i,Math.min(i+block,pcm.length));
@@ -10998,7 +10996,7 @@ function sentenceRecordingBind(q){
       });
       const big=$('sentenceRecordingBigTime');
       if(big)big.textContent=`${sentenceRecordingTime(sentenceRecordingDuration)} / ${sentenceRecordingTime(sentenceRecordingDuration)}`;
-    };
+};
 
     audio.onloadedmetadata=()=>{
       if(isFinite(audio.duration)&&audio.duration>0){
@@ -11998,7 +11996,7 @@ function openDay(day,tabName='learn'){
   try{stopDayLoop(true)}catch(e){}
   try{ if(typeof hideStandalonePages==='function') hideStandalonePages(); }catch(e){}
   if(!window.__repeatInternalNavigation){
-    stopRepeatWakeSession();
+stopRepeatWakeSession();
     AUTO.active=false;
     AUTO.token++;
     forceReleaseWakeLock();
@@ -12498,7 +12496,7 @@ async function voicePracticeCompareSequence(){
   if(!text){
     sentenceRecordingToast('먼저 연습할 영어 문장을 입력해 주세요.');
     return;
-  }
+}
   const btn=document.getElementById('voicePracticeCompareSequence');
   if(btn){btn.disabled=true;btn.textContent='비교 재생 중…'}
   try{
@@ -12998,7 +12996,7 @@ function mvOpenUpdateHistory(){
       <section class="mvInfoSection">
         <h3>v5.3.171</h3>
         <ul>
-          <li>Drawer를 학습 / 단어 학습 / 문장 말하기 중심 구조로 개편했습니다.</li>
+<li>Drawer를 학습 / 단어 학습 / 문장 말하기 중심 구조로 개편했습니다.</li>
           <li>퀴즈와 문장 말하기 Activity를 분리하면서 기존 엔진은 재사용했습니다.</li>
         </ul>
       </section>
@@ -13497,8 +13495,7 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
     if(oldPlay){const p=oldPlay.cloneNode(true);oldPlay.replaceWith(p);p.onclick=myClassTogglePlay;}
     document.querySelectorAll('.myClassTab').forEach(x=>x.onclick=()=>{stopAllMyClassPlayback(true);myClassTab=x.dataset.myclassTab;oldRenderMyClass();updateFullRepeatChip();myClassSetStatus?.('화면 전환 · 재생 정지',false);});
   }
-
-  function injectFullRepeatConfig(){
+function injectFullRepeatConfig(){
     const sec=[...document.querySelectorAll('#configPage .configSection')].find(x=>x.textContent.includes('MY 수업 재생 설정'));
     if(!sec||document.getElementById('cfgMyClassFullRepeat'))return;
     const row=document.createElement('div');row.className='configRow';
@@ -13998,7 +13995,6 @@ function addDrawerMyClass(){
   // 과거 버전이 Quiz 아래에 동적으로 추가하던 바로가기는 제거만 한다.
   document.querySelectorAll('[data-drawer-action="myClass"],.myClassDrawerItem').forEach(x=>x.remove());
 }
-
 // v5.3.189: Drawer/app version is managed only by window.SAYWARD_RELEASE and the standard info overlay.
 
 setTimeout(()=>{
@@ -14498,7 +14494,7 @@ async function m536RunFull(startAt=0,startRep=0){
       if(m536BgShouldYield207() && r<reps-1){
         m536BgCheckpoint207({cursor:M536.cursor,rep:r+1,itemDone:false,repDone:true});
         M536.busy=false;
-        return;
+return;
       }
     }
 
@@ -14998,7 +14994,7 @@ const M536_PATTERNS={
     ['have to communicate with ~','~와 소통해야 하다',/\bhad to communicate with\b[^,.!?]*/i],
     ['go out for dinner','저녁을 먹으러 나가다',/\bwent out for dinner\b/i],
     ['give a toast','건배사를 하다',/\bgave a toast\b/i],
-    ['get the job done','일을 해내다',/\bgot the job done\b/i],
+['get the job done','일을 해내다',/\bgot the job done\b/i],
     ['monitor sensor data','센서 데이터를 모니터링하다',/\bmonitor sensor data\b[^,.!?]*/i],
     ['maintain consistent performance','일관된 성능을 유지하다',/\bmaintain consistent performance\b[^,.!?]*/i],
     ['identify the root cause','근본 원인을 찾아내다',/\bidentify the root cause\b/i],
@@ -15498,7 +15494,7 @@ function studySameTabLessonNav231(dir){
   const course=ACTIVE_STUDY_COURSE||'my';
   const max=Math.max(1,Number(studyCourseLessonCount?.(course))||1);
   const next=Number(myClassLessonNo||1)+(dir>0?1:-1);
-  if(next<1||next>max)return false;
+if(next<1||next>max)return false;
   stopAllMyClassPlayback(true);
   myClassLessonNo=next;
   try{M536.course=course}catch(e){}
@@ -15998,7 +15994,7 @@ function mvWordLearningMenuAudit(){
   const compare=nav?.querySelector('[data-drawer-action="compare"]');
   let title=quiz?.previousElementSibling||null;
   while(title && !title.classList?.contains('drawerSectionTitle'))title=title.previousElementSibling;
-  return {
+return {
     version:'5.3.187',
     category:title?.textContent?.trim()||'',
     quizThenCompare:!!quiz&&!!compare&&compare.previousElementSibling===quiz,
@@ -16498,7 +16494,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
       };
     }
     if(allRepeatStart){
-      allRepeatStart.onclick=()=>{
+allRepeatStart.onclick=()=>{
         if(!allRepeat?.checked && !window.MV_ALL_REPEAT_219?.active)return;
         const activeBtn=document.querySelector('#homeStudyModePanel .homeStudyModeBtn.active');
         const modeMap={homeModeDay:'day',homeModeMy:'my',homeModeSori:'sori',homeModeOpic:'opic',homeModeFriends:'friends',homeModeBusiness:'business'};
@@ -16998,7 +16994,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
 
     sec.querySelectorAll('.friendsCourseCard').forEach((card,i)=>{
       const n=Number(card.dataset.studyLesson)||lessons[i]||i+1;
-      const c=ensureStandardCourseCheckbox(card,'friends',n,`FRIENDS S01E${String(n).padStart(2,'0')}`);
+const c=ensureStandardCourseCheckbox(card,'friends',n,`FRIENDS S01E${String(n).padStart(2,'0')}`);
       if(!c)return;
       c.checked=selected.includes(n);
       card.classList.toggle('myClassChecked',c.checked);
@@ -17498,7 +17494,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
     allRepeatButtonText215();
     return true;
   }
-  window.stopAllRepeat215=stopAllRepeat215;
+window.stopAllRepeat215=stopAllRepeat215;
 
   function allRepeatAdvance215(){
     const s=MV_ALL_REPEAT_215;
@@ -18498,7 +18494,7 @@ function mvSpeakingPlaybackAudit193(){
     currentStartIndex:m536CurrentScreenStartIndex193(course),
     canonicalQuestionThenAnswer:m536SpeakItem!==baseM536SpeakItem193,
     sharedCourses:['my','sori','opic','friends','business'].map(x=>({course:x,enabled:!!STUDY_COURSES?.[x]})),
-    behavior:'idle 전체 재생 = current visible tab/card; paused 전체 재생 = resume saved cursor'
+behavior:'idle 전체 재생 = current visible tab/card; paused 전체 재생 = resume saved cursor'
   };
 }
 window.mvSpeakingPlaybackAudit193=mvSpeakingPlaybackAudit193;
@@ -18998,7 +18994,7 @@ function end246(cancel){
   if(!committed){
     s.ending=false;
     const dur=180;
-    s.card.style.transition=`transform ${dur}ms cubic-bezier(.22,.72,.18,1),filter ${dur}ms ease-out`;
+s.card.style.transition=`transform ${dur}ms cubic-bezier(.22,.72,.18,1),filter ${dur}ms ease-out`;
     requestAnimationFrame(()=>{s.card.style.transform='translate3d(0,0,0) rotateZ(0deg) scale(1)';s.card.style.filter='brightness(1)'});
     setTimeout(()=>cleanup246(s),dur+35);
     return false;
@@ -19498,8 +19494,7 @@ window.mvAutoDayPlaybackTurn255=async function(commit){
   const w=Math.max(1,window.innerWidth),h=Math.max(1,window.innerHeight);
   const tx=-w*1.16,ty=-Math.min(h*.10,80);
   card.style.transformOrigin='right bottom';
-
-  // v5.3.275 · DAY uses the same uninterrupted page-turn timing.
+// v5.3.275 · DAY uses the same uninterrupted page-turn timing.
   await new Promise(r=>setTimeout(r,110));
 
   const dur=700;
@@ -19998,7 +19993,7 @@ document.addEventListener('visibilitychange',()=>{
     // checkpoint to the shared paused/resume state.
     setTimeout(()=>{
       if(s.wasActive)mvBgMarkPaused274();
-    },0);
+},0);
   }else{
     // Run after v207's listener. Cancel its pending auto-restore and present
     // the truthful one-tap resume state.
@@ -20498,7 +20493,7 @@ window.mvSwipeBoundaryStandardAudit278=function(){
     tapSafety:'tap remains tap; click is suppressed only after committed horizontal swipe',
     nativeControlsExcluded:['input','select','textarea','audio','video','contenteditable'],
     dayBoundary:'DAY N last -> DAY N+1 first / DAY N first -> DAY N-1 last',
-    practiceReadingBoundary:'whole DAY reading page -> adjacent DAY',
+practiceReadingBoundary:'whole DAY reading page -> adjacent DAY',
     courseBoundary:'last study screen -> next lesson first / first study screen -> previous lesson last',
     course:{course:p.course,lesson:p.lesson,maxLesson:p.max,tab:myClassTab,tabs:p.tabs},
     quiz:'question navigation + DAY boundary: last -> next DAY first / first -> previous DAY last'
@@ -20998,7 +20993,7 @@ async function mv281CourseStart(mode){
       if(ticket!==mv281PendingDbStart5525||mv281Mode()!==mode||MV281.kind==='overall')return false;
     }
   }
-  const ok=mv281StartFreshCourse(mode);mv281SyncUI();return ok;
+const ok=mv281StartFreshCourse(mode);mv281SyncUI();return ok;
 }
 window.mv281CourseStart=mv281CourseStart;
 
@@ -21498,7 +21493,7 @@ setTimeout(()=>{
       const n=Number(card.dataset.studyLesson)||i+1;
       const meta=typeof studyCourseMeta==='function'?(studyCourseMeta('opic')||{}):{};
       const short=meta[n]?.shortTitle||card.querySelector('.myClassTitle')?.textContent||`OPIC ${n}`;
-      const top=card.querySelector('.myClassTop b');
+const top=card.querySelector('.myClassTop b');
       const title=card.querySelector('.myClassTitle');
       if(top)top.textContent=`OPIC ${n}`;
       if(title)title.textContent=short;
@@ -21998,8 +21993,7 @@ function buildIndex292(force=false){
     c2.forEach((p,j)=>pushPat(p,ck[j]||''));
     pats.forEach((p,j)=>add292(out,{id:`p:${wid}:${j}`,type:'pattern',course:'day',lesson:day,wordId:wid,title:p.title,ko:p.ko||String(w?.patternMeaning||''),example:String(w?.example||''),exampleKo:String(w?.translation||''),extra:String(w?.word||''),source:source292('day',day,'패턴')}));
   });
-
-  ['my','sori','opic','friends','business'].forEach(course=>{
+['my','sori','opic','friends','business'].forEach(course=>{
     let count=0;try{count=Number(studyCourseLessonCount(course))||0}catch(e){}
     for(let lesson=1;lesson<=count;lesson++){
       let d=null;try{d=studyCourseData(course,lesson)}catch(e){d=null}
@@ -23498,7 +23492,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
    $('p2Questions').hidden=false;
    status('p2ImportStatus','형식 검사 통과 · '+m.questions.length+'문항 · 공식 발급 검증은 Library 게시 기록에 따릅니다.');
    status('p2ReceiptStatus','Pending — 실제 DB 저장 결과가 아직 없습니다.');$('p2ReceiptResults').replaceChildren();
-  }catch(e){manifest=null;$('p2Questions').hidden=true;status('p2ImportStatus','오류: '+e.message);}
+}catch(e){manifest=null;$('p2Questions').hidden=true;status('p2ImportStatus','오류: '+e.message);}
  });
  function submitted(){
   assert(manifest,'발급된 세션이 없습니다.');
@@ -23998,7 +23992,7 @@ function changeAutoLogin(next){
       const val=localStorage.getItem(key);if(val!==null)volatileAuth.set(key,val);
     }
     autoLoginEnabled=false;
-    clearDeviceAuth();
+clearDeviceAuth();
     try{localStorage.removeItem(AUTO_LOGIN_PREF)}catch(e){}
   }
   elem('swSbAutoLogin').checked=autoLoginEnabled;
@@ -24998,7 +24992,7 @@ async function init(){
         .eq('user_id',userId).order('issued_at',{ascending:false}).limit(100),13000);
       if(!stillCurrent())return;
       if(error)throw error;
-      const rows=data||[];
+const rows=data||[];
       const graded=rows.filter(x=>['Perfect','Review','Miss'].includes(x.grade));
       const perfect=graded.filter(x=>x.grade==='Perfect').length;
       const review=graded.filter(x=>x.grade==='Review').length;
@@ -25498,7 +25492,7 @@ window.addEventListener('pageshow',()=>{recoverSignedInCatalog();if(uid)for(cons
       el.style.cssText='position:fixed;left:12px;right:12px;bottom:90px;z-index:140000;background:#28245f;color:white;padding:14px 18px;border-radius:13px;box-shadow:0 10px 32px #0005;font-weight:700;font-size:14px;text-align:center;';
       document.body.appendChild(el);
     }
-    el.textContent=`${label[course]||course} DB 콘텐츠 준비 중 · ${done}/${total}개 수업`;
+el.textContent=`${label[course]||course} DB 콘텐츠 준비 중 · ${done}/${total}개 수업`;
   }
   window.sw5525PlaybackLoading=show;
   window.sw5525PreparePlayback=async function(course,lessons,options={}){
@@ -25998,7 +25992,7 @@ window.addEventListener('pageshow',()=>{recoverSignedInCatalog();if(uid)for(cons
       const policy=await window.saywardAuth.readStudyPolicy();
       const g=policy.globals,o=policy.personal;
       if(policy.who!==subject)throw new Error('STUDY_SESSION_CHANGED');
-      if(t!==ticket||request!==policyRefreshSerial||subject!==uid)return false;
+if(t!==ticket||request!==policyRefreshSerial||subject!==uid)return false;
       const fp=JSON.stringify([g.slice().sort((a,b)=>key(a.course,a.lesson_no).localeCompare(key(b.course,b.lesson_no))),o.slice().sort((a,b)=>key(a.course,a.lesson_no).localeCompare(key(b.course,b.lesson_no)))]);
       const changed=!policyReady||fp!==policyFingerprint;
       let beforeLesson=null,beforeDay=null;
@@ -26498,7 +26492,7 @@ window.addEventListener('pageshow',()=>{recoverSignedInCatalog();if(uid)for(cons
          <span class="range-arrow">~</span>
          <label class="range-num"><span>끝</span><input id="swRangeEnd" type="number" inputmode="numeric" min="1" max="9999" value="10" aria-label="끝 수업 번호"></label>
          <button type="button" id="swRangeApply">범위 적용 (설정)</button>
-       </div>
+</div>
        <div class="range-help" style="margin-top:9px">수업 번호 기준입니다. 화면에서만 먼저 바뀌며 아래 「변경 저장」을 눌러야 DB에 저장됩니다.</div>
      </div>
      <div id="swPolicyLessonList" class="course-cards" aria-live="polite"></div>
@@ -26998,7 +26992,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     const appIds=new Set(latest.map(x=>x.pattern_id).filter(id=>activeIds.has(id)));
     const combined=new Set([...gptIds,...appIds]);
     const appOnly=[...appIds].filter(id=>!gptIds.has(id)).length;
-    const experienced=combined.size;
+const experienced=combined.size;
     const progress=total?100*experienced/total:0;
     put('sw5526SentencePercent',total?progress.toFixed(1)+'%':'0%');
     put('sw5526SentenceTotal',total);put('sw5526SentenceTouched',experienced);
@@ -27498,7 +27492,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       makeMetric(counts.learned+'개','🟣 패턴 · 정답 보고 학습');
       makeMetric(notVerified+'개','⚪ 패턴 · 평가 미완료 / 저장 미확인');
     }
-    if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'문장 만들기 제출 · GPT 채점 전');
+if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'문장 만들기 제출 · GPT 채점 전');
     makeMetric(saved+' / '+state.deck.length,'앱 연습 DB 저장 확인');
     const line=(box,label,value)=>{const el=document.createElement('div');el.className='sw5411-line';
       const t=document.createElement('b');t.textContent=label;const v=document.createElement('span');v.textContent=String(value??'—');el.append(t,v);box.appendChild(el);};
@@ -27696,7 +27690,13 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       ['공식 GPT Perfect / Review / Miss','이 화면에서 점수 미조회']
     ];
     for(const [key,val] of statsRows){const line=document.createElement('div');line.className='sw6478StatRow';const k=document.createElement('span');k.textContent=key;const v=document.createElement('strong');v.textContent=val;line.append(k,v);stats.appendChild(line);}
-    el.appendChild(stats);
+    // Match mode: show current pattern learning status ABOVE self-rating.
+    const ratingPanelForStats=g('sw5529SelfRating');
+    if(ratingPanelForStats?.parentNode){
+      // Re-rendering a submitted question must replace, not accumulate, status panels.
+      ratingPanelForStats.parentElement.querySelectorAll(':scope > .sw6478PatternStats').forEach(old=>old.remove());
+      ratingPanelForStats.insertAdjacentElement('beforebegin',stats);
+    }else el.appendChild(stats);
     const note=document.createElement('p');note.className='sw5533-match-hint';
     note.textContent='패턴 선택 결과와 자기평가는 공식 GPT 채점·Stable 승급과 별도로 관리됩니다.';
     el.appendChild(note);
@@ -27750,8 +27750,12 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       if(!ratingHeading.dataset.swOriginalText)ratingHeading.dataset.swOriginalText=ratingHeading.textContent;
       if(!ratingExplanation.dataset.swOriginalText)ratingExplanation.dataset.swOriginalText=ratingExplanation.textContent;
       ratingHeading.textContent=isMatch?'✍️ 앱 자체 학습 평가':ratingHeading.dataset.swOriginalText;
-      ratingExplanation.textContent=isMatch?'스스로 평가하면 계정별 학습 기록에 저장됩니다. 공식 GPT Perfect/Review/Miss 채점·승급과 별도입니다.':ratingExplanation.dataset.swOriginalText;
+      ratingExplanation.textContent=isMatch?'':ratingExplanation.dataset.swOriginalText;
+      ratingExplanation.hidden=isMatch;
+      ratingPanel.classList.toggle('sw6479CompactRating',isMatch);
     }
+    // Clear previous pattern summary when navigating to another question or mode.
+    if(!done||!isMatch){g('sw5529SelfRating')?.parentElement?.querySelectorAll(':scope > .sw6478PatternStats').forEach(n=>n.remove());}
 
     g('sw5527Prev').hidden=state.index===0;
     g('sw5527Next').textContent=state.index===state.deck.length-1?'연습 완료 →':'다음 문제 →';
@@ -27991,7 +27995,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
   // otherwise the browser can shift the tapped button before firing click.
   for(const id of ['sw5527Primary','sw5527Prev','sw5527Next','sw5527HintToggle']){
     g(id)?.addEventListener('pointerdown',event=>{
-      if(event.pointerType==='touch' && document.activeElement===answerField)event.preventDefault();
+if(event.pointerType==='touch' && document.activeElement===answerField)event.preventDefault();
     });
   }
   window.visualViewport?.addEventListener('resize',adjustKeyboardView);
@@ -28014,8 +28018,13 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       button.setAttribute('aria-pressed',String(!!saved&&button.dataset.sw5529Rating===entry.selfRating));
     }
     status.classList.toggle('is-saved',saved);
-    status.textContent=saved?'✓ 앱 연습 DB 저장 및 재조회 확인 · '+ratingLabels[entry.selfRating]+' (앱 혼자 성공 5회·48시간 간격 시 Stable 승급 가능)'
-      :entry?.saveError||'평가를 선택하면 본인 계정의 앱 연습 기록으로 저장됩니다.';
+    const matchRating=state.deck[state.index]?.mode==='match';
+    // Keep the self-rating card small: no default instructions in pattern-matching mode.
+    // Confirmed saves and errors remain visible; sentence-writing wording is unchanged.
+    status.textContent=saved?(matchRating?'✓ DB 저장 확인 · '+ratingLabels[entry.selfRating]
+        :'✓ 앱 연습 DB 저장 및 재조회 확인 · '+ratingLabels[entry.selfRating]+' (앱 혼자 성공 5회·48시간 간격 시 Stable 승급 가능)')
+      :entry?.saveError||(matchRating?'':'평가를 선택하면 본인 계정의 앱 연습 기록으로 저장됩니다.');
+    status.hidden=matchRating&&!saved&&!entry?.saveError;
   }
   const newKey=()=>('APP-'+Date.now().toString(36)+'-'+(globalThis.crypto?.randomUUID?.()||Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2)));
   async function recordSelfRating(rating){
@@ -28027,6 +28036,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
     if(p.mode==='match'&&rating==='recalled'&&entry.selected_id!==p.pattern_id){notice('선택한 패턴이 다릅니다. 복습 필요 또는 정답 확인 후 학습으로 저장하세요.');return;}
     if(rating!=='learned'&&!String(entry.answer||'').trim()){notice('답안을 작성하지 않았다면 정답 보고 학습을 선택해 주세요.');return;}
     entry.selfRating=rating;entry.practiceKey ||= newKey();entry.saveError='';state.saving=true;renderSelfRating(entry);
+    g('sw5529RatingStatus').hidden=false;
     g('sw5529RatingStatus').textContent='Supabase에 저장하고 다시 확인하는 중…';
     try{
       if(!p.sentence_key)throw new Error('PATTERN_SENTENCE_ID_MISSING');
@@ -28491,7 +28501,7 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
    }finally{if(request===focusReq)focusBusy=false;}
  }
  async function toggleFocus(id){
-   const uid=auth()?.uid;
+const uid=auth()?.uid;
    if(!uid||!id||focusActing){status('로그인 후 집중 학습을 변경할 수 있습니다.');return;}
    const isNow=focusActive(id),target=!isNow;
    focusActing=true;render();syncDetailFocus();
@@ -28991,7 +29001,7 @@ window.addEventListener('sayward:trained-history-updated',event=>{
 
 window.addEventListener('sayward:dynamic-course-catalog',e=>{
  const c=e.detail?.course;
- if(c&&dbSource(sentenceSourceMode)===c&&quizMode==='sentence'){
+if(c&&dbSource(sentenceSourceMode)===c&&quizMode==='sentence'){
   if(!quizDeck.length)refreshSource();else updateQuizDayNav();
  }
 });
@@ -30991,7 +31001,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
      let match=id.match(/^myCorrectionCard(\d+)$/);
      if(match){kind='corrections';index=Number(match[1]);source=data.corrections?.[index];}
      else if((match=id.match(/^myChunkCard(\d+)$/))){kind='chunks';index=Number(match[1]);source=data.chunks?.[index];}
-     else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(match[1]);source=data.speaking?.[index];}
+else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(match[1]);source=data.speaking?.[index];}
      if(index<0)continue;
      // No guessed numeric Level: CORRECTION/SPEAKING source rows currently have no Level in DB.
      const explicit=source?.sentence_level??source?.expansion_level??source?.level??null;
@@ -31491,7 +31501,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
       const path=await findPath(sentence);
       if(path)ready++;
       else missing.push(sentence.slice(0,160));
-    }
+}
     return {course,canRead:true,selectedItems:source.length,uniqueSentences:unique.length,mp3Ready:ready,mp3Missing:missing.length,missingExamples:missing.slice(0,25)};
   };
   // A single public replay API for all learning surfaces. New MP3s are a data operation only.
@@ -31857,7 +31867,18 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
 #p2Panel.sw5513-progress #sw5538FocusToggle[aria-pressed="true"]{background:#e9e1ff}
 @media(max-width:390px){#p2Panel.sw5513-progress .sw5539-focus-row{gap:5px}#p2Panel.sw5513-progress .sw5539-focus-row>.sw5539-card{padding:9px 6px}#p2Panel.sw5513-progress .sw5539-focus-toggle{min-width:68px;max-width:80px;font-size:10px;padding:9px 5px}#p2Panel.sw5513-progress .sw5540-list-main{grid-template-columns:minmax(0,1fr) 34px 34px;gap:4px}#p2Panel.sw5513-progress .sw5540-list-name{font-size:12px}}
 </style>
-<style>#swOfficialModal{position:fixed;inset:0;z-index:99999;background:#0f172abf;display:none;align-items:center;justify-content:center;padding:14px}#swOfficialModal.is-open{display:flex}#swOfficialModal .sw-official-box{width:min(100%,540px);max-height:90vh;overflow:auto;background:white;border-radius:20px;padding:20px;color:#111827}#swOfficialModal textarea,#swOfficialModal input,#swOfficialModal select{width:100%;min-height:42px;margin:5px 0 12px;padding:9px;border:1px solid #cbd5e1;border-radius:10px;font:14px system-ui}#swOfficialModal textarea{min-height:65px}#swOfficialModal button{border:0;border-radius:11px;padding:11px 14px;font-weight:850;margin:4px;background:#e2e8f0}#swOfficialModal #swOfficialSend,#swOfficialModal #swOfficialCommit{background:#1d4ed8;color:white}#swOfficialModal .sw-official-commit{margin-top:16px;padding-top:12px;border-top:1px solid #cbd5e1}#swOfficialModal .sw-official-commit textarea{min-height:125px}#swOfficialModal .sw-official-commit small{display:block;color:#475569;margin:6px 0}#swOfficialModal #swOfficialStatus{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f9;padding:10px;border-radius:10px;font-size:13px}</style>
+<style>#swOfficialModal{position:fixed;inset:0;z-index:99999;background:#0f172abf;display:none;align-items:center;justify-content:center;padding:14px}#swOfficialModal.is-open{display:flex}#swOfficialModal .sw-official-box{width:min(100%,540px);max-height:90vh;overflow:auto;background:white;border-radius:20px;padding:20px;color:#111827}#swOfficialModal textarea,#swOfficialModal input,#swOfficialModal select{width:100%;min-height:42px;margin:5px 0 12px;padding:9px;border:1px solid #cbd5e1;border-radius:10px;font:14px system-ui}#swOfficialModal textarea{min-height:65px}#swOfficialModal button{border:0;border-radius:11px;padding:11px 14px;font-weight:850;margin:4px;background:#e2e8f0}#swOfficialModal #swOfficialSend,#swOfficialModal #swOfficialCommit{background:#1d4ed8;color:white}#swOfficialModal .sw-official-commit{margin-top:16px;padding-top:12px;border-top:1px solid #cbd5e1}#swOfficialModal .sw-official-commit textarea{min-height:125px}#swOfficialModal .sw-official-commit small{display:block;color:#475569;margin:6px 0}#swOfficialModal #swOfficialStatus{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f9;padding:10px;border-radius:10px;font-size:13px}
+/* v6.4.80: pattern status above a compact, button-first self-rating panel. */
+#sw5527PracticePage .sw6479CompactRating{padding:9px 10px!important;margin-top:8px!important;border-radius:12px!important}
+#sw5527PracticePage .sw6479CompactRating h3{margin:0 0 6px!important;font-size:14px!important}
+#sw5527PracticePage .sw6479CompactRating p{display:none!important}
+#sw5527PracticePage .sw6479CompactRating .sw5529-rating-actions{margin:0!important;gap:5px!important;grid-template-columns:repeat(3,minmax(0,1fr))!important}
+#sw5527PracticePage .sw6479CompactRating .sw5529-rating-actions button{padding:7px 3px!important;min-height:36px!important}
+#sw5527PracticePage .sw6479CompactRating .sw5529-rating-status{margin-top:6px!important;min-height:0!important;font-size:11px!important}
+#sw5527PracticePage .sw6479CompactRating .sw5529-rating-status[hidden]{display:none!important;margin:0!important}
+#sw5527PracticePage .sw6478PatternStats + .sw6479CompactRating{margin-top:8px!important}
+#sw5527PracticePage .sw6478PatternStats{margin-top:12px!important;padding-top:12px!important}
+</style>
 <div id="swOfficialModal" role="dialog" aria-modal="true" aria-label="SAYWARD GPT 활용 공식 학습 답안제출"><div class="sw-official-box"><h2>GPT 활용 공식 학습 답안제출</h2><p>아침·점심·저녁 중 학습을 선택하고 해당 Session ID를 입력하세요. 세션에 발급된 문제를 확인한 뒤 로그인된 계정으로 공식 제출합니다. 채점 확정은 별도 단계입니다.</p><label>학습 시간대<select id="swOfficialPeriod"><option value="morning">아침 (15문항)</option><option value="lunch">점심 (15문항)</option><option value="evening">저녁 (20문항)</option></select></label><label>Session ID<input id="swOfficialSession" type="text" placeholder="SW-..." autocomplete="off"></label><button id="swOfficialLoad" type="button">세션 문제 불러오기</button><div id="swOfficialFields"></div><button id="swOfficialSend" type="button">공식 DB 제출</button><section class="sw-official-commit"><h3>GPT 채점 결과 · 공식 DB Commit</h3><small>공식 제출이 완료된 세션만 처리합니다. ChatGPT 채점 결과(JSON)를 붙여넣은 뒤 Commit하세요. 결과가 없으면 DB 상태는 변경되지 않습니다.</small><button id="swOfficialCopyGrading" type="button">ChatGPT 채점 요청 복사</button><label for="swOfficialGrades">검증된 8항목 채점 JSON</label><textarea id="swOfficialGrades" placeholder='{"session_id":"SW-...","grades":[{"attempt_id":"...","grade":"Review","feedback":{...}}]}' spellcheck="false"></textarea><button id="swOfficialCommit" type="button">공식 채점 Commit</button><div id="swOfficialCommitStatus" role="status" aria-live="polite"></div></section><button id="swOfficialClose" type="button">닫기</button><div id="swOfficialStatus" role="status">세션을 선택하고 문제를 불러오세요.</div></div></div>
 <script>(function(){'use strict';
 const MORNING_SESSION='SW-a33e2cfb-07e6-40a3-86a2-913bf7eee399';
