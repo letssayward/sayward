@@ -3588,6 +3588,16 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 #sw5533MatchResult .sw6477Speak{display:inline-flex;align-items:center;gap:6px;border:1px solid #d5dce6;border-radius:10px;background:#fff;color:#244d78;padding:8px 12px;margin-top:10px;font-size:13px;font-weight:700;cursor:pointer;}
 #sw5533MatchResult .sw6477QaNote{font-size:11px;color:#777e8a;margin:10px 0 0;}
 </style>
+<style id="sw6478MatchResultStyle">
+#sw5527PracticePage #sw5533MatchResult .sw6478TapSentence{cursor:pointer;touch-action:manipulation;line-height:1.65;font-weight:700;color:#17263e;white-space:pre-wrap}
+#sw5527PracticePage #sw5533MatchResult .sw6478TapSentence::after{content:' 🔊';font-size:13px;opacity:.65}
+#sw5527PracticePage #sw5533MatchResult .sw6478TapSentence:focus-visible{outline:2px solid #3177d4;outline-offset:3px;border-radius:4px}
+#sw5527PracticePage .sw6478PatternStats{border-top:1px solid #e4e8ef;padding:15px 4px 6px;margin-top:16px}
+#sw5527PracticePage .sw6478PatternStats>b{display:block;font-size:15px;margin-bottom:10px;color:#26334b}
+#sw5527PracticePage .sw6478StatRow{display:flex;justify-content:space-between;align-items:start;gap:12px;padding:9px 2px;border-bottom:1px solid #edf0f4;font-size:13px}
+#sw5527PracticePage .sw6478StatRow span{color:#667085;flex:1}
+#sw5527PracticePage .sw6478StatRow strong{text-align:right;color:#27364c;flex:1;font-size:13px}
+</style>
 </head><body>
 
 <button id="drawerMenuButton" class="drawerMenuButton" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
@@ -27635,15 +27645,22 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       const button=document.createElement('button');button.type='button';button.className='sw6477Speak';
       button.textContent='🔊 문장 듣기';button.setAttribute('aria-label','영어 문장 듣기');
       button.addEventListener('click',()=>{
-        if(window.saywardKokoroMixed?.speak)void window.saywardKokoroMixed.speak(text);
+        if(typeof window.speakOne==='function')void window.speakOne(text,typeof window.getSpeechRate==='function'?window.getSpeechRate():1,'en-US',button);
+        else if(window.saywardKokoroMixed?.speak)void window.saywardKokoroMixed.speak(text);
         else if(window.saywardStudioAudio?.speak)void window.saywardStudioAudio.speak(text);
         else if('speechSynthesis' in window){const u=new SpeechSynthesisUtterance(text);u.lang='en-US';window.speechSynthesis.speak(u);}
       });section.appendChild(button);
     };
+    const addTapSentence=(section,value)=>{
+      const node=addText(section,value,'sw6477Sentence sw6478TapSentence');
+      node.tabIndex=0;node.setAttribute('role','button');node.setAttribute('aria-label','영어 문장 재생: '+value);
+      // Shared delegated tap-audio handler plays the exact English sentence once.
+      return node;
+    };
     const answer=makeCard('정답 패턴 · 문장','answer');
     addText(answer,p.canonical_pattern,'swStudioFeedbackValue');
     addText(answer,p.pattern_ko,'swStudioFeedbackDetail');
-    addText(answer,p.example_en,'sw6477Sentence');
+    addTapSentence(answer,p.example_en);
     addText(answer,p.example_ko,'swStudioFeedbackDetail');
     addSpeak(answer,p.example_en);
     const para=makeCard('패러프레이징 패턴 · 문장','phrase');
@@ -27653,17 +27670,33 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
       if(!para.isConnected||state.deck[state.index]?.pattern_id!==requestedId)return;
       loading.remove();
       if(!data||data.error||!data.paraphrase_en){
-        addText(para,data?.error||'등록된 패러프레이징이 없습니다.','swStudioFeedbackDetail');return;
+        addText(para,data?.error||'없음','swStudioFeedbackDetail');return;
       }
       // This table stores the alternative sentence, not a separately approved alternative pattern.
       addText(para,'대체 표현 · 원문과 비교','swStudioFeedbackDetail');
-      addText(para,data.paraphrase_en,'sw6477Sentence');
+      addTapSentence(para,data.paraphrase_en);
       addText(para,data.paraphrase_ko||'한국어 번역 미등록','swStudioFeedbackDetail');
       addSpeak(para,data.paraphrase_en);
       if(data.qa_status!=='verified')addText(para,'※ 최종 QA 승인 전 학습 참고용 문장','sw6477QaNote');
     }).catch(()=>{
       if(para.isConnected){loading.textContent='패러프레이징을 불러오지 못했습니다.';}
     });
+    // Read-only pattern learning indicators. No grade or promotion is modified.
+    const stats=document.createElement('section');stats.className='sw6478PatternStats';
+    const statsTitle=document.createElement('b');statsTitle.textContent='현재 패턴 학습 현황';stats.appendChild(statsTitle);
+    const status=getStatus(p),app=state.latest?.get(p.pattern_id);
+    const recent=(state.remotePractice||[]).filter(r=>r.pattern_id===p.pattern_id);
+    const mapStatus={new:'New',focus:'Focus',learning:'Learning',stable:'Stable'};
+    const mapRating={recalled:'혼자 성공',review:'연습 필요',learned:'학습 완료'};
+    const statsRows=[
+      ['공식 패턴 등급',mapStatus[status]||status||'조회 불가'],
+      ['최근 앱 자기평가',app?(mapRating[app.self_rating]||app.self_rating||'기록 없음'):'기록 없음'],
+      ['최근 앱 학습',state.recentReadOk?recent.length+'회 (최근 조회 기록 기준)':'조회 불가'],
+      ['Stable 복습 단계',status==='stable'?(state.due?.get(p.pattern_id)?.stage?String(state.due.get(p.pattern_id).stage)+'/6단계':'일정 정보 없음'):'해당 없음'],
+      ['공식 GPT Perfect / Review / Miss','이 화면에서 점수 미조회']
+    ];
+    for(const [key,val] of statsRows){const line=document.createElement('div');line.className='sw6478StatRow';const k=document.createElement('span');k.textContent=key;const v=document.createElement('strong');v.textContent=val;line.append(k,v);stats.appendChild(line);}
+    el.appendChild(stats);
     const note=document.createElement('p');note.className='sw5533-match-hint';
     note.textContent='패턴 선택 결과와 자기평가는 공식 GPT 채점·Stable 승급과 별도로 관리됩니다.';
     el.appendChild(note);
@@ -31704,6 +31737,7 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
 (function(){'use strict';
  const selectors=[
   '#sw5527PracticePage .sw5533-match-result .swStudioFeedbackValue',
+  '#sw5527PracticePage #sw5533MatchResult .sw6478TapSentence',
   '#swWordPage .sw5533-match-result .swStudioFeedbackValue',
   '#sw5527PracticePage #sw5527English',
   '#sw5527PracticePage #sw5527UserDiff',
@@ -31740,11 +31774,11 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
    // v6.4.60: in pattern-match feedback only the two target cards are
    // audio controls. The chosen/phrase copies remain readable, not tappable.
    if(el.closest('#sw5527PracticePage #sw5533MatchResult')&&
-      !el.closest('.swStudioFeedback-answer,.swStudioFeedback-reference'))return null;
+      !el.closest('.swStudioFeedback-answer,.swStudioFeedback-reference')&&!el.matches('.sw6478TapSentence'))return null;
    if(el.classList.contains('myHiddenEnglish'))return null;
    // Buttons controlling navigation, saving, answer confirmation, or other TTS retain original behavior.
    if(target.closest('button,[role=button],a,input,textarea,select,summary,[contenteditable]')
-      &&!el.matches('.sw5533-match-choice'))return null;
+      &&!el.matches('.sw5533-match-choice,.sw6478TapSentence'))return null;
    if(el.matches('.sw5533-match-choice')&&el.disabled)return null;
    const raw=normalize(el.textContent);
    if(!raw||raw==='—'||/[가-힣ㄱ-ㅎㅏ-ㅣ]/u.test(raw)||!/[A-Za-z]{2}/.test(raw))return null;
@@ -31770,7 +31804,7 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
    // its own SHA-256 key. Calling speakOne(raw) immediately would start TTS first.
    // Prime the audio on the physical tap BEFORE waiting for the authorized DB path.
    // A different tap or answer confirmation cancels stale pending readouts.
-   const patternTap=isPattern(el);
+   const patternTap=el.matches('.sw6478TapSentence')?false:isPattern(el);
    void (async()=>{
      let options={ttsText};
      if(patternTap){
