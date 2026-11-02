@@ -1,3 +1,4 @@
+<!-- SAYWARD v6.4.88: MY Admin draft preview; published learner visibility unchanged. -->
 <!-- SAYWARD v6.4.63: Usable official submission button, revised title; unified official morning/lunch/evening answer submission UI; prior learning behavior retained. -->
 <!-- SAYWARD v6.4.60: Pattern-match audio follows the correct-pattern card, then the official DB sentence card; preserve scroll-follow and order. -->
 <!-- SAYWARD v6.4.60: Restore automatic scroll to the spoken pattern/sentence during MP3 or TTS; keep reordered result cards. -->
@@ -26,8 +27,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.87 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.87">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.88 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.88">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -23613,6 +23614,12 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
   document.title='SAYWARD v'+window.SAYWARD_RELEASE+' · Learning Dashboard';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
+  // v6.4.88: Draft lessons are visible ONLY to a signed-in active Admin.
+  // RLS independently protects all hidden rows from ordinary learners.
+  function adminDraftPreview(){
+    const s=window.saywardAuth?.snapshot?.();
+    return !!(owner&&s?.authenticated&&s?.uid===owner&&s?.role==='admin');
+  }
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
   const INDEX_RECHECK_MS=3500;
   let indexCheckedAt=0;
@@ -23676,7 +23683,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     const m=metaMap.get(n);
     if(m){
       const title=card.querySelector('.myClassTitle');
-      if(title)title.textContent=m.title||('MY 수업 '+n);
+      if(title)title.textContent=(m.title||('MY 수업 '+n))+(m.visible===false?' · 🔒 관리자 미리보기':'');
       card.dataset.myDb='true';
     }
   }
@@ -23741,14 +23748,14 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
   }
   function applyIndex(rows){
     metaMap=new Map();
-    const keep=new Set(rows.filter(r=>r.visible&&r.seed_complete).map(r=>Number(r.lesson_no)));
+    const keep=new Set(rows.filter(r=>(r.visible||adminDraftPreview())&&r.seed_complete).map(r=>Number(r.lesson_no)));
     for(const n of Object.keys(MY_CLASS_META))delete MY_CLASS_META[n];
     for(const n of Object.keys(MY_CLASS_LESSONS))if(!keep.has(Number(n)))delete MY_CLASS_LESSONS[n];
     for(const n of [...loadedVersions.keys()])if(!keep.has(n))loadedVersions.delete(n);
     for(const row of rows){
-      if(!row.visible||!row.seed_complete)continue;
+      if((!row.visible&&!adminDraftPreview())||!row.seed_complete)continue;
       const n=Number(row.lesson_no);metaMap.set(n,row);
-      MY_CLASS_META[n]={title:row.title,sub:row.subtitle,goal:row.goal_html,__counts:row.item_counts,__version:row.content_version};
+      MY_CLASS_META[n]={title:row.title,sub:row.visible?row.subtitle:'[관리자 미리보기 · 일반 사용자 미공개] '+row.subtitle,goal:row.goal_html,__counts:row.item_counts,__version:row.content_version};
       if(loadedVersions.has(n)&&loadedVersions.get(n)!==String(row.content_version)){loadedVersions.delete(n);delete MY_CLASS_LESSONS[n];}
       if(!MY_CLASS_LESSONS[n])MY_CLASS_LESSONS[n]=empty();
     }
@@ -23820,22 +23827,24 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     if(!row){info('DB 수업 정보 없음 · 관리자에게 데이터 등록 상태를 확인하세요.');return;}
     const saved=cached(n),start=perf(),ticket=generation;
     const cacheCurrent=saved&&String(saved.version)===String(row.content_version)
-      &&TABS.every(tab=>saved.data[tab].length===Number(row.item_counts?.[tab]||0));
+      &&(adminDraftPreview()||TABS.every(tab=>saved.data[tab].length===Number(row.item_counts?.[tab]||0)));
     if(cacheCurrent && !force){
       state.lastLessonMs=perf()-start;setLesson(n,saved.data,saved.version,'cache');return;
     }
     if(cacheCurrent){state.lastLessonMs=perf()-start;setLesson(n,saved.data,saved.version,'cache');}
     else info('MY 수업 '+n+' · DB에서 콘텐츠를 불러오는 중…');
     try{
-      const res=await window.saywardAuth.contentFrom('sayward_my_lesson_items')
-        .select('item_id,item_key,section,sort_index,content').eq('lesson_no',n).eq('visible',true)
-        .order('sort_index',{ascending:true}).limit(1500);
+      const itemQuery=window.saywardAuth.contentFrom('sayward_my_lesson_items')
+        .select('item_id,item_key,section,sort_index,content').eq('lesson_no',n);
+      // Only Admin may omit the visible filter; Postgres RLS is the hard gate.
+      if(!adminDraftPreview())itemQuery.eq('visible',true);
+      const res=await itemQuery.order('sort_index',{ascending:true}).limit(1500);
       if(res.error)throw res.error;
       if(ticket!==generation)return;
       const data=empty();
       for(const item of res.data||[]){if(!TABS.includes(item.section)||!item.content||typeof item.content!=='object')throw new Error('INVALID_ITEM');
         data[item.section].push({...item.content,__dbItemId:item.item_id,__dbItemKey:item.item_key});}
-      for(const tab of TABS){if(data[tab].length!==Number(row.item_counts?.[tab]||0))throw new Error('ITEM_COUNT_MISMATCH_'+tab);}
+      for(const tab of TABS){if(!adminDraftPreview() && data[tab].length!==Number(row.item_counts?.[tab]||0))throw new Error('ITEM_COUNT_MISMATCH_'+tab);}
       state.lastLessonMs=perf()-start;
       saveCache(n,row.content_version,data);
       setLesson(n,data,row.content_version,'db');
