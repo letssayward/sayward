@@ -26,8 +26,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.86 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.85">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.87 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.87">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -32187,14 +32187,14 @@ async function processOfficialJson(text,manual){
    if(!['Perfect','Review','Miss'].includes(g.grade)||!g.feedback||typeof g.feedback!=='object'||Array.isArray(g.feedback))throw Error('Q'+r.question_number+' 채점 등급/피드백이 누락되었습니다.');
    const f=g.feedback,keys=['prompt_ko','user_answer','corrected_en','corrected_ko','target_pattern','target_meaning_ko','correction_points','recall'];
    if(Object.keys(f).length!==8||keys.some(k=>!(k in f)))throw Error('Q'+r.question_number+' 피드백은 공식 8항목이 정확히 필요합니다.');
-   if(f.prompt_ko!==r.prompt_ko||f.user_answer!==(session.status==='issued'&&isBundle?grades.find(x=>x.attempt_id===r.attempt_id)?.feedback.user_answer:r.user_answer)||f.target_pattern!==r.canonical_pattern_snapshot||f.target_meaning_ko!==r.pattern_ko_snapshot)
+   if(f.prompt_ko!==r.prompt_ko||(session.status!=='issued'&&f.user_answer!==r.user_answer)||f.target_pattern!==r.canonical_pattern_snapshot||f.target_meaning_ko!==r.pattern_ko_snapshot)
     throw Error('Q'+r.question_number+' 원문/답안/공식 목표 패턴이 DB와 일치하지 않습니다. 값을 자동 보정하지 않았습니다.');
    if(!Array.isArray(f.correction_points)||!f.correction_points.length||typeof f.correction_points[0]!=='string'||!f.correction_points[0].trim())throw Error('Q'+r.question_number+' correction_points는 내용이 있는 배열이어야 합니다.');
    if(typeof f.corrected_en!=='string'||!f.corrected_en.trim()||typeof f.corrected_ko!=='string'||!f.corrected_ko.trim())throw Error('Q'+r.question_number+' 교정 영어/한국어가 비어 있습니다.');
    if(!f.recall||typeof f.recall.reason!=='string'||!f.recall.reason.trim()||typeof f.recall.structure_ok!=='boolean'||typeof f.recall.meaning_ok!=='boolean')throw Error('Q'+r.question_number+' Recall 필수 필드/boolean 값 오류');
    if(typeof f.recall.corrected_target_span!=='string'||!f.recall.corrected_target_span||!f.corrected_en.includes(f.recall.corrected_target_span))throw Error('Q'+r.question_number+' corrected_target_span이 교정 영어의 실제 부분 문자열이 아닙니다.');
    if(g.grade!=='Perfect'&&f.recall.structure_ok===true&&f.recall.meaning_ok===true)throw Error('Q'+r.question_number+' Review/Miss인데 structure_ok와 meaning_ok가 모두 true입니다. 공식 검증과 충돌합니다.');
-   if(g.grade==='Perfect'&&(f.recall.structure_ok!==true||f.recall.meaning_ok!==true||!f.recall.user_target_span||!r.user_answer?.includes(f.recall.user_target_span)))throw Error('Q'+r.question_number+' Perfect의 원답안 패턴 증거가 부족합니다.');
+   if(g.grade==='Perfect'&&(f.recall.structure_ok!==true||f.recall.meaning_ok!==true||!f.recall.user_target_span||!(session.status==='issued'?f.user_answer:r.user_answer)?.includes(f.recall.user_target_span)))throw Error('Q'+r.question_number+' Perfect의 원답안 패턴 증거가 부족합니다.');
    if(f.recall?.grade!==g.grade)throw Error('Q'+r.question_number+' Recall 등급이 일치하지 않습니다.');
   }
   const label=dbPeriod==='morning'?'아침':dbPeriod==='lunch'?'점심':dbPeriod==='evening'?'저녁':'유형 미확인';
@@ -32204,8 +32204,8 @@ async function processOfficialJson(text,manual){
    if(!aligned)throw Error('세션이 이미 채점 완료됐지만 JSON 등급과 DB가 다릅니다. 기존 결과를 유지합니다.');
   }else{
    if(session.status==='issued'){
-    if(!isBundle)throw Error('미제출 세션입니다. 자동 제출에는 문항 번호와 사용자 답안이 포함된 공식 번들 JSON이 필요합니다.');
-    if(rows.some(r=>r.status!=='issued'))throw Error('일부 Attempt 상태가 issued가 아닙니다. 수동 확인이 필요합니다.');
+    if(grades.some(g=>!g.feedback.user_answer?.trim()))throw Error('미제출 세션의 JSON 답안이 누락되었습니다.');
+    if(rows.some(r=>r.status!=='issued'||r.user_answer!==null))throw Error('일부 Attempt가 이미 제출됐습니다. 기존 기록을 보호합니다.');
     const answers=grades.map(g=>({attempt_id:g.attempt_id,user_answer:g.feedback.user_answer}));
     const key='SAYWARD-'+(dbPeriod||pkg.period||'morning').toUpperCase()+'-'+id+'-SUBMISSION';
     statusOf('공식 답안 15문항 제출 중…',manual);
@@ -32218,7 +32218,7 @@ async function processOfficialJson(text,manual){
    }else if(rows.some(r=>r.status!=='submitted'||r.user_answer===null))throw Error('공식 제출 Attempt가 완결되지 않았습니다.');
    statusOf(label+' 학습 · '+id+' · '+grades.length+'문항 확인. DB 공식 Commit 실행 중…',manual);
    writeMayHaveHappened=true;
-   const {error}=await client.rpc('sayward_admin_commit_manual_grades',{p_session_id:id,p_results:grades,p_verifier_version:'CHATGPT_MANUAL_APP_v6.4.86_AUTO_JSON'});
+   const {error}=await client.rpc('sayward_admin_commit_manual_grades',{p_session_id:id,p_results:grades,p_verifier_version:'CHATGPT_MANUAL_APP_v6.4.87_AUTO_JSON'});
    if(error)throw error;
   }
   const {data:verify,error:ve}=await client.from('sayward_study_attempts').select('attempt_id,status,grade').eq('session_id',id);
