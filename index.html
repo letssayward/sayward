@@ -1,4 +1,4 @@
-<!-- SAYWARD v6.4.94: Bold authoritative current CEFR, explicit × for missing/lower stages, and correction-level lookup. -->
+<!-- SAYWARD v6.4.95: Bold authoritative current CEFR, explicit × for missing/lower stages, and correction-level lookup. -->
 <!-- SAYWARD v6.4.93: Clarify active pattern ID count vs CEFR expansion sentence Bank; keep all existing lesson/grade/CEFR UI and original/history/favorites unchanged. -->
 <!-- SAYWARD v6.4.63: Usable official submission button, revised title; unified official morning/lunch/evening answer submission UI; prior learning behavior retained. -->
 <!-- SAYWARD v6.4.60: Pattern-match audio follows the correct-pattern card, then the official DB sentence card; preserve scroll-follow and order. -->
@@ -28,8 +28,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.94 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.94">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.95 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.95">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -31102,6 +31102,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  let requestNo=0;
  const originalMode=new Map(), rotations=new Map(), catalogCache=new Map(), pending=new Map(), cefrLabels=new Map();
  const textLabelCache=new Map(), textLabelPending=new Map();
+ const cardGradeCache=new Map(), cardGradePending=new Map();
  const normalized=s=>String(s||'').trim().toLowerCase().replace(/\s+/g,' ');
  const cardFromId=s=>document.querySelector(`#myClassContent .myStudyCard[data-sw-v23-item="${CSS.escape(String(s||''))}"]`);
  const byCourse=()=>({course:String(window.ACTIVE_STUDY_COURSE||ACTIVE_STUDY_COURSE||''), lesson:Number(window.myClassLessonNo||myClassLessonNo)||0});
@@ -31117,7 +31118,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  }
  function renderCefrLevelTokens(badge,levelInfo){
    const current=levelInfo?.index||null;
-   const desc=current?`현재 카드 문장 수준 ${levelInfo.label}`:'CEFR 미평가 문장입니다. B1, B2, B2+, C1 모두 × 표시됩니다.';
+   const desc=current?`현재 카드 문장 수준 ${levelInfo.label}`:'CEFR 문장 평가가 없거나 원문 검수 보류 중입니다. B1, B2, B2+, C1 모두 ×로 표시합니다.';
    badge.className='sw6413SentenceLevelBadge '+(current?'':'sw6413SentenceLevelUnknown');
    badge.replaceChildren();
    CEFR_SEQUENCE.forEach((label,idx)=>{
@@ -31155,6 +31156,72 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
      if(t.right+6>g.left && t.top<g.bottom && t.bottom>g.top){element.classList.add('sw6416ControlsBelow');}
    }
  }
+ function rawCardEnglish(kind,source,el){
+   if(kind==='chunks')return String(el?.getAttribute('data-sw-v23-source')||source?.example||source?.en||'').trim();
+   return String(source?.en||'').trim();
+ }
+ function mappedCardLevel(course,lesson,kind,source,el){
+   if(kind!=='chunks'&&kind!=='corrections')return null;
+   const session=auth();if(!session)return null;
+   const cache=cardGradeCache.get(`${session.uid}/${course}/${lesson}`);
+   if(!cache)return null;
+   const english=rawCardEnglish(kind,source,el);
+   if(!english)return null;
+   const itemId=el?.getAttribute('data-sw-v23-item')||'';
+   const matches=cache.data.filter(x=>x.section===kind&&normalized(x.original_en)===normalized(english)&&
+     (!itemId||x.source_item_id===itemId));
+   const mapped=matches.filter(x=>x.mapped===true);
+   const levels=new Set(mapped.map(x=>x.cefr_level));
+   return matches.length>0 && mapped.length===matches.length && levels.size===1 ? mapped[0].cefr_level:null;
+ }
+ function applyCardGradeLabels(course,lesson,tab){
+   const session=auth();if(!session)return;
+   const cache=cardGradeCache.get(`${session.uid}/${course}/${lesson}`);
+   if(!cache)return;
+   const data=typeof studyCourseData==='function'?studyCourseData(course,lesson)||{}:{};
+   const rowType=tab==='chunks'?'chunks':tab==='corrections'?'corrections':null;
+   if(!rowType)return; // Speaking and habits remain out of this evaluation.
+   const rows=data[rowType]||[];
+   rows.forEach((entry,index)=>{
+     const el=document.getElementById(rowType==='chunks'?`myChunkCard${index}`:`myCorrectionCard${index}`);
+     if(!el)return;
+     const level=mappedCardLevel(course,lesson,rowType,entry,el);
+     if(rowType==='chunks'){
+       const displayed=el.querySelector('.myChunkExample')?.textContent||'';
+       const original=rawCardEnglish(rowType,entry,el);
+       // Do not overwrite a verified upper-stage variant's badge with the source grade.
+       if(displayed&&normalized(displayed)!==normalized(original))return;
+     }
+     placeSentenceLevelBeforeFavorite(el,{level:level||null});
+   });
+ }
+ async function refreshCardGradeLabels(){
+   const session=auth(),{course,lesson}=byCourse(),tab=myClassTab;
+   if(!session||!['my','sori','opic','friends','business'].includes(course)||!lesson||
+      !['chunks','corrections'].includes(tab))return;
+   const key=`${session.uid}/${course}/${lesson}`;
+   try{
+     let cached=cardGradeCache.get(key);
+     if(!cached||Date.now()-cached.at>60000){
+       let job=cardGradePending.get(key);
+       if(!job){
+         job=session.client.rpc('sayward_cefr_study_labels_v3',{
+           p_user_id:session.uid,p_course:course,p_lesson_no:lesson
+         }).then(({data,error})=>{
+           if(error)throw error;
+           if(data?.speaking_excluded!==true||!Array.isArray(data?.labels))throw new Error('CEFR_BADGE_RESPONSE_INVALID');
+           cardGradeCache.set(key,{data:data.labels,at:Date.now()});
+           return data.labels;
+         }).finally(()=>cardGradePending.delete(key));
+         cardGradePending.set(key,job);
+       }
+       await job;
+     }
+     const latest=auth(),where=byCourse();
+     if(latest?.uid!==session.uid||where.course!==course||where.lesson!==lesson||myClassTab!==tab)return;
+     applyCardGradeLabels(course,lesson,tab);
+   }catch(e){console.warn('[SAYWARD CEFR card labels v3] Unverified text stays ×',String(e?.message||e));}
+ }
  function decorateAll(){
    const root=document.getElementById('myClassContent');if(!root)return;
    const course=String(window.ACTIVE_STUDY_COURSE||ACTIVE_STUDY_COURSE||'');
@@ -31173,13 +31240,13 @@ else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(ma
      // Only the official CEFR label defines the starting point. The internal
      // numeric alias is used for a variant only when explicitly verified by the server.
      const itemId=el.getAttribute('data-sw-v23-item');
-     const authoritative=kind==='chunks'?cefrLabels.get(itemId)?.original_cefr_level:null;
-     const explicit=authoritative||(typeof source?.cefr_level==='string'?source.cefr_level:null);
+     const actual=mappedCardLevel(course,lesson,kind,source,el);
+      const authoritative=actual||(kind==='chunks'?cefrLabels.get(itemId)?.original_cefr_level:null);
+      const explicit=authoritative||(typeof source?.cefr_level==='string'?source.cefr_level:null);
      placeSentenceLevelBeforeFavorite(el,{level:explicit||null});
    }
-   if(course==='my' && (myClassTab==='corrections'||myClassTab==='speaking')){
-     void refreshOtherLessonLevels();
-   }
+   if(myClassTab==='chunks'||myClassTab==='corrections')void refreshCardGradeLabels();
+   if(course==='my' && myClassTab==='speaking')void refreshOtherLessonLevels();
  }
 
  async function refreshOtherLessonLevels(){
@@ -31230,7 +31297,9 @@ else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(ma
    let ko=element.querySelector('.myChunkExample + .myStudyKo');
    if(!ko){ko=mk('div','myStudyKo sw231SentenceKo');english.insertAdjacentElement('afterend',ko);}
    english.textContent=chosen.en||record.original_en||'';
-   const official=cefrLabels.get(record.source_item_id)?.original_cefr_level||null;
+   const sourceEntry={example:record.original_en,en:record.original_en};
+   const official=mappedCardLevel(byCourse().course,byCourse().lesson,'chunks',sourceEntry,element)||
+     cefrLabels.get(record.source_item_id)?.original_cefr_level||null;
    // A variant may use an internal numeric level only after the server's verified
    // source catalog has allowed it and the card's evaluated CEFR is known.
    const chosenCefr=chosen?.source==='verified_cefr_bank' &&
@@ -31358,11 +31427,12 @@ else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(ma
        updateCard(el,r,item.chosen,item);
      });
      try{studyApplyAllSentencePatternHighlights?.()}catch(_){}
+     void refreshCardGradeLabels();
    }catch(e){console.warn('[SAYWARD adaptive cards] Original curriculum remains visible',String(e?.message||e));}
  }
  window.saywardCardLevelV23=Object.freeze({refresh,decorateAll});
- window.addEventListener('sayward:auth-out',()=>{requestNo++;originalMode.clear();rotations.clear();catalogCache.clear();pending.clear();cefrLabels.clear();textLabelCache.clear();textLabelPending.clear();});
- window.addEventListener('sayward:study-lesson-render',()=>{catalogCache.clear();cefrLabels.clear();textLabelCache.clear();});
+ window.addEventListener('sayward:auth-out',()=>{requestNo++;originalMode.clear();rotations.clear();catalogCache.clear();pending.clear();cefrLabels.clear();textLabelCache.clear();textLabelPending.clear();cardGradeCache.clear();cardGradePending.clear();});
+ window.addEventListener('sayward:study-lesson-render',()=>{catalogCache.clear();cefrLabels.clear();textLabelCache.clear();cardGradeCache.clear();});
  window.addEventListener('sayward:grade-committed',()=>{catalogCache.clear();});
  window.addEventListener('sayward:pattern-state-updated',()=>{catalogCache.clear();});
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')catalogCache.clear();});
@@ -32402,7 +32472,7 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
 })();</script>
 
 <style id="sw6494CefrBoldAndMissingCSS">
-/* 6.4.94: Only verified CURRENT CEFR is bold. Lower/unrated levels show explicit ×. */
+/* 6.4.95: Only verified CURRENT CEFR is bold. Lower/unrated levels show explicit ×. */
 #myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge,
 #myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge{
   min-width:115px!important;max-width:115px!important;width:115px!important;
