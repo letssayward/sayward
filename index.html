@@ -1,3 +1,4 @@
+<!-- SAYWARD v6.4.98: Hide redundant learned-sentence pill; retain learned-card styling and compact the study card. -->
 <!-- SAYWARD v6.4.97: Add verified CEFR text labels to pattern match results and sentence speaking, including distinct paraphrase sentences. -->
 <!-- SAYWARD v6.4.96: Align CEFR/favorite with CORRECTION/CHUNK focus pill in one flow header; remove gap-inducing absolute layout. -->
 <!-- SAYWARD v6.4.95: Bold authoritative current CEFR, explicit × for missing/lower stages, and correction-level lookup. -->
@@ -30,8 +31,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.97 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.97">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.98 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.98">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -23037,7 +23038,7 @@ function filterTrainedSentenceDeck5477(items){
 window.saywardFilterTrainedSentenceDeck5477=filterTrainedSentenceDeck5477;
 // Quiz deck filtering is applied exactly once in final DB/legacy dispatch (script 83).
 function badge(s='✓ 문장학습'){const b=document.createElement('span');b.className='mvSentenceTrainedBadge5476';b.textContent=s;return b}
-function decorate(){const c=String(typeof ACTIVE_STUDY_COURSE!=='undefined'?ACTIVE_STUDY_COURSE:'my'),l=Number(typeof myClassLessonNo!=='undefined'?myClassLessonNo:1)||1,d=typeof studyCourseData==='function'?studyCourseData(c,l):null;if(!d)return;[['corrections',d.corrections||[],'myCorrectionCard'],['chunks',d.chunks||[],'myChunkCard'],['speaking',d.speaking||[],'mySpeakBlock']].forEach(([t,a,p])=>a.forEach((_,i)=>{const card=document.getElementById(`${p}${i}`);if(!card)return;Array.from(card.children||[]).filter(x=>x.classList?.contains('mvSentenceTrainedBadge5476')).forEach(x=>x.remove());card.classList.remove('mvSentenceTrainedCard5476');const ms=metas(c,l,t,i);if(ms.length){card.classList.add('mvSentenceTrainedCard5476');card.appendChild(badge(ms.length>1?`✓ 문장학습 ${ms.length}`:'✓ 문장학습'))}}))}
+function decorate(){const c=String(typeof ACTIVE_STUDY_COURSE!=='undefined'?ACTIVE_STUDY_COURSE:'my'),l=Number(typeof myClassLessonNo!=='undefined'?myClassLessonNo:1)||1,d=typeof studyCourseData==='function'?studyCourseData(c,l):null;if(!d)return;[['corrections',d.corrections||[],'myCorrectionCard'],['chunks',d.chunks||[],'myChunkCard'],['speaking',d.speaking||[],'mySpeakBlock']].forEach(([t,a,p])=>a.forEach((_,i)=>{const card=document.getElementById(`${p}${i}`);if(!card)return;Array.from(card.children||[]).filter(x=>x.classList?.contains('mvSentenceTrainedBadge5476')).forEach(x=>x.remove());card.classList.remove('mvSentenceTrainedCard5476');const ms=metas(c,l,t,i);if(ms.length){card.classList.add('mvSentenceTrainedCard5476');/* trained card color remains; no redundant per-card trained badge */}}))}
 const baseRM=window.renderMyClass;if(typeof baseRM==='function'){const w=function(){const r=baseRM.apply(this,arguments);setTimeout(decorate,0);return r};window.renderMyClass=w;try{renderMyClass=w}catch(e){}}
 function decorateSentence(q){const ms=qmetas(q),box=document.querySelector('#opts .sentenceRecallBox');if(box){Array.from(box.children||[]).filter(x=>x.classList?.contains('mvSentenceTrainedBadge5476')).forEach(x=>x.remove());if(ms.length)box.prepend(badge())}document.querySelectorAll('#opts .sentencePatternPair').forEach(pair=>{pair.classList.remove('mvSentenceTrainedPattern5476');pair.querySelectorAll('.mvSentenceTrainedInline5476').forEach(x=>x.remove());const p=pair.querySelector('.patternText');if(p&&byPat(p.textContent||'')){pair.classList.add('mvSentenceTrainedPattern5476');const b=document.createElement('span');b.className='mvSentenceTrainedInline5476';b.textContent='✓ 문장학습';p.insertAdjacentElement('afterend',b)}})}
 const baseRS=window.renderSentenceStage;if(typeof baseRS==='function'){const w=function(q){const r=baseRS.apply(this,arguments);decorateSentence(q);return r};window.renderSentenceStage=w;try{renderSentenceStage=w}catch(e){}}
@@ -32787,4 +32788,25 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
  window.addEventListener('sayward:auth-out',()=>{ratings.clear();inflight.clear()});
 })();
 </script>
+
+<style id="sw6498CompactTrainedStudyCards">
+/* SAYWARD 6.4.98 — learned status is shown through card color only.
+   Remove the redundant green pill without affecting the learned-state class,
+   CEFR + favorite controls, audio, or trained-only filtering. */
+#myClassContent .myStudyCard > .mvSentenceTrainedBadge5476,
+#myClassContent .mySpeakBlock > .mvSentenceTrainedBadge5476 {
+  display:none!important;
+}
+/* The 6.4.96 learned-label spacing reserved 35px solely for that badge.
+   Return the title row to a normal compact flow, also on narrower phones. */
+#myClassContent .myStudyCard.mvSentenceTrainedCard5476 .myStudyNum,
+#myClassContent .mySpeakBlock.mvSentenceTrainedCard5476 .myStudyNum {
+  margin-bottom:9px!important;
+}
+#myClassContent .myStudyCard,
+#myClassContent .mySpeakBlock {
+  padding-top:13px!important;
+  padding-bottom:13px!important;
+}
+</style>
 </body></html>
