@@ -1,3 +1,4 @@
+<!-- SAYWARD v6.4.97: Add verified CEFR text labels to pattern match results and sentence speaking, including distinct paraphrase sentences. -->
 <!-- SAYWARD v6.4.96: Align CEFR/favorite with CORRECTION/CHUNK focus pill in one flow header; remove gap-inducing absolute layout. -->
 <!-- SAYWARD v6.4.95: Bold authoritative current CEFR, explicit × for missing/lower stages, and correction-level lookup. -->
 <!-- SAYWARD v6.4.93: Clarify active pattern ID count vs CEFR expansion sentence Bank; keep all existing lesson/grade/CEFR UI and original/history/favorites unchanged. -->
@@ -29,8 +30,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.96 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.96">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.97 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.97">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -11121,6 +11122,9 @@ function renderSentenceStage(q,stage,visible=false){
     <button type="button" class="sentenceStageNavBtn ${stage===3?'active':''}" data-sentence-stage="3">③ 한글 보고 말하기</button>
   </div>`;
   $('opts').innerHTML=`<div class="sentenceRecallBox">${stageNav}<div id="sentencePracticeCount" class="sentencePracticeCount"></div><div class="sentencePromptKo">${ko}</div>${content}${instruction?`<div class="sentenceInstruction">${instruction}</div>`:''}${actions}</div>`;
+  // Label the ACTUAL displayed basic/paraphrase English sentence at all 3 steps.
+  // For step 3 when English is hidden, show the CEFR beside the Korean prompt.
+  window.saywardSentenceCefr6497?.attachSpeaking?.(sentenceText(q),stage,visible);
   sentenceUpdateCountDisplay(q);
   document.querySelectorAll('[data-sentence-stage]').forEach(btn=>{
     btn.onclick=()=>{
@@ -27749,7 +27753,10 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
     const addTapSentence=(section,value)=>{
       const node=addText(section,value,'sw6477Sentence sw6478TapSentence');
       node.tabIndex=0;node.setAttribute('role','button');node.setAttribute('aria-label','영어 문장 재생: '+value);
-      // Shared delegated tap-audio handler plays the exact English sentence once.
+      // CEFR is attached as a separate visual token. The delegated audio handler
+      // reads data-audio-english, never the extra (B2)/(미평가) text.
+      node.dataset.audioEnglish=String(value||'');
+      window.saywardSentenceCefr6497?.attachMatch?.(node,value);
       return node;
     };
     const answer=makeCard('정답 패턴 · 문장','answer');
@@ -32106,7 +32113,8 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
    if(target.closest('button,[role=button],a,input,textarea,select,summary,[contenteditable]')
       &&!el.matches('.sw5533-match-choice,.sw6478TapSentence'))return null;
    if(el.matches('.sw5533-match-choice')&&el.disabled)return null;
-   const raw=normalize(el.textContent);
+   // Pattern result UI may show a CEFR suffix; audio must use the original ENGLISH only.
+   const raw=normalize(el.matches('.sw6478TapSentence')?(el.dataset.audioEnglish||el.textContent):el.textContent);
    if(!raw||raw==='—'||/[가-힣ㄱ-ㅎㅏ-ㅣ]/u.test(raw)||!/[A-Za-z]{2}/.test(raw))return null;
    return {el,raw};
  }
@@ -32683,4 +32691,100 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
  }
 }
 </style>
+<style id="sw6497SentenceCefrStyle">
+/* CEFR text is cosmetic, not part of answer, TTS, audio manifest or grading. */
+#sw5527PracticePage #sw5533MatchResult .sw6497MatchCefr {
+ display:inline-block;vertical-align:baseline;margin-left:.4em;font-size:.79em;
+ font-weight:850;color:#5b21b6;white-space:nowrap;
+}
+#sw5527PracticePage #sw5533MatchResult .sw6497MatchCefr.is-unrated{font-weight:650;color:#64748b}
+#quiz .sentenceRecallBox .sentenceEnglish[data-sw6497-cefr]::after,
+#quiz .sentenceRecallBox .sentencePromptKo[data-sw6497-cefr]::after {
+ content:attr(data-sw6497-cefr);display:inline;white-space:nowrap;
+ margin-left:.42em;font-weight:850;font-size:.69em;color:#5b21b6;
+ vertical-align:baseline;
+}
+#quiz .sentenceRecallBox .sentenceEnglish[data-sw6497-cefr-state="unrated"]::after,
+#quiz .sentenceRecallBox .sentencePromptKo[data-sw6497-cefr-state="unrated"]::after {
+ font-weight:650;color:#64748b;
+}
+</style>
+<script id="sw6497SentenceCefrModule">
+/* SAYWARD 6.4.97 — per-English-sentence CEFR display, independent of user promotion.
+ * Source: authenticated exact-approved DB assessment; no CEFR guesses or writes.
+ * In the answer result, labels are visible but speech keeps the original text.
+ */
+(function(){'use strict';
+ const allowed=new Set(['B1','B2','B2+','C1']);
+ const ratings=new Map(),inflight=new Map();
+ const clean=t=>String(t??'').trim().replace(/\s+/g,' ');
+ const key=t=>clean(t).toLocaleLowerCase('en');
+ const failure={kind:'error',display:'(조회 실패)'};
+ function parseLevel(value){
+  const level=String(value||'').trim().toUpperCase();
+  return allowed.has(level)?{kind:'known',display:'('+level+')',level}:
+   {kind:'unrated',display:'(미평가)',level:null};
+ }
+ async function lookup(text){
+  const english=clean(text),id=key(english);
+  if(!english||english.length>1200)return {kind:'unrated',display:'(미평가)',level:null};
+  if(ratings.has(id))return ratings.get(id);
+  if(inflight.has(id))return inflight.get(id);
+  const client=window.saywardAuth?.getClient?.();
+  if(!client)return failure;
+  const promise=(async()=>{
+   try{
+    const {data,error}=await client.rpc('sayward_sentence_cefr_labels_v1',{p_sentences:[english]});
+    if(error)throw error;
+    const first=Array.isArray(data)?data[0]:Array.isArray(data?.items)?data.items[0]:null;
+    if(!first)throw new Error('CEFR_LOOKUP_EMPTY_RESPONSE');
+    const result=parseLevel(first.cefr_level);
+    ratings.set(id,result);
+    return result;
+   }catch(e){
+    console.warn('[SAYWARD 6.4.97 CEFR sentence lookup]',String(e?.message||e).slice(0,130));
+    return failure;
+   }finally{inflight.delete(id)}
+  })();
+  inflight.set(id,promise);
+  return promise;
+ }
+ function attachMatch(node,english){
+  if(!node||!clean(english))return;
+  node.querySelectorAll(':scope > .sw6497MatchCefr').forEach(x=>x.remove());
+  const tag=document.createElement('span');tag.className='sw6497MatchCefr is-unrated';
+  tag.textContent='(확인 중)';tag.setAttribute('aria-label','CEFR 확인 중');
+  tag.setAttribute('aria-hidden','true'); // Spoken audio should read only the original English.
+  node.append(document.createTextNode(' '),tag);
+  const sentence=clean(english);
+  void lookup(sentence).then(result=>{
+   if(!tag.isConnected||node.dataset.audioEnglish!==english)return;
+   tag.textContent=result.display;
+   tag.classList.toggle('is-unrated',result.kind!=='known');
+   tag.setAttribute('aria-label','CEFR '+(result.level||result.display));
+  });
+ }
+ function attachSpeaking(english,stage,visible){
+  const container=document.querySelector('#quiz #opts .sentenceRecallBox');
+  if(!container)return;
+  const target=(Number(stage)===3 && !visible)
+   ?container.querySelector('.sentencePromptKo')
+   :container.querySelector('.sentenceEnglish');
+  if(!target||!clean(english))return;
+  const sentence=clean(english);
+  target.dataset.sw6497Cefr='(확인 중)';
+  target.dataset.sw6497CefrState='pending';
+  target.dataset.sw6497SentenceKey=key(sentence);
+  void lookup(sentence).then(result=>{
+   if(!target.isConnected||target.dataset.sw6497SentenceKey!==key(sentence))return;
+   target.dataset.sw6497Cefr=result.display;
+   target.dataset.sw6497CefrState=result.kind;
+   target.setAttribute('aria-label',target.textContent+' · CEFR '+(result.level||result.display));
+  });
+ }
+ window.saywardSentenceCefr6497={lookup,attachMatch,attachSpeaking,version:'6.4.97',
+  inspect:()=>({cached:ratings.size,pending:inflight.size})};
+ window.addEventListener('sayward:auth-out',()=>{ratings.clear();inflight.clear()});
+})();
+</script>
 </body></html>
