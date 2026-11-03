@@ -1,3 +1,4 @@
+<!-- SAYWARD v6.4.96: Align CEFR/favorite with CORRECTION/CHUNK focus pill in one flow header; remove gap-inducing absolute layout. -->
 <!-- SAYWARD v6.4.95: Bold authoritative current CEFR, explicit × for missing/lower stages, and correction-level lookup. -->
 <!-- SAYWARD v6.4.93: Clarify active pattern ID count vs CEFR expansion sentence Bank; keep all existing lesson/grade/CEFR UI and original/history/favorites unchanged. -->
 <!-- SAYWARD v6.4.63: Usable official submission button, revised title; unified official morning/lunch/evening answer submission UI; prior learning behavior retained. -->
@@ -28,8 +29,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.95 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.95">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.96 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.96">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -31139,8 +31140,10 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
  function placeSentenceLevelBeforeFavorite(element,chosen){
    const header=element.querySelector('.myStudyNum');if(!header)return;
    let group=element.querySelector('.sw6413LevelFavoriteGroup');
-   if(!group){group=mk('div','sw6413LevelFavoriteGroup');element.appendChild(group);}
-   else if(group.parentElement!==element)element.appendChild(group);
+   if(!group)group=mk('div','sw6413LevelFavoriteGroup');
+   // v6.4.96: header is the SAME flex row as the CORRECTION/CHUNK focus pill.
+   // Absolute sibling placement had forced 153px of empty card height on mobile.
+   if(group.parentElement!==header)header.appendChild(group);
    let badge=group.querySelector('.sw6413SentenceLevelBadge');
    if(!badge){badge=mk('span','sw6413SentenceLevelBadge');group.prepend(badge);}
    const levelInfo=normalizeDisplayLevel(chosen?.level);
@@ -31148,13 +31151,9 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    // Preserve the existing favorite button and its click listener when moving it.
    const favorite=element.querySelector('.studyFavoriteBtn239');
    if(favorite&&favorite.parentElement!==group)group.appendChild(favorite);
-   // Measure actual widths, not guessed positions. Both controls are in ONE group.
+   // Both controls stay in the normal header layout; no collision detector
+   // may inflate the heading or move the buttons into the card body.
    element.classList.remove('sw6416ControlsBelow');
-   const title=header.querySelector('.myTitleInfinityBtn');
-   if(title && group.getBoundingClientRect().width){
-     const t=title.getBoundingClientRect(),g=group.getBoundingClientRect();
-     if(t.right+6>g.left && t.top<g.bottom && t.bottom>g.top){element.classList.add('sw6416ControlsBelow');}
-   }
  }
  function rawCardEnglish(kind,source,el){
    if(kind==='chunks')return String(el?.getAttribute('data-sw-v23-source')||source?.example||source?.en||'').trim();
@@ -32497,6 +32496,191 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
 #myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken.is-unrated{
   color:#8995a7!important;opacity:.95!important;font-weight:750!important;
   text-decoration:none!important;
+}
+</style>
+
+<style id="sw6496StudyCardHeaderInlineFix">
+/* 6.4.96 — Single in-flow title row. Applies to MY, OPIC, Friends, SOri.
+   No absolute controls / no 108-153px placeholder height / no overlap with sticky player. */
+#myClassContent .myStudyCard .myStudyNum,
+#myClassContent .mySpeakBlock .myStudyNum,
+#myClassContent .myStudyCard.sw6416ControlsBelow > .myStudyNum,
+#myClassContent .mySpeakBlock.sw6416ControlsBelow > .myStudyNum {
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  flex-wrap:nowrap!important;
+  gap:5px!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:42px!important;
+  height:auto!important;
+  padding:0!important;
+  margin:0 0 13px!important;
+  box-sizing:border-box!important;
+}
+#myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn,
+#myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn {
+  flex:0 1 auto!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:calc(100% - 123px)!important;
+  height:42px!important;
+  min-height:42px!important;
+  padding:0 11px!important;
+  gap:5px!important;
+  font-size:13px!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+}
+#myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn .myInfLabel,
+#myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn .myInfLabel{
+  font-size:inherit!important;
+  white-space:nowrap!important;
+}
+#myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn .myInfSymbol,
+#myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn .myInfSymbol{
+  font-size:19px!important;
+}
+#myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn .myInfFocus,
+#myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn .myInfFocus{
+  font-size:12px!important;
+  white-space:nowrap!important;
+}
+#myClassContent .myStudyCard .myStudyNum > .sw6413LevelFavoriteGroup,
+#myClassContent .mySpeakBlock .myStudyNum > .sw6413LevelFavoriteGroup {
+  position:static!important;
+  inset:auto!important;
+  z-index:auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  flex-wrap:nowrap!important;
+  gap:4px!important;
+  flex:0 0 auto!important;
+  width:auto!important;
+  max-width:124px!important;
+  min-height:32px!important;
+  height:32px!important;
+  padding:0!important;
+  margin:0 0 0 auto!important;
+  border:0!important;
+  background:transparent!important;
+  transform:none!important;
+  box-sizing:border-box!important;
+}
+#myClassContent .myStudyCard .myStudyNum .sw6413SentenceLevelBadge,
+#myClassContent .mySpeakBlock .myStudyNum .sw6413SentenceLevelBadge{
+  position:static!important;
+  display:inline-flex!important;
+  flex:0 0 92px!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:2px!important;
+  min-width:92px!important;
+  max-width:92px!important;
+  width:92px!important;
+  min-height:32px!important;
+  height:32px!important;
+  margin:0!important;
+  padding:0 3px!important;
+  background:#f5f5f7!important;
+  color:#64748b!important;
+  border:1px solid #cbd5e1!important;
+  border-radius:10px!important;
+  font-size:9px!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  visibility:visible!important;
+  opacity:1!important;
+  box-sizing:border-box!important;
+}
+#myClassContent .myStudyCard .myStudyNum .sw6413CefrLevelToken,
+#myClassContent .mySpeakBlock .myStudyNum .sw6413CefrLevelToken{
+  font-size:9px!important;
+  color:#94a3b8!important;
+  font-weight:650!important;
+  opacity:.82!important;
+  letter-spacing:-.035em!important;
+  white-space:nowrap!important;
+  text-decoration:none!important;
+}
+#myClassContent .myStudyCard .myStudyNum .sw6413CefrLevelToken.is-current,
+#myClassContent .mySpeakBlock .myStudyNum .sw6413CefrLevelToken.is-current{
+  font-size:11px!important;
+  font-weight:1000!important;
+  color:#172554!important;
+  opacity:1!important;
+  text-decoration:none!important;
+}
+#myClassContent .myStudyCard .myStudyNum .sw6413CefrLevelToken.is-lower,
+#myClassContent .mySpeakBlock .myStudyNum .sw6413CefrLevelToken.is-lower{
+  text-decoration:line-through!important;
+  color:#94a3b8!important;
+  opacity:.75!important;
+}
+#myClassContent .myStudyCard .myStudyNum .sw6413CefrLevelToken.is-unrated,
+#myClassContent .mySpeakBlock .myStudyNum .sw6413CefrLevelToken.is-unrated{
+  text-decoration:none!important;
+  font-weight:750!important;
+  opacity:.9!important;
+}
+#myClassContent .myStudyCard .myStudyNum .sw6413LevelFavoriteGroup > .studyFavoriteBtn239,
+#myClassContent .mySpeakBlock .myStudyNum .sw6413LevelFavoriteGroup > .studyFavoriteBtn239{
+  position:static!important;
+  inset:auto!important;
+  z-index:auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 28px!important;
+  width:28px!important;
+  min-width:28px!important;
+  max-width:28px!important;
+  height:32px!important;
+  min-height:32px!important;
+  max-height:32px!important;
+  margin:0!important;
+  padding:0!important;
+  border-radius:10px!important;
+  transform:none!important;
+}
+/* The optional green 'trained' tag sits below the single-line header. */
+#myClassContent .myStudyCard.mvSentenceTrainedCard5476 .myStudyNum,
+#myClassContent .mySpeakBlock.mvSentenceTrainedCard5476 .myStudyNum{
+  margin-bottom:35px!important;
+}
+#myClassContent .myStudyCard > .mvSentenceTrainedBadge5476,
+#myClassContent .mySpeakBlock > .mvSentenceTrainedBadge5476{
+  top:56px!important;right:12px!important;
+}
+@media (max-width:350px){
+ #myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn,
+ #myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn{
+   max-width:calc(100% - 116px)!important;
+   height:36px!important;min-height:36px!important;
+   padding:0 5px!important;gap:3px!important;font-size:10.5px!important;
+ }
+ #myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn .myInfSymbol,
+ #myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn .myInfSymbol{font-size:15px!important;}
+ #myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn .myInfFocus,
+ #myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn .myInfFocus{font-size:10px!important;}
+ #myClassContent .myStudyCard .myStudyNum > .sw6413LevelFavoriteGroup,
+ #myClassContent .mySpeakBlock .myStudyNum > .sw6413LevelFavoriteGroup{gap:3px!important;max-width:115px!important;}
+ #myClassContent .myStudyCard .myStudyNum .sw6413SentenceLevelBadge,
+ #myClassContent .mySpeakBlock .myStudyNum .sw6413SentenceLevelBadge{
+   flex-basis:85px!important;min-width:85px!important;max-width:85px!important;width:85px!important;
+   gap:1.5px!important;padding:0 2px!important;
+ }
+ #myClassContent .myStudyCard .myStudyNum .sw6413CefrLevelToken,
+ #myClassContent .mySpeakBlock .myStudyNum .sw6413CefrLevelToken{font-size:8px!important;}
+ #myClassContent .myStudyCard .myStudyNum .sw6413CefrLevelToken.is-current,
+ #myClassContent .mySpeakBlock .myStudyNum .sw6413CefrLevelToken.is-current{font-size:10px!important;}
+ #myClassContent .myStudyCard .myStudyNum .sw6413LevelFavoriteGroup > .studyFavoriteBtn239,
+ #myClassContent .mySpeakBlock .myStudyNum .sw6413LevelFavoriteGroup > .studyFavoriteBtn239{
+   width:27px!important;min-width:27px!important;max-width:27px!important;flex-basis:27px!important;
+ }
 }
 </style>
 </body></html>
