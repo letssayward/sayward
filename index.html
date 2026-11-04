@@ -1,4 +1,9 @@
-<!-- SAYWARD Chapter Picker: DB-linked multi-chapter practice scope; no changes to official grading, Stable rules or DB schema. -->
+<!-- SAYWARD v6.4.99: Add authenticated DB-backed chapter checkbox filter for pattern sentence/match; preserve CEFR B1-C1 and existing practice logic. -->
+<!-- SAYWARD v6.4.98: Hide redundant learned-sentence pill; retain learned-card styling and compact the study card. -->
+<!-- SAYWARD v6.4.97: Add verified CEFR text labels to pattern match results and sentence speaking, including distinct paraphrase sentences. -->
+<!-- SAYWARD v6.4.96: Align CEFR/favorite with CORRECTION/CHUNK focus pill in one flow header; remove gap-inducing absolute layout. -->
+<!-- SAYWARD v6.4.95: Bold authoritative current CEFR, explicit × for missing/lower stages, and correction-level lookup. -->
+<!-- SAYWARD v6.4.93: Clarify active pattern ID count vs CEFR expansion sentence Bank; keep all existing lesson/grade/CEFR UI and original/history/favorites unchanged. -->
 <!-- SAYWARD v6.4.63: Usable official submission button, revised title; unified official morning/lunch/evening answer submission UI; prior learning behavior retained. -->
 <!-- SAYWARD v6.4.60: Pattern-match audio follows the correct-pattern card, then the official DB sentence card; preserve scroll-follow and order. -->
 <!-- SAYWARD v6.4.60: Restore automatic scroll to the spoken pattern/sentence during MP3 or TTS; keep reordered result cards. -->
@@ -27,8 +32,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.87 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.87">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.99 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.99">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -2990,7 +2995,7 @@ html,body{
 #myClassContent .myStudyCard,
 #myClassContent .mySpeakBlock{position:relative!important}
 #myClassContent .myStudyCard .myStudyNum,
-#myClassContent .mySpeakBlock .myStudyNum{padding-right:102px!important;box-sizing:border-box}
+#myClassContent .mySpeakBlock .myStudyNum{padding-right:156px!important;box-sizing:border-box}
 .studyFavoriteBtn239{
   position:absolute!important;
   top:12px!important;
@@ -2999,9 +3004,13 @@ html,body{
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
-gap:4px!important;
+  gap:0!important;
+  width:34px!important;
+  min-width:34px!important;
+  max-width:34px!important;
   min-height:34px!important;
-  padding:7px 9px!important;
+  height:34px!important;
+  padding:0!important;
   border:1px solid #d0d5dd!important;
   border-radius:11px!important;
   background:#fff!important;
@@ -3014,7 +3023,8 @@ gap:4px!important;
   touch-action:manipulation!important;
   -webkit-tap-highlight-color:transparent!important;
 }
-.studyFavoriteBtn239 .star{font-size:16px!important;line-height:1!important;color:#98a2b3!important}
+.studyFavoriteBtn239 .star{font-size:17px!important;line-height:1!important;color:#98a2b3!important}
+.studyFavoriteBtn239 .label{display:none!important}
 .studyFavoriteBtn239.active{
   border-color:#f6c453!important;
   background:#fff9df!important;
@@ -3629,15 +3639,15 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
       <div><b id="sw5526Focus">—</b><span>Focus</span></div>
       <div><b id="sw5526New">—</b><span title="아직 학습하지 않은 패턴">New · 미학습</span></div>
     </div>
-    <p class="sw-state-count-note" style="margin:7px 0 3px;font-size:10px;color:#d8dafa;line-height:1.35;text-align:center">위 4개는 패턴 상태별 수량 · 합계가 아래 전체 패턴 수입니다.</p>
-    <div class="drawerProgressCard sw5526-sentence-progress" aria-label="전체 문장 학습 진행률">
+    <p class="sw-state-count-note" style="margin:7px 0 3px;font-size:10px;color:#d8dafa;line-height:1.35;text-align:center">위 4개 합계는 학습 대상 패턴 ID 수입니다. 한 패턴의 CEFR 확장 예문 여러 개는 별도로 집계합니다.</p>
+    <div class="drawerProgressCard sw5526-sentence-progress" aria-label="전체 패턴 학습 진행률">
       <div class="sw5526-progress-head">
-        <div class="sw5526-progress-title">📝 문장 학습 진행률</div>
+        <div class="sw5526-progress-title">📝 패턴 학습 진행률</div>
         <div id="sw5526SentenceSyncStatus" class="sw5526-progress-sync" role="status" aria-live="polite" title="DB 확인 대기 중"></div>
       </div>
       <div class="sw5526-progress-number" id="sw5526SentencePercent" aria-live="polite">—</div>
       <div class="drawerProgressBar"><div id="sw5526SentenceBar"></div></div>
-      <div class="drawerProgressMeta"><span>전체 <b id="sw5526SentenceTotal">—</b></span><span>학습 경험 <b id="sw5526SentenceTouched">—</b></span></div>
+      <div class="drawerProgressMeta"><span>전체 패턴 <b id="sw5526SentenceTotal">—</b></span><span>학습 경험 <b id="sw5526SentenceTouched">—</b></span></div>
       <div class="sw5526-progress-explain" id="sw5526SentenceStatus">로그인하면 문장 학습 현황을 불러옵니다.</div>
       <div id="sw5529DrawerAppSummary" class="sw5529-drawer-app">앱 문장 연습 기록 조회 대기 중</div>
     </div>
@@ -4254,59 +4264,45 @@ body:has(#sw5527PracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButto
 }
 
 
-/* SAYWARD Chapter Picker: compact, accessible dynamic chapter selection */
-#sw5527PracticePage .swChapterLegacySelect{display:none!important}
-#sw5527PracticePage .sw5527-filter-line{grid-template-columns:minmax(0,1fr)!important}
-#sw5527PracticePage .sw-chapter-scope{margin:0 0 13px;border:1px solid #dedcf2;border-radius:16px;padding:13px;background:#fcfbff}
-#sw5527PracticePage .sw-chapter-head{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#33345c;font-size:14px;margin-bottom:11px}
-#sw5527PracticePage .sw-chapter-head span{font-size:11px;color:#6755a6;font-weight:800;text-align:right}
-#sw5527PracticePage .sw-chapter-modes{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-#sw5527PracticePage .sw-chapter-modes label{display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid #dcdaf0;border-radius:11px;padding:10px 6px;font-size:12px;font-weight:850;cursor:pointer;background:white;color:#52526e;min-width:0}
-#sw5527PracticePage .sw-chapter-modes label:has(input:checked){background:#efeaff;border-color:#705ac0;color:#4e3898}
-#sw5527PracticePage .sw-chapter-modes input{accent-color:#6349af;flex:none}
-#sw5527PracticePage #swChapterPanel{margin-top:12px}
-#sw5527PracticePage .sw-chapter-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;font-size:11px;color:#667085}
-#sw5527PracticePage .sw-chapter-actions button,#sw5527PracticePage .sw-chapter-retry{border:1px solid #ded6f5;border-radius:9px;padding:7px 10px;font-size:11px;font-weight:850;background:#f2edff;color:#5039a1;cursor:pointer;white-space:nowrap}
-#sw5527PracticePage .sw-chapter-groups{display:grid;gap:7px;max-height:370px;overflow:auto;overscroll-behavior:contain;padding-right:2px}
-#sw5527PracticePage .sw-chapter-group{border:1px solid #e0e4ed;border-radius:12px;background:white;overflow:hidden}
-#sw5527PracticePage .sw-chapter-group summary{display:flex;align-items:center;gap:8px;cursor:pointer;list-style:none;min-height:46px;padding:9px 10px;font-size:13px;color:#262a4c;font-weight:850}
-#sw5527PracticePage .sw-chapter-group summary::-webkit-details-marker{display:none}
-#sw5527PracticePage .sw-chapter-group summary:focus-visible{outline:2px solid #8c7be5;outline-offset:-2px}
-#sw5527PracticePage .sw-chapter-group summary input{accent-color:#684dbc;width:16px;height:16px;flex:none}
-#sw5527PracticePage .sw-chapter-name{flex:1}
-#sw5527PracticePage .sw-chapter-counter{font-size:11px;color:#6a607d;font-weight:700}
-#sw5527PracticePage .sw-chapter-chevron{font-size:12px;color:#847c9c;transform:rotate(0deg);transition:transform .12s}
-#sw5527PracticePage .sw-chapter-group[open] .sw-chapter-chevron{transform:rotate(180deg)}
-#sw5527PracticePage .sw-chapter-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;padding:10px;border-top:1px solid #edf0f4}
-#sw5527PracticePage .sw-chapter-item{display:flex;align-items:center;gap:5px;min-width:0;padding:9px 5px;border:1px solid #e2e5ed;border-radius:10px;font-size:11px;font-weight:800;color:#32374f;cursor:pointer;background:#fff}
-#sw5527PracticePage .sw-chapter-item:has(input:checked){border-color:#b3a1f7;background:#f3efff;color:#50349d}
-#sw5527PracticePage .sw-chapter-item.sw-chapter-unavailable{opacity:.5;cursor:not-allowed;background:#f6f7f9}
-#sw5527PracticePage .sw-chapter-item input{accent-color:#6349af;flex:none;width:15px;height:15px;margin:0}
-#sw5527PracticePage .sw-chapter-item span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#sw5527PracticePage #swChapterHint{font-size:11px;color:#5f6380;line-height:1.5;margin-top:9px;overflow-wrap:anywhere}
-#sw5527PracticePage #swChapterRetry{margin-top:9px}
-@media(max-width:370px){#sw5527PracticePage .sw-chapter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-
+/* v6.4.99 DB-backed chapter picker for pattern studio. CEFR UI untouched. */
+#sw5527PracticePage .sw6457-picker{background:#fbfaff;border:1px solid #d8d0ee;border-radius:15px;padding:13px;margin:12px 0;overflow:hidden}
+#sw5527PracticePage .sw6457-picker[hidden]{display:none!important}
+#sw5527PracticePage .sw6457-title-row{display:flex;align-items:center;justify-content:space-between;gap:9px}
+#sw5527PracticePage .sw6457-title-row strong{color:#413185;font-size:14px}
+#sw5527PracticePage .sw6457-reload,#sw5527PracticePage #sw6457Clear{border:1px solid #d6ceee;background:#fff;border-radius:9px;padding:7px 9px;color:#493589;font-size:11px;font-weight:900;cursor:pointer}
+#sw5527PracticePage .sw6457-intro{font-size:11px;color:#665b86;line-height:1.55;margin:9px 0 11px}
+#sw5527PracticePage .sw6457-catalog{display:grid;gap:9px}
+#sw5527PracticePage .sw6457-group{border:1px solid #e1dded;background:#fff;border-radius:12px;overflow:hidden}
+#sw5527PracticePage .sw6457-head{display:flex;align-items:center;justify-content:space-between;padding:10px 11px;gap:9px}
+#sw5527PracticePage .sw6457-group-label{display:flex;align-items:center;gap:9px;min-width:0;color:#33275d;font-size:13px;font-weight:900;cursor:pointer}
+#sw5527PracticePage .sw6457-group-label input,#sw5527PracticePage .sw6457-chapter input{width:18px;height:18px;flex:0 0 18px;accent-color:#5a43a2;cursor:pointer}
+#sw5527PracticePage .sw6457-open{border:0;background:#f5f2ff;border-radius:8px;min-width:70px;padding:7px 8px;font-size:11px;font-weight:900;color:#5c498c;cursor:pointer}
+#sw5527PracticePage .sw6457-grid{border-top:1px solid #eeeaf5;padding:10px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+#sw5527PracticePage .sw6457-grid[hidden]{display:none!important}
+#sw5527PracticePage .sw6457-chapter{min-width:0;display:flex;gap:5px;align-items:flex-start;padding:9px 7px;border:1px solid #e5e1ef;background:#fff;border-radius:10px;cursor:pointer}
+#sw5527PracticePage .sw6457-chapter.chosen{border-color:#8268d5;background:#f2edff}
+#sw5527PracticePage .sw6457-chapter span{display:flex;flex-direction:column;min-width:0;gap:3px;font-size:11px;color:#35314b;font-weight:800}
+#sw5527PracticePage .sw6457-chapter small{color:#857d9c;font-size:9px;line-height:1.3;font-weight:650;overflow-wrap:anywhere}
+#sw5527PracticePage .sw6457-chapter em{color:#9a5675;font-size:9px;font-style:normal;font-weight:750}
+#sw5527PracticePage .sw6457-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #e9e3f4;margin-top:11px;padding-top:10px}
+#sw5527PracticePage #sw6457Summary{font-size:11px;color:#55457c;font-weight:900;line-height:1.55}
+#sw5527PracticePage .sw6457-warning{display:block;color:#8b4b3b;font-size:10px;line-height:1.5;margin-top:8px}
+@media(max-width:420px){#sw5527PracticePage .sw6457-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}#sw5527PracticePage .sw6457-chapter{padding:8px 7px}#sw5527PracticePage .sw6457-title-row strong{font-size:12px}}
 </style>
 <section id="sw5527PracticePage" class="sw5527-page swStudio-page hidden" aria-label="패턴 문장 만들기" aria-hidden="true">
   <div class="sw5527-shell swStudio-shell">
     <header class="sw5527-top"><button type="button" id="sw5527Back" class="sw5527-back" aria-label="홈으로 돌아가기">‹</button><div class="sw5527-headtext"><div class="sw5527-eyebrow">SAYWARD  /  SENTENCE STUDIO</div><h1>패턴 문장 만들기</h1><p>복습과 새 패턴을 한 번에</p></div><span class="sw5527-trial">실전 연습</span></header>
     <div class="sw5527-filter-card">
-      
-      <div id="swChapterScope" class="sw-chapter-scope" aria-label="출제할 학습 영역과 Chapter 선택">
-        <div class="sw-chapter-head"><strong>학습 영역</strong><span id="swChapterSelectedCount">전체 공개 패턴</span></div>
-        <div class="sw-chapter-modes" role="radiogroup" aria-label="출제 범위 선택">
-          <label><input type="radio" name="swChapterMode" value="all" checked><span>전체 패턴</span></label>
-          <label><input type="radio" name="swChapterMode" value="custom"><span>수업 직접 선택</span></label>
-        </div>
-        <div id="swChapterPanel" hidden>
-          <div class="sw-chapter-actions"><span>카테고리를 펼쳐 Chapter를 체크하세요.</span><button type="button" id="swChapterClear">전체 해제</button></div>
-          <div id="swChapterGroups" class="sw-chapter-groups"></div>
-          <button type="button" id="swChapterRetry" class="sw-chapter-retry" hidden>수업 목록 다시 불러오기</button>
-        </div>
-        <div id="swChapterHint" role="status" aria-live="polite">전체 패턴을 대상으로 출제합니다.</div>
-      </div>
-      <div class="sw5527-filter-line"><label class="swChapterLegacySelect" hidden>학습 영역<select id="sw5527Course"><option value="all">전체 패턴</option><option value="MY">MY 수업</option><option value="OPIC">OPIC</option><option value="SORI">소리영어</option><option value="FRIENDS">Friends</option><option value="BUSINESS">Business 영어</option><option value="custom">수업 직접 선택</option></select></label><label>출제 구성<select id="sw5527Mix"><option value="50">복습 50 · 신규 50</option><option value="70">복습 70 · 신규 30</option><option value="30">복습 30 · 신규 70</option><option value="100">복습 100 · 신규 0</option><option value="0">복습 0 · 신규 100</option><option value="focus">🎯 집중 학습만</option></select></label></div>
+      <div class="sw5527-filter-line"><label>학습 영역<select id="sw5527Course"><option value="all">전체 패턴</option><option value="custom">☑ Chapter 직접 선택</option><option value="MY">MY 수업</option><option value="OPIC">OPIC</option><option value="SORI">소리영어</option><option value="FRIENDS">Friends</option><option value="BUSINESS">Business 영어</option></select></label><label>출제 구성<select id="sw5527Mix"><option value="50">복습 50 · 신규 50</option><option value="70">복습 70 · 신규 30</option><option value="30">복습 30 · 신규 70</option><option value="100">복습 100 · 신규 0</option><option value="0">복습 0 · 신규 100</option><option value="focus">🎯 집중 학습만</option></select></label></div>
+
+      <!-- SAYWARD v6.4.99: User-chosen Chapter list; no static lesson numbers. -->
+      <section id="sw6457ChapterPicker" class="sw6457-picker" hidden aria-label="Chapter 체크박스 출제 범위">
+        <div class="sw6457-title-row"><strong>☑ 출제할 Chapter 선택</strong><button type="button" id="sw6457Reload" class="sw6457-reload">↻ DB 새로고침</button></div>
+        <p class="sw6457-intro">여러 수업을 동시에 고를 수 있습니다. 카테고리 체크박스는 해당 수업 전체를 선택합니다. 변경 후 <b>문제 출제</b>를 누르세요.</p>
+        <div id="sw6457Catalog" class="sw6457-catalog" aria-live="polite">공개된 Chapter 목록을 불러오는 중…</div>
+        <div class="sw6457-footer"><span id="sw6457Summary" role="status" aria-live="polite">선택한 Chapter 0개</span><button type="button" id="sw6457Clear">선택 해제</button></div>
+        <small id="sw6457Notice" class="sw6457-warning"></small>
+      </section>
       <div class="sw5533-toolbar" aria-label="유형별 출제 문항 수">
         <label class="sw5533-toolbar-item" for="sw5533SentenceCount"><span class="sw5533-toolbar-label">✍️ 문장 만들기</span><select id="sw5533SentenceCount" aria-label="문장 만들기 문제 수"></select></label>
         <label class="sw5533-toolbar-item" for="sw5533MatchCount"><span class="sw5533-toolbar-label">🧩 패턴 맞추기</span><select id="sw5533MatchCount" aria-label="패턴 맞추기 문제 수"></select></label>
@@ -5638,6 +5634,14 @@ function renderMyClass(){
    myClassTab=activeTabs[0]||'';
  }
  if(!activeTabs.length){root.textContent='이 수업은 관리자가 모든 학습 박스를 비활성화했습니다.';return;}
+ // v6.4.89: An intentionally empty, admin-preview MY lesson must still show a useful
+ // placeholder rather than an empty white pane. No fabricated study cards are added.
+ if(course==='my' && lesson===23 && ['corrections','chunks','speaking','habits'].every(
+     tab=>!(myClassData()?.[tab]||[]).length)){
+   root.innerHTML='<div class="sw-my-lesson-empty"><b>📘 MY 수업 23 · 콘텐츠 등록 대기</b><p>오늘 저녁 수업에서 배운 패턴과 주요 문장을 이곳에 추가할 예정입니다.<br>현재 등록된 학습 카드 0개 · 등록 후 DB 갱신을 누르면 표시됩니다.</p></div>';
+   return;
+ }
+
 
  // All study courses share the same DB navigation event; MY keeps its original event.
  if(!document.getElementById('myClassPage')?.classList.contains('hidden')){
@@ -11154,6 +11158,9 @@ function renderSentenceStage(q,stage,visible=false){
     <button type="button" class="sentenceStageNavBtn ${stage===3?'active':''}" data-sentence-stage="3">③ 한글 보고 말하기</button>
   </div>`;
   $('opts').innerHTML=`<div class="sentenceRecallBox">${stageNav}<div id="sentencePracticeCount" class="sentencePracticeCount"></div><div class="sentencePromptKo">${ko}</div>${content}${instruction?`<div class="sentenceInstruction">${instruction}</div>`:''}${actions}</div>`;
+  // Label the ACTUAL displayed basic/paraphrase English sentence at all 3 steps.
+  // For step 3 when English is hidden, show the CEFR beside the Korean prompt.
+  window.saywardSentenceCefr6497?.attachSpeaking?.(sentenceText(q),stage,visible);
   sentenceUpdateCountDisplay(q);
   document.querySelectorAll('[data-sentence-stage]').forEach(btn=>{
     btn.onclick=()=>{
@@ -18750,7 +18757,7 @@ function studyFavoriteButton239(course,lesson,tab,index,card){
     b=document.createElement('button');
     b.type='button';
     b.className='studyFavoriteBtn239';
-    b.innerHTML='<span class="star">☆</span><span class="label">즐겨찾기</span>';
+    b.innerHTML='<span class="star">☆</span>';
     b.addEventListener('click',(e)=>{
       e.preventDefault();
       e.stopPropagation();
@@ -23066,7 +23073,7 @@ function filterTrainedSentenceDeck5477(items){
 window.saywardFilterTrainedSentenceDeck5477=filterTrainedSentenceDeck5477;
 // Quiz deck filtering is applied exactly once in final DB/legacy dispatch (script 83).
 function badge(s='✓ 문장학습'){const b=document.createElement('span');b.className='mvSentenceTrainedBadge5476';b.textContent=s;return b}
-function decorate(){const c=String(typeof ACTIVE_STUDY_COURSE!=='undefined'?ACTIVE_STUDY_COURSE:'my'),l=Number(typeof myClassLessonNo!=='undefined'?myClassLessonNo:1)||1,d=typeof studyCourseData==='function'?studyCourseData(c,l):null;if(!d)return;[['corrections',d.corrections||[],'myCorrectionCard'],['chunks',d.chunks||[],'myChunkCard'],['speaking',d.speaking||[],'mySpeakBlock']].forEach(([t,a,p])=>a.forEach((_,i)=>{const card=document.getElementById(`${p}${i}`);if(!card)return;Array.from(card.children||[]).filter(x=>x.classList?.contains('mvSentenceTrainedBadge5476')).forEach(x=>x.remove());card.classList.remove('mvSentenceTrainedCard5476');const ms=metas(c,l,t,i);if(ms.length){card.classList.add('mvSentenceTrainedCard5476');card.appendChild(badge(ms.length>1?`✓ 문장학습 ${ms.length}`:'✓ 문장학습'))}}))}
+function decorate(){const c=String(typeof ACTIVE_STUDY_COURSE!=='undefined'?ACTIVE_STUDY_COURSE:'my'),l=Number(typeof myClassLessonNo!=='undefined'?myClassLessonNo:1)||1,d=typeof studyCourseData==='function'?studyCourseData(c,l):null;if(!d)return;[['corrections',d.corrections||[],'myCorrectionCard'],['chunks',d.chunks||[],'myChunkCard'],['speaking',d.speaking||[],'mySpeakBlock']].forEach(([t,a,p])=>a.forEach((_,i)=>{const card=document.getElementById(`${p}${i}`);if(!card)return;Array.from(card.children||[]).filter(x=>x.classList?.contains('mvSentenceTrainedBadge5476')).forEach(x=>x.remove());card.classList.remove('mvSentenceTrainedCard5476');const ms=metas(c,l,t,i);if(ms.length){card.classList.add('mvSentenceTrainedCard5476');/* trained card color remains; no redundant per-card trained badge */}}))}
 const baseRM=window.renderMyClass;if(typeof baseRM==='function'){const w=function(){const r=baseRM.apply(this,arguments);setTimeout(decorate,0);return r};window.renderMyClass=w;try{renderMyClass=w}catch(e){}}
 function decorateSentence(q){const ms=qmetas(q),box=document.querySelector('#opts .sentenceRecallBox');if(box){Array.from(box.children||[]).filter(x=>x.classList?.contains('mvSentenceTrainedBadge5476')).forEach(x=>x.remove());if(ms.length)box.prepend(badge())}document.querySelectorAll('#opts .sentencePatternPair').forEach(pair=>{pair.classList.remove('mvSentenceTrainedPattern5476');pair.querySelectorAll('.mvSentenceTrainedInline5476').forEach(x=>x.remove());const p=pair.querySelector('.patternText');if(p&&byPat(p.textContent||'')){pair.classList.add('mvSentenceTrainedPattern5476');const b=document.createElement('span');b.className='mvSentenceTrainedInline5476';b.textContent='✓ 문장학습';p.insertAdjacentElement('afterend',b)}})}
 const baseRS=window.renderSentenceStage;if(typeof baseRS==='function'){const w=function(q){const r=baseRS.apply(this,arguments);decorateSentence(q);return r};window.renderSentenceStage=w;try{renderSentenceStage=w}catch(e){}}
@@ -23649,6 +23656,14 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
   #sharedStudySelectBar #swMyHomeDbRefresh{width:86px;flex-basis:86px;font-size:10px;height:28px;min-height:28px;padding:3px 5px}
 }
 </style>
+<style id="sayward-v6489-contrast-lesson">
+/* Keep two contrasting examples legible as distinct lines inside one Chunk card. */
+#myClassPage .myChunkExample{white-space:pre-line}
+#myClassPage .myStudyCard .myChunkExample + .myStudyKo{white-space:pre-line}
+#myClassPage .sw-my-lesson-empty{max-width:680px;margin:24px auto;text-align:center;padding:32px 22px;border:1px dashed #c9c5e9;background:#fbfaff;border-radius:18px}
+#myClassPage .sw-my-lesson-empty b{display:block;font-size:17px;color:#40358a;margin-bottom:8px}
+#myClassPage .sw-my-lesson-empty p{font-size:13px;color:#667085;line-height:1.65;margin:0}
+</style>
 <style id="sayward-my-dynamic-tab-style">
 #myClassPage .myClassTab[hidden]{display:none!important}
 #myClassPage .myClassTabs{grid-template-columns:repeat(auto-fit,minmax(76px,1fr))}
@@ -23662,6 +23677,12 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
   document.title='SAYWARD v'+window.SAYWARD_RELEASE+' · Learning Dashboard';
   const TABS=['corrections','chunks','speaking','habits'];
   const isMyLesson=n=>Number.isInteger(Number(n)) && Number(n)>0 && Number(n)<=9999;
+  // v6.4.88: Draft lessons are visible ONLY to a signed-in active Admin.
+  // RLS independently protects all hidden rows from ordinary learners.
+  function adminDraftPreview(){
+    const s=window.saywardAuth?.snapshot?.();
+    return !!(owner&&s?.authenticated&&s?.uid===owner&&s?.role==='admin');
+  }
   // Never use a hard-coded maximum: the DB index controls published MY lessons.
   const INDEX_RECHECK_MS=3500;
   let indexCheckedAt=0;
@@ -23725,7 +23746,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     const m=metaMap.get(n);
     if(m){
       const title=card.querySelector('.myClassTitle');
-      if(title)title.textContent=m.title||('MY 수업 '+n);
+      if(title)title.textContent=(m.title||('MY 수업 '+n))+(m.visible===false?' · 🔒 관리자 미리보기':'');
       card.dataset.myDb='true';
     }
   }
@@ -23790,14 +23811,14 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
   }
   function applyIndex(rows){
     metaMap=new Map();
-    const keep=new Set(rows.filter(r=>r.visible&&r.seed_complete).map(r=>Number(r.lesson_no)));
+    const keep=new Set(rows.filter(r=>(r.visible||adminDraftPreview())&&r.seed_complete).map(r=>Number(r.lesson_no)));
     for(const n of Object.keys(MY_CLASS_META))delete MY_CLASS_META[n];
     for(const n of Object.keys(MY_CLASS_LESSONS))if(!keep.has(Number(n)))delete MY_CLASS_LESSONS[n];
     for(const n of [...loadedVersions.keys()])if(!keep.has(n))loadedVersions.delete(n);
     for(const row of rows){
-      if(!row.visible||!row.seed_complete)continue;
+      if((!row.visible&&!adminDraftPreview())||!row.seed_complete)continue;
       const n=Number(row.lesson_no);metaMap.set(n,row);
-      MY_CLASS_META[n]={title:row.title,sub:row.subtitle,goal:row.goal_html,__counts:row.item_counts,__version:row.content_version};
+      MY_CLASS_META[n]={title:row.title,sub:row.visible?row.subtitle:'[관리자 미리보기 · 일반 사용자 미공개] '+row.subtitle,goal:row.goal_html,__counts:row.item_counts,__version:row.content_version};
       if(loadedVersions.has(n)&&loadedVersions.get(n)!==String(row.content_version)){loadedVersions.delete(n);delete MY_CLASS_LESSONS[n];}
       if(!MY_CLASS_LESSONS[n])MY_CLASS_LESSONS[n]=empty();
     }
@@ -23869,22 +23890,24 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     if(!row){info('DB 수업 정보 없음 · 관리자에게 데이터 등록 상태를 확인하세요.');return;}
     const saved=cached(n),start=perf(),ticket=generation;
     const cacheCurrent=saved&&String(saved.version)===String(row.content_version)
-      &&TABS.every(tab=>saved.data[tab].length===Number(row.item_counts?.[tab]||0));
+      &&(adminDraftPreview()||TABS.every(tab=>saved.data[tab].length===Number(row.item_counts?.[tab]||0)));
     if(cacheCurrent && !force){
       state.lastLessonMs=perf()-start;setLesson(n,saved.data,saved.version,'cache');return;
     }
     if(cacheCurrent){state.lastLessonMs=perf()-start;setLesson(n,saved.data,saved.version,'cache');}
     else info('MY 수업 '+n+' · DB에서 콘텐츠를 불러오는 중…');
     try{
-      const res=await window.saywardAuth.contentFrom('sayward_my_lesson_items')
-        .select('item_id,item_key,section,sort_index,content').eq('lesson_no',n).eq('visible',true)
-        .order('sort_index',{ascending:true}).limit(1500);
+      const itemQuery=window.saywardAuth.contentFrom('sayward_my_lesson_items')
+        .select('item_id,item_key,section,sort_index,content').eq('lesson_no',n);
+      // Only Admin may omit the visible filter; Postgres RLS is the hard gate.
+      if(!adminDraftPreview())itemQuery.eq('visible',true);
+      const res=await itemQuery.order('sort_index',{ascending:true}).limit(1500);
       if(res.error)throw res.error;
       if(ticket!==generation)return;
       const data=empty();
       for(const item of res.data||[]){if(!TABS.includes(item.section)||!item.content||typeof item.content!=='object')throw new Error('INVALID_ITEM');
         data[item.section].push({...item.content,__dbItemId:item.item_id,__dbItemKey:item.item_key});}
-      for(const tab of TABS){if(data[tab].length!==Number(row.item_counts?.[tab]||0))throw new Error('ITEM_COUNT_MISMATCH_'+tab);}
+      for(const tab of TABS){if(!adminDraftPreview() && data[tab].length!==Number(row.item_counts?.[tab]||0))throw new Error('ITEM_COUNT_MISMATCH_'+tab);}
       state.lastLessonMs=perf()-start;
       saveCache(n,row.content_version,data);
       setLesson(n,data,row.content_version,'db');
@@ -27144,146 +27167,14 @@ const experienced=combined.size;
   const SCOUNT=g('sw5533SentenceCount'),MCOUNT=g('sw5533MatchCount');
   for(let n=0;n<=30;n++)for(const sel of [SCOUNT,MCOUNT]){const opt=document.createElement('option');opt.value=String(n);opt.textContent=n+'개';sel.appendChild(opt);}
   SCOUNT.value='5';MCOUNT.value='5';
-  const PAT_KEYS={course:'sw_pattern_studio_course_v1',mix:'sw_pattern_studio_mix_v1',counts:'sw_pattern_studio_counts_v1',chapters:'sw_pattern_studio_chapter_scope_v1'};
+  const PAT_KEYS={course:'sw_pattern_studio_course_v1',mix:'sw_pattern_studio_mix_v1',counts:'sw_pattern_studio_counts_v1',chapters:'sw_pattern_studio_chapters_v1'};
   const patStatus=t=>{const e=g('swPatternPrefStatus');if(e)e.textContent=t;};
   let patternSaveNumber=0;
-
-  // Dynamic chapter scope uses the existing authenticated, RLS-controlled catalog APIs.
-  // Never issue from a nonpublished chapter, or widen a custom scope if the catalog fails.
-  const CH_COURSES=[['MY','MY 수업','my'],['OPIC','OPIC','opic'],['SORI','소리영어','sori'],['FRIENDS','Friends','friends'],['BUSINESS','Business 영어','business']];
-  const chapterState={mode:'all',ids:new Set(),legacy:null,rows:[],ready:false,loading:false,error:'',uid:null,opened:new Set(['MY'])};
-  let chapterSaveTimer=null,chapterLoadSerial=0;
-  const chapterKey=(course,no)=>String(course).toUpperCase()+':'+Number(no);
-  // Match full, numeric lesson references; includes neither substring matches (MY:1 != MY:10)
-  // nor unrelated migration tags that carry no chapter identity.
-  function chapterRefs(pattern){
-    const refs=new Set(),raw=String(pattern?.lesson_refs||'');
-    const rex=/(?:^|[^\w:])(MY|OPIC|SORI|FRIENDS|BUSINESS)\s*:\s*0*(\d+)\b/gi;
-    let match;while((match=rex.exec(raw))!==null){const no=Number(match[2]);if(Number.isSafeInteger(no)&&no>0)refs.add(chapterKey(match[1],no));}
-    return refs;
-  }
-  const chapterAvailableRows=()=>chapterState.rows.filter(r=>r.eligible);
-  const chapterValidKeys=()=>new Set(chapterAvailableRows().map(r=>r.key));
-  function balanceSelectedChapterPool(pool,chosenKeys){
-    if(chapterState.mode!=='custom'||chosenKeys.size<2||pool.length<2)return pool;
-    const groups=new Map([...chosenKeys].sort().map(key=>[key,[]])),leftovers=[];
-    for(const pattern of pool){
-      const matches=[...chapterRefs(pattern)].filter(key=>groups.has(key));
-      if(!matches.length){leftovers.push(pattern);continue;}
-      matches.sort((a,b)=>groups.get(a).length-groups.get(b).length);
-      groups.get(matches[0]).push(pattern);
-    }
-    const result=[];
-    for(;;){let got=false;
-      for(const group of groups.values()){if(group.length){result.push(group.shift());got=true;}}
-      if(!got)break;
-    }
-    return result.concat(leftovers);
-  }
-  function restoreChapterPreferences(){
-    let input=null;try{input=JSON.parse(localStorage.getItem(PAT_KEYS.chapters)||'null')}catch(_e){}
-    if(input&&typeof input==='object'&&['all','custom'].includes(input.mode)&&Array.isArray(input.ids)){
-      chapterState.mode=input.mode;chapterState.ids=new Set(input.ids.filter(x=>typeof x==='string'&&/^(MY|OPIC|SORI|FRIENDS|BUSINESS):[1-9]\d*$/.test(x)).slice(0,500));chapterState.legacy=null;
-    }else{
-      const old=g('sw5527Course').value;
-      chapterState.mode=old==='all'?'all':'custom';chapterState.legacy=old!=='all'?String(old).toUpperCase():null;
-      chapterState.ids=new Set();
-    }
-    g('sw5527Course').value=chapterState.mode==='all'?'all':'custom';
-    renderChapterSelector();
-  }
-  function chapterHint(message){const n=g('swChapterHint');if(n)n.textContent=message;}
-  function saveChapterScope(){
-    g('sw5527Course').value=chapterState.mode==='all'?'all':'custom';
-    try{
-      localStorage.setItem(PAT_KEYS.chapters,JSON.stringify({mode:chapterState.mode,ids:[...chapterState.ids].sort()}));
-      localStorage.setItem(PAT_KEYS.course,g('sw5527Course').value);
-    }catch(_e){patStatus('기기 설정 저장 실패 · 저장 공간을 확인해 주세요.');return;}
-    clearTimeout(chapterSaveTimer);chapterSaveTimer=setTimeout(()=>{void savePatternPreferences();},420);
-    if(state.deck.length)notice('학습 영역을 변경했습니다. 현재 문제는 유지하며 다음 ‘문제 출제’부터 적용합니다.');
-  }
-  function onChapterChange(){chapterState.legacy=null;renderChapterSelector();saveChapterScope();}
-  function renderChapterSelector(){
-    const custom=chapterState.mode==='custom';
-    const panel=g('swChapterPanel');if(panel)panel.hidden=!custom;
-    for(const option of view.querySelectorAll('input[name="swChapterMode"]'))option.checked=option.value===chapterState.mode;
-    const selected=chapterState.rows.filter(x=>x.eligible&&chapterState.ids.has(x.key)).length;
-    const total=chapterAvailableRows().length;
-    setText('swChapterSelectedCount',custom?`${selected}개 Chapter 선택`:'전체 패턴');
-    g('swChapterRetry').hidden=!chapterState.error;
-    if(!custom){chapterHint('전체 패턴은 기존 출제 범위를 유지하며, 신규 패턴도 자동 포함됩니다.');return;}
-    if(chapterState.loading){chapterHint('Supabase에서 Chapter 목록을 조회 중입니다…');return;}
-    if(chapterState.error){chapterHint('수업 DB 조회 실패 · 해당 상태에서는 범위를 넓혀 출제하지 않습니다. 다시 불러오기를 눌러 주세요.');return;}
-    if(!chapterState.ready){chapterHint('로그인 후 Chapter 목록을 불러옵니다.');return;}
-    chapterHint(selected?`선택한 ${selected}개 Chapter의 공식 패턴만 다음 문제 출제부터 적용됩니다.`:`출제할 Chapter를 선택하세요. (공개 수업 중 출제 가능한 ${total}개)`);
-    const host=g('swChapterGroups');if(!host)return;host.replaceChildren();
-    const isAdmin=auth().role==='admin';
-    for(const [cid,cname] of CH_COURSES){
-      const rows=chapterState.rows.filter(r=>r.course===cid);
-      if(!rows.length)continue;
-      const eligible=rows.filter(r=>r.eligible),picked=eligible.filter(r=>chapterState.ids.has(r.key));
-      const details=document.createElement('details');details.className='sw-chapter-group';details.open=chapterState.opened.has(cid);
-      details.addEventListener('toggle',()=>{if(details.open)chapterState.opened.add(cid);else chapterState.opened.delete(cid);});
-      const summary=document.createElement('summary');
-      const all=document.createElement('input');all.type='checkbox';all.disabled=!eligible.length;all.checked=eligible.length>0&&picked.length===eligible.length;all.indeterminate=picked.length>0&&picked.length<eligible.length;all.setAttribute('aria-label',cname+' 전체 선택 또는 해제');
-      all.addEventListener('click',e=>e.stopPropagation());
-      all.addEventListener('change',()=>{const target=all.checked;for(const row of eligible){if(target)chapterState.ids.add(row.key);else chapterState.ids.delete(row.key);}onChapterChange();});
-      const title=document.createElement('span');title.className='sw-chapter-name';title.textContent=cname;
-      const count=document.createElement('span');count.className='sw-chapter-counter';count.textContent=`${picked.length}/${eligible.length}`;
-      const chevron=document.createElement('span');chevron.className='sw-chapter-chevron';chevron.textContent='⌄';chevron.setAttribute('aria-hidden','true');
-      summary.append(all,title,count,chevron);details.append(summary);
-      const grid=document.createElement('div');grid.className='sw-chapter-grid';
-      for(const row of rows){
-        const label=document.createElement('label');label.className='sw-chapter-item'+(!row.eligible?' sw-chapter-unavailable':'');
-        const input=document.createElement('input');input.type='checkbox';input.checked=chapterState.ids.has(row.key)&&row.eligible;input.disabled=!row.eligible;input.setAttribute('aria-label',`${cname} ${row.no} · ${row.title||''}`);
-        input.addEventListener('change',()=>{if(input.checked)chapterState.ids.add(row.key);else chapterState.ids.delete(row.key);onChapterChange();});
-        const name=document.createElement('span');name.textContent=cid==='FRIENDS'?`S1E${String(row.no).padStart(2,'0')}`:`수업 ${row.no}`;
-        label.title=(row.title||name.textContent)+(row.eligible?` · 공식 패턴 ${row.patternCount}개`:(row.published?' · 연결된 공식 패턴 없음':(isAdmin?' · 비공개 수업 (선택 불가)':' · 선택 불가')));
-        label.append(input,name);grid.append(label);
-      }
-      details.append(grid);host.append(details);
-    }
-  }
-  function chapterSetMode(mode){
-    if(!['all','custom'].includes(mode))return;
-    chapterState.mode=mode;renderChapterSelector();saveChapterScope();
-  }
-  async function loadChapterCatalog(){
-    const account=auth();if(!account.authenticated||!account.uid)return;
-    const uid=account.uid,serial=++chapterLoadSerial;
-    chapterState.loading=true;chapterState.error='';chapterState.ready=false;chapterState.uid=uid;renderChapterSelector();
-    try{
-      const responses=await Promise.all(CH_COURSES.map(async([course,,dbCourse])=>{
-        const table=course==='MY'?'sayward_my_lessons':'sayward_course_lessons';
-        let query=window.saywardAuth.contentFrom(table).select('lesson_no,title,visible,seed_complete').order('lesson_no',{ascending:true}).limit(500);
-        if(course!=='MY')query=query.eq('course',dbCourse);
-        const response=await query;
-        if(response.error||!Array.isArray(response.data))throw new Error('CHAPTER_CATALOG_'+course+'_'+String(response.error?.code||'INVALID'));
-        return response.data.map(row=>({key:chapterKey(course,row.lesson_no),course,no:Number(row.lesson_no),title:String(row.title||''),published:row.visible===true&&row.seed_complete===true})).filter(row=>Number.isSafeInteger(row.no)&&row.no>0);
-      }));
-      if(serial!==chapterLoadSerial||auth().uid!==uid)return;
-      const admin=auth().role==='admin';
-      const rows=responses.flat().filter(row=>row.published||admin);
-      const counts=new Map();
-      for(const pattern of state.patterns){for(const ref of chapterRefs(pattern))counts.set(ref,(counts.get(ref)||0)+1);}
-      for(const row of rows){row.patternCount=counts.get(row.key)||0;row.eligible=row.published&&row.patternCount>0;}
-      chapterState.rows=rows;chapterState.ready=true;chapterState.uid=uid;
-      if(chapterState.legacy){
-        const legacy=chapterState.legacy;chapterState.ids=new Set(rows.filter(row=>row.eligible&&row.course===legacy).map(row=>row.key));
-        chapterState.legacy=null;saveChapterScope();
-      }
-    }catch(e){
-      if(serial!==chapterLoadSerial||auth().uid!==uid)return;
-      chapterState.rows=[];chapterState.ready=false;chapterState.error=String(e?.message||'CHAPTER_NETWORK_ERROR').slice(0,110);
-    }finally{if(serial===chapterLoadSerial&&auth().uid===uid){chapterState.loading=false;renderChapterSelector();}}
-  }
-  for(const radio of view.querySelectorAll('input[name="swChapterMode"]'))radio.addEventListener('change',()=>{if(radio.checked)chapterSetMode(radio.value);});
-  g('swChapterClear').addEventListener('click',()=>{chapterState.ids.clear();onChapterChange();});
-  g('swChapterRetry').addEventListener('click',()=>{void loadChapterCatalog();});
   function restorePatternPreferences(){
     try{
       const scope=localStorage.getItem(PAT_KEYS.course);
       g('sw5527Course').value=scope && [...g('sw5527Course').options].some(o=>o.value===scope&&!o.disabled)?scope:'all';
+      chapterSelected=chapterReadStored();
       const mix=localStorage.getItem(PAT_KEYS.mix);
       g('sw5527Mix').value=['0','30','50','70','100','focus'].includes(mix)?mix:'50';
       SCOUNT.value='5';MCOUNT.value='5';
@@ -27291,15 +27182,14 @@ const experienced=combined.size;
       if(raw){const x=JSON.parse(raw),a=x?.sentence,b=x?.match;
         if(Number.isInteger(a)&&Number.isInteger(b)&&a>=0&&b>=0&&a<=30&&b<=30&&a+b>=1&&a+b<=30){SCOUNT.value=String(a);MCOUNT.value=String(b);}}
     }catch(e){}
-    updateCountUI();
-    restoreChapterPreferences();
+    updateCountUI();renderChapterPicker();
   }
   async function savePatternPreferences(){
     const x={sentence:Number(SCOUNT.value),match:Number(MCOUNT.value)};
     if(!Number.isInteger(x.sentence)||!Number.isInteger(x.match)||x.sentence+x.match<1||x.sentence+x.match>30){patStatus('문항 합계가 1~30개일 때 저장됩니다.');return;}
     try{
       localStorage.setItem(PAT_KEYS.course,g('sw5527Course').value);
-      localStorage.setItem(PAT_KEYS.chapters,JSON.stringify({mode:chapterState.mode,ids:[...chapterState.ids].sort()}));
+      localStorage.setItem(PAT_KEYS.chapters,JSON.stringify([...chapterSelected].filter(chapterValidKey).sort()));
       localStorage.setItem(PAT_KEYS.mix,g('sw5527Mix').value);
       localStorage.setItem(PAT_KEYS.counts,JSON.stringify(x));
     }catch(e){patStatus('기기 저장 실패 · 저장 공간 확인 필요');return;}
@@ -27316,6 +27206,140 @@ const experienced=combined.size;
   function updateCountUI(){const x=counts();setText('sw5533RequestedTotal',`총 ${x.sentence+x.match}문제 · 문장 만들기 ${x.sentence} · 패턴 맞추기 ${x.match}${x.sentence+x.match>30?' (최대 30문제)':''}`);}
 
   const state={uid:null,patterns:[],states:null,learnedSources:null,due:null,deck:[],index:0,results:new Map(),hint:false,latest:null,remotePractice:[],recentReadOk:false,focus:new Map(),focusProgress:new Map(),focusSaving:false,focusPendingId:null,focusFeedback:new Map(),served:[],sentenceVariants:new Map(),sentenceVariantHistory:new Map(),variantPoolLoaded:false,lastSelectionAudit:null,loading:false,saving:false,request:0,finished:false,visible:false};
+
+  // v6.4.99: Chapter selection is a pure filter on verified official master IDs.
+  // It never changes grading, CEFR bands, Stable promotions, or master pattern data.
+  const CHAPTER_COURSES=[
+    {code:'MY',db:'my',label:'MY 수업'},
+    {code:'OPIC',db:'opic',label:'OPIC'},
+    {code:'SORI',db:'sori',label:'소리영어'},
+    {code:'FRIENDS',db:'friends',label:'Friends'},
+    {code:'BUSINESS',db:'business',label:'Business 영어'}
+  ];
+  const chapterExpanded=new Set(['MY']);
+  let chapterSelected=new Set(),chapterCatalog=[],chapterCatalogUid=null,chapterCatalogRole=null,chapterCatalogLoading=false,chapterCatalogLoaded=false,chapterCatalogSerial=0,chapterCatalogError='';
+  function chapterValidKey(key){return /^(?:MY|OPIC|SORI|FRIENDS|BUSINESS):[1-9]\d*$/.test(String(key||''));}
+  function chapterReadStored(){
+    try{const saved=JSON.parse(localStorage.getItem(PAT_KEYS.chapters)||'[]');
+      return new Set(Array.isArray(saved)?saved.filter(chapterValidKey).slice(0,250):[]);
+    }catch(_e){return new Set();}
+  }
+  function chapterPatternRefs(p){
+    const result=new Set(),src=String(p?.lesson_refs||'').toUpperCase();
+    const rx=/(?:^|[^A-Z0-9_])(MY|OPIC|SORI|FRIENDS|BUSINESS)\s*:\s*([1-9]\d*)(?=$|[^0-9])/g;
+    for(const match of src.matchAll(rx))result.add(match[1]+':'+Number(match[2]));
+    return result;
+  }
+  function chapterEligibleRows(){
+    const allowed=new Set(chapterCatalog.map(x=>x.key));
+    return state.patterns.filter(p=>{
+      for(const key of chapterPatternRefs(p))if(chapterSelected.has(key)&&allowed.has(key))return true;
+      return false;
+    });
+  }
+  function chapterNote(text){const n=g('sw6457Notice');if(n)n.textContent=text||'';}
+  function chapterSummary(){
+    const summary=g('sw6457Summary');if(!summary)return;
+    const enabled=new Set(chapterCatalog.map(x=>x.key));
+    const selected=[...chapterSelected].filter(x=>enabled.has(x));
+    const patternCount=chapterCatalogLoaded?chapterEligibleRows().length:0;
+    summary.textContent=chapterCatalogLoaded
+      ?`선택 ${selected.length}개 Chapter · 출제 가능 공식 패턴 ${patternCount}개`
+      :`선택 ${chapterSelected.size}개 Chapter · DB 목록 확인 중`;
+    if(!chapterCatalogLoaded&&chapterCatalogError){chapterNote(chapterCatalogError);return;}
+    chapterNote(chapterCatalogLoaded&&selected.length&&patternCount===0
+      ?'선택한 수업에 연결된 공식 패턴이 없습니다. 수업 내용이 있어도 공식 패턴 ID 연결 전에는 출제하지 않습니다.'
+      :selected.length===0?'체크박스를 선택한 뒤 문제 출제를 누르세요.':'선택한 수업에서만 출제됩니다. 변경 사항은 다음 문제 출제부터 적용됩니다.');
+  }
+  function chapterChanged(){
+    renderChapterPicker();
+    void savePatternPreferences();
+    if(g('sw5527Course').value==='custom')notice('Chapter 선택이 변경되었습니다. 위의 ‘문제 출제’를 누르면 새 범위로 출제합니다.');
+  }
+  function renderChapterPicker(){
+    const custom=g('sw5527Course').value==='custom';
+    const panel=g('sw6457ChapterPicker'),root=g('sw6457Catalog');
+    if(!panel||!root)return;
+    panel.hidden=!custom;
+    if(!custom)return;
+    root.replaceChildren();
+    if(!chapterCatalogLoaded){
+      const div=document.createElement('p');div.className='sw6457-intro';
+      div.textContent=chapterCatalogLoading?'Supabase에서 Chapter 목록 불러오는 중…':'Chapter 목록이 아직 확인되지 않았습니다. ↻ DB 새로고침을 눌러 주세요.';
+      root.append(div);chapterSummary();return;
+    }
+    for(const course of CHAPTER_COURSES){
+      const rows=chapterCatalog.filter(x=>x.course===course.code);
+      if(!rows.length)continue;
+      const group=document.createElement('section');group.className='sw6457-group';
+      const header=document.createElement('div');header.className='sw6457-head';
+      const all=document.createElement('label');all.className='sw6457-group-label';
+      const cb=document.createElement('input');cb.type='checkbox';cb.setAttribute('aria-label',course.label+' 전체 선택');
+      const count=rows.filter(x=>chapterSelected.has(x.key)).length;
+      cb.checked=count===rows.length;cb.indeterminate=count>0&&count<rows.length;
+      cb.addEventListener('change',()=>{
+        if(cb.checked)for(const x of rows)chapterSelected.add(x.key);
+        else for(const x of rows)chapterSelected.delete(x.key);
+        chapterChanged();
+      });
+      const label=document.createElement('span');label.textContent=course.label+` (${count}/${rows.length})`;
+      all.append(cb,label);
+      const open=document.createElement('button');open.type='button';open.className='sw6457-open';
+      const expanded=chapterExpanded.has(course.code);
+      open.textContent=expanded?'접기 ▲':'수업 보기 ▼';open.setAttribute('aria-expanded',String(expanded));
+      open.addEventListener('click',()=>{if(chapterExpanded.has(course.code))chapterExpanded.delete(course.code);else chapterExpanded.add(course.code);renderChapterPicker();});
+      header.append(all,open);group.append(header);
+      const grid=document.createElement('div');grid.className='sw6457-grid';grid.hidden=!expanded;
+      for(const row of rows){
+        const item=document.createElement('label');item.className='sw6457-chapter'+(chapterSelected.has(row.key)?' chosen':'');
+        item.title=row.title||'';
+        const input=document.createElement('input');input.type='checkbox';input.checked=chapterSelected.has(row.key);
+        input.setAttribute('aria-label',course.label+' 수업 '+row.no);
+        input.addEventListener('change',()=>{if(input.checked)chapterSelected.add(row.key);else chapterSelected.delete(row.key);chapterChanged();});
+        const txt=document.createElement('span'),name=document.createElement('b');
+        name.textContent=(course.code==='FRIENDS'?'S1E'+String(row.no).padStart(2,'0'):'수업 '+row.no);
+        const countText=document.createElement('small');
+        const linked=state.patterns.reduce((n,p)=>n+Number(chapterPatternRefs(p).has(row.key)),0);
+        countText.textContent='공식 패턴 '+linked+'개';
+        txt.append(name,countText);
+        if(row.visible===false){const draft=document.createElement('em');draft.textContent='비공개 · 관리자';txt.append(draft);}
+        item.append(input,txt);grid.append(item);
+      }
+      group.append(grid);root.append(group);
+    }
+    if(!root.children.length){const empty=document.createElement('p');empty.className='sw6457-intro';empty.textContent='선택 가능한 Chapter가 없습니다. 공개 설정 및 로그인 상태를 확인하세요.';root.append(empty);}
+    chapterSummary();
+  }
+  async function loadChapterCatalog(force=false){
+    const user=auth();if(!user.authenticated||!user.uid)return;
+    if(chapterCatalogLoading)return;
+    if(!force&&chapterCatalogLoaded&&chapterCatalogUid===user.uid&&chapterCatalogRole===user.role){renderChapterPicker();return;}
+    const uid=user.uid,ticket=++chapterCatalogSerial;
+    chapterCatalogLoading=true;chapterCatalogLoaded=false;chapterCatalogError='';renderChapterPicker();
+    try{
+      const results=await Promise.all(CHAPTER_COURSES.map(async(course)=>{
+        let query=window.saywardAuth.contentFrom(course.code==='MY'?'sayward_my_lessons':'sayward_course_lessons')
+          .select('lesson_no,title,visible,seed_complete')
+          .order('lesson_no',{ascending:true}).limit(500);
+        if(course.code!=='MY')query=query.eq('course',course.db);
+        const response=await query;
+        if(response.error)throw response.error;
+        return (response.data||[]).filter(r=>Number.isInteger(Number(r.lesson_no))&&Number(r.lesson_no)>0
+          &&r.seed_complete===true&&(r.visible===true||user.role==='admin'))
+          .map(r=>({key:course.code+':'+Number(r.lesson_no),course:course.code,no:Number(r.lesson_no),title:String(r.title||''),visible:r.visible!==false}));
+      }));
+      if(ticket!==chapterCatalogSerial||auth().uid!==uid)return;
+      chapterCatalog=results.flat();chapterCatalogUid=uid;chapterCatalogRole=user.role;chapterCatalogLoaded=true;chapterCatalogError='';
+      renderChapterPicker();
+      if(g('sw5527Course').value==='custom'&&state.visible&&!state.loading&&state.patterns.length&&state.states&&state.latest&&state.variantPoolLoaded&&!state.deck.length)selectDeck();
+      if(g('sw5527Course').value==='custom'&&!chapterCatalog.length)chapterNote('현재 계정으로 조회 가능한 Chapter가 없습니다. 공개 정책을 확인해 주세요.');
+    }catch(err){
+      if(ticket!==chapterCatalogSerial||auth().uid!==uid)return;
+      chapterCatalog=[];chapterCatalogLoaded=false;
+      chapterCatalogError='Chapter 목록 조회 실패: '+String(err?.message||'NETWORK_ERROR').slice(0,90)+' · 다시 조회해 주세요.';
+    }finally{if(ticket===chapterCatalogSerial){chapterCatalogLoading=false;renderChapterPicker();}}
+  }
+
   const setText=(id,t)=>{const e=g(id);if(e)e.textContent=t;};
   const notice=t=>setText('sw5527Notice',t);
   function updateFocusUI(){
@@ -27901,7 +27925,10 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
     const addTapSentence=(section,value)=>{
       const node=addText(section,value,'sw6477Sentence sw6478TapSentence');
       node.tabIndex=0;node.setAttribute('role','button');node.setAttribute('aria-label','영어 문장 재생: '+value);
-      // Shared delegated tap-audio handler plays the exact English sentence once.
+      // CEFR is attached as a separate visual token. The delegated audio handler
+      // reads data-audio-english, never the extra (B2)/(미평가) text.
+      node.dataset.audioEnglish=String(value||'');
+      window.saywardSentenceCefr6497?.attachMatch?.(node,value);
       return node;
     };
     const answer=makeCard('정답 패턴 · 문장','answer');
@@ -28076,18 +28103,13 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
     const {sentence,match}=counts(),targetCount=sentence+match;
     if(targetCount<1||targetCount>30){notice('문장 만들기와 패턴 맞추기를 합쳐 1~30개로 설정해 주세요. 현재 연습은 유지됩니다.');return;}
     const course=g('sw5527Course').value;
-    if(course==='custom' && (!chapterState.ready || chapterState.uid!==auth().uid)){
-      notice('Chapter DB 목록이 확인되지 않았습니다. 수업 목록 다시 불러오기를 눌러 주세요.');return;
+    if(course==='custom'){
+      if(!chapterCatalogLoaded){notice('Chapter 목록 확인 전입니다. DB 새로고침을 누르거나 조회가 끝난 뒤 출제해 주세요.');return;}
+      if(![...chapterSelected].some(key=>chapterCatalog.some(row=>row.key===key))){notice('Chapter를 최소 1개 선택해 주세요.');return;}
     }
-    const selectedRefs=new Set([...chapterState.ids].filter(ref=>chapterValidKeys().has(ref)));
-    if(course==='custom'&&!selectedRefs.size){
-      state.deck=[];state.index=0;state.finished=false;state.results.clear();g('sw5527Card').hidden=true;g('sw5527Done').hidden=true;
-      setText('sw5527Step','Chapter 선택 필요');setText('sw5527Counter','— / '+targetCount);
-      notice('출제할 Chapter를 체크박스로 선택한 다음 ‘문제 출제’를 눌러 주세요.');return;
-    }
-    const filtered=state.patterns.filter(p=>course==='all'||(course==='custom'?[...chapterRefs(p)].some(ref=>selectedRefs.has(ref)):String(p.courses||'').toUpperCase().includes(course)));
-    if(match>0&&state.patterns.length<4){notice('공식 패턴 4개 이상을 DB에서 확인할 수 없어 패턴 맞추기를 출제하지 않습니다.');return;}
-    if(match>0&&filtered.length<4&&course!=='custom'){notice('패턴 맞추기는 서로 다른 공식 패턴 4개 이상이 필요합니다. 학습 영역을 바꿔 주세요.');return;}
+    const filtered=course==='custom'?chapterEligibleRows():state.patterns.filter(p=>course==='all'||String(p.courses||'').toUpperCase().includes(course));
+    if(course==='custom'&&!filtered.length){notice('선택한 Chapter에 연결된 공식 패턴이 0개입니다. 다른 Chapter를 선택하거나 해당 수업의 패턴 DB 연결을 확인해 주세요.');setText('sw5527TotalInfo','선택된 Chapter · 공식 패턴 0개 · 출제 중단');return;}
+    if(match>0&&new Set(filtered.map(p=>String(p.canonical_pattern||'').trim().toLowerCase()).filter(Boolean)).size<4){notice('패턴 맞추기에는 서로 다른 공식 패턴이 최소 4개 필요합니다. Chapter를 더 선택하거나 문장 만들기만 출제해 주세요.');return;}
     if(!state.due){notice('Stable 예정일 조회 완료 전에는 새 문제를 출제하지 않습니다.');return;}
     // v6.4.83: Review = persisted APP/GPT/legacy study event, New = neither.
     // The official NEW/FOCUS/LEARNING/STABLE stage remains a *separate* label.
@@ -28097,9 +28119,9 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
     const dueCandidates=allReview.filter(p=>!!dueInfo(p));
     const dueIds=new Set(dueCandidates.map(p=>p.pattern_id));
     const info=diversityData(Date.now());
-    const duePool=balanceSelectedChapterPool(diverseOrder(dueCandidates,info,true),selectedRefs);
-    const otherReview=balanceSelectedChapterPool(diverseOrder(allReview.filter(p=>!dueIds.has(p.pattern_id)),info,false),selectedRefs);
-    const freshPool=balanceSelectedChapterPool(diverseOrder(allFresh,info,false),selectedRefs);
+    const duePool=diverseOrder(dueCandidates,info,true);
+    const otherReview=diverseOrder(allReview.filter(p=>!dueIds.has(p.pattern_id)),info,false);
+    const freshPool=diverseOrder(allFresh,info,false);
     const focusOnly=g('sw5527Mix').value==='focus';
     const mix=focusOnly?'focus':Number(g('sw5527Mix').value);
     const focusPool=diverseOrder(filtered.filter(p=>state.focus.has(p.pattern_id)),info,false).sort((a,b)=>{
@@ -28167,7 +28189,7 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
       const seenOptions=new Set([String(p.canonical_pattern).trim().toLowerCase()]),alternatives=[];
       // Distractors may come from the published course; only the correct
       // question itself must belong to the focus-only pool.
-      for(const x of randomShuffle(course==='custom'&&filtered.length<4?state.patterns:filtered)){
+      for(const x of randomShuffle(filtered)){
         const label=String(x.canonical_pattern||'').trim(),k=label.toLowerCase();
         if(!label||seenOptions.has(k)||x.pattern_id===p.pattern_id)continue;
         seenOptions.add(k);alternatives.push({pattern_id:x.pattern_id,canonical_pattern:label});
@@ -28209,8 +28231,6 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
       ]);
       if(ticket!==state.request||!isCurrent())return;
       state.patterns=patterns.filter(x=>x?.pattern_id&&String(x.example_en||'').trim()&&String(x.example_ko||'').trim()&&String(x.canonical_pattern||'').trim()&&String(x.pattern_ko||'').trim());
-      await loadChapterCatalog();
-      if(ticket!==state.request||!isCurrent())return;
       state.states=new Map(statuses.map(x=>[x.pattern_id,String(x.status||'new').toLowerCase()]));
       state.latest=new Map(latest.map(x=>[x.pattern_id,x]));
       if(!Array.isArray(trainedEvents))throw new Error('LEARNING_HISTORY_NOT_VERIFIED');
@@ -28241,7 +28261,7 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
       const focusSnapshot=focusProgress?.items||focusRows;
       state.focus=new Map(focusSnapshot.filter(x=>x.active).map(x=>[x.pattern_id,x]));
       state.focusProgress=new Map((focusProgress?.items||[]).map(x=>[x.pattern_id,x]));
-      updateFocusUI();selectDeck();
+      updateFocusUI();renderChapterPicker();selectDeck();
     }catch(e){if(ticket!==state.request||!isCurrent())return;
       state.patterns=[];state.states=null;state.latest=null;state.learnedSources=null;state.due=null;state.deck=[];g('sw5527Card').hidden=true;
       setText('sw5527TotalInfo','DB 연결 확인 필요');setText('sw5527Step','재조회 필요');setText('sw5527Counter','— / '+requestedTotal());notice('공식 DB 또는 학습 상태 조회 실패: '+String(e?.message||'NETWORK_ERROR').slice(0,90)+' · 새 문장 출제를 눌러 다시 시도하세요.');
@@ -28297,6 +28317,7 @@ if(event.pointerType==='touch' && document.activeElement===answerField)event.pre
   window.visualViewport?.addEventListener('scroll',adjustKeyboardView);
   function open(){if(!auth().authenticated){document.querySelector('[data-drawer-action="accountLogin"]')?.click();return;}
     restorePatternPreferences();
+    void loadChapterCatalog();
     if(window.saywardPreferenceSync?.status?.().ready)void window.saywardPreferenceSync.sync();
     if(typeof goHome==='function')goHome();
     ['homePage','dayAppPage','myClassPage','myClassBottom'].forEach(id=>g(id)?.classList.add('hidden'));
@@ -28437,7 +28458,9 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
   };
   SCOUNT.addEventListener('change',onCountChange);MCOUNT.addEventListener('change',onCountChange);
   restorePatternPreferences();
-  g('sw5527Course').onchange=()=>{void savePatternPreferences();notice('출제 범위가 변경되었습니다. 다음 ‘문제 출제’부터 적용됩니다.');};
+  g('sw5527Course').onchange=()=>{renderChapterPicker();void savePatternPreferences();if(g('sw5527Course').value==='custom'){void loadChapterCatalog();notice('수업 체크박스로 출제 범위를 선택하고 ‘문제 출제’를 누르세요.');}else if(!state.saving&&state.patterns.length&&state.states&&state.latest)selectDeck();};
+  g('sw6457Reload').onclick=()=>{void loadChapterCatalog(true);};
+  g('sw6457Clear').onclick=()=>{chapterSelected.clear();chapterChanged();};
   g('sw5527Mix').onchange=()=>{void savePatternPreferences();if(!state.saving&&state.patterns.length&&state.states&&state.latest)selectDeck();};
   window.addEventListener('sayward:personal-sync-updated',e=>{
     if(e.detail?.uid!==auth().uid)return;
@@ -28454,7 +28477,9 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
     if(e.detail?.uid===auth().uid&&e.detail.keys?.some(k=>Object.values(PAT_KEYS).includes(k)))patStatus('⚠ DB 저장 대기 · 연결 복구 시 재시도');
   });
   window.addEventListener('sayward:auth-state',e=>{
-    if(!e.detail?.authenticated){patStatus('로그인하면 개인 설정을 복원합니다.');return;}
+    if(!e.detail?.authenticated){chapterCatalogSerial++;chapterCatalog=[];chapterCatalogUid=null;chapterCatalogRole=null;chapterCatalogLoaded=false;chapterCatalogLoading=false;chapterCatalogError='';renderChapterPicker();patStatus('로그인하면 개인 설정을 복원합니다.');return;}
+    if(chapterCatalogUid&&e.detail.uid!==chapterCatalogUid){chapterCatalogSerial++;chapterCatalog=[];chapterCatalogUid=null;chapterCatalogRole=null;chapterCatalogLoaded=false;chapterCatalogLoading=false;chapterCatalogError='';}
+    if(state.visible)void loadChapterCatalog(chapterCatalogRole!==e.detail.role);
     // Async cloud load will emit personal-sync-updated; never preempt an active deck.
   });
   g('sw5527Shuffle').onclick=()=>{if(!state.saving)void load();};
@@ -28488,7 +28513,7 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
       notice('이 브라우저에서는 문장 음성 읽기를 사용할 수 없습니다.');
     });
   };
-  window.addEventListener('sayward:auth-state',e=>{const s=e.detail||{};if(!s.authenticated||s.uid!==state.uid){leaveKeyboardMode();++state.request;++chapterLoadSerial;chapterState.ready=false;chapterState.rows=[];chapterState.uid=null;renderChapterSelector();state.uid=null;state.patterns=[];state.states=null;state.latest=null;state.learnedSources=null;state.due=null;state.deck=[];state.results.clear();view.classList.add('hidden');view.setAttribute('aria-hidden','true');}});
+  window.addEventListener('sayward:auth-state',e=>{const s=e.detail||{};if(!s.authenticated||s.uid!==state.uid){leaveKeyboardMode();++state.request;state.uid=null;state.patterns=[];state.states=null;state.latest=null;state.learnedSources=null;state.due=null;state.deck=[];state.results.clear();view.classList.add('hidden');view.setAttribute('aria-hidden','true');}});
 })();
 
 </script>
@@ -29460,7 +29485,7 @@ const TABLE='sayward_user_preferences';
 const OWNER='sw_pref_owner_v1', DEVICE='sw_pref_device_v1', LEGACY='sw_pref_legacy_snapshot_v1';
 const ALLOWED=new Set([
   'myVocaConfigurationV1','myVocaSpeechRate',
-  'sw_pattern_studio_course_v1','sw_pattern_studio_mix_v1','sw_pattern_studio_counts_v1','sw_pattern_studio_chapter_scope_v1',
+  'sw_pattern_studio_course_v1','sw_pattern_studio_mix_v1','sw_pattern_studio_counts_v1','sw_pattern_studio_chapters_v1',
   'sw_toefl_sentence_days_v1','sw_toefl_sentence_mix_v1','sw_toefl_sentence_counts_v1','sw_toefl_sentence_mode_v1','mv_unified_favs','mv_unified_known','mv_study_favorites_239',
   'mv_unified_selectedStudyDays','mv_unified_selectedStudyRepeat','mv_unified_selectedStudyMode',
   'mv_myClassSelectedLessons','mv_studySelected_my','mv_studySelected_opic',
@@ -31210,27 +31235,41 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 }
 #myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge,
 #myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge{
- display:inline-flex!important;align-items:center!important;justify-content:center!important;
- position:static!important;flex:0 0 38px!important;width:38px!important;min-width:38px!important;max-width:38px!important;
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:4px!important;
+ position:static!important;flex:0 0 auto!important;width:auto!important;min-width:98px!important;max-width:98px!important;
  box-sizing:border-box!important;height:44px!important;min-height:44px!important;max-height:44px!important;
- margin:0!important;padding:0!important;border:1px solid #cbd5e1!important;border-radius:12px!important;
- color:#64748b!important;background:#f5f5f7!important;font-size:14px!important;font-weight:900!important;
+ margin:0!important;padding:0 8px!important;border:1px solid #cbd5e1!important;border-radius:12px!important;
+ color:#64748b!important;background:#f5f5f7!important;font-size:10px!important;font-weight:900!important;
  letter-spacing:0!important;line-height:1!important;white-space:nowrap!important;
  opacity:1!important;visibility:visible!important;transform:none!important;
+}
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:0!important;
+ font-size:10px!important;font-weight:800!important;line-height:1!important;letter-spacing:-.02em!important;
+ color:#8a94a6!important;opacity:.65!important;text-decoration:none!important;
+}
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken.is-lower,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken.is-lower{
+ opacity:.6!important;color:#94a3b8!important;text-decoration:line-through!important;text-decoration-thickness:1.4px!important;
+}
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken.is-current,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken.is-current{
+ opacity:1!important;color:#1f2937!important;font-weight:950!important;
+}
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken.is-upcoming,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken.is-upcoming{
+ opacity:.72!important;color:#94a3b8!important;
 }
 #myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .studyFavoriteBtn239,
 #myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .studyFavoriteBtn239{
  position:static!important;top:auto!important;right:auto!important;left:auto!important;bottom:auto!important;
  display:inline-flex!important;align-items:center!important;justify-content:center!important;
- flex:0 0 auto!important;box-sizing:border-box!important;width:auto!important;min-width:70px!important;
- max-width:98px!important;height:44px!important;min-height:44px!important;max-height:44px!important;
- margin:0!important;padding:0 7px!important;border-radius:12px!important;
- font-size:10.5px!important;line-height:1!important;white-space:nowrap!important;transform:none!important;
+ flex:0 0 40px!important;box-sizing:border-box!important;width:40px!important;min-width:40px!important;max-width:40px!important;
+ height:44px!important;min-height:44px!important;max-height:44px!important;
+ margin:0!important;padding:0!important;border-radius:12px!important;
+ font-size:10px!important;line-height:1!important;white-space:nowrap!important;transform:none!important;
 }
-#myClassContent .sw6413SentenceLevel1{background:#f1f5f9!important;color:#475569!important;border-color:#cbd5e1!important}
-#myClassContent .sw6413SentenceLevel2{background:#dbeafe!important;color:#1d4ed8!important;border-color:#93c5fd!important}
-#myClassContent .sw6413SentenceLevel3{background:#f3e8ff!important;color:#7e22ce!important;border-color:#d8b4fe!important}
-#myClassContent .sw6413SentenceLevel4{background:#ffedd5!important;color:#9a3412!important;border-color:#fdba74!important}
 #myClassContent .sw6413SentenceLevelUnknown{background:#f5f5f7!important;color:#64748b!important;border-color:#d5d8e0!important}
 /* When title would touch the grouped controls, move BOTH down together. */
 #myClassContent .myStudyCard.sw6416ControlsBelow > .myStudyNum,
@@ -31251,38 +31290,125 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
 (() => {
  'use strict';
  let requestNo=0;
- const originalMode=new Map(), rotations=new Map(), catalogCache=new Map(), pending=new Map();
+ const originalMode=new Map(), rotations=new Map(), catalogCache=new Map(), pending=new Map(), cefrLabels=new Map();
+ const textLabelCache=new Map(), textLabelPending=new Map();
+ const cardGradeCache=new Map(), cardGradePending=new Map();
  const normalized=s=>String(s||'').trim().toLowerCase().replace(/\s+/g,' ');
  const cardFromId=s=>document.querySelector(`#myClassContent .myStudyCard[data-sw-v23-item="${CSS.escape(String(s||''))}"]`);
  const byCourse=()=>({course:String(window.ACTIVE_STUDY_COURSE||ACTIVE_STUDY_COURSE||''), lesson:Number(window.myClassLessonNo||myClassLessonNo)||0});
  const auth=()=>{const s=window.saywardAuth?.snapshot?.()||{};return s.authenticated && s.uid && window.saywardAuth?.getClient?.()?{uid:s.uid,client:window.saywardAuth.getClient()}:null;};
  function mk(tag,cl,label){const n=document.createElement(tag);if(cl)n.className=cl;if(label!=null)n.textContent=label;return n;}
+ const CEFR_SEQUENCE=['B1','B2','B2+','C1'];
+ function normalizeDisplayLevel(raw){
+   if(raw==null||raw==='')return null;
+   // Numeric L1-L4 values must NEVER be presented as CEFR proficiency.
+   const s=typeof raw==='string'?raw.trim().toUpperCase():'';
+   const idx=CEFR_SEQUENCE.indexOf(s);
+   return idx>=0?{index:idx+1,label:CEFR_SEQUENCE[idx]}:null;
+ }
+ function renderCefrLevelTokens(badge,levelInfo){
+   const current=levelInfo?.index||null;
+   const desc=current?`현재 카드 문장 수준 ${levelInfo.label}`:'CEFR 문장 평가가 없거나 원문 검수 보류 중입니다. B1, B2, B2+, C1 모두 ×로 표시합니다.';
+   badge.className='sw6413SentenceLevelBadge '+(current?'':'sw6413SentenceLevelUnknown');
+   badge.replaceChildren();
+   CEFR_SEQUENCE.forEach((label,idx)=>{
+     const isExcluded=!current || idx+1<current;
+     const token=mk('span','sw6413CefrLevelToken',label+(isExcluded?'×':''));
+     if(!current)token.classList.add('is-unrated');
+     else if(idx+1<current)token.classList.add('is-lower');
+     else if(idx+1===current)token.classList.add('is-current');
+     else token.classList.add('is-upcoming');
+     badge.appendChild(token);
+   });
+   if(badge.title!==desc)badge.title=desc;
+   if(badge.getAttribute('aria-label')!==desc)badge.setAttribute('aria-label',desc);
+   badge.dataset.sentenceLevel=current?String(current):'unknown';
+   badge.dataset.cefrLevel=current?levelInfo.label:'unknown';
+ }
+ function formatCefrLabel(raw){return normalizeDisplayLevel(raw)?.label||'B?';}
  function placeSentenceLevelBeforeFavorite(element,chosen){
    const header=element.querySelector('.myStudyNum');if(!header)return;
    let group=element.querySelector('.sw6413LevelFavoriteGroup');
-   if(!group){group=mk('div','sw6413LevelFavoriteGroup');element.appendChild(group);}
-   else if(group.parentElement!==element)element.appendChild(group);
+   if(!group)group=mk('div','sw6413LevelFavoriteGroup');
+   // v6.4.96: header is the SAME flex row as the CORRECTION/CHUNK focus pill.
+   // Absolute sibling placement had forced 153px of empty card height on mobile.
+   if(group.parentElement!==header)header.appendChild(group);
    let badge=group.querySelector('.sw6413SentenceLevelBadge');
    if(!badge){badge=mk('span','sw6413SentenceLevelBadge');group.prepend(badge);}
-   const level=Number(chosen?.level),valid=Number.isInteger(level)&&level>=1&&level<=4;
-   const names=['','기본','확장','응용','실전'];
-   const cl='sw6413SentenceLevelBadge '+(valid?`sw6413SentenceLevel${level}`:'sw6413SentenceLevelUnknown');
-   if(badge.className!==cl)badge.className=cl;
-   const label=valid?`L${level}`:'L?';if(badge.textContent!==label)badge.textContent=label;
-   const desc=valid?`현재 카드 문장 Level ${level} · ${names[level]}`:'DB에 이 카드 문장의 Level이 아직 저장되지 않았습니다';
-   if(badge.title!==desc)badge.title=desc;
-   if(badge.getAttribute('aria-label')!==desc)badge.setAttribute('aria-label',desc);
-   const dataLevel=valid?String(level):'unknown';if(badge.dataset.sentenceLevel!==dataLevel)badge.dataset.sentenceLevel=dataLevel;
+   const levelInfo=normalizeDisplayLevel(chosen?.level);
+   renderCefrLevelTokens(badge,levelInfo);
    // Preserve the existing favorite button and its click listener when moving it.
    const favorite=element.querySelector('.studyFavoriteBtn239');
    if(favorite&&favorite.parentElement!==group)group.appendChild(favorite);
-   // Measure actual widths, not guessed positions. Both controls are in ONE group.
+   // Both controls stay in the normal header layout; no collision detector
+   // may inflate the heading or move the buttons into the card body.
    element.classList.remove('sw6416ControlsBelow');
-   const title=header.querySelector('.myTitleInfinityBtn');
-   if(title && group.getBoundingClientRect().width){
-     const t=title.getBoundingClientRect(),g=group.getBoundingClientRect();
-     if(t.right+6>g.left && t.top<g.bottom && t.bottom>g.top){element.classList.add('sw6416ControlsBelow');}
-   }
+ }
+ function rawCardEnglish(kind,source,el){
+   if(kind==='chunks')return String(el?.getAttribute('data-sw-v23-source')||source?.example||source?.en||'').trim();
+   return String(source?.en||'').trim();
+ }
+ function mappedCardLevel(course,lesson,kind,source,el){
+   if(kind!=='chunks'&&kind!=='corrections')return null;
+   const session=auth();if(!session)return null;
+   const cache=cardGradeCache.get(`${session.uid}/${course}/${lesson}`);
+   if(!cache)return null;
+   const english=rawCardEnglish(kind,source,el);
+   if(!english)return null;
+   const itemId=el?.getAttribute('data-sw-v23-item')||'';
+   const matches=cache.data.filter(x=>x.section===kind&&normalized(x.original_en)===normalized(english)&&
+     (!itemId||x.source_item_id===itemId));
+   const mapped=matches.filter(x=>x.mapped===true);
+   const levels=new Set(mapped.map(x=>x.cefr_level));
+   return matches.length>0 && mapped.length===matches.length && levels.size===1 ? mapped[0].cefr_level:null;
+ }
+ function applyCardGradeLabels(course,lesson,tab){
+   const session=auth();if(!session)return;
+   const cache=cardGradeCache.get(`${session.uid}/${course}/${lesson}`);
+   if(!cache)return;
+   const data=typeof studyCourseData==='function'?studyCourseData(course,lesson)||{}:{};
+   const rowType=tab==='chunks'?'chunks':tab==='corrections'?'corrections':null;
+   if(!rowType)return; // Speaking and habits remain out of this evaluation.
+   const rows=data[rowType]||[];
+   rows.forEach((entry,index)=>{
+     const el=document.getElementById(rowType==='chunks'?`myChunkCard${index}`:`myCorrectionCard${index}`);
+     if(!el)return;
+     const level=mappedCardLevel(course,lesson,rowType,entry,el);
+     if(rowType==='chunks'){
+       const displayed=el.querySelector('.myChunkExample')?.textContent||'';
+       const original=rawCardEnglish(rowType,entry,el);
+       // Do not overwrite a verified upper-stage variant's badge with the source grade.
+       if(displayed&&normalized(displayed)!==normalized(original))return;
+     }
+     placeSentenceLevelBeforeFavorite(el,{level:level||null});
+   });
+ }
+ async function refreshCardGradeLabels(){
+   const session=auth(),{course,lesson}=byCourse(),tab=myClassTab;
+   if(!session||!['my','sori','opic','friends','business'].includes(course)||!lesson||
+      !['chunks','corrections'].includes(tab))return;
+   const key=`${session.uid}/${course}/${lesson}`;
+   try{
+     let cached=cardGradeCache.get(key);
+     if(!cached||Date.now()-cached.at>60000){
+       let job=cardGradePending.get(key);
+       if(!job){
+         job=session.client.rpc('sayward_cefr_study_labels_v3',{
+           p_user_id:session.uid,p_course:course,p_lesson_no:lesson
+         }).then(({data,error})=>{
+           if(error)throw error;
+           if(data?.speaking_excluded!==true||!Array.isArray(data?.labels))throw new Error('CEFR_BADGE_RESPONSE_INVALID');
+           cardGradeCache.set(key,{data:data.labels,at:Date.now()});
+           return data.labels;
+         }).finally(()=>cardGradePending.delete(key));
+         cardGradePending.set(key,job);
+       }
+       await job;
+     }
+     const latest=auth(),where=byCourse();
+     if(latest?.uid!==session.uid||where.course!==course||where.lesson!==lesson||myClassTab!==tab)return;
+     applyCardGradeLabels(course,lesson,tab);
+   }catch(e){console.warn('[SAYWARD CEFR card labels v3] Unverified text stays ×',String(e?.message||e));}
  }
  function decorateAll(){
    const root=document.getElementById('myClassContent');if(!root)return;
@@ -31299,14 +31425,58 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
      else if((match=id.match(/^myChunkCard(\d+)$/))){kind='chunks';index=Number(match[1]);source=data.chunks?.[index];}
 else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(match[1]);source=data.speaking?.[index];}
      if(index<0)continue;
-     // No guessed numeric Level: CORRECTION/SPEAKING source rows currently have no Level in DB.
-     const explicit=source?.sentence_level??source?.expansion_level??source?.level??null;
-     const badge=el.querySelector('.sw6413SentenceLevelBadge');
-     // Keep an already verified Chunk level fetched from Supabase during this render.
-     const chosen=(kind==='chunks' && badge?.dataset.sentenceLevel && badge.dataset.sentenceLevel!=='unknown')
-        ?{level:Number(badge.dataset.sentenceLevel)}:{level:explicit};
-     placeSentenceLevelBeforeFavorite(el,chosen);
+     // Only the official CEFR label defines the starting point. The internal
+     // numeric alias is used for a variant only when explicitly verified by the server.
+     const itemId=el.getAttribute('data-sw-v23-item');
+     const actual=mappedCardLevel(course,lesson,kind,source,el);
+      const authoritative=actual||(kind==='chunks'?cefrLabels.get(itemId)?.original_cefr_level:null);
+      const explicit=authoritative||(typeof source?.cefr_level==='string'?source.cefr_level:null);
+     placeSentenceLevelBeforeFavorite(el,{level:explicit||null});
    }
+   if(myClassTab==='chunks'||myClassTab==='corrections')void refreshCardGradeLabels();
+   if(course==='my' && myClassTab==='speaking')void refreshOtherLessonLevels();
+ }
+
+ async function refreshOtherLessonLevels(){
+   const session=auth(),{course,lesson}=byCourse();
+   if(!session||course!=='my'||!lesson||myClassTab==='chunks')return;
+   const tab=myClassTab;
+   const key=`${session.uid}/${course}/${lesson}`;
+   try{
+     let result=textLabelCache.get(key);
+     if(!result||Date.now()-result.at>30000){
+       let work=textLabelPending.get(key);
+       if(!work){
+         work=session.client.rpc('sayward_cefr_text_labels_v1',{
+           p_user_id:session.uid,p_course:course,p_lesson_no:lesson
+         }).then(({data,error})=>{
+           if(error)throw error;
+           if(!Array.isArray(data?.text_labels))throw new Error('CEFR_TEXT_LABELS_UNAVAILABLE');
+           textLabelCache.set(key,{data:data.text_labels,at:Date.now()});
+           return data.text_labels;
+         }).finally(()=>textLabelPending.delete(key));
+         textLabelPending.set(key,work);
+       }
+       await work;
+       result=textLabelCache.get(key);
+     }
+     const again=auth(),where=byCourse();
+     if(again?.uid!==session.uid||where.course!==course||where.lesson!==lesson||myClassTab!==tab)return;
+     const current=studyCourseData(course,lesson)||{};
+     const rows=tab==='corrections'?current.corrections||[]:current.speaking||[];
+     const refs=Array.isArray(result?.data)?result.data:[];
+     const section=tab;
+     rows.forEach((entry,index)=>{
+       const card=document.getElementById(tab==='corrections'?`myCorrectionCard${index}`:`mySpeakBlock${index}`);
+       if(!card)return;
+       const english=String(tab==='corrections'?entry?.en||'':entry?.text||'').trim();
+       const matches=refs.filter(x=>x.section===section && normalized(x.english)===normalized(english));
+       // A level is accepted only for a unique, exact, server-approved source.
+       const approved=matches.length===1 && matches[0].mapped===true?matches[0].cefr_level:null;
+       const candidate=normalizeDisplayLevel(approved);
+       placeSentenceLevelBeforeFavorite(card,{level:candidate?.label||null});
+     });
+   }catch(e){console.warn('[SAYWARD correction CEFR] Unclassified until exact official rating is available',String(e?.message||e));}
  }
 
  function updateCard(element,record,chosen,opts){
@@ -31315,19 +31485,22 @@ else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(ma
    let ko=element.querySelector('.myChunkExample + .myStudyKo');
    if(!ko){ko=mk('div','myStudyKo sw231SentenceKo');english.insertAdjacentElement('afterend',ko);}
    english.textContent=chosen.en||record.original_en||'';
-   placeSentenceLevelBeforeFavorite(element,chosen);
+   const sourceEntry={example:record.original_en,en:record.original_en};
+   const official=mappedCardLevel(byCourse().course,byCourse().lesson,'chunks',sourceEntry,element)||
+     cefrLabels.get(record.source_item_id)?.original_cefr_level||null;
+   // A variant may use an internal numeric level only after the server's verified
+   // source catalog has allowed it and the card's evaluated CEFR is known.
+   const chosenCefr=chosen?.source==='verified_cefr_bank' &&
+     Number.isInteger(Number(chosen.level)) && Number(chosen.level)>=1 && Number(chosen.level)<=4
+     ? CEFR_SEQUENCE[Number(chosen.level)-1] : official;
+   placeSentenceLevelBeforeFavorite(element,{level:chosenCefr});
    const koValue=chosen.ko||record.original_ko||'';
    ko.textContent=koValue;ko.hidden=!koValue;
    let meta=element.querySelector('.sw231LevelInfo');
    if(!meta){meta=mk('div','sw231LevelInfo');element.querySelector('.myStudyNum')?.insertAdjacentElement('afterend',meta);}
    meta.replaceChildren();
-   if(record.pattern_level){
-     const hint=record.level_verified?'':' · 측정 전';
-     meta.append(mk('span','sw231LevelPattern',`패턴 L${record.pattern_level}${hint}`));
-     // The sentence level is displayed immediately before the Favorite button in the card header.
-     // Keep this secondary row for the learned pattern level and pending notices only.
-     if(opts.fallback)meta.append(mk('span','sw231LevelPending',`L${record.pattern_level} 문장 준비 중 · 복습`));
-   }else meta.append(mk('span','sw231LevelUnknown','패턴 L? · 미분류'));
+   // The compact badge above is the authoritative level; do not duplicate it here.
+   if(!official)meta.append(mk('span','sw231LevelUnknown','CEFR 미분류 · 기존 원문 학습'));
    let actions=element.querySelector('.myStudyActions');
    if(!actions)return;
    const listen=actions.querySelector('button.primary');
@@ -31337,11 +31510,11 @@ else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(ma
    const canToggle=hasAlternative && (opts.showOriginal || normalized(chosen.en)!==normalized(record.original_en));
    if(canToggle){
      if(!toggle){toggle=mk('button','myStudyBtn sw231Toggle');toggle.type='button';actions.prepend(toggle);}
-     toggle.textContent=opts.showOriginal?'현재 Level 보기':'원문 보기';
+     toggle.textContent=opts.showOriginal?'현재 수준 보기':'원문 보기';
      toggle.onclick=()=>{originalMode.set(record.source_item_id,!opts.showOriginal);void refresh();};
    }else if(toggle)toggle.remove();
    let next=actions.querySelector('.sw231Next');
-   if(opts.choices.length>1){
+   if(opts.choices.length>0){
      if(!next){next=mk('button','myStudyBtn sw231Next','다른 문장');next.type='button';actions.prepend(next);}
      next.onclick=()=>{rotations.set(record.source_item_id,(rotations.get(record.source_item_id)||0)+1); originalMode.set(record.source_item_id,false);void refresh();};
    }else if(next)next.remove();
@@ -31354,15 +31527,32 @@ else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(ma
      const original={en:r.original_en,ko:r.original_ko,level:r.original_level};
      const showOriginal=!!originalMode.get(id);
      let chosen=original, fallback=false;
-     const variants=Array.isArray(r.variants)?r.variants.filter(v=>v&&v.en&&v.ko&&v.level>=1&&v.level<=r.pattern_level):[];
+     // The existing 1-4 stage is now an internal CEFR alias. The authoritative
+     // source CEFR label must match before a numeric stage is used for any card.
+     const labelInfo=cefrLabels.get(id)||{};
+     const originalIndex=CEFR_SEQUENCE.indexOf(labelInfo.original_cefr_level)+1;
+     const currentIndex=CEFR_SEQUENCE.indexOf(labelInfo.current_cefr_level)+1;
+     const variants=(originalIndex>0 && currentIndex>=originalIndex && Array.isArray(r.variants))
+       ? r.variants.filter(v=>{
+           const stage=Number(v?.level);
+           // Server filters: exact approved source, authorized course, verified
+           // certification, user stage ceiling. Client verifies the stages too.
+           return v.pattern_id===r.pattern_id && Number.isInteger(stage)
+             && stage>=originalIndex&&stage<=currentIndex
+             && typeof v.en==='string'&&v.en.trim().length>0
+             && typeof v.ko==='string'&&v.ko.trim().length>0;
+         }).map(v=>({...v,level:Number(v.level),source:'verified_cefr_bank'}))
+       : [];
      const bestLevel=variants.length?Math.max(...variants.map(v=>v.level)):0;
-     const choices=variants.filter(v=>v.level===bestLevel);
+     const choices=variants.filter(v=>v.level===bestLevel && normalized(v.en)!==normalized(original.en));
      const occurrence=familySeen.get(group)||0; familySeen.set(group,occurrence+1);
      const used=usedEnglish.get(group)||new Set();usedEnglish.set(group,used);
-     // Starting L1 prioritizes the original: level growth, not arbitrary rewriting, changes the card.
-     const adaptive=!!r.pattern_level && r.pattern_level>1 && !showOriginal;
-     const manuallyRotated=(rotations.get(id)||0)>0&&!showOriginal;
-     if((adaptive||manuallyRotated)&&choices.length){
+     // First visit: display the original until the learner has actually moved
+     // beyond its CEFR level. At higher stages, show a verified higher-level
+     // sentence if available. The user can manually rotate verified alternatives.
+     const adaptive=originalIndex>0 && currentIndex>originalIndex && bestLevel>originalIndex;
+     const manuallyRotated=rotations.has(id);
+     if(!showOriginal&&(adaptive||manuallyRotated)&&choices.length){
        let start=(occurrence+(rotations.get(id)||0))%choices.length;
        let pick=null;
        for(let j=0;j<choices.length;j++){
@@ -31399,6 +31589,21 @@ else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(ma
      const same=auth();const now=byCourse();
      if(requestNo!==ticket||same?.uid!==session.uid||now.course!==course||now.lesson!==lesson||myClassTab!=='chunks')return;
      if(!data||data.read_only!==true||!Array.isArray(data.cards))throw new Error('CARD_LEVEL_RESPONSE_INVALID');
+     // Read verified CEFR labels from the new scope-checked Supabase RPC.
+     // A failed lookup stays unclassified; do NOT fall back to the legacy numeric L levels.
+     try{
+       const {data:labelResponse,error:labelError}=await session.client.rpc('sayward_cefr_card_labels_v1',{
+         p_user_id:session.uid,p_course:course,p_lesson_no:lesson
+       });
+       const still=auth(),where=byCourse();
+       if(requestNo!==ticket||still?.uid!==session.uid||where.course!==course||where.lesson!==lesson)return;
+       if(labelError)throw labelError;
+       cefrLabels.clear();
+       if(Array.isArray(labelResponse?.labels))labelResponse.labels.forEach(x=>{
+         if(x?.source_item_id)cefrLabels.set(x.source_item_id,x);
+       });
+       if(Array.isArray(labelResponse?.text_labels))textLabelCache.set(key,{data:labelResponse.text_labels,at:Date.now()});
+     }catch(e){cefrLabels.clear();console.warn('[SAYWARD CEFR labels] Official level unavailable; not guessing',String(e?.message||e));}
      const cardRows=data.cards.filter(r=>r&&r.source_item_id),selected=selectCards(cardRows);
      cardRows.forEach(r=>{
        const el=cardFromId(r.source_item_id);
@@ -31410,11 +31615,12 @@ else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(ma
        updateCard(el,r,item.chosen,item);
      });
      try{studyApplyAllSentencePatternHighlights?.()}catch(_){}
+     void refreshCardGradeLabels();
    }catch(e){console.warn('[SAYWARD adaptive cards] Original curriculum remains visible',String(e?.message||e));}
  }
  window.saywardCardLevelV23=Object.freeze({refresh,decorateAll});
- window.addEventListener('sayward:auth-out',()=>{requestNo++;originalMode.clear();rotations.clear();catalogCache.clear();pending.clear();});
- window.addEventListener('sayward:study-lesson-render',()=>{catalogCache.clear();});
+ window.addEventListener('sayward:auth-out',()=>{requestNo++;originalMode.clear();rotations.clear();catalogCache.clear();pending.clear();cefrLabels.clear();textLabelCache.clear();textLabelPending.clear();cardGradeCache.clear();cardGradePending.clear();});
+ window.addEventListener('sayward:study-lesson-render',()=>{catalogCache.clear();cefrLabels.clear();textLabelCache.clear();cardGradeCache.clear();});
  window.addEventListener('sayward:grade-committed',()=>{catalogCache.clear();});
  window.addEventListener('sayward:pattern-state-updated',()=>{catalogCache.clear();});
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')catalogCache.clear();});
@@ -31453,14 +31659,16 @@ else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(ma
 }
 #myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge,
 #myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge{
-  flex:0 0 32px!important;width:32px!important;min-width:32px!important;max-width:32px!important;
+  flex:0 0 auto!important;width:auto!important;min-width:88px!important;max-width:88px!important;
   height:32px!important;min-height:32px!important;max-height:32px!important;
-  font-size:12px!important;border-radius:10px!important;
+  padding:0 6px!important;font-size:10px!important;border-radius:10px!important;gap:3px!important;
 }
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken{font-size:9px!important;}
 #myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .studyFavoriteBtn239,
 #myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .studyFavoriteBtn239{
   height:32px!important;min-height:32px!important;max-height:32px!important;
-  min-width:76px!important;max-width:91px!important;padding:0 6px!important;
+  width:32px!important;min-width:32px!important;max-width:32px!important;padding:0!important;
   font-size:10px!important;border-radius:10px!important;
 }
 #myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .studyFavoriteBtn239 .star,
@@ -32087,7 +32295,8 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
    if(target.closest('button,[role=button],a,input,textarea,select,summary,[contenteditable]')
       &&!el.matches('.sw5533-match-choice,.sw6478TapSentence'))return null;
    if(el.matches('.sw5533-match-choice')&&el.disabled)return null;
-   const raw=normalize(el.textContent);
+   // Pattern result UI may show a CEFR suffix; audio must use the original ENGLISH only.
+   const raw=normalize(el.matches('.sw6478TapSentence')?(el.dataset.audioEnglish||el.textContent):el.textContent);
    if(!raw||raw==='—'||/[가-힣ㄱ-ㅎㅏ-ㅣ]/u.test(raw)||!/[A-Za-z]{2}/.test(raw))return null;
    return {el,raw};
  }
@@ -32450,4 +32659,335 @@ quickJson.addEventListener('paste',e=>{
 commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.value,true);});
 
 })();</script>
+
+<style id="sw6494CefrBoldAndMissingCSS">
+/* 6.4.95: Only verified CURRENT CEFR is bold. Lower/unrated levels show explicit ×. */
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge{
+  min-width:115px!important;max-width:115px!important;width:115px!important;
+  padding:0 4px!important;gap:3px!important;
+}
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken{
+  font-size:9.5px!important;font-weight:600!important;color:#94a3b8!important;
+  opacity:.85!important;text-decoration:none!important;
+}
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken.is-current,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken.is-current{
+  font-size:11.5px!important;font-weight:1000!important;color:#172554!important;
+  opacity:1!important;letter-spacing:-.025em!important;text-decoration:none!important;
+  text-shadow:0 0 .3px currentColor!important;
+}
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken.is-lower,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken.is-lower{
+  color:#94a3b8!important;opacity:.72!important;text-decoration:line-through!important;
+}
+#myClassContent .myStudyCard > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken.is-unrated,
+#myClassContent .mySpeakBlock > .sw6413LevelFavoriteGroup > .sw6413SentenceLevelBadge .sw6413CefrLevelToken.is-unrated{
+  color:#8995a7!important;opacity:.95!important;font-weight:750!important;
+  text-decoration:none!important;
+}
+</style>
+
+<style id="sw6496StudyCardHeaderInlineFix">
+/* 6.4.96 — Single in-flow title row. Applies to MY, OPIC, Friends, SOri.
+   No absolute controls / no 108-153px placeholder height / no overlap with sticky player. */
+#myClassContent .myStudyCard .myStudyNum,
+#myClassContent .mySpeakBlock .myStudyNum,
+#myClassContent .myStudyCard.sw6416ControlsBelow > .myStudyNum,
+#myClassContent .mySpeakBlock.sw6416ControlsBelow > .myStudyNum {
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  flex-wrap:nowrap!important;
+  gap:5px!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:42px!important;
+  height:auto!important;
+  padding:0!important;
+  margin:0 0 13px!important;
+  box-sizing:border-box!important;
+}
+#myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn,
+#myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn {
+  flex:0 1 auto!important;
+  width:auto!important;
+  min-width:0!important;
+  max-width:calc(100% - 123px)!important;
+  height:42px!important;
+  min-height:42px!important;
+  padding:0 11px!important;
+  gap:5px!important;
+  font-size:13px!important;
+  white-space:nowrap!important;
+  overflow:visible!important;
+}
+#myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn .myInfLabel,
+#myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn .myInfLabel{
+  font-size:inherit!important;
+  white-space:nowrap!important;
+}
+#myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn .myInfSymbol,
+#myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn .myInfSymbol{
+  font-size:19px!important;
+}
+#myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn .myInfFocus,
+#myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn .myInfFocus{
+  font-size:12px!important;
+  white-space:nowrap!important;
+}
+#myClassContent .myStudyCard .myStudyNum > .sw6413LevelFavoriteGroup,
+#myClassContent .mySpeakBlock .myStudyNum > .sw6413LevelFavoriteGroup {
+  position:static!important;
+  inset:auto!important;
+  z-index:auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  flex-wrap:nowrap!important;
+  gap:4px!important;
+  flex:0 0 auto!important;
+  width:auto!important;
+  max-width:124px!important;
+  min-height:32px!important;
+  height:32px!important;
+  padding:0!important;
+  margin:0 0 0 auto!important;
+  border:0!important;
+  background:transparent!important;
+  transform:none!important;
+  box-sizing:border-box!important;
+}
+#myClassContent .myStudyCard .myStudyNum .sw6413SentenceLevelBadge,
+#myClassContent .mySpeakBlock .myStudyNum .sw6413SentenceLevelBadge{
+  position:static!important;
+  display:inline-flex!important;
+  flex:0 0 92px!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:2px!important;
+  min-width:92px!important;
+  max-width:92px!important;
+  width:92px!important;
+  min-height:32px!important;
+  height:32px!important;
+  margin:0!important;
+  padding:0 3px!important;
+  background:#f5f5f7!important;
+  color:#64748b!important;
+  border:1px solid #cbd5e1!important;
+  border-radius:10px!important;
+  font-size:9px!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  visibility:visible!important;
+  opacity:1!important;
+  box-sizing:border-box!important;
+}
+#myClassContent .myStudyCard .myStudyNum .sw6413CefrLevelToken,
+#myClassContent .mySpeakBlock .myStudyNum .sw6413CefrLevelToken{
+  font-size:9px!important;
+  color:#94a3b8!important;
+  font-weight:650!important;
+  opacity:.82!important;
+  letter-spacing:-.035em!important;
+  white-space:nowrap!important;
+  text-decoration:none!important;
+}
+#myClassContent .myStudyCard .myStudyNum .sw6413CefrLevelToken.is-current,
+#myClassContent .mySpeakBlock .myStudyNum .sw6413CefrLevelToken.is-current{
+  font-size:11px!important;
+  font-weight:1000!important;
+  color:#172554!important;
+  opacity:1!important;
+  text-decoration:none!important;
+}
+#myClassContent .myStudyCard .myStudyNum .sw6413CefrLevelToken.is-lower,
+#myClassContent .mySpeakBlock .myStudyNum .sw6413CefrLevelToken.is-lower{
+  text-decoration:line-through!important;
+  color:#94a3b8!important;
+  opacity:.75!important;
+}
+#myClassContent .myStudyCard .myStudyNum .sw6413CefrLevelToken.is-unrated,
+#myClassContent .mySpeakBlock .myStudyNum .sw6413CefrLevelToken.is-unrated{
+  text-decoration:none!important;
+  font-weight:750!important;
+  opacity:.9!important;
+}
+#myClassContent .myStudyCard .myStudyNum .sw6413LevelFavoriteGroup > .studyFavoriteBtn239,
+#myClassContent .mySpeakBlock .myStudyNum .sw6413LevelFavoriteGroup > .studyFavoriteBtn239{
+  position:static!important;
+  inset:auto!important;
+  z-index:auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 28px!important;
+  width:28px!important;
+  min-width:28px!important;
+  max-width:28px!important;
+  height:32px!important;
+  min-height:32px!important;
+  max-height:32px!important;
+  margin:0!important;
+  padding:0!important;
+  border-radius:10px!important;
+  transform:none!important;
+}
+/* The optional green 'trained' tag sits below the single-line header. */
+#myClassContent .myStudyCard.mvSentenceTrainedCard5476 .myStudyNum,
+#myClassContent .mySpeakBlock.mvSentenceTrainedCard5476 .myStudyNum{
+  margin-bottom:35px!important;
+}
+#myClassContent .myStudyCard > .mvSentenceTrainedBadge5476,
+#myClassContent .mySpeakBlock > .mvSentenceTrainedBadge5476{
+  top:56px!important;right:12px!important;
+}
+@media (max-width:350px){
+ #myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn,
+ #myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn{
+   max-width:calc(100% - 116px)!important;
+   height:36px!important;min-height:36px!important;
+   padding:0 5px!important;gap:3px!important;font-size:10.5px!important;
+ }
+ #myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn .myInfSymbol,
+ #myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn .myInfSymbol{font-size:15px!important;}
+ #myClassContent .myStudyCard .myStudyNum > .myTitleInfinityBtn .myInfFocus,
+ #myClassContent .mySpeakBlock .myStudyNum > .myTitleInfinityBtn .myInfFocus{font-size:10px!important;}
+ #myClassContent .myStudyCard .myStudyNum > .sw6413LevelFavoriteGroup,
+ #myClassContent .mySpeakBlock .myStudyNum > .sw6413LevelFavoriteGroup{gap:3px!important;max-width:115px!important;}
+ #myClassContent .myStudyCard .myStudyNum .sw6413SentenceLevelBadge,
+ #myClassContent .mySpeakBlock .myStudyNum .sw6413SentenceLevelBadge{
+   flex-basis:85px!important;min-width:85px!important;max-width:85px!important;width:85px!important;
+   gap:1.5px!important;padding:0 2px!important;
+ }
+ #myClassContent .myStudyCard .myStudyNum .sw6413CefrLevelToken,
+ #myClassContent .mySpeakBlock .myStudyNum .sw6413CefrLevelToken{font-size:8px!important;}
+ #myClassContent .myStudyCard .myStudyNum .sw6413CefrLevelToken.is-current,
+ #myClassContent .mySpeakBlock .myStudyNum .sw6413CefrLevelToken.is-current{font-size:10px!important;}
+ #myClassContent .myStudyCard .myStudyNum .sw6413LevelFavoriteGroup > .studyFavoriteBtn239,
+ #myClassContent .mySpeakBlock .myStudyNum .sw6413LevelFavoriteGroup > .studyFavoriteBtn239{
+   width:27px!important;min-width:27px!important;max-width:27px!important;flex-basis:27px!important;
+ }
+}
+</style>
+<style id="sw6497SentenceCefrStyle">
+/* CEFR text is cosmetic, not part of answer, TTS, audio manifest or grading. */
+#sw5527PracticePage #sw5533MatchResult .sw6497MatchCefr {
+ display:inline-block;vertical-align:baseline;margin-left:.4em;font-size:.79em;
+ font-weight:850;color:#5b21b6;white-space:nowrap;
+}
+#sw5527PracticePage #sw5533MatchResult .sw6497MatchCefr.is-unrated{font-weight:650;color:#64748b}
+#quiz .sentenceRecallBox .sentenceEnglish[data-sw6497-cefr]::after,
+#quiz .sentenceRecallBox .sentencePromptKo[data-sw6497-cefr]::after {
+ content:attr(data-sw6497-cefr);display:inline;white-space:nowrap;
+ margin-left:.42em;font-weight:850;font-size:.69em;color:#5b21b6;
+ vertical-align:baseline;
+}
+#quiz .sentenceRecallBox .sentenceEnglish[data-sw6497-cefr-state="unrated"]::after,
+#quiz .sentenceRecallBox .sentencePromptKo[data-sw6497-cefr-state="unrated"]::after {
+ font-weight:650;color:#64748b;
+}
+</style>
+<script id="sw6497SentenceCefrModule">
+/* SAYWARD 6.4.97 — per-English-sentence CEFR display, independent of user promotion.
+ * Source: authenticated exact-approved DB assessment; no CEFR guesses or writes.
+ * In the answer result, labels are visible but speech keeps the original text.
+ */
+(function(){'use strict';
+ const allowed=new Set(['B1','B2','B2+','C1']);
+ const ratings=new Map(),inflight=new Map();
+ const clean=t=>String(t??'').trim().replace(/\s+/g,' ');
+ const key=t=>clean(t).toLocaleLowerCase('en');
+ const failure={kind:'error',display:'(조회 실패)'};
+ function parseLevel(value){
+  const level=String(value||'').trim().toUpperCase();
+  return allowed.has(level)?{kind:'known',display:'('+level+')',level}:
+   {kind:'unrated',display:'(미평가)',level:null};
+ }
+ async function lookup(text){
+  const english=clean(text),id=key(english);
+  if(!english||english.length>1200)return {kind:'unrated',display:'(미평가)',level:null};
+  if(ratings.has(id))return ratings.get(id);
+  if(inflight.has(id))return inflight.get(id);
+  const client=window.saywardAuth?.getClient?.();
+  if(!client)return failure;
+  const promise=(async()=>{
+   try{
+    const {data,error}=await client.rpc('sayward_sentence_cefr_labels_v1',{p_sentences:[english]});
+    if(error)throw error;
+    const first=Array.isArray(data)?data[0]:Array.isArray(data?.items)?data.items[0]:null;
+    if(!first)throw new Error('CEFR_LOOKUP_EMPTY_RESPONSE');
+    const result=parseLevel(first.cefr_level);
+    ratings.set(id,result);
+    return result;
+   }catch(e){
+    console.warn('[SAYWARD 6.4.97 CEFR sentence lookup]',String(e?.message||e).slice(0,130));
+    return failure;
+   }finally{inflight.delete(id)}
+  })();
+  inflight.set(id,promise);
+  return promise;
+ }
+ function attachMatch(node,english){
+  if(!node||!clean(english))return;
+  node.querySelectorAll(':scope > .sw6497MatchCefr').forEach(x=>x.remove());
+  const tag=document.createElement('span');tag.className='sw6497MatchCefr is-unrated';
+  tag.textContent='(확인 중)';tag.setAttribute('aria-label','CEFR 확인 중');
+  tag.setAttribute('aria-hidden','true'); // Spoken audio should read only the original English.
+  node.append(document.createTextNode(' '),tag);
+  const sentence=clean(english);
+  void lookup(sentence).then(result=>{
+   if(!tag.isConnected||node.dataset.audioEnglish!==english)return;
+   tag.textContent=result.display;
+   tag.classList.toggle('is-unrated',result.kind!=='known');
+   tag.setAttribute('aria-label','CEFR '+(result.level||result.display));
+  });
+ }
+ function attachSpeaking(english,stage,visible){
+  const container=document.querySelector('#quiz #opts .sentenceRecallBox');
+  if(!container)return;
+  const target=(Number(stage)===3 && !visible)
+   ?container.querySelector('.sentencePromptKo')
+   :container.querySelector('.sentenceEnglish');
+  if(!target||!clean(english))return;
+  const sentence=clean(english);
+  target.dataset.sw6497Cefr='(확인 중)';
+  target.dataset.sw6497CefrState='pending';
+  target.dataset.sw6497SentenceKey=key(sentence);
+  void lookup(sentence).then(result=>{
+   if(!target.isConnected||target.dataset.sw6497SentenceKey!==key(sentence))return;
+   target.dataset.sw6497Cefr=result.display;
+   target.dataset.sw6497CefrState=result.kind;
+   target.setAttribute('aria-label',target.textContent+' · CEFR '+(result.level||result.display));
+  });
+ }
+ window.saywardSentenceCefr6497={lookup,attachMatch,attachSpeaking,version:'6.4.97',
+  inspect:()=>({cached:ratings.size,pending:inflight.size})};
+ window.addEventListener('sayward:auth-out',()=>{ratings.clear();inflight.clear()});
+})();
+</script>
+
+<style id="sw6498CompactTrainedStudyCards">
+/* SAYWARD 6.4.98 — learned status is shown through card color only.
+   Remove the redundant green pill without affecting the learned-state class,
+   CEFR + favorite controls, audio, or trained-only filtering. */
+#myClassContent .myStudyCard > .mvSentenceTrainedBadge5476,
+#myClassContent .mySpeakBlock > .mvSentenceTrainedBadge5476 {
+  display:none!important;
+}
+/* The 6.4.96 learned-label spacing reserved 35px solely for that badge.
+   Return the title row to a normal compact flow, also on narrower phones. */
+#myClassContent .myStudyCard.mvSentenceTrainedCard5476 .myStudyNum,
+#myClassContent .mySpeakBlock.mvSentenceTrainedCard5476 .myStudyNum {
+  margin-bottom:9px!important;
+}
+#myClassContent .myStudyCard,
+#myClassContent .mySpeakBlock {
+  padding-top:13px!important;
+  padding-bottom:13px!important;
+}
+</style>
 </body></html>
