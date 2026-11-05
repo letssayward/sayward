@@ -1,3 +1,4 @@
+<!-- SAYWARD v6.4.100: Number Fluency training for MY lesson 25, CEFR + official grading unchanged. -->
 <!-- SAYWARD v6.4.99: Add authenticated DB-backed chapter checkbox filter for pattern sentence/match; preserve CEFR B1-C1 and existing practice logic. -->
 <!-- SAYWARD v6.4.98: Hide redundant learned-sentence pill; retain learned-card styling and compact the study card. -->
 <!-- SAYWARD v6.4.97: Add verified CEFR text labels to pattern match results and sentence speaking, including distinct paraphrase sentences. -->
@@ -32,8 +33,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.99 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.99">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.100 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.100">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -3625,6 +3626,37 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 #sw5527PracticePage #sw6481PatternStatsHost .sw6478StatRow{padding:7px 2px!important;font-size:12px!important}
 #sw5527PracticePage #sw6481PatternStatsHost .sw6478StatRow strong{font-size:12px;text-align:right;max-width:64%;overflow-wrap:anywhere}
 </style>
+<style id="swNumberFluencyStyle">
+/* SAYWARD v6.4.100: Number Fluency only; no changes to existing CEFR screens. */
+#myClassPage.sw-number-active .myClassTabs,#myClassPage.sw-number-active .myClassHabit,#myClassPage.sw-number-active .myClassGuide,
+#myClassPage.sw-number-active #myClassPlayPause,#myClassPage.sw-number-active #myClassRepeatCurrent,#myClassPage.sw-number-active #myClassSpeakingBridge,#myClassPage.sw-number-active #myClassConfigBtn{display:none!important}
+#myClassPage.sw-number-active .myClassControlInner{display:flex!important;justify-content:center!important}
+#myClassPage.sw-number-active #myClassHomeBtn{min-width:150px}
+.sw-num-wrap{margin:0 auto 18px;max-width:690px;color:#152236;font-family:inherit}
+.sw-num-hero{display:flex;justify-content:space-between;gap:10px;align-items:center;background:linear-gradient(125deg,#182d57,#4f46e5);color:white;border-radius:21px;padding:19px 20px;margin:10px 0}
+.sw-num-eyebrow{font-weight:850;font-size:11px;opacity:.84;letter-spacing:.04em}
+.sw-num-hero h2{font-size:23px;font-weight:950;margin:5px 0 4px}.sw-num-hero p{font-size:12px;line-height:1.5;margin:0;opacity:.84}
+.sw-num-total{flex-shrink:0;text-align:center;background:#ffffff20;border:1px solid #ffffff40;border-radius:15px;padding:10px 12px;min-width:67px}.sw-num-total b{display:block;font-size:25px}.sw-num-total span{display:block;font-size:10px}
+.sw-num-score{display:flex;justify-content:space-around;gap:4px;flex-wrap:wrap;font-size:12px;font-weight:750;background:white;padding:13px 6px;border-radius:15px;border:1px solid #e3e8f2;margin-bottom:12px}.sw-num-score strong{color:#4f46e5;font-weight:950}
+.sw-num-tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin-bottom:12px}.sw-num-tabs button{border:1px solid #d9dfee;background:#fff;border-radius:11px;padding:10px 3px;font-size:11px;line-height:1.25;font-weight:850;cursor:pointer;min-width:0;word-break:keep-all;color:#263756}.sw-num-tabs button.active{background:#4f46e5;color:white;border-color:#4f46e5}
+.sw-num-card{background:#fff;border:1px solid #dbe1ed;border-radius:20px;padding:17px 17px 18px;box-shadow:0 9px 26px #0f172a0a}
+.sw-num-progress{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:#4338ca;font-size:12px;font-weight:950}
+.sw-num-hint{font-size:12px;color:#667085;line-height:1.5;margin:9px 0 22px}
+.sw-num-kicker{color:#667085;font-size:13px;font-weight:750;text-align:center}
+.sw-num-large{font-size:clamp(23px,5vw,35px);line-height:1.35;font-weight:950;text-align:center;word-break:break-word;margin:17px 0 20px;color:#172642}
+.sw-num-large.sw-num-digits{letter-spacing:.015em;font-variant-numeric:tabular-nums}
+.sw-num-work-ko{font-size:19px;line-height:1.55;font-weight:850;color:#172642;text-align:center;margin:22px 0}
+.sw-num-choices{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0}.sw-num-choices button{min-height:58px;border-radius:13px;border:1px solid #cfd8e7;background:#f8faff;font-size:17px;font-weight:900;color:#172642;cursor:pointer}
+.sw-num-actions{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin:13px 0}.sw-num-actions button{border:1px solid #cad3e2;border-radius:12px;padding:12px 14px;background:#eff3fa;font-size:14px;font-weight:900;color:#243755;cursor:pointer}.sw-num-actions button.sw-num-main{background:#273767;color:white;border-color:#273767}.sw-num-actions button:disabled,.sw-num-choices button:disabled{opacity:.6;cursor:not-allowed}
+.sw-num-input-label{display:block;font-size:12px;font-weight:850;color:#475467;margin:20px 0 8px}.sw-num-card input{display:block;width:100%;border:1px solid #bac6da;border-radius:13px;padding:14px 12px;font-size:21px;letter-spacing:.015em;font-weight:800;font-variant-numeric:tabular-nums;text-align:center;color:#182236;background:#fff}
+.sw-num-solution{border:1px solid #b8d3fe;border-radius:14px;background:#eff6ff;padding:14px 13px;text-align:center;font-size:20px;font-weight:900;line-height:1.5;color:#1d4ed8;word-break:break-word}.sw-num-solution span{display:block;font-size:14px;color:#475467;font-weight:750;margin-top:7px}
+.sw-num-feedback{font-size:14px;font-weight:850;line-height:1.5;margin:11px 0;border-radius:11px;padding:11px 12px}.sw-num-feedback.good{background:#e8f8ee;color:#14532d}.sw-num-feedback.retry{background:#fff3e5;color:#9a3412}.sw-num-footer{margin-top:16px;display:flex;justify-content:flex-end}.sw-num-next{border:0;background:#111827;color:white;padding:12px 21px;font-size:14px;font-weight:900;border-radius:12px;cursor:pointer}
+.sw-num-muted{color:#667085;font-size:11px;line-height:1.4}.sw-num-footnote{color:#64748b;font-size:11px;line-height:1.65;margin:15px 5px}
+@media(max-width:450px){.sw-num-wrap{margin:0 -2px 18px}.sw-num-hero{padding:15px}.sw-num-hero h2{font-size:21px}.sw-num-tabs{grid-template-columns:repeat(3,1fr)}.sw-num-tabs button{font-size:12px;padding:10px 4px}.sw-num-card{padding:15px 13px}.sw-num-choices button{font-size:16px}.sw-num-score{font-size:11px}}
+
+.sw-num-reference{margin:0 0 12px;background:#fff;border:1px solid #dbe1ed;border-radius:14px;padding:10px 12px;color:#344054}.sw-num-reference summary{cursor:pointer;font-size:12px;font-weight:900;line-height:1.5}.sw-num-refgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:11px}.sw-num-refgrid>div{border:1px solid #e1e7f2;border-radius:10px;padding:8px;background:#f9faff}.sw-num-refgrid strong{display:block;font-size:13px;color:#1f3155;font-variant-numeric:tabular-nums}.sw-num-refgrid span{display:block;font-size:11px;font-weight:750;color:#475467;line-height:1.4;margin:3px 0}.sw-num-refgrid em{display:block;font-size:11px;color:#4f46e5;font-weight:900;font-style:normal}
+
+</style>
 </head><body>
 
 <button id="drawerMenuButton" class="drawerMenuButton" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
@@ -5622,6 +5654,17 @@ function renderMyClass(){
      document.getElementById('homePage')?.classList.remove('hidden');
    }
    root.textContent='관리자가 이 수업을 비활성화했습니다.';return;
+ }
+ // v6.4.100: preserve MY navigation and policy; MY25 is an isolated number trainer.
+ const numericMode=(course==='my'&&lesson===25);
+ document.getElementById('myClassPage')?.classList.toggle('sw-number-active',numericMode);
+ if(numericMode){
+   try{stopAllMyClassPlayback(true)}catch(_){}
+   if(!document.getElementById('myClassPage')?.classList.contains('hidden')){
+     window.dispatchEvent(new CustomEvent('sayward:my-lesson-render',{detail:{lesson:25}}));
+   }
+   if(window.saywardNumberFluency){window.saywardNumberFluency.mount(root);return;}
+   root.textContent='숫자 훈련 모듈을 초기화하는 중입니다.';return;
  }
  const tabs=['corrections','chunks','speaking','habits'];
  const activeTabs=tabs.filter(t=>window.swLessonSectionEnabled?.(course,lesson,t)!==false);
@@ -27325,7 +27368,9 @@ const experienced=combined.size;
         const response=await query;
         if(response.error)throw response.error;
         return (response.data||[]).filter(r=>Number.isInteger(Number(r.lesson_no))&&Number(r.lesson_no)>0
-          &&r.seed_complete===true&&(r.visible===true||user.role==='admin'))
+          &&r.seed_complete===true&&(r.visible===true||user.role==='admin')
+          // MY25 is a numeric listening/speaking lab, not a pattern Master chapter.
+          &&!(course.code==='MY'&&Number(r.lesson_no)===25))
           .map(r=>({key:course.code+':'+Number(r.lesson_no),course:course.code,no:Number(r.lesson_no),title:String(r.title||''),visible:r.visible!==false}));
       }));
       if(ticket!==chapterCatalogSerial||auth().uid!==uid)return;
@@ -32990,4 +33035,213 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
   padding-bottom:13px!important;
 }
 </style>
+<script id="swNumberFluencyModule">
+/* SAYWARD v6.4.100: Number Fluency, MY25; isolated from CEFR, official attempts, and Stable scoring. */
+(function(){
+  'use strict';
+  const LESSON=25;
+  const KEYBASE='sw:number-fluency:v1:';
+  const GROUPS=[
+    {n:100000,ko:'10만'}, {n:1000000,ko:'100만'},
+    {n:10000000,ko:'1,000만'}, {n:100000000,ko:'1억'},
+    {n:1000000000,ko:'10억'}, {n:10000000000,ko:'100억'},
+    {n:100000000000,ko:'1,000억'}, {n:1000000000000,ko:'1조'}
+  ];
+  const LARGE=[
+    {n:250000,ko:'25만'}, {n:2450000,ko:'245만'},
+    {n:25000000,ko:'2,500만'}, {n:350000000,ko:'3억 5,000만'},
+    {n:1200000000,ko:'12억'}, {n:18750000,ko:'1,875만'},
+    {n:7600000000,ko:'76억'}, {n:9030000,ko:'903만'},
+    {n:42000000,ko:'4,200만'}, {n:801025000,ko:'8억 102만 5천'},
+    {n:2200000000,ko:'22억'}, {n:59000000,ko:'5,900만'}
+  ];
+  const HEAR=[
+    {n:750000,ko:'75만'},{n:3600000,ko:'360만'},
+    {n:23000000,ko:'2,300만'},{n:275000000,ko:'2억 7,500만'},
+    {n:2400000000,ko:'24억'},{n:19500000,ko:'1,950만'},
+    {n:805000000,ko:'8억 500만'}, {n:2000000,ko:'200만'},
+    {n:43200000,ko:'4,320만'},{n:7850000000,ko:'78억 5천만'},
+    {n:305000000,ko:'3억 500만'},{n:1280000000,ko:'12억 8천만'}
+  ];
+  const DECIMAL=[
+    {n:2500000,phrase:'two point five million',ko:'250만'},
+    {n:1200000000,phrase:'one point two billion',ko:'12억'},
+    {n:750000,phrase:'zero point seven five million',ko:'75만'},
+    {n:3400000,phrase:'three point four million',ko:'340만'},
+    {n:2050000000,phrase:'two point zero five billion',ko:'20억 5천만'},
+    {n:1250000000000,phrase:'one point two five trillion',ko:'1조 2,500억'},
+    {n:15000000,phrase:'fifteen million',ko:'1,500만'},
+    {n:560000000,phrase:'zero point five six billion',ko:'5억 6천만'}
+  ];
+  const WORK=[
+    {en:'We processed two million alerts last month.',ko:'지난달 알람 200만 건을 처리했습니다.',n:2000000},
+    {en:'About four hundred thousand alerts were unique.',ko:'약 40만 건은 중복을 제외한 알람이었습니다.',n:400000},
+    {en:'We collected 1.2 billion data points.',ko:'데이터 포인트 12억 개를 수집했습니다.',n:1200000000},
+    {en:'The investment is estimated at two point five billion dollars.',ko:'투자 규모는 약 25억 달러로 예상됩니다.',n:2500000000},
+    {en:'The factory produced twenty-five million chips last quarter.',ko:'지난 분기 공장에서 칩 2,500만 개를 생산했습니다.',n:25000000},
+    {en:'The new system reduced false alarms by fifteen percent.',ko:'새 시스템이 오경보를 15% 줄였습니다.',n:15},
+    {en:'We monitored over seven hundred fifty thousand signals.',ko:'75만 개가 넘는 신호를 모니터링했습니다.',n:750000},
+    {en:'Our revenue reached three hundred fifty million dollars.',ko:'매출이 3억 5천만 달러에 달했습니다.',n:350000000}
+  ];
+  const STAGES=[
+    {id:'unit',icon:'🧠',label:'단위 감각',hint:'영어 표현을 읽고 한국어 숫자 크기를 4지선다로 고르세요.'},
+    {id:'speak',icon:'🗣',label:'숫자 말하기',hint:'숫자를 먼저 영어로 소리 내어 말한 뒤 정답을 확인하세요.'},
+    {id:'listen',icon:'🎧',label:'듣고 입력',hint:'영어 음성을 듣고 숫자를 쉼표 없이 입력하세요. 예: 25000000'},
+    {id:'decimal',icon:'🔢',label:'소수점·축약',hint:'2.5 million 등의 표현을 숫자로 바꾸세요.'},
+    {id:'work',icon:'💼',label:'업무 문장',hint:'한국어를 보고 영어로 말한 뒤 전체 문장을 확인하세요.'}
+  ];
+  const ONES=['','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+  const TENS=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+  const SCALE=['','thousand','million','billion','trillion'];
+  function toHundreds(n){
+    let x=Number(n),out=[];
+    if(x>=100){out.push(ONES[Math.floor(x/100)]+' hundred');x%=100;}
+    if(x>=20){out.push(TENS[Math.floor(x/10)]+(x%10?'-'+ONES[x%10]:''));}
+    else if(x>0)out.push(ONES[x]);
+    return out.join(' ');
+  }
+  function sayNumber(n){
+    if(!Number.isSafeInteger(n)||n<0||n>=1000000000000000)return '';
+    if(n===0)return 'zero';
+    let x=n,i=0,parts=[];
+    while(x>0){let p=x%1000;if(p){parts.unshift(toHundreds(p)+(SCALE[i]?' '+SCALE[i]:''));}x=Math.floor(x/1000);i++;}
+    return parts.join(' ');
+  }
+  function fmt(n){return Number(n).toLocaleString('en-US',{useGrouping:true,maximumFractionDigits:0});}
+  function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function currentUser(){try{return String(window.saywardAuth?.snapshot?.()?.uid||'local');}catch(_){return 'local';}}
+  function storageKey(){return KEYBASE+currentUser();}
+  function newState(){return {stage:'unit',indices:{unit:0,speak:0,listen:0,decimal:0,work:0},stats:{},updatedAt:null};}
+  function load(){
+    try{const x=JSON.parse(localStorage.getItem(storageKey())||'null');if(!x||!STAGES.some(t=>t.id===x.stage))return newState();return {...newState(),...x,indices:{...newState().indices,...(x.indices||{})},stats:x.stats||{}};}
+    catch(_){return newState();}
+  }
+  let state=load(),revealed=false,feedback='',picked=false,started=Date.now(),audioStatus='',activeStorageKey=storageKey();
+  function save(){try{state.updatedAt=new Date().toISOString();localStorage.setItem(storageKey(),JSON.stringify(state));}catch(_){}}
+  function pool(id){return ({unit:GROUPS,speak:LARGE,listen:HEAR,decimal:DECIMAL,work:WORK})[id]||GROUPS;}
+  function stage(){return STAGES.find(x=>x.id===state.stage)||STAGES[0];}
+  function current(){const p=pool(state.stage);return p[(state.indices[state.stage]||0)%p.length];}
+  function tally(id){return state.stats[id]||{attempts:0,correct:0,seconds:0};}
+  function record(ok){
+    if(picked)return;
+    picked=true;
+    const s=tally(state.stage);s.attempts++;if(ok)s.correct++;
+    s.seconds+=Math.max(0,Math.min(300,(Date.now()-started)/1000));state.stats[state.stage]=s;save();render();
+  }
+  function next(){
+    const p=pool(state.stage);state.indices[state.stage]=((state.indices[state.stage]||0)+1)%p.length;
+    revealed=false;feedback='';picked=false;started=Date.now();audioStatus='';save();render();
+  }
+  function change(id){
+    if(!STAGES.some(t=>t.id===id))return;
+    if('speechSynthesis' in window)try{window.speechSynthesis.cancel();}catch(_){}
+    state.stage=id;revealed=false;picked=false;feedback='';started=Date.now();audioStatus='';save();render();
+  }
+  function audio(s){
+    if(!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window)){
+      audioStatus='이 기기에서는 음성합성을 지원하지 않습니다. 정답 확인으로 학습할 수 있습니다.';render();return;
+    }
+    try{
+      window.speechSynthesis.cancel();
+      const utter=new SpeechSynthesisUtterance(String(s));utter.lang='en-US';utter.rate=0.84;utter.pitch=1.0;
+      const voices=window.speechSynthesis.getVoices();
+      const voice=voices.find(v=>/^en(-US)?$/i.test(v.lang))||voices.find(v=>/^en/i.test(v.lang));
+      if(voice)utter.voice=voice;
+      utter.onerror=()=>{audioStatus='음성 재생에 실패했습니다. 기기 브라우저의 TTS 설정을 확인하세요.';const p=document.querySelector('#swNumberAudioStatus');if(p)p.textContent=audioStatus;};
+      audioStatus='음성 재생 중…';
+      const p=document.querySelector('#swNumberAudioStatus');if(p)p.textContent=audioStatus;
+      window.speechSynthesis.speak(utter);
+    }catch(_){audioStatus='음성 재생이 차단되었습니다. 화면의 듣기 버튼을 다시 눌러 주세요.';render();}
+  }
+  function choicesFor(entry){
+    const all=GROUPS.filter(x=>x.n!==entry.n);
+    const pivot=GROUPS.findIndex(x=>x.n===entry.n);
+    const offsets=[-1,1,2,-2,3,4,-3];const rest=[];
+    for(const d of offsets){let ix=pivot+d;if(ix>=0&&ix<GROUPS.length&&rest.length<3)rest.push(GROUPS[ix]);}
+    const answers=[entry,...rest];
+    // Rotate correct position in a reproducible manner without showing an all-first bias.
+    const k=(state.indices.unit||0)%4;
+    return answers.slice(k).concat(answers.slice(0,k));
+  }
+  function bodyHtml(){
+    const q=current(),kind=state.stage;
+    const english=q.phrase||sayNumber(q.n);
+    const head=kind==='unit'
+      ? `<div class="sw-num-kicker">다음 영어 표현은 한국어로 얼마일까요?</div><div class="sw-num-large">${escapeHtml(english)}</div>`
+      : kind==='speak'
+      ? `<div class="sw-num-kicker">먼저 영어로 크게 말해 보세요.</div><div class="sw-num-large sw-num-digits">${fmt(q.n)}</div>`
+      : kind==='listen'
+      ? `<div class="sw-num-kicker">소리만 듣고 숫자를 입력하세요.</div><div class="sw-num-large">🎧 Listen and type</div>`
+      : kind==='decimal'
+      ? `<div class="sw-num-kicker">영어 소수점 표현을 숫자로 바꿔 보세요.</div><div class="sw-num-large">${escapeHtml(q.phrase)}</div>`
+      : `<div class="sw-num-kicker">숫자를 포함한 문장을 영어로 말해 보세요.</div><div class="sw-num-work-ko">${escapeHtml(q.ko)}</div>`;
+    if(kind==='unit'){
+      return head+`<div class="sw-num-choices">${choicesFor(q).map(c=>`<button type="button" data-num-choice="${c.n}" ${picked?'disabled':''}>${escapeHtml(c.ko)}</button>`).join('')}</div>`;
+    }
+    if(kind==='speak'||kind==='work'){
+      return head+`<div class="sw-num-actions"><button type="button" class="sw-num-main" data-num-action="reveal">${revealed?'🔁 정답 다시 확인':'정답 확인'}</button></div>`
+      +(revealed?`<div class="sw-num-solution">${escapeHtml(kind==='work'?q.en:english)}<span>${escapeHtml(q.ko)}</span></div><div class="sw-num-actions"><button type="button" data-num-action="play">🔊 원어민식 듣기</button><button type="button" data-num-action="yes" ${picked?'disabled':''}>✅ 혼자 성공</button><button type="button" data-num-action="no" ${picked?'disabled':''}>🔁 연습 필요</button></div>`:'');
+    }
+    return head+`<div class="sw-num-actions"><button type="button" data-num-action="play">🔊 ${kind==='listen'?'영어 음성 듣기':'표현 듣기'}</button>${kind==='listen'?'<span class="sw-num-muted">힌트 없이 듣고 입력</span>':''}</div>
+      <label class="sw-num-input-label" for="swNumInput">숫자 입력 (예: 2500000)</label>
+      <input id="swNumInput" type="text" inputmode="numeric" autocomplete="off" placeholder="숫자를 입력하세요" ${picked?'disabled':''} />
+      <div class="sw-num-actions"><button type="button" class="sw-num-main" data-num-action="check" ${picked?'disabled':''}>정답 확인</button><button type="button" data-num-action="reveal">${revealed?'정답 보기':'막히면 정답 보기'}</button></div>`
+      +(revealed?`<div class="sw-num-solution">${fmt(q.n)}<span>${escapeHtml(q.ko)} · ${escapeHtml(english)}</span></div>`:'');
+  }
+  function render(){
+    const root=document.querySelector('#swNumberTrainer');if(!root)return;
+    const step=stage(),items=pool(state.stage),ix=state.indices[state.stage]||0;
+    const counts=STAGES.map(x=>tally(x.id)).reduce((a,b)=>({a:a.a+b.attempts,c:a.c+b.correct,s:a.s+b.seconds}),{a:0,c:0,s:0});
+    const precision=counts.a?Math.round(counts.c/counts.a*100):0;
+    const duration=counts.a?(counts.s/counts.a).toFixed(1):'-';
+    root.innerHTML=`<section class="sw-num-wrap" aria-label="Number Fluency 수업">
+      <div class="sw-num-hero"><div><span class="sw-num-eyebrow">MY 수업 25 · 전용 학습</span><h2>🔢 Number Fluency</h2><p>큰 숫자를 영어로 바로 듣고 말하는 5단계 훈련</p></div><div class="sw-num-total"><b>${counts.a}</b><span>풀이 기록</span></div></div>
+      <div class="sw-num-score"><span>정확도 <strong>${precision}%</strong></span><span>평균 응답 <strong>${duration}초</strong></span><span>정답 <strong>${counts.c}/${counts.a}</strong></span></div>
+      <details class="sw-num-reference"><summary>📚 큰 숫자 기준표 펼쳐보기 (만·억 ↔ million·billion)</summary><div class="sw-num-refgrid">${GROUPS.map(x=>`<div><strong>${fmt(x.n)}</strong><span>${escapeHtml(sayNumber(x.n))}</span><em>${escapeHtml(x.ko)}</em></div>`).join('')}</div></details>
+      <div class="sw-num-tabs" role="tablist" aria-label="숫자 학습 단계">${STAGES.map(x=>`<button type="button" role="tab" aria-selected="${state.stage===x.id}" data-num-stage="${x.id}" class="${state.stage===x.id?'active':''}">${x.icon} ${x.label}</button>`).join('')}</div>
+      <div class="sw-num-card"><div class="sw-num-progress"><span>STEP ${STAGES.indexOf(step)+1} / 5 · ${escapeHtml(step.label)}</span><span>문제 ${ix+1} / ${items.length}</span></div><p class="sw-num-hint">${escapeHtml(step.hint)}</p>${bodyHtml()}
+      <p id="swNumberAudioStatus" class="sw-num-muted" aria-live="polite">${escapeHtml(audioStatus)}</p>
+      ${feedback?`<p class="sw-num-feedback ${feedback.startsWith('정답')?'good':'retry'}" aria-live="polite">${escapeHtml(feedback)}</p>`:''}
+      <div class="sw-num-footer"><button type="button" data-num-action="next" class="sw-num-next">다음 문제 →</button></div></div>
+      <p class="sw-num-footnote">📌 음성은 브라우저 영어 TTS로 재생됩니다. 이 수업의 통계는 현재 기기에만 저장되며, 공식 Perfect·Stable 승급에는 반영하지 않습니다.</p>
+    </section>`;
+  }
+  function handle(event){
+    const button=event.target?.closest?.('button');if(!button)return;
+    const stageId=button.dataset.numStage;
+    if(stageId){change(stageId);return;}
+    const choice=button.dataset.numChoice;
+    if(choice!==undefined){if(picked)return;const yes=Number(choice)===current().n;feedback=(yes?'정답입니다!':'연습 필요 · 정답: '+current().ko);revealed=true;record(yes);return;}
+    const action=button.dataset.numAction;
+    if(!action)return;
+    if(action==='next'){next();return;}
+    if(action==='reveal'){revealed=true;render();return;}
+    if(action==='play'){audio(state.stage==='work'?current().en:current().phrase||sayNumber(current().n));return;}
+    if(action==='yes'||action==='no'){feedback=action==='yes'?'정답! 혼자 말하기 성공':'연습 필요로 기록했습니다.';record(action==='yes');return;}
+    if(action==='check'){
+      if(picked)return;
+      const raw=document.getElementById('swNumInput')?.value?.trim()||'';
+      // Strict numeric input only; never convert English/Korean text to a guessed number.
+      const normalized=raw.replace(/[,\s]/g,'');
+      if(!/^\d+$/.test(normalized)){feedback='숫자만 입력해 주세요. 예: 2500000';render();return;}
+      const yes=Number(normalized)===current().n;
+      feedback=yes?'정답입니다!':'연습 필요 · 정답: '+fmt(current().n)+' ('+current().ko+')';
+      revealed=true;record(yes);
+    }
+  }
+  function onKey(event){if(event.key==='Enter'&&event.target?.id==='swNumInput'){event.preventDefault();document.querySelector('#swNumberTrainer [data-num-action="check"]')?.click();}}
+  function mount(root){
+    if(!root)return;
+    if(activeStorageKey!==storageKey()){activeStorageKey=storageKey();state=load();revealed=false;feedback='';picked=false;started=Date.now();}
+    const page=document.getElementById('myClassPage');page?.classList.add('sw-number-active');
+    if(!root.querySelector('#swNumberTrainer')){
+      root.innerHTML='<div id="swNumberTrainer"></div>';
+      if(!root.dataset.swNumberHandler){root.addEventListener('click',handle);root.addEventListener('keydown',onKey);root.dataset.swNumberHandler='1';}
+    }
+    render();
+  }
+  window.saywardNumberFluency={mount,sayNumber,groups:GROUPS.length,version:'1.0',resetLocalStats:()=>{state=newState();save();render();}};
+})();
+
+</script>
 </body></html>
