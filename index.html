@@ -2,6 +2,7 @@
 <!-- SAYWARD v6.4.102: semantic Korean/English pair QA gate and pending paraphrase suppression; no CEFR/Stable changes. -->
 <!-- SAYWARD v6.4.102: Number Fluency question swipe, bidirectional Korean/English 4-choice quiz; CEFR preserved. -->
 <!-- SAYWARD v6.4.100: Number Fluency training for MY lesson 25, CEFR + official grading unchanged. -->
+<!-- SAYWARD v6.4.105: Move global drawer menu to the right on voice practice page so the back button is not blocked. -->
 <!-- SAYWARD v6.4.99: Add authenticated DB-backed chapter checkbox filter for pattern sentence/match; preserve CEFR B1-C1 and existing practice logic. -->
 <!-- SAYWARD v6.4.98: Hide redundant learned-sentence pill; retain learned-card styling and compact the study card. -->
 <!-- SAYWARD v6.4.97: Add verified CEFR text labels to pattern match results and sentence speaking, including distinct paraphrase sentences. -->
@@ -36,8 +37,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.104 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.104">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.107 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.107">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -3673,6 +3674,33 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 #swNumberTrainer .sw-num-swipehint{font-size:11px;color:#64748b;font-weight:800;text-align:center;white-space:nowrap}
 @media(max-width:380px){#swNumberTrainer .sw-num-mode button{font-size:11px;padding:9px 2px}#swNumberTrainer .sw-num-next,#swNumberTrainer .sw-num-prev{font-size:12px;padding:11px 10px}#swNumberTrainer .sw-num-swipehint{font-size:10px}}
 </style>
+
+<style id="sw-sori-106-style">
+#myClassPage .swSoriB2Expansion{margin:15px 0 3px;padding:13px 14px;border:1px solid #d2cbfa;background:#f7f5ff;border-radius:14px}
+#myClassPage .swSoriB2Label{font-size:12px;font-weight:950;color:#5142a6;display:block;margin-bottom:8px}
+#myClassPage .myChunkExpandedEn{font-size:16px;font-weight:850;line-height:1.58;color:#1f2937;white-space:pre-wrap;overflow-wrap:anywhere}
+#myClassPage .swSoriB2Expansion .myStudyKo{margin:8px 0 0;font-weight:750}
+#myClassPage .swSoriB2Expansion .myStudyBtn{margin-top:10px;min-height:40px;background:#fff;color:#4b3e9c;border-color:#bdb4ed}
+#myClassPage #swCourseDbStatus106{margin:10px 0 4px;padding:10px 12px;border:1px solid #c6e5df;background:#f2faf7;color:#156b61;border-radius:11px;font-size:12px;font-weight:800;display:flex;justify-content:space-between;gap:12px;align-items:center;line-height:1.5}
+#myClassPage #swCourseDbStatus106[hidden]{display:none!important}
+#myClassPage #swCourseDbStatus106.error{background:#fff6f5;border-color:#fed7d2;color:#a32c2c}
+#myClassPage #swCourseDbStatus106 button,.swSoriLoadHint106 button{flex:none;border:1px solid #a5cfc6;background:#fff;color:#186e62;font-size:12px;font-weight:850;border-radius:9px;padding:8px 10px;cursor:pointer}
+#myClassPage .swSoriLoadHint106{padding:18px 16px;margin:8px 0 15px;border-radius:15px;border:1px solid #d4dbea;background:#fff;color:#475569;line-height:1.6;font-weight:800;text-align:center}
+#myClassPage .swSoriLoadHint106 button{margin:10px auto 0;display:block}
+@media (max-width:540px){#myClassPage .swSoriB2Expansion{padding:11px 12px}#myClassPage .myChunkExpandedEn{font-size:15px}}
+</style>
+<style id="sayward-universal-db-sentence-v64107">
+#myClassPage .swStudySentenceStack{display:grid;gap:10px;margin-top:12px}
+#myClassPage .swStudySentence{min-width:0;border:1px solid #e7e7f2;background:#fcfcff;border-radius:13px;padding:11px 12px}
+#myClassPage .swStudySentencePrimary{background:#fff}
+#myClassPage .swStudySentenceLabel{font-size:11px;font-weight:850;color:#5942a3;margin-bottom:6px}
+#myClassPage .swStudySentencePattern{font-size:12px;font-weight:850;color:#6d42ad;margin:5px 0}
+#myClassPage .swStudySentenceEn{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6;cursor:pointer}
+#myClassPage .swStudySentence .myStudyKo{white-space:pre-wrap;margin-top:6px}
+#myClassPage .swStudySentence .myStudyActions{margin-top:8px}
+#myClassPage .swStudySentenceWarning,#myClassPage .swStudySentenceMissing{font-size:12px;color:#9a3412;background:#fff7ed;border-radius:10px;padding:10px}
+@media(max-width:540px){#myClassPage .swStudySentence{padding:10px}}
+</style>
 </head><body>
 
 <button id="drawerMenuButton" class="drawerMenuButton" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
@@ -4232,6 +4260,7 @@ Config의 <b>Day Loop 문장당 반복 횟수</b>에서 1회 / 2회 / 3회 / 5�
 /* The app already has a global hamburger at top-left. Move it to the right on this screen
    so the raised back/title row does not collide with it. */
 body:has(#sw5527PracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButton{left:auto;right:12px;top:max(12px,env(safe-area-inset-top,0px));width:42px;height:42px}
+body:has(#voicePracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButton{left:auto;right:12px;top:max(12px,env(safe-area-inset-top,0px));width:42px;height:42px}
 #sw5527PracticePage .sw5527-trial{display:none}
 #sw5527PracticePage .sw5527-back{width:44px;height:44px;border-radius:15px;background:#fff;border:1px solid #e1e4f0;font-size:31px;color:#283354;box-shadow:0 5px 18px rgba(35,40,92,.06);flex-shrink:0}
 #sw5527PracticePage .sw5527-headtext{min-width:0;flex:1}
@@ -4975,9 +5004,87 @@ function myClassFocusNoScroll255(el){
   else el.classList.add('myClassNow');
 }
 
+/* ===== v6.4.107 · universal DB sentence contract (MY/SORI/OPIC/FRIENDS/BUSINESS) =====
+ Content-only edits belong in Supabase. The renderer never selects a specific lesson or
+ hardcodes a sentence. Supported legacy: example/exampleKo, extraExample/extraExampleKo,
+ examples[{en,ko}], comparisonItems[{patternId,pattern,example,exampleKo}].
+ Canonical forward format: sentences:[{en,ko,role,patternId,pattern,cefrLevel}].
+ Pair English with its own Korean; never speak two comparison examples as one utterance.
+ */
+function swStudySentencePairs(chunk){
+  if(!chunk||typeof chunk!=='object')return [];
+  const result=[],seen=new Map();
+  const trim=x=>String(x??'').trim();
+  function push(input,role='additional',fallbackPattern=''){
+    if(!input||typeof input!=='object')return;
+    const en=trim(input.en??input.example??input.text),ko=trim(input.ko??input.exampleKo??input.translation);
+    if(!en)return;
+    // A supplementary English sentence without its own Korean is NOT a verified pair.
+    // Existing original-only cards remain readable, without manufacturing a translation.
+    if(!ko && role!=='original')return;
+    const normalized=en.replace(/\s+/g,' ').toLowerCase();
+    const prior=seen.get(normalized);
+    if(prior){
+      if(ko && prior.ko && ko!==prior.ko)prior.translationConflict=true;
+      return;
+    }
+    const item={en,ko,role:trim(input.role||input.type)||role,
+      patternId:trim(input.patternId||input.pattern_id||chunk.patternId||chunk.pattern_id),
+      pattern:trim(input.pattern||fallbackPattern||chunk.pattern),
+      cefrLevel:trim(input.cefrLevel||input.cefr_level||input.level||chunk.cefrLevel||'')};
+    seen.set(normalized,item);result.push(item);
+  }
+  const contrast=Array.isArray(chunk.comparisonItems)&&chunk.comparisonItems.length>0;
+  if(contrast){
+    // The combined ①/② display is a teaching caption, not a speaking/quiz sentence.
+    chunk.comparisonItems.forEach(x=>push(x,'comparison'));
+  }else{
+    push({en:chunk.example??chunk.en,ko:chunk.exampleKo??chunk.translation,
+      patternId:chunk.patternId??chunk.pattern_id,pattern:chunk.pattern,role:'original'},'original');
+    push({en:chunk.extraExample,ko:chunk.extraExampleKo,role:'expanded',
+      cefrLevel:chunk.extraCefrLevel||chunk.cefrLevel,pattern:chunk.pattern},'expanded');
+    for(const x of (Array.isArray(chunk.sentences)?chunk.sentences:[]))push(x,'additional');
+    for(const x of (Array.isArray(chunk.learningSentences)?chunk.learningSentences:[]))push(x,'additional');
+    for(const x of (Array.isArray(chunk.expandedExamples)?chunk.expandedExamples:[]))push(x,'expanded');
+    for(const x of (Array.isArray(chunk.examples)?chunk.examples:[]))push(x,'additional');
+  }
+  return result;
+}
+window.swStudySentencePairs=swStudySentencePairs;
+function swStudyChunkSentenceHtml(chunk){
+  const pairs=swStudySentencePairs(chunk);
+  if(!pairs.length)return '<div class="swStudySentenceMissing" role="status">문장·번역 쌍이 없습니다. DB 내용을 확인해 주세요.</div>';
+  const icons={original:'🗣',expanded:'📘',comparison:'↔',additional:'📖',paraphrase:'🔄'};
+  const labels={original:'원문',expanded:'확장 문장',comparison:'비교 문장',additional:'추가 예문',paraphrase:'패러프레이징'};
+  return pairs.map((p,index)=>{
+    const isPrimary=index===0;
+    const role=labels[p.role]?p.role:'additional';
+    const tag=(icons[role]||'📖')+' '+(role==='comparison'?(index+1)+'번 비교 문장':labels[role])+(p.cefrLevel?' · '+p.cefrLevel:'');
+    return `<div class="swStudySentence ${isPrimary?'swStudySentencePrimary':'swStudySentenceExtra'}" data-sw-sentence-index="${index}" data-sw-study-role="${myClassEsc(role)}">
+      ${(pairs.length>1||role==='comparison')?`<div class="swStudySentenceLabel">${myClassEsc(tag)}</div>`:''}
+      ${role==='comparison'&&p.pattern?`<div class="swStudySentencePattern">${myClassEsc(p.pattern)}</div>`:''}
+      <div class="swStudySentenceEn ${isPrimary?'myChunkExample':'myChunkExpandedEn'}" data-sw-sentence-index="${index}" lang="en">${myClassEsc(p.en)}</div>
+      ${p.ko?`<div class="myStudyKo" lang="ko">${myClassEsc(p.ko)}</div>`:''}
+      ${p.translationConflict?'<div class="swStudySentenceWarning">⚠ 이 영어 문장의 한국어 번역이 서로 다릅니다. DB 검수가 필요합니다.</div>':''}
+      <div class="myStudyActions"><button class="myStudyBtn ${isPrimary?'primary':''}" type="button" data-sw6428-speak="chunks-sentence" data-sw-sentence-index="${index}">🔊 ${role==='expanded'?'확장 문장 ':'예문 '}듣기</button></div>
+    </div>`;
+  }).join('');
+}
+window.swStudyChunkSentenceHtml=swStudyChunkSentenceHtml;
+
 function myClassPlaybackItems(){
   if(myClassTab==='corrections')return myClassData().corrections.map((x,i)=>({text:x.en,el:document.getElementById(`myCorrectionCard${i}`)}));
-  if(myClassTab==='chunks')return myClassData().chunks.map((x,i)=>({text:document.querySelector(`#myChunkCard${i} .myChunkExample`)?.textContent||x.example,el:document.getElementById(`myChunkCard${i}`)}));
+  if(myClassTab==='chunks'){
+    const items=[];
+    myClassData().chunks.forEach((x,i)=>{
+      const card=document.getElementById(`myChunkCard${i}`);
+      swStudySentencePairs(x).forEach((p,j)=>{
+        const el=card?.querySelector(`.swStudySentenceEn[data-sw-sentence-index="${j}"]`)||card;
+        if(p.en)items.push({text:p.en,ko:p.ko,el:el||card,patternId:p.patternId});
+      });
+    });
+    return items;
+  }
   if(myClassTab==='speaking'){const out=[];myClassData().speaking.forEach((x,i)=>myClassSplitSentences(x.text).forEach((text,j)=>out.push({text,el:document.getElementById(`mySpeakSentence${i}_${j}`)})));return out;}
   return [];
 }
@@ -5560,23 +5667,17 @@ function studyApplyChunkExamplePatternHighlights(){
   const data=myClassData();
   const allPatterns=studyAllChunkPatterns(data);
   (data?.chunks||[]).forEach((item,i)=>{
-    const el=document.querySelector(`#myChunkCard${i} .myChunkExample`);
-    if(!el)return;
-
-    // Own Chunk is always included first. Other patterns in the same sentence are
-    // also detected so every learned pattern inside any sentence is visually distinct.
-    const patterns=[];
-    const add=p=>{p=String(p||'').trim();if(p&&!patterns.includes(p))patterns.push(p)};
-    add(item?.pattern);
-    allPatterns.forEach(p=>{
-      if(studyFindPatternHits(String(item?.example||''),p).length)add(p);
+    swStudySentencePairs(item).forEach((sentence,j)=>{
+      const el=document.querySelector(`#myChunkCard${i} .swStudySentenceEn[data-sw-sentence-index="${j}"]`);
+      if(!el)return;
+      const patterns=[];
+      const add=p=>{p=String(p||'').trim();if(p&&!patterns.includes(p))patterns.push(p)};
+      add(sentence.pattern||item?.pattern);
+      allPatterns.forEach(p=>{
+        if(studyFindPatternHits(sentence.en,p).length)add(p);
+      });
+      studyHighlightTextByPatterns(el,patterns,'studyCoreChunkMark studyChunkExamplePatternMark');
     });
-
-    studyHighlightTextByPatterns(
-      el,
-      patterns,
-      'studyCoreChunkMark studyChunkExamplePatternMark'
-    );
   });
 }
 function studyApplyAllSentencePatternHighlights(){
@@ -5659,6 +5760,7 @@ window.studySpeakingHeaderHtml=studySpeakingHeaderHtml;
 
 function renderMyClass(){
  const root=document.getElementById('myClassContent');if(!root)return;
+ if(ACTIVE_STUDY_COURSE!=='my'){const myDbStatus=document.getElementById('swMyDbPilotStatus');if(myDbStatus)myDbStatus.hidden=true;}
  const course=String(ACTIVE_STUDY_COURSE||'my'),lesson=Number(myClassLessonNo)||1;
  const policyReady=window.swStudioPolicyReady?.()===true;
  if(!policyReady){root.textContent='학습 권한을 확인하는 중입니다. 로그인 및 DB 연결을 확인해 주세요.';return;}
@@ -5747,7 +5849,7 @@ function myClassRuleText229(text){
 }
 
 if(myClassTab==='corrections')root.innerHTML=`<div class="myClassList">${myClassData().corrections.map((x,i)=>`<div class="myStudyCard" id="myCorrectionCard${i}"><div class="myStudyNum"><span>CORRECTION ${i+1}</span>${infBtn('corrections',i,'현재 문장')}</div>${x.source?`<div class="studySourceTag">${myClassEsc(x.source)}</div>`:''}<div class="myStudyKo">${myClassEsc(x.ko)}</div>${x.bad?`<div class="myStudyBad">❌ ${myClassBadMarked229(x.bad,x.badMarks,x.why)}</div>`:''}${(x.grammar||x.why)?`<div class="myStudyReason230">${x.grammar?`<div class="myStudyReasonRow230 myStudyReasonGrammar230">⚠️ <b>Grammar</b> · ${myClassRuleText229(x.grammar)}</div>`:''}${x.why?`<div class="myStudyReasonRow230 myStudyReasonWhy230">🔎 <b>Why · ${myClassEsc(x.whyType||'표현')}</b>: ${myClassRuleText229(x.why)}</div>`:''}</div>`:''}<div class="myStudyEn" id="myen${i}">${myClassEsc(x.en)}</div><div class="myStudyTip">💡 ${myClassEsc(x.tip||'')}</div><div class="myStudyActions"><button class="myStudyBtn" onclick="document.getElementById('myen${i}').classList.toggle('myHiddenEnglish')">🙈 가리기</button><button class="myStudyBtn primary" type="button" data-sw6428-speak="corrections">🔊 듣기</button></div></div>`).join('')}</div>`;
- else if(myClassTab==='chunks')root.innerHTML=`<div class="myClassList">${myClassData().chunks.map((x,i)=>`<div class="myStudyCard" id="myChunkCard${i}" data-sw-v23-item="${myClassEsc(x.__dbItemId||'')}" data-sw-v23-source="${myClassEsc(x.example||'')}"><div class="myStudyNum"><span>NATIVE CHUNK ${i+1}</span>${infBtn('chunks',i,'현재 문장')}</div>${x.source?`<div class="studySourceTag">${myClassEsc(x.source)}</div>`:''}<div class="myChunkPattern">${myClassEsc(x.pattern)}</div><div class="myStudyKo">${myClassEsc(x.ko)}</div><div class="myChunkExample">${myClassEsc(x.example)}</div>${x.exampleKo?`<div class="myStudyKo">${myClassEsc(x.exampleKo)}</div>`:''}<div class="myStudyActions"><button class="myStudyBtn primary" type="button" data-sw6428-speak="chunks">🔊 예문 듣기</button></div></div>`).join('')}</div>`;
+ else if(myClassTab==='chunks')root.innerHTML=`<div class="myClassList">${myClassData().chunks.map((x,i)=>`<div class="myStudyCard" id="myChunkCard${i}" data-sw-v23-item="${myClassEsc(x.__dbItemId||'')}" data-sw-v23-source="${myClassEsc(x.example||'')}"><div class="myStudyNum"><span>NATIVE CHUNK ${i+1}</span>${infBtn('chunks',i,'현재 문장')}</div>${x.source?`<div class="studySourceTag">${myClassEsc(x.source)}</div>`:''}<div class="myChunkPattern">${myClassEsc(x.pattern)}</div><div class="myStudyKo">${myClassEsc(x.ko)}</div><div class="swStudySentenceStack">${swStudyChunkSentenceHtml(x)}</div></div>`).join('')}</div>`;
  else if(myClassTab==='speaking')root.innerHTML=myClassData().speaking.map((x,i)=>{const parts=myClassSplitSentences(x.text);return `<div class="mySpeakBlock" id="mySpeakBlock${i}"><div class="myStudyNum"><span>SPEAKING ${i+1}</span>${infBtn('speaking',i,'문단 전체')}</div>${studySpeakingHeaderHtml(x)}${x.promptKo?`<div class="myStudyKo">${myClassEsc(x.promptKo)}</div>`:''}<div class="mySpeakPrompt">${myClassEsc(studyCourseSpeakingGuide(ACTIVE_STUDY_COURSE))}</div><div class="mySpeakText" id="myspeak${i}">${parts.map((t,j)=>`<span class="mySpeakSentence" id="mySpeakSentence${i}_${j}">${myClassEsc(t)}</span>`).join(' ')}</div>${x.ko?`<div class="myStudyKo mySpeakKoText" style="margin-top:12px">🇰🇷 ${myClassSplitKoSentences(x.ko).map((kt,kj)=>`<span class="mySpeakKoSentence" data-ko-index="${kj}">${myClassEsc(kt)}</span>`).join(" ")}</div>`:''}<div class="myStudyActions"><button class="myStudyBtn" onclick="document.getElementById('myspeak${i}').classList.toggle('myHiddenEnglish')">🙈 가리기</button><button class="myStudyBtn primary" onclick='studySpeakSpeakingCard193(${i},document.getElementById("mySpeakBlock${i}"))'>🔊 질문 + 답변 듣기</button></div></div>`}).join('');
  else root.innerHTML=`<div class="myRuleGrid">${myClassData().habits.map((x,i)=>`<div class="myRule"><div class="myStudyNum">HABIT ${i+1}</div><b>${myClassEsc(x.title)}</b><p>${myClassEsc(x.text)}</p></div>`).join('')}</div>`;
  MY_CLASS_PLAY.index=0;MY_CLASS_PLAY.currentText='';myClassClearFocus();myClassSyncButtons();
@@ -6476,6 +6578,8 @@ function studyCourseSelectedLessons(course=ACTIVE_STUDY_COURSE){
   return [...new Set((Array.isArray(selected)?selected:[]).map(Number).filter(n=>all.includes(n)))].sort((a,b)=>a-b);
 }
 function studySyncCourseUI(){
+  const onlyMyDbStatus=document.getElementById('swMyDbPilotStatus');
+  if(onlyMyDbStatus && ACTIVE_STUDY_COURSE!=='my')onlyMyDbStatus.hidden=true;
   const c=studyCourseConfig();
   const meta=studyCourseMeta()[myClassLessonNo]||studyCourseMeta()[1]||{title:'',goal:''};
   const a=document.getElementById('myClassHeaderMain');
@@ -6556,6 +6660,11 @@ function studyDirectOpenCourse(course,lesson=1){
   try{renderMyClass?.()}catch(e){}
   try{studySyncCourseUI?.()}catch(e){}
   try{myClassSetStatus?.('재생 대기 · 버튼을 눌러 시작하세요',false)}catch(e){}
+  // DB course cards are loaded asynchronously. A missing first render must trigger
+  // a real lesson request, not leave a silent blank area with the MY-only DB badge.
+  if(c!=='my' && window.saywardDynamicCourses?.ensure){
+    void window.saywardDynamicCourses.ensure(c,n).catch(e=>console.warn('[SAYWARD course direct load]',String(e?.code||e?.message||e).slice(0,100)));
+  }
   try{window.scrollTo(0,0)}catch(e){}
 
   return true;
@@ -14329,10 +14438,10 @@ function m536MakeItem(course,lesson,tab,index,src=null){
     tab:String(tab),
     index:Number(index)||0,
     text:tab==='corrections'?(row.en||'')
-      :tab==='chunks'?(row.example||row.pattern||'')
+      :tab==='chunks'?(swStudySentencePairs(row)[0]?.en||'')
       :(row.text||''),
     ko:tab==='corrections'?(row.ko||'')
-      :tab==='chunks'?(row.exampleKo||row.ko||'')
+      :tab==='chunks'?(swStudySentencePairs(row)[0]?.ko||'')
       :(row.ko||''),
     source:row.source||'',
     paragraph:tab==='speaking'
@@ -14361,6 +14470,12 @@ function m536BuildPlaylist(course=m536ActiveCourse()){
       rows.forEach((_,index)=>{
         const item=m536MakeItem(c,lesson,tab,index,d);
         if(item?.text)out.push(item);
+        if(tab==='chunks'){
+          swStudySentencePairs(rows[index]).slice(1).forEach((sentence,j)=>{
+            if(sentence.en)out.push({...item,text:sentence.en,ko:sentence.ko,
+              sentenceIndex:j+1,patternId:sentence.patternId,expandedExample:sentence.role==='expanded'});
+          });
+        }
       });
     }
   }
@@ -14476,7 +14591,7 @@ async function m536SpeakItem(item,focusEl,guard=null){
   const exactEl=item?.tab==='corrections'
     ? focusEl?.querySelector('.myStudyEn')
     : item?.tab==='chunks'
-      ? focusEl?.querySelector('.myChunkExample')
+      ? ([...focusEl?.querySelectorAll('.swStudySentenceEn')||[]].find(el=>el.textContent.trim()===String(item?.text||'').trim())||focusEl?.querySelector('.myChunkExample'))
       : null;
   if(exactEl){
     mvDomStartHighlight(item?.text||'',exactEl);
@@ -23901,14 +24016,17 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     if(indexPromise)return indexPromise;
     const before=perf(),ticket=generation;
     indexPromise=(async()=>{
-      const fetch=()=>window.saywardAuth.contentFrom('sayward_my_lessons')
-        .select('lesson_no,title,subtitle,goal_html,visible,seed_complete,content_version,item_counts')
-        .order('lesson_no',{ascending:true}).limit(500);
-      const r=await fetch();if(r.error)throw r.error;
-      // DB-only: never create or repopulate lessons in an end-user browser.
-      // An absent/incomplete lesson requires an explicit, audited migration.
-      if(ticket!==generation)return false;
-      applyIndex(r.data||[]);
+      const list=[];
+      for(let from=0;from<20000;from+=500){
+        const r=await window.saywardAuth.contentFrom('sayward_my_lessons')
+          .select('lesson_no,title,subtitle,goal_html,visible,seed_complete,content_version,item_counts')
+          .order('lesson_no',{ascending:true}).range(from,from+499);
+        if(r.error)throw r.error;
+        if(ticket!==generation)return false;
+        const batch=r.data||[];list.push(...batch);if(batch.length<500)break;
+        if(from===19500)throw new Error('DB_MY_CATALOG_PAGE_LIMIT');
+      }
+      applyIndex(list);
       indexCheckedAt=Date.now();
       state.lastIndexMs=perf()-before;
       return true;
@@ -23950,24 +24068,37 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     if(!row){info('DB 수업 정보 없음 · 관리자에게 데이터 등록 상태를 확인하세요.');return;}
     const saved=cached(n),start=perf(),ticket=generation;
     const cacheCurrent=saved&&String(saved.version)===String(row.content_version)
-      &&(adminDraftPreview()||TABS.every(tab=>saved.data[tab].length===Number(row.item_counts?.[tab]||0)));
+      &&TABS.every(tab=>Array.isArray(saved.data[tab]));
     if(cacheCurrent && !force){
       state.lastLessonMs=perf()-start;setLesson(n,saved.data,saved.version,'cache');return;
     }
     if(cacheCurrent){state.lastLessonMs=perf()-start;setLesson(n,saved.data,saved.version,'cache');}
     else info('MY 수업 '+n+' · DB에서 콘텐츠를 불러오는 중…');
     try{
-      const itemQuery=window.saywardAuth.contentFrom('sayward_my_lesson_items')
-        .select('item_id,item_key,section,sort_index,content').eq('lesson_no',n);
-      // Only Admin may omit the visible filter; Postgres RLS is the hard gate.
-      if(!adminDraftPreview())itemQuery.eq('visible',true);
-      const res=await itemQuery.order('sort_index',{ascending:true}).limit(1500);
-      if(res.error)throw res.error;
-      if(ticket!==generation)return;
-      const data=empty();
-      for(const item of res.data||[]){if(!TABS.includes(item.section)||!item.content||typeof item.content!=='object')throw new Error('INVALID_ITEM');
-        data[item.section].push({...item.content,__dbItemId:item.item_id,__dbItemKey:item.item_key});}
-      for(const tab of TABS){if(!adminDraftPreview() && data[tab].length!==Number(row.item_counts?.[tab]||0))throw new Error('ITEM_COUNT_MISMATCH_'+tab);}
+      const items=[];
+      for(let from=0;from<20000;from+=500){
+        let query=window.saywardAuth.contentFrom('sayward_my_lesson_items')
+          .select('item_id,item_key,section,sort_index,content').eq('lesson_no',n);
+        if(!adminDraftPreview())query=query.eq('visible',true);
+        const res=await query.order('sort_index',{ascending:true}).order('item_key',{ascending:true}).range(from,from+499);
+        if(res.error)throw res.error;
+        if(ticket!==generation)return;
+        const batch=res.data||[];items.push(...batch);if(batch.length<500)break;
+        if(from===19500)throw new Error('DB_MY_ITEM_PAGE_LIMIT');
+      }
+      const data=empty(),seen=new Set();
+      for(const item of items){
+        if(!TABS.includes(item.section)||!item.content||Array.isArray(item.content)||typeof item.content!=='object'){
+          console.warn('[SAYWARD MY invalid item ignored]',String(item.item_key||''));continue;
+        }
+        if(seen.has(item.item_id))continue;seen.add(item.item_id);
+        data[item.section].push({...item.content,__dbItemId:item.item_id,__dbItemKey:item.item_key});
+      }
+      for(const tab of TABS){
+        if(!adminDraftPreview() && data[tab].length!==Number(row.item_counts?.[tab]||0)){
+          console.warn('[SAYWARD MY count differs from header]',n,tab,data[tab].length,row.item_counts?.[tab]);
+        }
+      }
       state.lastLessonMs=perf()-start;
       saveCache(n,row.content_version,data);
       setLesson(n,data,row.content_version,'db');
@@ -25493,6 +25624,30 @@ async function countAdminItems(course,rows){
 function canAccess(course,n){return window.swStudioPolicyReady?.()===true&&window.swLessonEnabled?.(course,n)!==false}
 function cardContainer(course){return document.querySelector('#homePage .'+course+'ClassSection')}
 function isCurrent(course,n){return ACTIVE_STUDY_COURSE===course&&Number(myClassLessonNo)===Number(n)}
+function courseDbStatus106(course,n,kind='loading',error=''){
+ if(!isCurrent(course,n)||document.getElementById('myClassPage')?.classList.contains('hidden'))return;
+ const goal=document.getElementById('myClassGoal');if(!goal)return;
+ let bar=document.getElementById('swCourseDbStatus106');
+ if(!bar){bar=document.createElement('div');bar.id='swCourseDbStatus106';bar.setAttribute('role','status');bar.setAttribute('aria-live','polite');goal.insertAdjacentElement('afterend',bar);}
+ const state=stores[course],items=state?.data.get(Number(n))||empty();
+ bar.hidden=false;bar.classList.toggle('error',kind==='error');bar.replaceChildren();
+ const msg=document.createElement('span');
+ if(kind==='ready'){
+   const chunk=items.chunks.length;
+   const totalSentences=items.chunks.reduce((sum,x)=>sum+(window.swStudySentencePairs?.(x)?.length||0),0);
+   msg.textContent=(sourceLabel[course]||course)+' '+n+'강 · DB '+chunk+'개 Chunk · 학습 문장 '+totalSentences+'개 불러옴';
+ } else if(kind==='error')msg.textContent='DB 문장 조회 실패 · '+String(error||'접속 상태 확인').slice(0,90);
+ else msg.textContent=(sourceLabel[course]||course)+' '+n+'강 · 공식 DB에서 학습 문장을 불러오는 중…';
+ bar.append(msg);
+ const btn=document.createElement('button');btn.type='button';btn.textContent='↻ DB 다시 불러오기';
+ btn.addEventListener('click',()=>{btn.disabled=true;courseDbStatus106(course,n,'loading');void hydrate(course,n,true).catch(err=>courseDbStatus106(course,n,'error',safeError(err)));});
+ bar.append(btn);
+ if(kind!=='ready' && !document.getElementById('myClassContent')?.querySelector('.myStudyCard,.mySpeakBlock,.myRule')){
+   const root=document.getElementById('myClassContent');
+   if(root){const hint=document.createElement('div');hint.className='swSoriLoadHint106';hint.setAttribute('role','status');hint.textContent=kind==='error'?'문장 표시를 완료하지 못했습니다. DB 다시 불러오기를 눌러 재시도하세요.':'문장을 불러오고 있습니다. 완료되면 학습 카드가 표시됩니다.';root.replaceChildren(hint);}
+ }
+}
+
 function makeCard(course,row){
  const n=Number(row.lesson_no),card=document.createElement('div');
  card.className='myClassCard '+course+'CourseCard';
@@ -25545,12 +25700,17 @@ async function index(course,force=false){
  if(!force&&state.meta.size&&Date.now()-state.at<12000)return [...state.meta.values()];
  const ticket=epoch,who=uid;
  state.indexTask=(async()=>{
-  const res=await window.saywardAuth.contentFrom('sayward_course_lessons')
-   .select('lesson_no,title,subtitle,goal_html,short_title,item_counts,content_version,seed_complete,visible')
-   .eq('course',course).order('lesson_no',{ascending:true}).limit(1000);
-  if(res.error)throw res.error;if(ticket!==epoch||who!==uid)return [];
+  const allRows=[];
+  for(let from=0;from<20000;from+=500){
+    const res=await window.saywardAuth.contentFrom('sayward_course_lessons')
+      .select('lesson_no,title,subtitle,goal_html,short_title,item_counts,content_version,seed_complete,visible')
+      .eq('course',course).order('lesson_no',{ascending:true}).range(from,from+499);
+    if(res.error)throw res.error;if(ticket!==epoch||who!==uid)return [];
+    const batch=res.data||[];allRows.push(...batch);if(batch.length<500)break;
+    if(from===19500)throw new Error('DB_CATALOG_PAGE_LIMIT');
+  }
   const preview=adminPreview();
-  let rows=(res.data||[]).filter(r=>(preview||(r.visible&&r.seed_complete))&&Number.isInteger(Number(r.lesson_no))&&Number(r.lesson_no)>0);
+  let rows=allRows.filter(r=>(preview||(r.visible&&r.seed_complete))&&Number.isInteger(Number(r.lesson_no))&&Number(r.lesson_no)>0);
   if(preview)rows=await countAdminItems(course,rows);
   if(ticket!==epoch||who!==uid)return [];
   const fresh=new Map(rows.map(r=>[Number(r.lesson_no),r]));
@@ -25574,26 +25734,57 @@ async function hydrate(course,lesson,force=false){
   if(meta.visible===false&&!adminPreview())throw new Error('LESSON_NOT_PUBLISHED_'+n);
   if(window.swStudioPolicyReady?.()!==true)await window.swVisibilityRefresh?.();
   if(!canAccess(course,n))throw new Error('LESSON_NOT_PERMITTED_'+n);
-  if(state.data.has(n)&&!force)return true;
-  let query=window.saywardAuth.contentFrom('sayward_course_items')
-   .select('item_id,section,item_key,sort_index,content').eq('course',course).eq('lesson_no',n);
-  // Admin preview includes items pending approval. Ordinary learners remain visible-only.
-  if(!adminPreview())query=query.eq('visible',true);
-  const res=await query.order('sort_index',{ascending:true}).limit(1500);
-  if(res.error)throw res.error;if(ticket!==epoch||who!==uid)return;
-  const d=empty(),slots=new Set();
-  for(const item of res.data||[]){
-   if(!TABS.includes(item.section)||!item.content||Array.isArray(item.content)||typeof item.content!=='object')throw new Error('INVALID_DB_ITEM');
-   const k=item.section+':'+item.sort_index;if(slots.has(k))throw new Error('DUPLICATE_SORT_INDEX');slots.add(k);
-   d[item.section].push({...item.content,__dbItemId:item.item_id,__dbItemKey:item.item_key});
+  if(state.data.has(n)&&!force){
+   if(isCurrent(course,n)){
+     const root=document.getElementById('myClassContent');
+     if(root&&!root.querySelector('.myStudyCard,.mySpeakBlock,.myRule') && (typeof studyCourseData==='function'?studyCourseData(course,n)?.chunks?.length:state.data.get(n)?.chunks?.length)>0){
+       if(!(state.data.get(n)?.[myClassTab]||[]).length){
+         const first=['chunks','corrections','speaking','habits'].find(tab=>state.data.get(n)?.[tab]?.length && window.swLessonSectionEnabled?.(course,n,tab)!==false);
+         if(first)myClassTab=first;
+       }
+       try{studySyncCourseUI();renderMyClass();}catch(err){courseDbStatus106(course,n,'error',safeError(err));throw err;}
+     }
+     courseDbStatus106(course,n,'ready');
+   }
+   return true;
   }
+  const allItems=[];
+  for(let from=0;from<20000;from+=500){
+    let query=window.saywardAuth.contentFrom('sayward_course_items')
+      .select('item_id,section,item_key,sort_index,content').eq('course',course).eq('lesson_no',n);
+    // Admin preview includes unpublished cards; ordinary learners receive only RLS-approved rows.
+    if(!adminPreview())query=query.eq('visible',true);
+    const res=await query.order('sort_index',{ascending:true}).order('item_key',{ascending:true}).range(from,from+499);
+    if(res.error)throw res.error;if(ticket!==epoch||who!==uid)return;
+    const batch=res.data||[];allItems.push(...batch);if(batch.length<500)break;
+    if(from===19500)throw new Error('DB_LESSON_PAGE_LIMIT');
+  }
+  const d=empty(),ids=new Set();
+  for(const item of allItems){
+    if(!TABS.includes(item.section)||!item.content||Array.isArray(item.content)||typeof item.content!=='object'){
+      console.warn('[SAYWARD DB item ignored]',course,n,String(item.item_key||'invalid'));continue;
+    }
+    if(ids.has(item.item_id)){console.warn('[SAYWARD duplicate item ID]',item.item_id);continue;}
+    ids.add(item.item_id);
+    d[item.section].push({...item.content,__dbItemId:item.item_id,__dbItemKey:item.item_key});
+  }
+  // Authorized rows are the content source of truth; stale header counters or
+  // intentional gaps in sort_index cannot turn a valid lesson into an empty page.
   for(const tab of TABS){
-   if(d[tab].length!==Number(meta.item_counts?.[tab]||0))throw new Error('COUNT_MISMATCH_'+tab);
-   for(let i=0;i<d[tab].length;i++)if(!slots.has(tab+':'+i))throw new Error('ORDER_GAP_'+tab);
+    if(d[tab].length!==Number(meta.item_counts?.[tab]||0)){
+      console.warn('[SAYWARD course count refreshed from DB rows]',course,n,tab,d[tab].length,meta.item_counts?.[tab]);
+      meta.item_counts={...meta.item_counts,[tab]:d[tab].length};
+    }
   }
   state.data.set(n,d);
   if(isCurrent(course,n)){
-   try{stopAllMyClassPlayback(true);studySyncCourseUI();renderMyClass();}catch(e){console.warn('[DB lesson rendering]',safeError(e))}
+   // A freshly loaded SORI lesson with only Chunk content must not land on an empty tab.
+   if(!(d[myClassTab]||[]).length){
+     const first=['chunks','corrections','speaking','habits'].find(tab=>d[tab].length && window.swLessonSectionEnabled?.(course,n,tab)!==false);
+     if(first)myClassTab=first;
+   }
+   try{stopAllMyClassPlayback(true);studySyncCourseUI();renderMyClass();courseDbStatus106(course,n,'ready');}
+   catch(e){courseDbStatus106(course,n,'error',safeError(e));console.warn('[DB lesson rendering]',safeError(e));}
   }
   window.dispatchEvent(new CustomEvent('sayward:dynamic-lesson-ready',{detail:{course,lesson:n,counts:meta.item_counts}}));
   return true;
@@ -25619,8 +25810,15 @@ for(const course of COURSES){
 window.saywardDynamicCourses={list:c=>[...(stores[c]?.meta?.keys()||[])].sort((a,b)=>a-b),
  meta:(c,n)=>stores[c]?.meta?.get(Number(n)),ensure:(c,n)=>hydrate(c,n),refresh:c=>index(c,true),diagnostics:()=>Object.fromEntries(COURSES.map(c=>[c,{catalog:stores[c].meta.size,loaded:stores[c].data.size}]))};
 window.addEventListener('sayward:study-lesson-render',e=>{
- const c=e.detail?.course,n=Number(e.detail?.lesson);if(!COURSES.includes(c)||!uid)return;
- queueMicrotask(()=>{if(isCurrent(c,n))void hydrate(c,n).catch(err=>console.warn('[DB lesson load]',safeError(err))) });
+ const c=e.detail?.course,n=Number(e.detail?.lesson);if(!COURSES.includes(c))return;
+ // Show a real course-specific status rather than the previous MY-lesson cache label.
+ if(!uid){courseDbStatus106(c,n,'error','로그인 정보를 확인해 주세요');return;}
+ queueMicrotask(()=>{if(!isCurrent(c,n))return;
+   // Run after the synchronous renderer finishes writing the empty list.
+   if(!stores[c].data.has(n))courseDbStatus106(c,n,'loading');
+   void hydrate(c,n).catch(err=>{
+   console.warn('[DB lesson load]',safeError(err));courseDbStatus106(c,n,'error',safeError(err));
+ }) });
 });
 window.addEventListener('sayward:content-auth',e=>{
  epoch++;uid=e.detail?.uid||'';client=e.detail?.client||null;clear();if(!uid||!client)return;
@@ -32182,7 +32380,9 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
    e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
    const card=button.closest('.myStudyCard');
    const role=button.getAttribute('data-sw6428-speak');
-   const content=card?.querySelector(role==='chunks'?'.myChunkExample':'.myStudyEn');
+   const content=role==='chunks-sentence'
+     ? button.closest('.swStudySentence')?.querySelector('.swStudySentenceEn')
+     : card?.querySelector(role==='chunks-expanded'?'.myChunkExpandedEn':role==='chunks'?'.myChunkExample':'.myStudyEn');
    const value=String(content?.textContent||'').trim();
    if(!value){try{window.myClassSetStatus?.('읽을 예문을 찾을 수 없습니다',false)}catch(_e){}return;}
    try{window.saywardEnglishAudio?.prime?.('lesson-card-listen')}catch(_e){}
@@ -33359,5 +33559,8 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
   window.saywardNumberFluency={mount,sayNumber,groups:GROUPS.length,version:'1.1',resetLocalStats:()=>{state=newState();save();render();}};
 })();
 
+</script>
+<script type="application/json" id="sayward-sentence-contract-v1">
+{"version":"1.0.0","scope":["my","sori","opic","friends","business"],"source":"Supabase","exampleFields":["example/exampleKo","extraExample/extraExampleKo","examples[]","comparisonItems[]","sentences[]","learningSentences[]","expandedExamples[]"],"canonicalItem":{"sentences":[{"en":"English sentence","ko":"한국어 번역","role":"original|expanded|comparison|additional|paraphrase","patternId":"official pattern id","pattern":"target phrase","cefrLevel":"B2+"}]},"rules":["Each en/ko is a single pair","Comparison items each carry their own patternId","New lesson numbers and cards need no HTML changes","Unpublished content obeys RLS and admin settings","Official grading still requires DB QA approval"]}
 </script>
 </body></html>
