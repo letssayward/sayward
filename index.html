@@ -1,3 +1,4 @@
+<!-- SAYWARD v6.4.108: Fix shared authenticated contentFrom query chain (order/range/item_key) for MY/SORI/OPIC/Friends/Business; preserve JWT/RLS and DB-driven sentences. -->
 <!-- SAYWARD v6.4.104: QA87 resolution release; 48 contrast cards split into pattern-specific candidates; 38 sentence pairs corrected; 1 paraphrase repaired in live Supabase. Frontend inherits validated v6.4.102. -->
 <!-- SAYWARD v6.4.102: semantic Korean/English pair QA gate and pending paraphrase suppression; no CEFR/Stable changes. -->
 <!-- SAYWARD v6.4.102: Number Fluency question swipe, bidirectional Korean/English 4-choice quiz; CEFR preserved. -->
@@ -37,8 +38,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.107 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.107">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.108 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.108">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -24458,7 +24459,7 @@ async function swReadOwnStudyPolicy(){
 const SW_CONTENT_TABLES=new Set(['sayward_my_lessons','sayward_my_lesson_items','sayward_course_lessons','sayward_course_items']);
 function swContentFrom(table){
   if(!SW_CONTENT_TABLES.has(table))throw new Error('CONTENT_TABLE_NOT_ALLOWED');
-  const state={select:'*',filters:[],orders:[],limit:1000};
+  const state={select:'*',filters:[],orders:[],limit:1000,offset:0};
   const builder={
     select(fields){
       if(typeof fields!=='string'||!/^[a-zA-Z0-9_,*]+$/.test(fields))throw new Error('CONTENT_FIELDS_INVALID');
@@ -24476,12 +24477,22 @@ function swContentFrom(table){
       state.filters.push([field,'in.('+values.map(n=>Number(n)).join(',')+')']);return builder;
     },
     order(field,options={}){
-      if(!['lesson_no','sort_index'].includes(field))throw new Error('CONTENT_ORDER_INVALID');
+      if(!['lesson_no','sort_index','item_key'].includes(field))throw new Error('CONTENT_ORDER_INVALID');
       state.orders.push(field+'.'+(options.ascending===false?'desc':'asc'));return builder;
     },
     limit(n){
       if(!Number.isInteger(Number(n))||Number(n)<1||Number(n)>1500)throw new Error('CONTENT_LIMIT_INVALID');
       state.limit=Number(n);return builder;
+    },
+    // Paging has to be supported by the very same JWT/RLS read transport as order().
+    // This intentionally matches the subset of Supabase PostgREST's query chain
+    // used by MY, SORI, OPIC, Friends and Business.  Zero-based, inclusive range.
+    range(from,to){
+      if(!Number.isInteger(from)||!Number.isInteger(to)||from<0||to<from||(to-from)>=1000)
+        throw new Error('CONTENT_RANGE_INVALID');
+      state.offset=from;
+      state.limit=to-from+1;
+      return builder;
     }
   };
   async function run(){
@@ -24490,6 +24501,7 @@ function swContentFrom(table){
     const q=new URLSearchParams();q.set('select',state.select);q.set('limit',String(state.limit));
     for(const [k,v] of state.filters)q.set(k,v);
     if(state.orders.length)q.set('order',state.orders.join(','));
+    if(state.offset)q.set('offset',String(state.offset));
     try{
       const res=await fetchWithin(URL+'/rest/v1/'+table+'?'+q.toString(),{
         method:'GET',mode:'cors',cache:'no-store',credentials:'omit',
@@ -25610,13 +25622,18 @@ async function countAdminItems(course,rows){
  const nums=[...totals.keys()];
  for(let pos=0;pos<nums.length;pos+=10){
   const batch=nums.slice(pos,pos+10);
-  const res=await window.saywardAuth.contentFrom('sayward_course_items')
-   .select('lesson_no,section').eq('course',course).in('lesson_no',batch).limit(1500);
-  if(res.error)throw res.error;
-  if((res.data||[]).length>=1500)throw new Error('ADMIN_PREVIEW_COUNT_PAGE_LIMIT');
-  for(const item of res.data||[]){
-   const counts=totals.get(Number(item.lesson_no));
-   if(counts&&Object.prototype.hasOwnProperty.call(counts,item.section))counts[item.section]++;
+  for(let from=0;from<20000;from+=500){
+   const res=await window.saywardAuth.contentFrom('sayward_course_items')
+    .select('lesson_no,section').eq('course',course).in('lesson_no',batch)
+    .order('lesson_no',{ascending:true}).range(from,from+499);
+   if(res.error)throw res.error;
+   const items=res.data||[];
+   for(const item of items){
+    const counts=totals.get(Number(item.lesson_no));
+    if(counts&&Object.prototype.hasOwnProperty.call(counts,item.section))counts[item.section]++;
+   }
+   if(items.length<500)break;
+   if(from===19500)throw new Error('ADMIN_PREVIEW_COUNT_PAGE_LIMIT');
   }
  }
  return rows.map(r=>({...r,item_counts:totals.get(Number(r.lesson_no))||r.item_counts}));
