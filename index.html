@@ -1,4 +1,4 @@
-<!-- SAYWARD v6.4.103: QA87 resolution release; 48 contrast cards split into pattern-specific candidates; 38 sentence pairs corrected; 1 paraphrase repaired in live Supabase. Frontend inherits validated v6.4.102. -->
+<!-- SAYWARD v6.4.104: QA87 resolution release; 48 contrast cards split into pattern-specific candidates; 38 sentence pairs corrected; 1 paraphrase repaired in live Supabase. Frontend inherits validated v6.4.102. -->
 <!-- SAYWARD v6.4.102: semantic Korean/English pair QA gate and pending paraphrase suppression; no CEFR/Stable changes. -->
 <!-- SAYWARD v6.4.102: Number Fluency question swipe, bidirectional Korean/English 4-choice quiz; CEFR preserved. -->
 <!-- SAYWARD v6.4.100: Number Fluency training for MY lesson 25, CEFR + official grading unchanged. -->
@@ -36,8 +36,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.103 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.103">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.104 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.104">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -24262,8 +24262,18 @@ async function swDirectAdminDbRequest(spec={}){
        ...(spec.body===undefined?{}:{body:JSON.stringify(spec.body)})},12000);
   }catch(e){throw new Error('DB_NETWORK_'+String(e?.message||'FAILED'));}
   if(!response.ok){
-    // Show only an error code / HTTP status. Never log JWT or response payload containing PII.
-    let code='';try{const body=await response.json();code=String(body?.code||'').slice(0,32)}catch(e){}
+    // Only pass through the exact, non-PII error from the account approval RPC.
+    // A generic P0001 can come from other causes: never treat it as email verification.
+    let code='';let isEmailNotConfirmed=false;
+    try{
+      const body=await response.json();
+      code=String(body?.code||'').slice(0,32);
+      isEmailNotConfirmed=table==='rpc/sayward_admin_set_account_status'
+        && method==='POST' && spec.body?.p_status==='active'
+        && code==='P0001' && body?.message==='EMAIL_NOT_CONFIRMED';
+    }catch(e){}
+    if(isEmailNotConfirmed)throw new Error('EMAIL_NOT_CONFIRMED');
+    // Do not log the response body or expose message, tokens, or user identifiers.
     throw new Error('DB_HTTP_'+response.status+(code?'_'+code:''));
   }
   if(response.status===204)return [];
@@ -25087,7 +25097,13 @@ async function init(){
               if(!Array.isArray(changed)||changed.length!==1)throw new Error('NO_CHANGE');
               await refreshApplications();
               state.textContent=labelText+' 완료 · 서버 재조회 성공';
-            }catch(err){button.disabled=false;state.textContent=String(err?.message||'').includes('EMAIL_NOT_CONFIRMED')?'승인 불가: 사용자가 먼저 이메일 인증을 완료해야 합니다.':'상태 변경 실패 · '+String(err?.message||'UNKNOWN').slice(0,80); }
+            }catch(err){
+              button.disabled=false;
+              const errorCode=String(err?.message||'UNKNOWN');
+              state.textContent=status==='active' && errorCode==='EMAIL_NOT_CONFIRMED'
+                ?'이메일 인증이 완료되지 않았습니다. 회원에게 인증 메일 확인을 요청하세요.'
+                :'상태 변경 실패 · '+errorCode.slice(0,80);
+            }
           });actions.append(button);
         }
         // MP3 entitlement is stored in Supabase, not browser settings.
