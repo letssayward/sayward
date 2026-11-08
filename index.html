@@ -1,3 +1,4 @@
+<!-- SAYWARD v6.4.110: Restore question progress/card position on pattern Next/Prev/swipe, without scrolling during answer/reveal. -->
 <!-- SAYWARD v6.4.109: Update pattern matching prompt to encourage translating Korean to English before selecting a pattern. -->
 <!-- SAYWARD v6.4.108: Fix shared authenticated contentFrom query chain (order/range/item_key) for MY/SORI/OPIC/Friends/Business; preserve JWT/RLS and DB-driven sentences. -->
 <!-- SAYWARD v6.4.104: QA87 resolution release; 48 contrast cards split into pattern-specific candidates; 38 sentence pairs corrected; 1 paraphrase repaired in live Supabase. Frontend inherits validated v6.4.102. -->
@@ -39,8 +40,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.109 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.109">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.110 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.110">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -28797,8 +28798,45 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
       const answer=g('sw5527Answer').value.trim();state.results.set(state.index,{answer,submitted:true,hintUsed:!!prev.hintUsed});
     }render();window.saywardStudioAudio?.play?.(p.mode==='match'?'match':'sentence',p.canonical_pattern,p.example_en);};
   g('sw5527Retry').onclick=()=>{if(state.saving)return;window.saywardStudioAudio?.stop?.();const prev=state.results.get(state.index)||{};if(prev.practiceKey&&!prev.selfSaved){notice('저장 확인이 Pending입니다. 같은 평가를 다시 눌러 확인한 뒤 재작성해 주세요.');return;}const isMatch=state.deck[state.index]?.mode==='match';state.results.set(state.index,isMatch?{answer:'',selected_id:null,submitted:false,hintUsed:false}:{answer:prev.answer||'',submitted:false,hintUsed:!!prev.hintUsed});render();if(!isMatch)g('sw5527Answer').focus();};
-  g('sw5527Prev').onclick=()=>{if(state.saving)return;window.saywardStudioAudio?.stop?.();leaveKeyboardMode();saveDraft();state.index=Math.max(0,state.index-1);render();};
-  g('sw5527Next').onclick=()=>{if(state.saving)return;window.saywardStudioAudio?.stop?.();leaveKeyboardMode();saveDraft();state.index++;render();};
+  // v6.4.110: On question navigation, restore the viewport position shown in
+  // the reference screenshot: progress counter/track, then the top of the card.
+  // Do not reposition while choosing an answer, revealing feedback, or rating.
+  // This also serves the existing swipe navigation, which clicks Prev / Next.
+  let questionFocusTicket=0;
+  function focusQuestionAfterNavigation(wasTyping=false){
+    const ticket=++questionFocusTicket,questionIndex=state.index;
+    const align=()=>{
+      if(ticket!==questionFocusTicket||!state.visible||view.classList.contains('hidden')||questionIndex!==state.index)return;
+      const target=state.finished?g('sw5527Done'):view.querySelector('.sw5527-progress-row');
+      if(!target || target.hidden)return;
+      const mobile=window.innerWidth<=640;
+      const desiredTop=(window.visualViewport?.offsetTop||0)+(mobile?90:112);
+      const y=Math.max(0,window.scrollY+target.getBoundingClientRect().top-desiredTop);
+      if(Math.abs(window.scrollY-y)>2){
+        try{window.scrollTo({top:y,left:0,behavior:'auto'});}catch(_){window.scrollTo(0,y);}
+      }
+    };
+    requestAnimationFrame(()=>requestAnimationFrame(align));
+    // Samsung/Android keyboard may resize the visual viewport after blur.
+    // Only correct a second time when navigation closed an active keyboard.
+    if(wasTyping)setTimeout(align,220);
+  }
+  g('sw5527Prev').onclick=()=>{
+    if(state.saving)return;
+    window.saywardStudioAudio?.stop?.();
+    const wasTyping=document.activeElement===answerField;
+    if(wasTyping)answerField.blur();leaveKeyboardMode();saveDraft();
+    state.index=Math.max(0,state.index-1);render();
+    focusQuestionAfterNavigation(wasTyping);
+  };
+  g('sw5527Next').onclick=()=>{
+    if(state.saving)return;
+    window.saywardStudioAudio?.stop?.();
+    const wasTyping=document.activeElement===answerField;
+    if(wasTyping)answerField.blur();leaveKeyboardMode();saveDraft();
+    state.index++;render();
+    focusQuestionAfterNavigation(wasTyping);
+  };
   window.saywardPatternSwipeNavigate=delta=>{
     if(!state.visible||state.saving||!state.deck.length)return false;
     if(delta<0){if(state.index===0)return false;g('sw5527Prev').click();}
