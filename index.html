@@ -1,4 +1,5 @@
-<!-- SAYWARD v6.4.110: Restore question progress/card position on pattern Next/Prev/swipe, without scrolling during answer/reveal. -->
+<!-- SAYWARD v6.4.112: Normalize TTS highlight to spoken text; never paint entire speaking cards during paragraph MP3 playback. -->
+<!-- SAYWARD v6.4.111: Align each next/previous pattern question to the same progress-row viewport position. -->
 <!-- SAYWARD v6.4.109: Update pattern matching prompt to encourage translating Korean to English before selecting a pattern. -->
 <!-- SAYWARD v6.4.108: Fix shared authenticated contentFrom query chain (order/range/item_key) for MY/SORI/OPIC/Friends/Business; preserve JWT/RLS and DB-driven sentences. -->
 <!-- SAYWARD v6.4.104: QA87 resolution release; 48 contrast cards split into pattern-specific candidates; 38 sentence pairs corrected; 1 paraphrase repaired in live Supabase. Frontend inherits validated v6.4.102. -->
@@ -40,8 +41,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.110 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.110">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.112 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.112">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -2029,6 +2030,44 @@ button.myTitleInfinityBtn[aria-pressed="true"] *{
   background:#f3f0ff!important;
   border-color:#c4b5fd!important;
   box-shadow:0 6px 18px rgba(109,40,217,.10)!important;
+}
+
+/* v6.4.112 shared playback style: never fill the entire card on audio playback.
+   Full-paragraph audio paints inline sentence text only; sentence-level TTS keeps word highlighting. */
+#myClassPage .mySpeakBlock.mvPlayingCard,
+#myClassPage .myStudyCard.mvPlayingCard{
+  background:#fff!important;
+  border-color:#c4b5fd!important;
+  box-shadow:0 6px 18px rgba(109,40,217,.07)!important;
+}
+#myClassPage .mySpeakText.mvTtsParagraphNow{
+  background:transparent!important;
+  box-shadow:none!important;
+  border:0!important;
+  padding:0!important;
+}
+#myClassPage .mySpeakText.mvTtsParagraphNow .mySpeakSentence{
+  background:#ede9fe!important;
+  background-color:#ede9fe!important;
+  box-shadow:none!important;
+  border-radius:3px!important;
+  -webkit-box-decoration-break:clone!important;
+  box-decoration-break:clone!important;
+}
+#myClassPage .mySpeakText.mvTtsParagraphNow .studySpeakingPatternMark{
+  background:#99f6e4!important;
+  color:#115e59!important;
+}
+/* Old clients may still pass a full block as their preferred speech element.
+   Do not let such containers receive a purple fill even if they bear a legacy class. */
+#myClassPage .mySpeakBlock.mvTtsSentenceNow,
+#myClassPage .myStudyCard.mvTtsSentenceNow{
+  background:#fff!important;
+  box-shadow:none!important;
+}
+#myClassPage .mySpeakText.mvTtsSentenceNow{
+  background:transparent!important;
+  box-shadow:none!important;
 }
 
 /* 현재 문장: 네모 박스가 아니라 글자 뒤의 배경색만 */
@@ -4373,7 +4412,7 @@ body:has(#voicePracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButton
   <div class="sw5527-shell swStudio-shell">
     <header class="sw5527-top"><button type="button" id="sw5527Back" class="sw5527-back" aria-label="홈으로 돌아가기">‹</button><div class="sw5527-headtext"><div class="sw5527-eyebrow">SAYWARD  /  SENTENCE STUDIO</div><h1>패턴 문장 만들기</h1><p>복습과 새 패턴을 한 번에</p></div><span class="sw5527-trial">실전 연습</span></header>
     <div class="sw5527-filter-card">
-      <div class="sw5527-filter-line"><label>학습 영역<select id="sw5527Course"><option value="all">전체 패턴</option><option value="custom">☑ Chapter 직접 선택</option><option value="MY">MY 수업</option><option value="OPIC">OPIC</option><option value="SORI">소리영어</option><option value="FRIENDS">Friends</option><option value="BUSINESS">Business 영어</option></select></label><label>출제 구성<select id="sw5527Mix"><option value="50">복습 50 · 신규 50</option><option value="70">복습 70 · 신규 30</option><option value="30">복습 30 · 신규 70</option><option value="100">복습 100 · 신규 0</option><option value="0">복습 0 · 신규 100</option><option value="focus">🎯 집중 학습만</option></select></label></div>
+      <div class="sw5527-filter-line"><label>학습 영역<select id="sw5527Course"><option value="all">전체 패턴</option><option value="custom">☑ Chapter 직접 선택</option><option value="MY">MY 수업</option><option value="OPIC">OPIC</option><option value="SORI">소리영어</option><option value="FRIENDS">Friends</option><option value="BUSINESS">Business 영어</option></select></label><label>출제 구성<select id="sw5527Mix"><option value="0">복습 0 · 신규 100</option><option value="30">복습 30 · 신규 70</option><option value="50">복습 50 · 신규 50</option><option value="70">복습 70 · 신규 30</option><option value="90">복습 90 · 신규 10</option><option value="100">복습 100 · 신규 0</option><option value="focus">🎯 집중 학습만</option></select></label></div>
 
       <!-- SAYWARD v6.4.99: User-chosen Chapter list; no static lesson numbers. -->
       <section id="sw6457ChapterPicker" class="sw6457-picker" hidden aria-label="Chapter 체크박스 출제 범위">
@@ -8058,7 +8097,7 @@ function mvDomVisible(el){
 function mvDomClearHighlight(){
   try{
     if(MV_DOM_HL.word)MV_DOM_HL.word.classList.remove('mvTtsWordNow');
-    if(MV_DOM_HL.sentence)MV_DOM_HL.sentence.classList.remove('mvTtsSentenceNow');
+    if(MV_DOM_HL.sentence)MV_DOM_HL.sentence.classList.remove('mvTtsSentenceNow','mvTtsParagraphNow');
     // unwrap only the spans created by this highlighter; preserve all existing pattern markup.
     for(const sp of MV_DOM_HL.wrapped){
       if(!sp||!sp.isConnected)continue;
@@ -8124,14 +8163,61 @@ function mvDomWrapWords(el,spoken){
     node.replaceWith(frag);
   }
 }
+// v6.4.112: Canonical TTS highlight target for all courses and playback paths.
+// When the full paragraph has one MP3, its preferred element can be a .mySpeakBlock
+// or a .mySpeakText container. Such a box must never get sentence highlighting.
+function mvDomResolveHighlightTarget(text,preferredEl){
+  const raw=preferredEl||mvDomFindSentence(text);
+  if(!raw||!raw.isConnected)return null;
+  const spoken=mvDomNorm(text);
+  const matching=(selector,host)=>{
+    const els=host?.querySelectorAll?.(selector)||[];
+    return Array.from(els).find(el=>mvDomNorm(el.textContent)===spoken)||null;
+  };
+  const isSpeakCard=raw.matches?.('.mySpeakBlock');
+  const isSpeakText=raw.matches?.('.mySpeakText');
+  const host=isSpeakCard?(raw.querySelector('.mySpeakText')):isSpeakText?raw:null;
+  if(host){
+    // Question/cue TTS still highlights its own heading, not the answer.
+    if(isSpeakCard){
+      const cue=matching('h3,.studySpeakingPatternEn,.mySpeakPrompt',raw);
+      if(cue)return {el:cue,paragraph:false};
+    }
+    const exact=matching('.mySpeakSentence',host);
+    if(exact)return {el:exact,paragraph:false};
+    const paragraph=mvDomNorm(host.textContent);
+    if(paragraph && (paragraph===spoken || paragraph.includes(spoken) || spoken.includes(paragraph))){
+      return {el:host,paragraph:true};
+    }
+    // No exact visible text was found. Don't mistakenly paint the card.
+    return null;
+  }
+  if(raw.matches?.('.myStudyCard,.myChunkCard,.myCorrectionCard,.card,.studyCard,.quizCard,.sentenceCard')){
+    const exact=matching('.myStudyEn,.myChunkExample,.mySpeakSentence,.sentenceEnglish,.studySentence,.exampleSentence',raw);
+    return exact?{el:exact,paragraph:false}:null;
+  }
+  // Unclassified divs with nested cards can also be chosen by the legacy
+  // fallback. They must never be styled as sentence text.
+  if(raw.matches?.('div') && raw.querySelector?.('.mySpeakBlock,.myStudyCard,.mySpeakSentence')){
+    const match=matching('.mySpeakSentence,.myStudyEn,.myChunkExample',raw);
+    return match?{el:match,paragraph:false}:null;
+  }
+  return {el:raw,paragraph:false};
+}
 function mvDomStartHighlight(text,preferredEl=null){
   mvDomClearHighlight();
-  const el=preferredEl||mvDomFindSentence(text);if(!el)return null;
+  const target=mvDomResolveHighlightTarget(text,preferredEl);
+  if(!target)return null;
+  const {el,paragraph}=target;
   MV_DOM_HL.sentence=el;MV_DOM_HL.spoken=mvDomNorm(text);
-  el.classList.add('mvTtsSentenceNow');
-  mvDomWrapWords(el,MV_DOM_HL.spoken);
-  // v6.4.60: Restore the original audio-follow scrolling on pattern-match results.
-  // v6.4.58 reordered the feedback cards; retain that layout and word highlighting.
+  if(paragraph){
+    // MP3 sentence boundaries are not available: indicate the spoken paragraph
+    // on inline sentence spans without claiming a word-level timestamp.
+    el.classList.add('mvTtsParagraphNow');
+  }else{
+    el.classList.add('mvTtsSentenceNow');
+    mvDomWrapWords(el,MV_DOM_HL.spoken);
+  }
   try{el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'})}catch(e){}
   return el;
 }
@@ -27469,7 +27555,7 @@ const experienced=combined.size;
       g('sw5527Course').value=scope && [...g('sw5527Course').options].some(o=>o.value===scope&&!o.disabled)?scope:'all';
       chapterSelected=chapterReadStored();
       const mix=localStorage.getItem(PAT_KEYS.mix);
-      g('sw5527Mix').value=['0','30','50','70','100','focus'].includes(mix)?mix:'50';
+      g('sw5527Mix').value=['0','30','50','70','90','100','focus'].includes(mix)?mix:'50';
       SCOUNT.value='5';MCOUNT.value='5';
       const raw=localStorage.getItem(PAT_KEYS.counts);
       if(raw){const x=JSON.parse(raw),a=x?.sentence,b=x?.match;
@@ -28798,45 +28884,29 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
       const answer=g('sw5527Answer').value.trim();state.results.set(state.index,{answer,submitted:true,hintUsed:!!prev.hintUsed});
     }render();window.saywardStudioAudio?.play?.(p.mode==='match'?'match':'sentence',p.canonical_pattern,p.example_en);};
   g('sw5527Retry').onclick=()=>{if(state.saving)return;window.saywardStudioAudio?.stop?.();const prev=state.results.get(state.index)||{};if(prev.practiceKey&&!prev.selfSaved){notice('저장 확인이 Pending입니다. 같은 평가를 다시 눌러 확인한 뒤 재작성해 주세요.');return;}const isMatch=state.deck[state.index]?.mode==='match';state.results.set(state.index,isMatch?{answer:'',selected_id:null,submitted:false,hintUsed:false}:{answer:prev.answer||'',submitted:false,hintUsed:!!prev.hintUsed});render();if(!isMatch)g('sw5527Answer').focus();};
-  // v6.4.110: On question navigation, restore the viewport position shown in
-  // the reference screenshot: progress counter/track, then the top of the card.
-  // Do not reposition while choosing an answer, revealing feedback, or rating.
-  // This also serves the existing swipe navigation, which clicks Prev / Next.
-  let questionFocusTicket=0;
-  function focusQuestionAfterNavigation(wasTyping=false){
-    const ticket=++questionFocusTicket,questionIndex=state.index;
-    const align=()=>{
-      if(ticket!==questionFocusTicket||!state.visible||view.classList.contains('hidden')||questionIndex!==state.index)return;
-      const target=state.finished?g('sw5527Done'):view.querySelector('.sw5527-progress-row');
-      if(!target || target.hidden)return;
-      const mobile=window.innerWidth<=640;
-      const desiredTop=(window.visualViewport?.offsetTop||0)+(mobile?90:112);
-      const y=Math.max(0,window.scrollY+target.getBoundingClientRect().top-desiredTop);
-      if(Math.abs(window.scrollY-y)>2){
-        try{window.scrollTo({top:y,left:0,behavior:'auto'});}catch(_){window.scrollTo(0,y);}
-      }
+  // v6.4.111: Keep the next/previous question in the same viewport position.
+  // Anchor to the question progress row, not the tall filter panel or an answer/result element.
+  // Only question navigation scrolls; answer confirmation and self-rating retain their position.
+  let questionPositionToken=0;
+  function positionQuestionAtProgress(){
+    const token=++questionPositionToken;
+    const place=()=>{
+      if(token!==questionPositionToken||!state.visible||state.finished||!state.deck.length||view.classList.contains('hidden'))return;
+      const progress=view.querySelector('.sw5527-progress-row');
+      if(!progress||progress.getClientRects().length===0)return;
+      const viewportHeight=window.visualViewport?.height||window.innerHeight;
+      // On the reference Samsung screen the progress row is roughly 92 CSS px from the top.
+      const targetTop=Math.max(84,Math.min(106,Math.round(viewportHeight*0.12)));
+      const currentY=window.scrollY||document.scrollingElement?.scrollTop||0;
+      const nextY=Math.max(0,Math.round(currentY+progress.getBoundingClientRect().top-targetTop));
+      if(Math.abs(nextY-currentY)>2)window.scrollTo({top:nextY,behavior:'instant'});
     };
-    requestAnimationFrame(()=>requestAnimationFrame(align));
-    // Samsung/Android keyboard may resize the visual viewport after blur.
-    // Only correct a second time when navigation closed an active keyboard.
-    if(wasTyping)setTimeout(align,220);
+    requestAnimationFrame(()=>requestAnimationFrame(place));
+    // The mobile browser can settle its viewport after the answer field loses focus.
+    setTimeout(place,110);
   }
-  g('sw5527Prev').onclick=()=>{
-    if(state.saving)return;
-    window.saywardStudioAudio?.stop?.();
-    const wasTyping=document.activeElement===answerField;
-    if(wasTyping)answerField.blur();leaveKeyboardMode();saveDraft();
-    state.index=Math.max(0,state.index-1);render();
-    focusQuestionAfterNavigation(wasTyping);
-  };
-  g('sw5527Next').onclick=()=>{
-    if(state.saving)return;
-    window.saywardStudioAudio?.stop?.();
-    const wasTyping=document.activeElement===answerField;
-    if(wasTyping)answerField.blur();leaveKeyboardMode();saveDraft();
-    state.index++;render();
-    focusQuestionAfterNavigation(wasTyping);
-  };
+  g('sw5527Prev').onclick=()=>{if(state.saving)return;window.saywardStudioAudio?.stop?.();leaveKeyboardMode();saveDraft();state.index=Math.max(0,state.index-1);render();positionQuestionAtProgress();};
+  g('sw5527Next').onclick=()=>{if(state.saving)return;window.saywardStudioAudio?.stop?.();leaveKeyboardMode();saveDraft();state.index++;render();positionQuestionAtProgress();};
   window.saywardPatternSwipeNavigate=delta=>{
     if(!state.visible||state.saving||!state.deck.length)return false;
     if(delta<0){if(state.index===0)return false;g('sw5527Prev').click();}
