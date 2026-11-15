@@ -1,4 +1,3 @@
-<!-- SAYWARD v6.4.112: Normalize TTS highlight to spoken text; never paint entire speaking cards during paragraph MP3 playback. -->
 <!-- SAYWARD v6.4.111: Align each next/previous pattern question to the same progress-row viewport position. -->
 <!-- SAYWARD v6.4.109: Update pattern matching prompt to encourage translating Korean to English before selecting a pattern. -->
 <!-- SAYWARD v6.4.108: Fix shared authenticated contentFrom query chain (order/range/item_key) for MY/SORI/OPIC/Friends/Business; preserve JWT/RLS and DB-driven sentences. -->
@@ -41,8 +40,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.112 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.112">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.111 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.111">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -2030,44 +2029,6 @@ button.myTitleInfinityBtn[aria-pressed="true"] *{
   background:#f3f0ff!important;
   border-color:#c4b5fd!important;
   box-shadow:0 6px 18px rgba(109,40,217,.10)!important;
-}
-
-/* v6.4.112 shared playback style: never fill the entire card on audio playback.
-   Full-paragraph audio paints inline sentence text only; sentence-level TTS keeps word highlighting. */
-#myClassPage .mySpeakBlock.mvPlayingCard,
-#myClassPage .myStudyCard.mvPlayingCard{
-  background:#fff!important;
-  border-color:#c4b5fd!important;
-  box-shadow:0 6px 18px rgba(109,40,217,.07)!important;
-}
-#myClassPage .mySpeakText.mvTtsParagraphNow{
-  background:transparent!important;
-  box-shadow:none!important;
-  border:0!important;
-  padding:0!important;
-}
-#myClassPage .mySpeakText.mvTtsParagraphNow .mySpeakSentence{
-  background:#ede9fe!important;
-  background-color:#ede9fe!important;
-  box-shadow:none!important;
-  border-radius:3px!important;
-  -webkit-box-decoration-break:clone!important;
-  box-decoration-break:clone!important;
-}
-#myClassPage .mySpeakText.mvTtsParagraphNow .studySpeakingPatternMark{
-  background:#99f6e4!important;
-  color:#115e59!important;
-}
-/* Old clients may still pass a full block as their preferred speech element.
-   Do not let such containers receive a purple fill even if they bear a legacy class. */
-#myClassPage .mySpeakBlock.mvTtsSentenceNow,
-#myClassPage .myStudyCard.mvTtsSentenceNow{
-  background:#fff!important;
-  box-shadow:none!important;
-}
-#myClassPage .mySpeakText.mvTtsSentenceNow{
-  background:transparent!important;
-  box-shadow:none!important;
 }
 
 /* 현재 문장: 네모 박스가 아니라 글자 뒤의 배경색만 */
@@ -8097,7 +8058,7 @@ function mvDomVisible(el){
 function mvDomClearHighlight(){
   try{
     if(MV_DOM_HL.word)MV_DOM_HL.word.classList.remove('mvTtsWordNow');
-    if(MV_DOM_HL.sentence)MV_DOM_HL.sentence.classList.remove('mvTtsSentenceNow','mvTtsParagraphNow');
+    if(MV_DOM_HL.sentence)MV_DOM_HL.sentence.classList.remove('mvTtsSentenceNow');
     // unwrap only the spans created by this highlighter; preserve all existing pattern markup.
     for(const sp of MV_DOM_HL.wrapped){
       if(!sp||!sp.isConnected)continue;
@@ -8163,61 +8124,14 @@ function mvDomWrapWords(el,spoken){
     node.replaceWith(frag);
   }
 }
-// v6.4.112: Canonical TTS highlight target for all courses and playback paths.
-// When the full paragraph has one MP3, its preferred element can be a .mySpeakBlock
-// or a .mySpeakText container. Such a box must never get sentence highlighting.
-function mvDomResolveHighlightTarget(text,preferredEl){
-  const raw=preferredEl||mvDomFindSentence(text);
-  if(!raw||!raw.isConnected)return null;
-  const spoken=mvDomNorm(text);
-  const matching=(selector,host)=>{
-    const els=host?.querySelectorAll?.(selector)||[];
-    return Array.from(els).find(el=>mvDomNorm(el.textContent)===spoken)||null;
-  };
-  const isSpeakCard=raw.matches?.('.mySpeakBlock');
-  const isSpeakText=raw.matches?.('.mySpeakText');
-  const host=isSpeakCard?(raw.querySelector('.mySpeakText')):isSpeakText?raw:null;
-  if(host){
-    // Question/cue TTS still highlights its own heading, not the answer.
-    if(isSpeakCard){
-      const cue=matching('h3,.studySpeakingPatternEn,.mySpeakPrompt',raw);
-      if(cue)return {el:cue,paragraph:false};
-    }
-    const exact=matching('.mySpeakSentence',host);
-    if(exact)return {el:exact,paragraph:false};
-    const paragraph=mvDomNorm(host.textContent);
-    if(paragraph && (paragraph===spoken || paragraph.includes(spoken) || spoken.includes(paragraph))){
-      return {el:host,paragraph:true};
-    }
-    // No exact visible text was found. Don't mistakenly paint the card.
-    return null;
-  }
-  if(raw.matches?.('.myStudyCard,.myChunkCard,.myCorrectionCard,.card,.studyCard,.quizCard,.sentenceCard')){
-    const exact=matching('.myStudyEn,.myChunkExample,.mySpeakSentence,.sentenceEnglish,.studySentence,.exampleSentence',raw);
-    return exact?{el:exact,paragraph:false}:null;
-  }
-  // Unclassified divs with nested cards can also be chosen by the legacy
-  // fallback. They must never be styled as sentence text.
-  if(raw.matches?.('div') && raw.querySelector?.('.mySpeakBlock,.myStudyCard,.mySpeakSentence')){
-    const match=matching('.mySpeakSentence,.myStudyEn,.myChunkExample',raw);
-    return match?{el:match,paragraph:false}:null;
-  }
-  return {el:raw,paragraph:false};
-}
 function mvDomStartHighlight(text,preferredEl=null){
   mvDomClearHighlight();
-  const target=mvDomResolveHighlightTarget(text,preferredEl);
-  if(!target)return null;
-  const {el,paragraph}=target;
+  const el=preferredEl||mvDomFindSentence(text);if(!el)return null;
   MV_DOM_HL.sentence=el;MV_DOM_HL.spoken=mvDomNorm(text);
-  if(paragraph){
-    // MP3 sentence boundaries are not available: indicate the spoken paragraph
-    // on inline sentence spans without claiming a word-level timestamp.
-    el.classList.add('mvTtsParagraphNow');
-  }else{
-    el.classList.add('mvTtsSentenceNow');
-    mvDomWrapWords(el,MV_DOM_HL.spoken);
-  }
+  el.classList.add('mvTtsSentenceNow');
+  mvDomWrapWords(el,MV_DOM_HL.spoken);
+  // v6.4.60: Restore the original audio-follow scrolling on pattern-match results.
+  // v6.4.58 reordered the feedback cards; retain that layout and word highlighting.
   try{el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'})}catch(e){}
   return el;
 }
