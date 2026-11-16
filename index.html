@@ -1,3 +1,6 @@
+<!-- SAYWARD v6.4.114: Extend horizontal next/previous question swipe to GPT-copy and current-pattern progress areas; retain vertical scrolling and input safety. -->
+<!-- SAYWARD v6.4.113: Standardize sentence-level CEFR status labels and refresh stale unrated results. -->
+<!-- SAYWARD v6.4.112: Normalize TTS highlight to spoken text; never paint entire speaking cards during paragraph MP3 playback. -->
 <!-- SAYWARD v6.4.111: Align each next/previous pattern question to the same progress-row viewport position. -->
 <!-- SAYWARD v6.4.109: Update pattern matching prompt to encourage translating Korean to English before selecting a pattern. -->
 <!-- SAYWARD v6.4.108: Fix shared authenticated contentFrom query chain (order/range/item_key) for MY/SORI/OPIC/Friends/Business; preserve JWT/RLS and DB-driven sentences. -->
@@ -40,8 +43,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.111 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.111">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.114 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.114">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -2029,6 +2032,44 @@ button.myTitleInfinityBtn[aria-pressed="true"] *{
   background:#f3f0ff!important;
   border-color:#c4b5fd!important;
   box-shadow:0 6px 18px rgba(109,40,217,.10)!important;
+}
+
+/* v6.4.112 shared playback style: never fill the entire card on audio playback.
+   Full-paragraph audio paints inline sentence text only; sentence-level TTS keeps word highlighting. */
+#myClassPage .mySpeakBlock.mvPlayingCard,
+#myClassPage .myStudyCard.mvPlayingCard{
+  background:#fff!important;
+  border-color:#c4b5fd!important;
+  box-shadow:0 6px 18px rgba(109,40,217,.07)!important;
+}
+#myClassPage .mySpeakText.mvTtsParagraphNow{
+  background:transparent!important;
+  box-shadow:none!important;
+  border:0!important;
+  padding:0!important;
+}
+#myClassPage .mySpeakText.mvTtsParagraphNow .mySpeakSentence{
+  background:#ede9fe!important;
+  background-color:#ede9fe!important;
+  box-shadow:none!important;
+  border-radius:3px!important;
+  -webkit-box-decoration-break:clone!important;
+  box-decoration-break:clone!important;
+}
+#myClassPage .mySpeakText.mvTtsParagraphNow .studySpeakingPatternMark{
+  background:#99f6e4!important;
+  color:#115e59!important;
+}
+/* Old clients may still pass a full block as their preferred speech element.
+   Do not let such containers receive a purple fill even if they bear a legacy class. */
+#myClassPage .mySpeakBlock.mvTtsSentenceNow,
+#myClassPage .myStudyCard.mvTtsSentenceNow{
+  background:#fff!important;
+  box-shadow:none!important;
+}
+#myClassPage .mySpeakText.mvTtsSentenceNow{
+  background:transparent!important;
+  box-shadow:none!important;
 }
 
 /* 현재 문장: 네모 박스가 아니라 글자 뒤의 배경색만 */
@@ -8058,7 +8099,7 @@ function mvDomVisible(el){
 function mvDomClearHighlight(){
   try{
     if(MV_DOM_HL.word)MV_DOM_HL.word.classList.remove('mvTtsWordNow');
-    if(MV_DOM_HL.sentence)MV_DOM_HL.sentence.classList.remove('mvTtsSentenceNow');
+    if(MV_DOM_HL.sentence)MV_DOM_HL.sentence.classList.remove('mvTtsSentenceNow','mvTtsParagraphNow');
     // unwrap only the spans created by this highlighter; preserve all existing pattern markup.
     for(const sp of MV_DOM_HL.wrapped){
       if(!sp||!sp.isConnected)continue;
@@ -8124,14 +8165,61 @@ function mvDomWrapWords(el,spoken){
     node.replaceWith(frag);
   }
 }
+// v6.4.112: Canonical TTS highlight target for all courses and playback paths.
+// When the full paragraph has one MP3, its preferred element can be a .mySpeakBlock
+// or a .mySpeakText container. Such a box must never get sentence highlighting.
+function mvDomResolveHighlightTarget(text,preferredEl){
+  const raw=preferredEl||mvDomFindSentence(text);
+  if(!raw||!raw.isConnected)return null;
+  const spoken=mvDomNorm(text);
+  const matching=(selector,host)=>{
+    const els=host?.querySelectorAll?.(selector)||[];
+    return Array.from(els).find(el=>mvDomNorm(el.textContent)===spoken)||null;
+  };
+  const isSpeakCard=raw.matches?.('.mySpeakBlock');
+  const isSpeakText=raw.matches?.('.mySpeakText');
+  const host=isSpeakCard?(raw.querySelector('.mySpeakText')):isSpeakText?raw:null;
+  if(host){
+    // Question/cue TTS still highlights its own heading, not the answer.
+    if(isSpeakCard){
+      const cue=matching('h3,.studySpeakingPatternEn,.mySpeakPrompt',raw);
+      if(cue)return {el:cue,paragraph:false};
+    }
+    const exact=matching('.mySpeakSentence',host);
+    if(exact)return {el:exact,paragraph:false};
+    const paragraph=mvDomNorm(host.textContent);
+    if(paragraph && (paragraph===spoken || paragraph.includes(spoken) || spoken.includes(paragraph))){
+      return {el:host,paragraph:true};
+    }
+    // No exact visible text was found. Don't mistakenly paint the card.
+    return null;
+  }
+  if(raw.matches?.('.myStudyCard,.myChunkCard,.myCorrectionCard,.card,.studyCard,.quizCard,.sentenceCard')){
+    const exact=matching('.myStudyEn,.myChunkExample,.mySpeakSentence,.sentenceEnglish,.studySentence,.exampleSentence',raw);
+    return exact?{el:exact,paragraph:false}:null;
+  }
+  // Unclassified divs with nested cards can also be chosen by the legacy
+  // fallback. They must never be styled as sentence text.
+  if(raw.matches?.('div') && raw.querySelector?.('.mySpeakBlock,.myStudyCard,.mySpeakSentence')){
+    const match=matching('.mySpeakSentence,.myStudyEn,.myChunkExample',raw);
+    return match?{el:match,paragraph:false}:null;
+  }
+  return {el:raw,paragraph:false};
+}
 function mvDomStartHighlight(text,preferredEl=null){
   mvDomClearHighlight();
-  const el=preferredEl||mvDomFindSentence(text);if(!el)return null;
+  const target=mvDomResolveHighlightTarget(text,preferredEl);
+  if(!target)return null;
+  const {el,paragraph}=target;
   MV_DOM_HL.sentence=el;MV_DOM_HL.spoken=mvDomNorm(text);
-  el.classList.add('mvTtsSentenceNow');
-  mvDomWrapWords(el,MV_DOM_HL.spoken);
-  // v6.4.60: Restore the original audio-follow scrolling on pattern-match results.
-  // v6.4.58 reordered the feedback cards; retain that layout and word highlighting.
+  if(paragraph){
+    // MP3 sentence boundaries are not available: indicate the spoken paragraph
+    // on inline sentence spans without claiming a word-level timestamp.
+    el.classList.add('mvTtsParagraphNow');
+  }else{
+    el.classList.add('mvTtsSentenceNow');
+    mvDomWrapWords(el,MV_DOM_HL.spoken);
+  }
   try{el.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'})}catch(e){}
   return el;
 }
@@ -30939,6 +31027,15 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    ON the four answer choice buttons, as well as on feedback/action buttons.
    Do not change form input or browser-edge gestures. */
 #sw5527PracticePage #sw5527Card,
+#sw5527PracticePage .sw5527-export,
+#sw5527PracticePage #sw5527CopyPanel,
+#sw5527PracticePage #sw6481PatternStatsHost,
+#sw5527PracticePage #sw5527Notice,
+#sw5527PracticePage #sw5527Done,
+#sw5527PracticePage .sw5527-export button,
+#sw5527PracticePage #sw5527CopyPanel button,
+#sw5527PracticePage #sw6481PatternStatsHost button,
+#sw5527PracticePage #sw5527Done button,
 #sw5527PracticePage #sw5527Card .sw5533-match-options,
 #sw5527PracticePage #sw5527Card .sw5533-match-choice,
 #sw5527PracticePage #sw5527Card button,
@@ -30964,9 +31061,10 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const el=target?.nodeType===3?target.parentElement:target;
    if(!el?.closest||el.closest(block))return true;
    if(root?.id==='sw5527PracticePage'){
-     // Only the question card is a gesture surface. Leave filter, home and
-     // result-summary buttons with their original interaction and behavior.
-     return !el.closest('#sw5527Card');
+     // Keep the whole active answer/result area swipeable, even after the user
+     // scrolls down to GPT copy, per-pattern progress or a saved assessment.
+     // Do not take gestures from the setup filters, menu or native text inputs.
+     return !el.closest('#sw5527Card,.sw5527-export,#sw5527CopyPanel,#sw6481PatternStatsHost,#sw5527Notice,#sw5527Done');
    }
    if(root?.id==='swWordExercise')return false;
    // Dashboard still excludes native buttons; studio choice buttons are the
@@ -31029,7 +31127,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const current=dashboard.dataset.sw62Tab||'summary',from=order.indexOf(current),next=from+delta;
    if(next>=0&&next<order.length)window.saywardLearningDashboard?.openTab?.(order[next]);
  },()=>!!dashboard?.classList.contains('sw5513-progress')&&!dashboard.classList.contains('hidden'));
- window.saywardSwipeStatus={version:'6.4.62',direction:'left-next/right-previous',threshold,
+ window.saywardSwipeStatus={version:'6.4.114',direction:'left-next/right-previous',threshold,
   buttonStart:true,verticalScroll:'native',tapSafety:'swipe-click-suppressed',edgeGuard:30};
 })();
 </script>
@@ -33220,39 +33318,48 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
 }
 </style>
 <script id="sw6497SentenceCefrModule">
-/* SAYWARD 6.4.97 — per-English-sentence CEFR display, independent of user promotion.
- * Source: authenticated exact-approved DB assessment; no CEFR guesses or writes.
- * In the answer result, labels are visible but speech keeps the original text.
+/* SAYWARD v6.4.114 — universal sentence CEFR status, including approved levels,
+ * BELOW_B1, fragments, multi-sentence material, and items needing revision.
+ * All levels come from the authenticated Supabase CEFR assessment RPC.
+ * No AI guess, no write in the app. Quiz speech uses the original English only.
  */
 (function(){'use strict';
  const allowed=new Set(['B1','B2','B2+','C1']);
- const ratings=new Map(),inflight=new Map();
+ const ratings=new Map(),inflight=new Map(),TTL_MS=60000;
  const clean=t=>String(t??'').trim().replace(/\s+/g,' ');
  const key=t=>clean(t).toLocaleLowerCase('en');
- const failure={kind:'error',display:'(조회 실패)'};
- function parseLevel(value){
-  const level=String(value||'').trim().toUpperCase();
-  return allowed.has(level)?{kind:'known',display:'('+level+')',level}:
-   {kind:'unrated',display:'(미평가)',level:null};
+ const failure={kind:'error',display:'(조회 실패)',level:null};
+ function parseLevel(row){
+  const level=String(row?.cefr_level||'').trim().toUpperCase();
+  const state=String(row?.review_state||'').trim().toLowerCase();
+  if(allowed.has(level))return {kind:'known',display:'('+level+')',level};
+  if(level==='BELOW_B1'||state==='below_b1')
+    return {kind:'below',display:'(B1 미만)',level:'BELOW_B1'};
+  if(state==='fragment_hold')return {kind:'excluded',display:'(표현 · 평가 제외)',level:null};
+  if(state==='multi_sentence_hold')return {kind:'excluded',display:'(여러 문장 · 개별 평가)',level:null};
+  if(state==='comparison_pair_hold')return {kind:'excluded',display:'(비교 카드 · 개별 평가)',level:null};
+  if(state==='needs_revision')return {kind:'review',display:'(문장 검수 필요)',level:null};
+  return {kind:'unrated',display:'(미평가)',level:null};
  }
  async function lookup(text){
   const english=clean(text),id=key(english);
   if(!english||english.length>1200)return {kind:'unrated',display:'(미평가)',level:null};
-  if(ratings.has(id))return ratings.get(id);
+  const cached=ratings.get(id);
+  if(cached && Date.now()-cached.at<TTL_MS)return cached.data;
   if(inflight.has(id))return inflight.get(id);
   const client=window.saywardAuth?.getClient?.();
   if(!client)return failure;
   const promise=(async()=>{
    try{
-    const {data,error}=await client.rpc('sayward_sentence_cefr_labels_v1',{p_sentences:[english]});
+    const {data,error}=await client.rpc('sayward_sentence_cefr_labels_v2',{p_sentences:[english]});
     if(error)throw error;
     const first=Array.isArray(data)?data[0]:Array.isArray(data?.items)?data.items[0]:null;
     if(!first)throw new Error('CEFR_LOOKUP_EMPTY_RESPONSE');
-    const result=parseLevel(first.cefr_level);
-    ratings.set(id,result);
+    const result=parseLevel(first);
+    ratings.set(id,{data:result,at:Date.now()});
     return result;
    }catch(e){
-    console.warn('[SAYWARD 6.4.97 CEFR sentence lookup]',String(e?.message||e).slice(0,130));
+    console.warn('[SAYWARD v6.4.113 CEFR sentence lookup]',String(e?.message||e).slice(0,130));
     return failure;
    }finally{inflight.delete(id)}
   })();
@@ -33264,7 +33371,7 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
   node.querySelectorAll(':scope > .sw6497MatchCefr').forEach(x=>x.remove());
   const tag=document.createElement('span');tag.className='sw6497MatchCefr is-unrated';
   tag.textContent='(확인 중)';tag.setAttribute('aria-label','CEFR 확인 중');
-  tag.setAttribute('aria-hidden','true'); // Spoken audio should read only the original English.
+  tag.setAttribute('aria-hidden','true');
   node.append(document.createTextNode(' '),tag);
   const sentence=clean(english);
   void lookup(sentence).then(result=>{
@@ -33292,9 +33399,12 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
    target.setAttribute('aria-label',target.textContent+' · CEFR '+(result.level||result.display));
   });
  }
- window.saywardSentenceCefr6497={lookup,attachMatch,attachSpeaking,version:'6.4.97',
+ window.saywardSentenceCefr6497={lookup,attachMatch,attachSpeaking,version:'6.4.113',
   inspect:()=>({cached:ratings.size,pending:inflight.size})};
- window.addEventListener('sayward:auth-out',()=>{ratings.clear();inflight.clear()});
+ const reset=()=>{ratings.clear();inflight.clear()};
+ window.addEventListener('sayward:auth-out',reset);
+ window.addEventListener('sayward:db-refresh',reset);
+ window.addEventListener('pageshow',()=>ratings.clear());
 })();
 </script>
 
