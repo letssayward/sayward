@@ -1,3 +1,4 @@
+<!-- SAYWARD v6.4.122: Add focus-only category in Pattern Studio using verified personal focus IDs, and nonblocking MP3 manifest-miss TTS fallback. -->
 <!-- SAYWARD v6.4.119: Home menu has six persistent modes in a four-tile sliding viewport (DAY / MY / SORI / OPIC / FRIENDS / BUSINESS); no change to study engine. -->
 <!-- SAYWARD v6.4.118: content-fitted 2-row scope selector inside the original-sized home repeat button. Prior v6.4.116 scope behavior is preserved. -->
 <!-- SAYWARD v6.4.116: Relocate repeat scope to home (All / trained sentence patterns / active focus patterns), connect real Supabase focus IDs to canonical playlist, retain existing lesson policy and resume logic. -->
@@ -45,8 +46,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.121 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.121">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.122 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.122">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -4423,7 +4424,7 @@ body:has(#voicePracticePage:not(.hidden)[aria-hidden="false"]) .drawerMenuButton
   <div class="sw5527-shell swStudio-shell">
     <header class="sw5527-top"><button type="button" id="sw5527Back" class="sw5527-back" aria-label="홈으로 돌아가기">‹</button><div class="sw5527-headtext"><div class="sw5527-eyebrow">SAYWARD  /  SENTENCE STUDIO</div><h1>패턴 문장 만들기</h1><p>복습과 새 패턴을 한 번에</p></div><span class="sw5527-trial">실전 연습</span></header>
     <div class="sw5527-filter-card">
-      <div class="sw5527-filter-line"><label>학습 영역<select id="sw5527Course"><option value="all">전체 패턴</option><option value="custom">☑ Chapter 직접 선택</option><option value="MY">MY 수업</option><option value="OPIC">OPIC</option><option value="SORI">소리영어</option><option value="FRIENDS">Friends</option><option value="BUSINESS">Business 영어</option></select></label><label>출제 구성<select id="sw5527Mix"><option value="0">복습 0 · 신규 100</option><option value="30">복습 30 · 신규 70</option><option value="50">복습 50 · 신규 50</option><option value="70">복습 70 · 신규 30</option><option value="90">복습 90 · 신규 10</option><option value="100">복습 100 · 신규 0</option><option value="focus">🎯 집중 학습만</option></select></label></div>
+      <div class="sw5527-filter-line"><label>학습 영역<select id="sw5527Course"><option value="all">전체 패턴</option><option value="custom">☑ Chapter 직접 선택</option><option value="FOCUS">🎯 집중 학습 등록 패턴</option><option value="MY">MY 수업</option><option value="OPIC">OPIC</option><option value="SORI">소리영어</option><option value="FRIENDS">Friends</option><option value="BUSINESS">Business 영어</option></select></label><label>출제 구성<select id="sw5527Mix"><option value="0">복습 0 · 신규 100</option><option value="30">복습 30 · 신규 70</option><option value="50">복습 50 · 신규 50</option><option value="70">복습 70 · 신규 30</option><option value="90">복습 90 · 신규 10</option><option value="100">복습 100 · 신규 0</option><option value="focus">🎯 집중 학습만</option></select></label></div>
 
       <!-- SAYWARD v6.4.99: User-chosen Chapter list; no static lesson numbers. -->
       <section id="sw6457ChapterPicker" class="sw6457-picker" hidden aria-label="Chapter 체크박스 출제 범위">
@@ -13134,6 +13135,7 @@ function mvOpenUpdateHistory(){
       <div class="mvInfoVersionCard"><b>v${window.SAYWARD_RELEASE}</b><span>현재 설치 버전</span></div>
       <section class="mvInfoSection">
         <h3>v${window.SAYWARD_RELEASE}</h3>
+        <ul><li>✓ 패턴 맞추기 학습 영역에 집중 학습 등록 패턴을 추가했습니다. 공식 패턴의 정답 후보만 집중 등록 ID로 제한하고 객관식 오답 선택지는 전체 공식 패턴에서 보충합니다.</li><li>✓ MP3 파일이 없는 문장은 음성 폴더 전체 조회를 기다리지 않고 TTS로 즉시 대체합니다. 최초 manifest 응답 대기도 최대 450ms로 제한합니다.</li></ul>
         <ul><li>✓ 3줄 메뉴에 아침(15문항)·점심(15문항)·저녁(20문항) 통합 「GPT 활용 공식 학습 답안제출」 메뉴를 추가했습니다. 시간대와 Session ID를 구분해 로그인 계정으로 공식 DB 제출을 요청합니다. 실제 제출 및 채점 확정 여부는 서버 응답 확인이 필요합니다.</li></ul>
          <ul><li>✓ 패턴 맞추기 결과에서 자동 재생 음성의 위치를 정답 패턴·의미 → 공식 DB 기준 문장 카드로 고정했습니다. MP3/TTS 자동 스크롤과 글자 강조를 유지하고 상단의 중복 카드에서는 재생 아이콘을 숨겼습니다.</li></ul>
          <ul><li>✓ 3줄 메뉴에서 중복된 ‘학습 통계’·‘망각곡선’ 바로가기를 제거하고 ‘학습 대시보드’로 통합했습니다. 기존 DAY별 스코어·망각곡선 탭과 기기별 기록은 유지합니다.</li><li>✓ 대시보드 ‘DAY VOCA 망각곡선에서 복습’ 버튼을 기존 메뉴 없이도 직접 동작하도록 연결했습니다.</li></ul>
@@ -28868,9 +28870,12 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
       if(!chapterCatalogLoaded){notice('Chapter 목록 확인 전입니다. DB 새로고침을 누르거나 조회가 끝난 뒤 출제해 주세요.');return;}
       if(![...chapterSelected].some(key=>chapterCatalog.some(row=>row.key===key))){notice('Chapter를 최소 1개 선택해 주세요.');return;}
     }
-    const filtered=course==='custom'?chapterEligibleRows():state.patterns.filter(p=>course==='all'||String(p.courses||'').toUpperCase().includes(course));
+    const filtered=course==='custom'?chapterEligibleRows():state.patterns.filter(p=>course==='FOCUS'?state.focus.has(p.pattern_id):course==='all'||String(p.courses||'').toUpperCase().includes(course));
+    // FOCUS restricts which patterns can be the correct answer, not the unrelated answer choices.
+    const distractorPool=course==='FOCUS'?state.patterns:filtered;
+    if(course==='FOCUS'&&!filtered.length){notice('🎯 등록된 집중 학습 패턴이 없습니다. 패턴 카드에서 집중 학습을 등록해 주세요.');setText('sw5527TotalInfo','🎯 집중 학습 등록 패턴 0개 · 출제 중단');return;}
     if(course==='custom'&&!filtered.length){notice('선택한 Chapter에 연결된 공식 패턴이 0개입니다. 다른 Chapter를 선택하거나 해당 수업의 패턴 DB 연결을 확인해 주세요.');setText('sw5527TotalInfo','선택된 Chapter · 공식 패턴 0개 · 출제 중단');return;}
-    if(match>0&&new Set(filtered.map(p=>String(p.canonical_pattern||'').trim().toLowerCase()).filter(Boolean)).size<4){notice('패턴 맞추기에는 서로 다른 공식 패턴이 최소 4개 필요합니다. Chapter를 더 선택하거나 문장 만들기만 출제해 주세요.');return;}
+    if(match>0&&new Set(distractorPool.map(p=>String(p.canonical_pattern||'').trim().toLowerCase()).filter(Boolean)).size<4){notice('패턴 맞추기에는 서로 다른 공식 패턴이 최소 4개 필요합니다. Chapter를 더 선택하거나 문장 만들기만 출제해 주세요.');return;}
     if(!state.due){notice('Stable 예정일 조회 완료 전에는 새 문제를 출제하지 않습니다.');return;}
     // v6.4.83: Review = persisted APP/GPT/legacy study event, New = neither.
     // The official NEW/FOCUS/LEARNING/STABLE stage remains a *separate* label.
@@ -28950,7 +28955,7 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
       const seenOptions=new Set([String(p.canonical_pattern).trim().toLowerCase()]),alternatives=[];
       // Distractors may come from the published course; only the correct
       // question itself must belong to the focus-only pool.
-      for(const x of randomShuffle(filtered)){
+      for(const x of randomShuffle(distractorPool)){
         const label=String(x.canonical_pattern||'').trim(),k=label.toLowerCase();
         if(!label||seenOptions.has(k)||x.pattern_id===p.pattern_id)continue;
         seenOptions.add(k);alternatives.push({pattern_id:x.pattern_id,canonical_pattern:label});
@@ -32701,23 +32706,39 @@ else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(ma
  }
  async function findPath(text){
    const t=norm(text);if(!uidCheck()||!t)return '';
-   // v6.4.35: exact exported content -> exact MP3 path, no guessing or folder scan.
-   // Missing/older manifest stays optional: preserve dynamic six-folder discovery.
-   const index=await fetchManifest();
-   const inManifest=index?.get(t);
-   if(inManifest){resolved.set(t,inManifest);return inManifest;}
-   await discover();
-   if(fileIndex&&Date.now()-lastScan>=REFRESH_MISSING_MS)await discover(true);
-   if(!fileIndex)return ''; // Network/access failure: fall back to existing browser TTS.
-   let cached=resolved.get(t);if(cached!==undefined){
-     if(cached)return cached;
-     // New uploads become visible without an app-code change. Bounded refresh only on misses.
-     if(Date.now()-lastScan<REFRESH_MISSING_MS)return '';
-     await discover(true);if(!fileIndex)return '';cached=resolved.get(t);if(cached!==undefined)return cached;
+   // An already fetched manifest is the source of truth for both hits and misses.
+   // In particular, DON'T block a single sentence behind a multi-folder Storage scan.
+   let index=manifestMap;
+   // Pick up newly generated MP3s without blocking a tap.
+   if(index && Date.now()-manifestAt>=MANIFEST_TTL_MS && !manifestTask)void fetchManifest(true);
+   if(!index){
+     const SLOW=Symbol('manifest-time-budget');
+     let timer;
+     try{
+       index=await Promise.race([
+         fetchManifest(),
+         new Promise(resolve=>{timer=setTimeout(()=>resolve(SLOW),450);})
+       ]);
+     }finally{if(timer)clearTimeout(timer);}
+     // The manifest fetch finishes and populates manifestMap for the *next* tap.
+     // This first tap starts browser TTS without waiting for a slow remote read.
+     if(index===SLOW)return '';
    }
+   if(index){
+     const match=index.get(t)||'';
+     resolved.set(t,match);
+     return match; // Crucial: an exact manifest miss is immediately TTS.
+   }
+   // Legacy installations without a readable manifest: discover files asynchronously.
+   // Do not delay the missing sentence while scanning 6-20 voice folders.
+   if(!fileIndex){if(!indexTask)void discover();return '';}
+   if(Date.now()-lastScan>=REFRESH_MISSING_MS&&!indexTask)void discover(true);
+   const cached=resolved.get(t);
+   if(cached!==undefined)return cached;
    const paths=await variants(t);
    const match=paths.find(p=>fileIndex?.has(p))||'';
-   resolved.set(t,match);return match;
+   resolved.set(t,match);
+   return match;
  }
  async function playFile(text,rate,lang,element,ticket,verifiedAudioPath=''){
    if(!/^en(?:-|$)/i.test(lang||'en-US')){fallbackReason='NOT_ENGLISH';return false;}
@@ -32786,7 +32807,7 @@ else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(ma
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if(auth())void checkAccess(true).then(ok=>{if(ok)void fetchManifest();});},{once:true});
  else if(auth())void checkAccess(true).then(ok=>{if(ok)void fetchManifest();});
   window.saywardKokoroMixed={
-    status:()=>({engine:'v'+window.SAYWARD_RELEASE,authenticated:!!auth(),active:!!auth()&&accessEnabled,accessEnabled,manifestEntries:manifestMap?.size||0,manifestAgeSec:manifestAt?Math.round((Date.now()-manifestAt)/1000):null,manifestError,indexedVoices:folderVoices.length,indexedFiles:lastFileCount,mappedSentences:resolved.size,lastScan,lastError,playbackMode,currentFile,fallbackReason,lastRequestedText,gestureStarts,gestureUnlocks,autoplayBlocked,lastAudioTrigger,recentFallbacks:recentFallbacks.slice(-12)}),
+    status:()=>({engine:'v'+window.SAYWARD_RELEASE,authenticated:!!auth(),active:!!auth()&&accessEnabled,accessEnabled,manifestEntries:manifestMap?.size||0,manifestAgeSec:manifestAt?Math.round((Date.now()-manifestAt)/1000):null,manifestError,indexedVoices:folderVoices.length,indexedFiles:lastFileCount,mappedSentences:resolved.size,lastScan,lastError,fastMissTts:true,playbackMode,currentFile,fallbackReason,lastRequestedText,gestureStarts,gestureUnlocks,autoplayBlocked,lastAudioTrigger,recentFallbacks:recentFallbacks.slice(-12)}),
     refresh:async()=>{resolved.clear();manifestAt=0;manifestMap=null;manifestError='';fileIndex=null;lastScan=0;if(!await checkAccess(true))return null;return (await fetchManifest(true))||(await discover(true));},
     has:async text=>{if(!await checkAccess())return false;return !!await findPath(text);},
     findPath,prefetch,prime:primeAudioFromGesture,stop:halt
