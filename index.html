@@ -1,3 +1,5 @@
+<!-- SAYWARD v6.4.128: Pattern-match reveal shows correct + incorrect meanings; read options 1–4 twice each, then example sentence twice only. Grade/DB/paraphrase logic unchanged. -->
+<!-- SAYWARD v6.4.127: Pattern-match paraphrase must match the exact displayed source example; prevent cross-variant meaning mismatch. All grading/DB practice unchanged. -->
 <!-- SAYWARD v6.4.126: Show confirmed official Miss focus-registration results (active, new suggested, existing) after Commit/History verification; safe on read-only reporting failure. -->
 <!-- SAYWARD v6.4.125: Pattern match reveals three distractors' official Korean meanings only after answer confirmation. -->
 <!-- SAYWARD v6.4.124: Official grading JSON import accepts explicit empty-string user_answer as a valid non-response; grades and IDs unchanged. -->
@@ -50,8 +52,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.126 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.126">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.128 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.128">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -3041,6 +3043,11 @@ html,body{
 }
 #sw5527PracticePage .sw5533-match-choice.is-wrong .sw6125-choice-meaning{color:#89465a}
 #sw5527PracticePage .sw5533-match-choice:disabled{opacity:1;cursor:default}
+
+/* v6.4.128 · All four meanings after answer reveal; show currently spoken option without layout movement. */
+#sw5527PracticePage #sw5533MatchOptions .sw5533-match-choice[data-sw128-read-only="true"]{cursor:pointer!important}
+#sw5527PracticePage #sw5533MatchOptions .sw5533-match-choice.sw128-choice-speaking{outline:3px solid #818cf8;outline-offset:2px;box-shadow:0 0 0 5px rgba(129,140,248,.11)!important;transition:outline-color .12s}
+#sw5527PracticePage #sw5533MatchOptions .sw5533-match-choice.is-correct .sw6125-choice-meaning{color:#176647;font-weight:750}
 </style>
 
 
@@ -4109,7 +4116,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
     <section class="configSection">
       <div class="configSectionTitle">🔊 학습 모드 음성 설정</div>
       <div class="configRow"><div class="configCopy"><b>음성 읽기 속도</b><span>모든 영어·한국어 TTS에 공통 적용</span></div><select id="cfgSpeechRate" class="configSelect"><option value="0.8">0.8배</option><option value="0.9">0.9배</option><option value="1.0">1.0배</option><option value="1.1">1.1배</option><option value="1.2">1.2배</option><option value="1.3">1.3배</option><option value="1.5">1.5배</option></select></div>
-      <div class="configRow"><div class="configCopy"><b>🧩 문장 만들기·패턴 맞추기 정답 자동 듣기</b><span>답안 제출/선택 확인 후 자동 재생. 문장 만들기: 기준 문장 / 맞추기: 정답 패턴 → 기준 문장. 설정 횟수만큼 반복되며 계정별 DB에 동기화됩니다.</span></div><select id="cfgStudioAnswerRepeat" class="configSelect" aria-label="정답 자동 음성 반복 횟수"><option value="0">끔</option><option value="1">1회</option><option value="2">2회 (기본)</option><option value="3">3회</option><option value="5">5회</option></select></div>
+      <div class="configRow"><div class="configCopy"><b>🧩 문장 만들기·패턴 맞추기 정답 자동 듣기</b><span>답안 제출/선택 확인 후 자동 재생. 문장 만들기: 기준 문장을 설정 횟수만큼 / 패턴 맞추기: 1~4번 보기 각각 2회 → 정답 예문만 2회. 설정이 끔이면 자동 듣기가 꺼지며 계정별 DB에 동기화됩니다.</span></div><select id="cfgStudioAnswerRepeat" class="configSelect" aria-label="정답 자동 음성 반복 횟수"><option value="0">끔</option><option value="1">1회</option><option value="2">2회 (기본)</option><option value="3">3회</option><option value="5">5회</option></select></div>
       <div class="configRow"><div class="configCopy"><b>예문·패러프레이징 반복</b><span>학습 화면의 예문 듣기 반복 횟수</span></div><select id="cfgExampleRepeat" class="configSelect"><option value="1">1회</option><option value="2">2회</option><option value="3">3회</option><option value="4">4회</option><option value="5">5회</option></select></div>
       <div class="configRow"><div class="configCopy"><b>패턴 활용 예문 반복</b><span>패턴 활용 예문 각각의 읽기 횟수</span></div><select id="cfgPatternRepeat" class="configSelect"><option value="1">1회</option><option value="2">2회</option><option value="3">3회</option></select></div>
       <div class="configRow"><div class="configCopy"><b>Collocation 반복</b><span>각 Collocation의 읽기 횟수</span></div><select id="cfgCollocationRepeat" class="configSelect"><option value="1">1회</option><option value="2">2회</option><option value="3">3회</option></select></div>
@@ -28627,12 +28634,11 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
     for(const opt of p.options||[]){
       const button=document.createElement('button');button.type='button';button.className='sw5533-match-choice';
       const selected=entry?.answer===opt.canonical_pattern,correct=entry?.submitted&&opt.pattern_id===p.pattern_id;
-      // v6.4.125: Show the official Korean meanings of the three distractor
-      // patterns only after answer confirmation. Never reveal a clue while
-      // an unanswered multiple-choice question is still being selected.
+      // v6.4.128: Reveal official meanings for ALL four options, including
+      // the correct answer, only after confirmation. Do not leak clues first.
       const title=document.createElement('span');title.className='sw6125-choice-title';
       title.textContent=opt.canonical_pattern;button.appendChild(title);
-      if(entry?.submitted&&opt.pattern_id!==p.pattern_id){
+      if(entry?.submitted){
         const master=state.patterns.find(x=>x.pattern_id===opt.pattern_id);
         const ko=String(master?.pattern_ko||opt.pattern_ko||'').trim();
         const meaning=document.createElement('span');meaning.className='sw6125-choice-meaning';
@@ -28642,7 +28648,10 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
       button.setAttribute('aria-pressed',String(selected));
       if(selected)button.classList.add('is-selected');if(correct)button.classList.add('is-correct');
       if(entry?.submitted&&selected&&!correct)button.classList.add('is-wrong');
-      button.disabled=!!entry?.submitted;
+      // After confirmation the four buttons become listen-only: a tap reads
+      // that pattern twice but never changes the chosen/graded result.
+      button.dataset.sw128ReadOnly=entry?.submitted?'true':'false';
+      if(entry?.submitted)button.title='이 패턴을 2번 다시 듣기';
       button.addEventListener('click',()=>{
         if(state.saving)return;const old=state.results.get(state.index);
         if(old?.submitted)return;
@@ -28657,12 +28666,21 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
   // v6.4.77: two-card match result, paraphrase fetched from the official DB.
   // Keep scoring, answer submission, and Stable progression unchanged.
   const swMatchParaphraseCache=new Map();
+  // v6.4.127: Source-sentence identity is mandatory. The official paraphrase
+  // table stores ONE verified original sentence per pattern_id, while the
+  // lesson engine rotates several different examples of that same pattern.
+  // A pattern match alone does NOT prove the two sentences are paraphrases.
+  const sw127NormalizeSource=s=>String(s||'').normalize('NFKC')
+    .replace(/[\u2018\u2019\u02bc]/g,"'")
+    .replace(/\s+/g,' ').replace(/\s+([,.;!?])/g,'$1').trim().toLowerCase();
+  const sw127IsSameSource=(shown,source)=>!!sw127NormalizeSource(shown)&&
+    sw127NormalizeSource(shown)===sw127NormalizeSource(source);
   async function swLoadMatchParaphrase(patternId){
     if(swMatchParaphraseCache.has(patternId))return swMatchParaphraseCache.get(patternId);
     const client=window.saywardAuth?.getClient?.();
     if(!client)return {error:'로그인 후 패러프레이징을 조회할 수 있습니다.'};
     const {data,error}=await client.from('sayward_similar_paraphrase')
-      .select('pattern_id,paraphrase_en,paraphrase_ko,qa_status')
+      .select('pattern_id,source_example_en,paraphrase_en,paraphrase_ko,qa_status')
       .eq('pattern_id',patternId).maybeSingle();
     if(error)return {error:'패러프레이징 조회 실패: '+error.message};
     if(data)swMatchParaphraseCache.set(patternId,data);
@@ -28736,8 +28754,10 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
     const para=makeCard('패러프레이징 패턴 · 문장','phrase');
     const loading=addText(para,'공식 DB 패러프레이징 조회 중…','swStudioFeedbackDetail');
     const requestedId=p.pattern_id;
+    const requestedSentence=String(p.example_en||'');
     void swLoadMatchParaphrase(requestedId).then(data=>{
-      if(!para.isConnected||state.deck[state.index]?.pattern_id!==requestedId)return;
+      if(!para.isConnected||state.deck[state.index]?.pattern_id!==requestedId||
+        !sw127IsSameSource(state.deck[state.index]?.example_en,requestedSentence))return;
       loading.remove();
       if(!data||data.error||!data.paraphrase_en){
         addText(para,data?.error||'패러프레이징 문장이 없습니다.','swStudioFeedbackDetail');return;
@@ -28748,8 +28768,13 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
         addText(para,'의미 검수 대기 중인 패러프레이징입니다. 정답 예문으로 표시하지 않습니다.','sw6477QaNote');
         return;
       }
-      // This table stores the alternative sentence, not a separately approved alternative pattern.
-      addText(para,'검수 완료 · 대체 문장 · 원문과 비교','swStudioFeedbackDetail');
+      // This table's verified alternative was written for source_example_en,
+      // NOT for every rotated example associated with pattern_id.
+      if(!sw127IsSameSource(requestedSentence,data.source_example_en)){
+        addText(para,'현재 출제된 문장에 직접 연결된 검증 완료 패러프레이징은 없습니다. 다른 예문에 연결된 대체 문장을 잘못 표시하지 않았습니다.','sw6477QaNote');
+        return;
+      }
+      addText(para,'검수 완료 · 현재 원문과 의미가 일치하는 대체 문장','swStudioFeedbackDetail');
       addTapSentence(para,data.paraphrase_en);
       addText(para,data.paraphrase_ko,'swStudioFeedbackDetail');
     }).catch(()=>{
@@ -29301,7 +29326,7 @@ ${JSON.stringify({source:'SAYWARD_PATTERN_SENTENCE_PRACTICE',mode:'preview_uniss
       state.results.set(state.index,{...prev,submitted:true,hintUsed:false,matchCorrect:prev.selected_id===p.pattern_id});
     }else{
       const answer=g('sw5527Answer').value.trim();state.results.set(state.index,{answer,submitted:true,hintUsed:!!prev.hintUsed});
-    }render();window.saywardStudioAudio?.play?.(p.mode==='match'?'match':'sentence',p.canonical_pattern,p.example_en);};
+    }render();window.saywardStudioAudio?.play?.(p.mode==='match'?'match':'sentence',p.canonical_pattern,p.example_en,p.mode==='match'?p.options:undefined);};
   g('sw5527Retry').onclick=()=>{if(state.saving)return;window.saywardStudioAudio?.stop?.();const prev=state.results.get(state.index)||{};if(prev.practiceKey&&!prev.selfSaved){notice('저장 확인이 Pending입니다. 같은 평가를 다시 눌러 확인한 뒤 재작성해 주세요.');return;}const isMatch=state.deck[state.index]?.mode==='match';state.results.set(state.index,isMatch?{answer:'',selected_id:null,submitted:false,hintUsed:false}:{answer:prev.answer||'',submitted:false,hintUsed:!!prev.hintUsed});render();if(!isMatch)g('sw5527Answer').focus();};
   // v6.4.111: Keep the next/previous question in the same viewport position.
   // Anchor to the question progress row, not the tall filter panel or an answer/result element.
@@ -31923,42 +31948,77 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    if(!result||!result.isConnected||result.hidden||result.closest('[hidden]'))return null;
    const selector=kind==='pattern'
      ?'.swStudioFeedback-answer .swStudioFeedbackValue'
-     :'.swStudioFeedback-reference .swStudioFeedbackValue';
+     :'.swStudioFeedback-answer .sw6478TapSentence';
    const el=result.querySelector(selector);
    return el&&el.isConnected&&el.getClientRects().length?el:null;
  }
- function play(mode,pattern,reference){
+ // v6.4.128: Pattern match speaks all FOUR visible options twice each,
+ // then ONLY the reference sentence twice. This sequence is deliberately
+ // independent of the normal sentence creation (configurable) repeat count.
+ // If automatic playback is disabled in Config, keep that preference.
+ function play(mode,pattern,reference,matchChoices){
    stop();
-   // A choice tap may already be playing its own one-off TTS/MP3.
-   // Confirming an answer starts a fresh studio sequence, not overlapping speech.
+   // Answer confirmation must cancel any still-playing choice tap.
    try{window.stopSpeech?.()}catch(_e){}
    const n=count();if(!n||!supported())return false;
-   // Do NOT rewrite the reference sentence: its literal DB text defines
-   // the MP3 SHA-256 filename. Cue placeholders are only normalized for TTS.
    const sentence=String(reference||'').trim(),rawPattern=String(pattern||'').trim();
-   // MP3 lookup MUST use the exact DB canonical pattern. Normalizing placeholders
-   // before lookup changes the manifest key and caused the first spoken item to
-   // fall back to Android TTS although the MP3 was already present.
-   const units=(mode==='match'?[{audioText:rawPattern,ttsText:cue(rawPattern),focusKind:'pattern'},{audioText:sentence,ttsText:sentence,focusKind:'sentence'}]:[{audioText:sentence,ttsText:sentence}]).filter(unit=>unit.audioText);
-   if(!units.length)return false;
+   const isFourChoiceMatch=mode==='match'&&Array.isArray(matchChoices)&&matchChoices.length===4&&
+     matchChoices.every(x=>String(x?.canonical_pattern||'').trim());
+   const units=isFourChoiceMatch
+     ?[...matchChoices.map((x,i)=>({audioText:String(x.canonical_pattern).trim(),ttsText:cue(x.canonical_pattern),focusKind:'choice',choiceIndex:i})),
+       {audioText:sentence,ttsText:sentence,focusKind:'sentence'}]
+     :(mode==='match'?[{audioText:rawPattern,ttsText:cue(rawPattern),focusKind:'pattern'},
+       {audioText:sentence,ttsText:sentence,focusKind:'sentence'}]:[{audioText:sentence,ttsText:sentence}]);
+   const audible=units.filter(unit=>unit.audioText);
+   if(!audible.length)return false;
    const ticket=++generation;active=true;
-   // Start/keep the same unlocked media element while awaiting the DB alias.
-   // This avoids first-click TTS caused by a template/MP3 spoken-text mismatch.
    try{window.saywardEnglishAudio?.prime?.('studio-answer-confirm')}catch(_e){}
-   const aliasTask=mode==='match'?preparePattern(rawPattern):Promise.resolve(null);
+   // Use the existing MP3 resolver on the exact canonical pattern, never on
+   // normalized TTS placeholder text; prefetch in parallel to reduce waits.
+   const aliasTask=isFourChoiceMatch
+     ?Promise.all(matchChoices.map(x=>preparePattern(x.canonical_pattern)))
+     :(mode==='match'?preparePattern(rawPattern):Promise.resolve(null));
    void (async()=>{
+     let highlighted=null;
      try{
-       const alias=await aliasTask;
+       const aliases=await aliasTask;
        if(ticket!==generation)return;
-       for(let i=0;i<units.length*n;i++){
-         if(ticket!==generation)return;
-         const unit=units[i%units.length];
-         const mp3Override=unit.audioText===rawPattern&&mode==='match'&&alias?.audioPath
-           ?{audioPath:alias.audioPath}:{};
-         await window.speakOne(unit.audioText,rate(),'en-US',mode==='match'?matchResultAudioTarget(unit.focusKind):undefined,{ttsText:unit.ttsText,...mp3Override});
+       if(isFourChoiceMatch){
+         for(const unit of audible){
+           if(ticket!==generation)return;
+           const target=unit.focusKind==='choice'
+             ?document.querySelectorAll('#sw5533MatchOptions .sw5533-match-choice')[unit.choiceIndex]
+             :matchResultAudioTarget('sentence');
+           if(highlighted)highlighted.classList.remove('sw128-choice-speaking');
+           highlighted=unit.focusKind==='choice'?target:null;
+           if(highlighted)highlighted.classList.add('sw128-choice-speaking');
+           const alias=unit.focusKind==='choice'?aliases[unit.choiceIndex]:null;
+           // Each numbered pattern is pronounced twice in order, followed by
+           // just the complete example sentence twice (never its pattern again).
+           for(let repeat=0;repeat<2;repeat++){
+             if(ticket!==generation)return;
+             await window.speakOne(unit.audioText,rate(),'en-US',
+               unit.focusKind==='sentence'?target:undefined,
+               {ttsText:unit.ttsText,...(alias?.audioPath?{audioPath:alias.audioPath}:{})});
+           }
+         }
+       }else{
+         const alias=aliases;
+         for(let i=0;i<audible.length*n;i++){
+           if(ticket!==generation)return;
+           const unit=audible[i%audible.length];
+           const mp3Override=unit.audioText===rawPattern&&mode==='match'&&alias?.audioPath
+             ?{audioPath:alias.audioPath}:{};
+           await window.speakOne(unit.audioText,rate(),'en-US',
+             mode==='match'?matchResultAudioTarget(unit.focusKind):undefined,
+             {ttsText:unit.ttsText,...mp3Override});
+         }
        }
      }catch(e){console.warn('[SAYWARD Studio Audio]',String(e?.message||e).slice(0,100));}
-     finally{if(ticket===generation)active=false;}
+     finally{
+       if(highlighted)highlighted.classList.remove('sw128-choice-speaking');
+       if(ticket===generation)active=false;
+     }
    })();
    return true;
  }
@@ -33228,7 +33288,11 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
       &&!el.matches('.sw5533-match-choice,.sw6478TapSentence'))return null;
    if(el.matches('.sw5533-match-choice')&&el.disabled)return null;
    // Pattern result UI may show a CEFR suffix; audio must use the original ENGLISH only.
-   const raw=normalize(el.matches('.sw6478TapSentence')?(el.dataset.audioEnglish||el.textContent):el.textContent);
+   const raw=normalize(el.matches('.sw6478TapSentence')?(el.dataset.audioEnglish||el.textContent):
+     (el.matches('#sw5527PracticePage #sw5533MatchOptions .sw5533-match-choice')
+       ?el.querySelector('.sw6125-choice-title')?.textContent||el.textContent:el.textContent));
+   // On a bilingual revealed option, ignore Korean meaning for audio; read
+   // the English canonical title only. Keep all other tap targets untouched.
    if(!raw||raw==='—'||/[가-힣ㄱ-ㅎㅏ-ㅣ]/u.test(raw)||!/[A-Za-z]{2}/.test(raw))return null;
    return {el,raw};
  }
@@ -33261,7 +33325,13 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
        if(alias?.audioPath)options={...options,audioPath:alias.audioPath};
      }
      if(seq!==serial)return;
-     await window.speakOne(content,rate,'en-US',el,options);
+     // v6.4.128: A tap on ANY pattern-match option repeats that pattern
+     // twice, including after confirmation; other tap-to-hear controls stay once.
+     const repeat=el.matches('#sw5527PracticePage #sw5533MatchOptions .sw5533-match-choice')?2:1;
+     for(let i=0;i<repeat;i++){
+       if(seq!==serial)return;
+       await window.speakOne(content,rate,'en-US',el,options);
+     }
 })().catch(e=>console.warn('[SAYWARD tap MP3]',String(e?.message||e).slice(0,110)))
      .finally(()=>{if(seq===serial){el.classList.remove('swv6433-tap-speaking');lastElement=null;}});
    return true;
