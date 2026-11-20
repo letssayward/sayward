@@ -1,4 +1,4 @@
-<!-- SAYWARD v6.4.128: Pattern-match reveal shows correct + incorrect meanings; read options 1–4 twice each, then example sentence twice only. Grade/DB/paraphrase logic unchanged. -->
+<!-- SAYWARD v6.4.129: Pattern-match answer playback: lower correct pattern twice, reference sentence twice, then options 1-4 twice each. Grade/DB/paraphrase logic unchanged. -->
 <!-- SAYWARD v6.4.127: Pattern-match paraphrase must match the exact displayed source example; prevent cross-variant meaning mismatch. All grading/DB practice unchanged. -->
 <!-- SAYWARD v6.4.126: Show confirmed official Miss focus-registration results (active, new suggested, existing) after Commit/History verification; safe on read-only reporting failure. -->
 <!-- SAYWARD v6.4.125: Pattern match reveals three distractors' official Korean meanings only after answer confirmation. -->
@@ -52,8 +52,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.128 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.128">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.129 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.129">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -4116,7 +4116,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
     <section class="configSection">
       <div class="configSectionTitle">🔊 학습 모드 음성 설정</div>
       <div class="configRow"><div class="configCopy"><b>음성 읽기 속도</b><span>모든 영어·한국어 TTS에 공통 적용</span></div><select id="cfgSpeechRate" class="configSelect"><option value="0.8">0.8배</option><option value="0.9">0.9배</option><option value="1.0">1.0배</option><option value="1.1">1.1배</option><option value="1.2">1.2배</option><option value="1.3">1.3배</option><option value="1.5">1.5배</option></select></div>
-      <div class="configRow"><div class="configCopy"><b>🧩 문장 만들기·패턴 맞추기 정답 자동 듣기</b><span>답안 제출/선택 확인 후 자동 재생. 문장 만들기: 기준 문장을 설정 횟수만큼 / 패턴 맞추기: 1~4번 보기 각각 2회 → 정답 예문만 2회. 설정이 끔이면 자동 듣기가 꺼지며 계정별 DB에 동기화됩니다.</span></div><select id="cfgStudioAnswerRepeat" class="configSelect" aria-label="정답 자동 음성 반복 횟수"><option value="0">끔</option><option value="1">1회</option><option value="2">2회 (기본)</option><option value="3">3회</option><option value="5">5회</option></select></div>
+      <div class="configRow"><div class="configCopy"><b>🧩 문장 만들기·패턴 맞추기 정답 자동 듣기</b><span>답안 제출/선택 확인 후 자동 재생. 문장 만들기: 기준 문장을 설정 횟수만큼 / 패턴 맞추기: 하단 정답 패턴 2회 → 정답 예문 2회 → 보기 1~4번 각 2회. 설정이 끔이면 자동 듣기가 꺼지며 계정별 DB에 동기화됩니다.</span></div><select id="cfgStudioAnswerRepeat" class="configSelect" aria-label="정답 자동 음성 반복 횟수"><option value="0">끔</option><option value="1">1회</option><option value="2">2회 (기본)</option><option value="3">3회</option><option value="5">5회</option></select></div>
       <div class="configRow"><div class="configCopy"><b>예문·패러프레이징 반복</b><span>학습 화면의 예문 듣기 반복 횟수</span></div><select id="cfgExampleRepeat" class="configSelect"><option value="1">1회</option><option value="2">2회</option><option value="3">3회</option><option value="4">4회</option><option value="5">5회</option></select></div>
       <div class="configRow"><div class="configCopy"><b>패턴 활용 예문 반복</b><span>패턴 활용 예문 각각의 읽기 횟수</span></div><select id="cfgPatternRepeat" class="configSelect"><option value="1">1회</option><option value="2">2회</option><option value="3">3회</option></select></div>
       <div class="configRow"><div class="configCopy"><b>Collocation 반복</b><span>각 Collocation의 읽기 횟수</span></div><select id="cfgCollocationRepeat" class="configSelect"><option value="1">1회</option><option value="2">2회</option><option value="3">3회</option></select></div>
@@ -31952,10 +31952,11 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const el=result.querySelector(selector);
    return el&&el.isConnected&&el.getClientRects().length?el:null;
  }
- // v6.4.128: Pattern match speaks all FOUR visible options twice each,
- // then ONLY the reference sentence twice. This sequence is deliberately
- // independent of the normal sentence creation (configurable) repeat count.
- // If automatic playback is disabled in Config, keep that preference.
+ // v6.4.129: Match answer audio follows the learning feedback reading order:
+ // 1) lower CORRECT pattern twice, 2) its reference sentence twice,
+ // 3) visible choices 1–4 in order, each twice.
+ // The first two units explicitly target the answer result below the choices;
+ // no redundant pattern/sentence plays at the end. Studio Config "off" still wins.
  function play(mode,pattern,reference,matchChoices){
    stop();
    // Answer confirmation must cancel any still-playing choice tap.
@@ -31965,45 +31966,47 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const isFourChoiceMatch=mode==='match'&&Array.isArray(matchChoices)&&matchChoices.length===4&&
      matchChoices.every(x=>String(x?.canonical_pattern||'').trim());
    const units=isFourChoiceMatch
-     ?[...matchChoices.map((x,i)=>({audioText:String(x.canonical_pattern).trim(),ttsText:cue(x.canonical_pattern),focusKind:'choice',choiceIndex:i})),
-       {audioText:sentence,ttsText:sentence,focusKind:'sentence'}]
+     ?[{audioText:rawPattern,ttsText:cue(rawPattern),focusKind:'pattern'},
+       {audioText:sentence,ttsText:sentence,focusKind:'sentence'},
+       ...matchChoices.map((x,i)=>({audioText:String(x.canonical_pattern).trim(),ttsText:cue(x.canonical_pattern),focusKind:'choice',choiceIndex:i}))]
      :(mode==='match'?[{audioText:rawPattern,ttsText:cue(rawPattern),focusKind:'pattern'},
        {audioText:sentence,ttsText:sentence,focusKind:'sentence'}]:[{audioText:sentence,ttsText:sentence}]);
    const audible=units.filter(unit=>unit.audioText);
    if(!audible.length)return false;
    const ticket=++generation;active=true;
    try{window.saywardEnglishAudio?.prime?.('studio-answer-confirm')}catch(_e){}
-   // Use the existing MP3 resolver on the exact canonical pattern, never on
-   // normalized TTS placeholder text; prefetch in parallel to reduce waits.
-   const aliasTask=isFourChoiceMatch
-     ?Promise.all(matchChoices.map(x=>preparePattern(x.canonical_pattern)))
-     :(mode==='match'?preparePattern(rawPattern):Promise.resolve(null));
+   // Prepare all official MP3 aliases in parallel, but WAIT ONLY for the unit
+   // that is about to play. Slow option lookups cannot delay the lower answer.
+   const aliasTasks=isFourChoiceMatch
+     ?{pattern:preparePattern(rawPattern),choices:matchChoices.map(x=>preparePattern(x.canonical_pattern))}
+     :{pattern:mode==='match'?preparePattern(rawPattern):Promise.resolve(null),choices:[]};
    void (async()=>{
      let highlighted=null;
      try{
-       const aliases=await aliasTask;
-       if(ticket!==generation)return;
        if(isFourChoiceMatch){
          for(const unit of audible){
            if(ticket!==generation)return;
            const target=unit.focusKind==='choice'
              ?document.querySelectorAll('#sw5533MatchOptions .sw5533-match-choice')[unit.choiceIndex]
-             :matchResultAudioTarget('sentence');
+             :matchResultAudioTarget(unit.focusKind);
            if(highlighted)highlighted.classList.remove('sw128-choice-speaking');
            highlighted=unit.focusKind==='choice'?target:null;
            if(highlighted)highlighted.classList.add('sw128-choice-speaking');
-           const alias=unit.focusKind==='choice'?aliases[unit.choiceIndex]:null;
-           // Each numbered pattern is pronounced twice in order, followed by
-           // just the complete example sentence twice (never its pattern again).
+           const alias=unit.focusKind==='choice'
+             ?await aliasTasks.choices[unit.choiceIndex]
+             :unit.focusKind==='pattern'?await aliasTasks.pattern:null;
+           if(ticket!==generation)return;
+           // Each lower answer unit is read twice BEFORE the four choices.
            for(let repeat=0;repeat<2;repeat++){
              if(ticket!==generation)return;
              await window.speakOne(unit.audioText,rate(),'en-US',
-               unit.focusKind==='sentence'?target:undefined,
+               unit.focusKind==='choice'?undefined:target,
                {ttsText:unit.ttsText,...(alias?.audioPath?{audioPath:alias.audioPath}:{})});
            }
          }
        }else{
-         const alias=aliases;
+         const alias=await aliasTasks.pattern;
+         if(ticket!==generation)return;
          for(let i=0;i<audible.length*n;i++){
            if(ticket!==generation)return;
            const unit=audible[i%audible.length];
