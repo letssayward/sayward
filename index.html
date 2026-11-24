@@ -1,5 +1,6 @@
-<!-- SAYWARD v6.4.139: Speaking VOCA full-page book-turn swipe + precise stop/resume cursor; immediate bilingual TTS (EN word → KO meaning → EN example twice), bypass MP3 lookup for new words; shared DB auth/CDN recovery; Speaking VOCA group pages turn by swipe, mouse/keyboard or compact pager; removed group tabs and in-card group-play/quiz buttons; standard bottom controls preserved. -->
-<!-- SAYWARD v6.4.139: Pattern-match answer playback: lower correct pattern twice, reference sentence twice, then options 1-4 twice each. Grade/DB/paraphrase logic unchanged. -->
+<!-- SAYWARD v6.4.141: Speaking VOCA sequential card navigation across DAY 1-120, including pending-DAY placeholders; shared book-turn gestures and pager now cross day boundaries. -->
+<!-- SAYWARD v6.4.140: Speaking VOCA full-page book-turn swipe + precise stop/resume cursor; immediate bilingual TTS (EN word → KO meaning → EN example twice), bypass MP3 lookup for new words; shared DB auth/CDN recovery; Speaking VOCA group pages turn by swipe, mouse/keyboard or compact pager; removed group tabs and in-card group-play/quiz buttons; standard bottom controls preserved. -->
+<!-- SAYWARD v6.4.140: Pattern-match answer playback: lower correct pattern twice, reference sentence twice, then options 1-4 twice each. Grade/DB/paraphrase logic unchanged. -->
 <!-- SAYWARD v6.4.127: Pattern-match paraphrase must match the exact displayed source example; prevent cross-variant meaning mismatch. All grading/DB practice unchanged. -->
 <!-- SAYWARD v6.4.126: Show confirmed official Miss focus-registration results (active, new suggested, existing) after Commit/History verification; safe on read-only reporting failure. -->
 <!-- SAYWARD v6.4.125: Pattern match reveals three distractors' official Korean meanings only after answer confirmation. -->
@@ -53,8 +54,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.139 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.139">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.141 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.141">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -1998,7 +1999,7 @@ button.myTitleInfinityBtn[aria-pressed="true"] *{
 
 /* ===== V5.3.140 · 모든 TTS의 문장/단어 현재 위치 강조 ===== */
 ::highlight(mv-playing-sentence){
-  background-color:#e9e5ff;
+background-color:#e9e5ff;
   color:#241a72;
 }
 ::highlight(mv-playing-word){
@@ -3998,8 +3999,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
         <div class="myClassDesc">9월 28일 실제 수업의 장거리 운전·어린 시절 역할·진학과 경력·인생 회고 표현을 Chunk 중심으로 복습합니다.</div>
         <div class="myClassMeta"><span>✅ 핵심 교정 21</span><span>🧩 Chunk 22</span><span>🗣 말하기 4</span><span>⚠ 습관 5</span></div>
       </div>
-
-      <div class="myClassCard" id="myClassLesson12Card" role="button" tabindex="0" onclick="studyDirectOpenCourse('my',12)" style="margin-top:10px">
+<div class="myClassCard" id="myClassLesson12Card" role="button" tabindex="0" onclick="studyDirectOpenCourse('my',12)" style="margin-top:10px">
         <label class="myLessonSelectMini" onclick="event.stopPropagation()">
           <input class="myClassSelectCheck" type="checkbox" data-my-lesson="12" onclick="event.stopPropagation()" aria-label="수업 12 전체 반복 선택">
           <span>선택</span>
@@ -4997,8 +4997,7 @@ function mvSplitStudySentences280(text,{korean=false}={}){
     while(j<raw.length&&isEnd(raw[j]))j++;
     const afterPunc=j;
     while(j<raw.length&&closers.includes(raw[j]))j++;
-
-    // Korean quoted-question suffix: ...?라고 / ...?라고는 / ...?라는 등.
+// Korean quoted-question suffix: ...?라고 / ...?라고는 / ...?라는 등.
     if(korean&&j<raw.length&&!/\s/.test(raw[j])&&/[가-힣]/.test(raw[j]))continue;
 
     let k=j;
@@ -5998,7 +5997,7 @@ function syncMyClassInfinityVisuals(){
   document.querySelectorAll('.myTitleInfinityBtn').forEach(b=>{
     const on=infiniteOn && String(b.dataset.infKey||'')===key;
     b.classList.toggle('active',on);
-    b.setAttribute('aria-pressed',on?'true':'false');
+b.setAttribute('aria-pressed',on?'true':'false');
     b.dataset.repeatState=on?'on':'off';
 
     const focus=b.querySelector('.myInfFocus');
@@ -6998,7 +6997,7 @@ function studyCourseSentenceCards(course='sori',lesson=1){
   });
   (d.speaking||[]).forEach((x,i)=>{
     const ens=splitEn(x.text),kos=studySpeakingAlignedKoSentences280(x,d);
-    ens.forEach((en,j)=>{
+ens.forEach((en,j)=>{
       const ko=String(kos[j]||'').trim();
       if(!ko)return; // Never create a speaking card with a mismatched Korean cue.
       out.push({
@@ -7998,7 +7997,7 @@ function finishSelectedRepeatAndContinue(w){
     const restart=()=>{AUTO.pass++;i=0;render(true);};
     if(typeof window.mvDayAutoAdvance266==='function')window.mvDayAutoAdvance266(restart);
     else restart();
-    return;
+return;
   }
   stopSpeech();clearSelectedProgress();AUTO.active=false;forceReleaseWakeLock();clearExactReadingFocus();updateAutoBadge();$('bar').style.width='100%';
   if(typeof window.MV_DAY_ONCE_COMPLETE_219==='function'){
@@ -8998,7 +8997,7 @@ function showProductionItem(){
   $('productionPatternMeaning').textContent=String(w.pattern_ko_recommended||w.patternMeaning||w.pattern_ko||'').trim();
   $('productionPatternMeaning').style.display=$('productionPatternMeaning').textContent?'block':'none';
   const examples=patternExamplesOf(w);
-  $('productionPatternExamples').innerHTML=examples.map(x=>'<div class="patternExampleItem">'+highlightPhrase(x,pattern,'patternWord')+'</div>').join('');
+$('productionPatternExamples').innerHTML=examples.map(x=>'<div class="patternExampleItem">'+highlightPhrase(x,pattern,'patternWord')+'</div>').join('');
   $('productionPatternExamples').style.display=examples.length?'flex':'none';
 }
 function finishReviewSession(){
@@ -9998,7 +9997,7 @@ function hasParaphraseSentence(q){
 function sentenceVariantLabel(){return sentenceRecallVariant==='paraphrase'?'패러프레이징 문장':'기본 문장';}
 
 function sentenceMaskedHtml(q){
-  const text=sentenceText(q);
+const text=sentenceText(q);
   if(!text)return '<span class="patternEmpty">등록된 학습 문장이 없습니다.</span>';
   const pattern=sentencePattern(q);
   const word=recallText(q?.word||'').trim();
@@ -10998,7 +10997,7 @@ async function sentenceRecordingWriteToRecordFolder(parentHandle,blob,filename){
   // Confirm bytes truly reached the file before reporting success.
   const saved=await file.getFile();
   if(saved.size!==blob.size)throw new Error('REC_CHECKPOINT_SIZE_MISMATCH');
-  return {bytes:saved.size,folder:dir.name};
+return {bytes:saved.size,folder:dir.name};
 }
 async function sentenceRecordingPrepareSaveTarget(){
   if(!sentenceRecordingFolderApiAvailable())return {mode:'download',parent:null};
@@ -12998,7 +12997,7 @@ function mvNormalizeQuizModeUI(){
   const lexical=document.getElementById('quizModeLexical');
   if(lexical)lexical.textContent='유의어·반의어';
   const recall=document.getElementById('quizModeRecall');
-  if(recall)recall.textContent='단어 말하기';
+if(recall)recall.textContent='단어 말하기';
   const favorite=document.getElementById('quizModeFavorite');
   if(favorite)favorite.textContent='모르는 단어 선택';
   return true;
@@ -13998,7 +13997,7 @@ function injectFullRepeatConfig(){
       const chunks=Array.isArray(d?.chunks)?d.chunks:[];
       return (d?.corrections||[]).map(c=>{
         const text=String(c?.en||'').toLowerCase();
-        const hits=[];
+const hits=[];
         const kos=[];
         chunks.forEach(ch=>{
           const raw=String(ch?.pattern||'');
@@ -14997,8 +14996,7 @@ async function m536RunInfinite(item){
     M536.course===lockedCourse &&
     M536.infiniteKey===lockedKey
   );
-
-  m536BgCheckpoint207({
+m536BgCheckpoint207({
     mode:'infinite',course:lockedCourse,cursor:Number(M536.cursor)||0,
     rep:0,reps:Infinity,repDone:false,itemDone:false,itemKey:lockedKey,
     infiniteItem:{...lockedItem}
@@ -15998,8 +15996,7 @@ function bindSwipe(){
      return;
    }
  },{passive:false,capture:true});
-
- root.addEventListener('touchend',e=>{
+root.addEventListener('touchend',e=>{
    if(!touching)return;
    const t=e.changedTouches&&e.changedTouches[0];
 
@@ -16997,8 +16994,7 @@ allRepeatStart.onclick=()=>{
       sw.appendChild(b);
     }
   }
-
-  const baseBuildQuizDeck=buildQuizDeck;
+const baseBuildQuizDeck=buildQuizDeck;
   buildQuizDeck=function(){
     if(quizMode==='sentence'&&sentenceSourceMode==='sori'){
       quizAllWrongMode=false;
@@ -17998,7 +17994,7 @@ window.stopAllRepeat215=stopAllRepeat215;
   /* ===== V5.3.275 · ISOLATED OUTER ALL-REPEAT ORCHESTRATOR =====
      Normal DAY/MY/SORI/OPIC/FRIENDS engines are not replaced. This layer only:
      1) reads saved selections, 2) calls the existing starter, 3) receives one completion callback.
-  */
+*/
   const MV_ALL_REPEAT_219={active:false,queue:[],index:0,current:'',token:0,snapshot:null};
   window.MV_ALL_REPEAT_219=MV_ALL_REPEAT_219;
 
@@ -18998,7 +18994,7 @@ window.mvAllRepeatTrace216=function(event,extra={}){
   const s=window.MV_ALL_REPEAT_215||{};
   const row={t:Date.now(),event,current:s.current||'',index:s.index||0,queue:[...(s.queue||[])],...extra};
   window.MV_ALL_REPEAT_TRACE_216.push(row);
-  if(window.MV_ALL_REPEAT_TRACE_216.length>80)window.MV_ALL_REPEAT_TRACE_216.shift();
+if(window.MV_ALL_REPEAT_TRACE_216.length>80)window.MV_ALL_REPEAT_TRACE_216.shift();
   return row;
 };
 </script>
@@ -19830,9 +19826,9 @@ let busy=false;
 
 
 
-async function autoTurn255(commit,dir=1){
+async function autoTurn255(commit,dir=1,rootOverride=null){
   if(typeof commit!=='function')return false;
-  const root=document.getElementById('myClassPage');
+  const root=rootOverride||document.getElementById('myClassPage');
   if(!root||root.classList.contains('hidden')||busy){
     commit(); saywardScrollToTop(); return true;
   }
@@ -19998,7 +19994,7 @@ function sync259(text,playing){
       ? [/핵심\s*교정\s*(\d+)/i,/Correction\s*(\d+)/i]
       : tab==='chunks'
       ? [/Chunk\s*(\d+)/i]
-      : [/말하기\s*(\d+)/i,/Speaking\s*(\d+)/i];
+: [/말하기\s*(\d+)/i,/Speaking\s*(\d+)/i];
     for(const rx of patterns){const m=s.match(rx);if(m){current=Number(m[1])||0;break}}
 
     // V5.3.276: current-tab playback paints statuses like
@@ -20997,7 +20993,6 @@ setTimeout(refreshSpeakingKo280,0);
    - Save opens an editable filename sheet and focuses the input so the mobile keyboard opens.
    - Speaking practice uses the same MP3 save controller and lesson/sentence/timestamp naming.
 */
-
 /* ===== V5.3.282 · UNIFIED PLAYBACK SESSION STANDARD =====
    One playback session across DAY / MY / SORI / OPIC / FRIENDS.
    Rules:
@@ -21998,7 +21993,6 @@ function removeStages288(force=false){
 }
 window.mvRemoveSwipeGhosts287=(force)=>removeStages288(!!force);
 window.mvRemoveSwipeGhosts288=(force)=>removeStages288(!!force);
-
 function scheduleCleanup288(delay,force=false){
   clearTimeout(cleanupTimer288);
   cleanupTimer288=setTimeout(()=>removeStages288(force),Math.max(0,Number(delay)||0));
@@ -22083,8 +22077,8 @@ async function mvProtectedAutoTurn288(original,args){
 try{
   const oldAuto=window.mvAutoPlaybackPageTurn255;
   if(oldAuto&&!oldAuto.__lifetimePatched288){
-const wrapped=async function(commit,dir){
-      return await mvProtectedAutoTurn288(oldAuto,[commit,dir]);
+const wrapped=async function(commit,dir,rootOverride){
+      return await mvProtectedAutoTurn288(oldAuto,[commit,dir,rootOverride]);
     };
     wrapped.__lifetimePatched288=true;
     window.mvAutoPlaybackPageTurn255=wrapped;
@@ -22998,7 +22992,7 @@ function buildDaySettings(){
     '<div class="cleanDayField" data-slot="speech"><label>자동 읽기</label></div>'+
     '<div class="cleanDayField" data-slot="repeat"><label>반복 횟수</label></div></div>';
   if(head)head.insertAdjacentElement('afterend',card);else day.prepend(card);
-  const moves=[['selectedStudyMode','target'],['homeOrderMode','order'],['homeSpeechMode','speech'],['autoRepeat','repeat']];
+const moves=[['selectedStudyMode','target'],['homeOrderMode','order'],['homeSpeechMode','speech'],['autoRepeat','repeat']];
   moves.forEach(([id,slot])=>{const el=document.getElementById(id);const host=card.querySelector(`[data-slot="${slot}"]`);if(el&&host){el.classList.remove('repeatSelect');host.appendChild(el)}});
   return true;
 }
@@ -23998,7 +23992,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     <div class="sw643-toolbar"><h3 id="sw643MemberName">선택한 회원</h3><button type="button" id="sw643RefreshDetail" class="sw643-action">↻ 통계 새로고침</button></div>
     <div class="sw643-readonly">🔒 관리자 조회 전용 · 다른 회원의 학습 기록과 숙련도는 변경할 수 없습니다.</div>
     <div class="sw643-tabs" role="tablist" aria-label="선택 회원 통계">
-      <button type="button" role="tab" data-sw643-tab="summary" aria-selected="true">종합</button>
+<button type="button" role="tab" data-sw643-tab="summary" aria-selected="true">종합</button>
       <button type="button" role="tab" data-sw643-tab="pattern" aria-selected="false">패턴</button>
       <button type="button" role="tab" data-sw643-tab="word" aria-selected="false">단어·패턴</button>
       <button type="button" role="tab" data-sw643-tab="time" aria-selected="false">시간</button>
@@ -24998,7 +24992,7 @@ async function swDirectStudyGet(table, options={}){
   if(table==='sayward_user_lesson_overrides')q.set('target_user_id','eq.'+who);
   if(table==='sayward_user_pattern_state'||table==='sayward_app_practice_latest'||table==='sayward_app_sentence_practice'||table==='sayward_sentence_learning_unified'||table==='sayward_stable_review_schedule'||table==='sayward_focus_patterns')q.set('user_id','eq.'+who);
   if(table==='sayward_day_items')q.set('visible','eq.true');
-  if(table==='sayward_patterns')q.set('active','eq.true');
+if(table==='sayward_patterns')q.set('active','eq.true');
   const response=await fetchWithin(URL+'/rest/v1/'+table+'?'+q.toString(),{
     method:'GET',mode:'cors',cache:'no-store',credentials:'omit',
     headers:{apikey:PUBLISHABLE_KEY,Authorization:'Bearer '+token,Accept:'application/json'}
@@ -25998,7 +25992,7 @@ const rows=data||[];
         const header=node('div','sw5536-history-head');
         const title=node('div','sw5537-official-title');
         title.append(node('strong','',isGraded?'GPT 공식 채점':'공식 출제 문항'));
-        if(row.issued_at&&!Number.isNaN(Date.parse(row.issued_at))){
+if(row.issued_at&&!Number.isNaN(Date.parse(row.issued_at))){
           try{title.append(node('div','sw5536-history-date',new Date(row.issued_at).toLocaleDateString('ko-KR')));}catch(_){}
         }
         const grade=node('span','sw5536-eval-badge sw5537-grade-'+String(row.grade||'pending').toLowerCase(),row.grade||row.status||'Pending');
@@ -26998,7 +26992,7 @@ el.textContent=`${label[course]||course} DB 콘텐츠 준비 중 · ${done}/${to
             stopAllMyClassPlayback(true);lessonPage.classList.add('hidden');$('homePage')?.classList.remove('hidden');
           }else{try{myClassUpdateHeader()}catch(e){}try{renderMyClass()}catch(e){console.warn('[SAYWARD studio policy render]',e)}}
         }
-      }
+}
       const dayPage=$('dayAppPage');
       if(dayPage&&!dayPage.classList.contains('hidden')&&!enabled('day',Number(currentDay))){
         try{stopDayLoop(true)}catch(e){}try{stopAutoLearning()}catch(e){}
@@ -27998,7 +27992,7 @@ window.saywardRealPolicy={refresh,diagnostics:()=>({mode:st.mode,course:st.cours
   const auth=()=>window.saywardAuth?.snapshot?.()||{};
   const ids={stable:'sw5526Stable',learning:'sw5526Learning',focus:'sw5526Focus',new:'sw5526New'};
   const put=(id,value)=>{const e=get(id);if(e)e.textContent=String(value);};
-  let cache=null,lastSuccessAt=0,currentUid=null,serial=0;
+let cache=null,lastSuccessAt=0,currentUid=null,serial=0;
   // A separate, accessible status line keeps the cached figures/explanation visible
   // while every menu opening requests a fresh, no-store Supabase result.
   function installStatus(){
@@ -28998,7 +28992,7 @@ if(sentenceRows.length)makeMetric(answeredSentence+' / '+sentenceRows.length,'�
     const natural=exactMaster?String(master.example_ko_natural||'').trim():'';
     if(naturalPanel&&naturalText&&naturalToggle){
       naturalText.textContent=natural;
-      naturalPanel.hidden=!(done&&!isMatch&&natural);
+naturalPanel.hidden=!(done&&!isMatch&&natural);
       naturalText.hidden=!naturalToggle.checked;
     }
     g('sw5533SentenceResult').hidden=isMatch;g('sw5533MatchResult').hidden=!isMatch;
@@ -29998,7 +29992,7 @@ const uid=auth()?.uid;
    if(e.detail?.uid===auth()?.uid&&!focusActing)void loadFocus(true);
  });
  window.addEventListener('sayward:pattern-selected',syncDetailFocus);
- window.addEventListener('sayward:app-practice-updated',()=>{if($('p2Panel')?.classList.contains('sw5513-progress'))void refresh(true)});
+window.addEventListener('sayward:app-practice-updated',()=>{if($('p2Panel')?.classList.contains('sw5513-progress'))void refresh(true)});
  window.saywardPatternPriority={refresh,render,reset:clear,refreshFocus:loadFocus,getOrder:()=>orderedIds.slice(),getRow:id=>data.find(r=>r.pattern_id===id)||null};
 })();
 </script>
@@ -31998,7 +31992,7 @@ window.saywardWordSentence={open,close,startMakeup,moveSwipe:moveCard,selectedDa
    const nav=id('sw5527Prev').parentElement;nav.classList.add('swUnifiedNav');
    const after=id('sw5527After');after.classList.add('swUnifiedAfter');
   }else{
-   const controls=id('swWordShow').parentElement;
+const controls=id('swWordShow').parentElement;
    controls.classList.add('swUnifiedSubmit');
    const nav=document.createElement('div');nav.className='swUnifiedNav';
    exercise.append(nav);nav.append(id('swWordPrev'),id('swWordNext'));
@@ -32998,7 +32992,7 @@ else if((match=id.match(/^mySpeakBlock(\d+)$/))){kind='speaking';index=Number(ma
        const {data,error}=await supabase.storage.from(BUCKET).list('audio',
          {limit:100,offset,sortBy:{column:'name',order:'asc'}});
        if(error||!Array.isArray(data))throw new Error('Storage root list: '+(error?.message||'unknown'));
-       for(const f of data){if(validVoice(String(f?.name||'')))voices.add(f.name);}
+for(const f of data){if(validVoice(String(f?.name||'')))voices.add(f.name);}
        if(data.length<100)break;
      }
      for(const voice of voices){
@@ -33998,7 +33992,7 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
   width:92px!important;
   min-height:32px!important;
   height:32px!important;
-  margin:0!important;
+margin:0!important;
   padding:0 3px!important;
   background:#f5f5f7!important;
   color:#64748b!important;
@@ -34769,8 +34763,8 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
 @media(prefers-reduced-motion:reduce){#spvPage132 .spv135BookPage{animation:none!important}}
 </style>
 <style id="spv139-book-resume-style">
-/* Speaking VOCA v6.4.139: visible 3D book-page transition, independent of global DAY swipe. */
-#spvPage132 .spv139BookStage{position:relative;overflow:hidden;perspective:1200px;isolation:isolate;border-radius:22px;scroll-margin-top:155px;}
+/* Speaking VOCA v6.4.140: visible 3D book-page transition, independent of global DAY swipe. */
+#spvPage132 .spv139BookStage{position:relative;overflow:visible;isolation:isolate;border-radius:22px;scroll-margin-top:155px;}
 #spvPage132 .spv139BookStage .spv135BookPage{position:relative;transform-style:preserve-3d;backface-visibility:hidden;animation:none!important;}
 #spvPage132 .spv139BookStage .spv139Outgoing{position:absolute!important;top:0;left:0;width:100%;pointer-events:none!important;z-index:3;box-sizing:border-box;user-select:none;transform-origin:50% 50%;}
 #spvPage132 .spv139BookStage .spv139Outgoing *{pointer-events:none!important;}
@@ -34783,7 +34777,7 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
  <div class="myClassShell">
   <header class="myClassHeader spv132Header">
    <div class="myClassHeaderRow"><button type="button" id="spvBack132" aria-label="홈으로 돌아가기">‹</button><div class="myClassHeaderTitle"><b>🗣 Speaking VOCA</b><span>유사어 그룹별 한 페이지 · 발음·뜻·예문 · 단어 문제</span></div></div>
-   <div class="spv132TopMeta"><span>DAY 1 / 120 · 10단어</span><span>관리자 파일럿 · DAY 2~120 제작 전</span></div>
+   <div class="spv132TopMeta"><span>DAY 1 / 120 · 10단어</span><span>미등록 DAY는 콘텐츠 준비 중</span></div>
   </header>
   <div id="spvBody130" role="region" aria-live="polite"><div class="spvInfo130">DAY 1 학습을 준비하고 있습니다…</div></div>
   <p id="spvToast130" class="spvNotice130" role="status" aria-live="polite"></p>
@@ -34805,7 +34799,7 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const state={items:[],day:1,i:-1,stage:0,revealed:false,answer:'',attempts:[],busy:false,completed:false,loaded:false,host:'page',group:0,view:'cards',studied:new Set(),choiceSelected:'',choiceSaved:false,pendingEntry:null,activeUid:null};
   const audio={token:0,active:false,groupMode:'all',groupIndex:0,wordIndex:0,queue:[],cursor:0,resumeReady:false};
-  const playlist={token:0,active:false};
+  const playlist={token:0,active:false,selectedDays:[],dayIndex:0,resumeReady:false,userId:''};
   const stages=['recognition','recall','production'];
   const stagesKo=['유사어 선택','단어 회상','문장 발화'];
   const body=()=>$(state.host==='studio'?'spvStudioBody131':'spvBody130');
@@ -34826,8 +34820,12 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
   function stopAudio(silent=false,discard=silent){
     const hadPlayback=audio.active;
     audio.token++;audio.active=false;playlist.token++;playlist.active=false;
-    if(discard){audio.queue=[];audio.cursor=0;audio.resumeReady=false}
-    else if(hadPlayback && audio.queue.length && audio.cursor<audio.queue.length){audio.resumeReady=true}
+    if(discard){audio.queue=[];audio.cursor=0;audio.resumeReady=false;playlist.resumeReady=false}
+    else {
+      if(audio.queue.length && audio.cursor<audio.queue.length && (hadPlayback||audio.resumeReady))audio.resumeReady=true;
+      // Keep the chosen DAY and exact voice-segment cursor on Home navigation.
+      if((hadPlayback||playlist.active||playlist.resumeReady) && (audio.resumeReady||playlist.active))playlist.resumeReady=true;
+    }
     try{window.stopSpeech?.()}catch(e){try{window.speechSynthesis?.cancel()}catch(_){}}
     document.querySelectorAll('.spv132WordUnit.is-reading').forEach(x=>x.classList.remove('is-reading'));
     updateAudioButtons();
@@ -34901,7 +34899,7 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
         if(!w){audio.cursor++;continue}
         audio.groupIndex=step.groupIndex;audio.wordIndex=step.wordIndex;
         if(state.group!==step.groupIndex){
-          switchBookGroup(step.groupIndex,{scroll:false});
+          await switchBookGroup(step.groupIndex,{scroll:false});
           if(token!==audio.token||!audio.active)break;
         }
         const unit=document.querySelector(`.spv132WordUnit[data-id="${step.itemId}"]`);
@@ -34952,13 +34950,22 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
       <div class="spv132GroupSentences">${words}</div>
     </article>`}
   let spv135PageDirection=1;
-  function renderCards(){const list=groups();if(!list.length)return '<p>유사어 카드가 없습니다.</p>';
-    state.group=Math.max(0,Math.min(list.length-1,state.group));const currentGroup=list[state.group];
-    const pageDots=list.map((_,i)=>`<i class="${i===state.group?'active':''}" aria-hidden="true"></i>`).join('');
-    const pagination=`<nav class="spv135BookPager" aria-label="유사어 책장 넘기기"><button type="button" data-spv="prev-group" ${state.group===0?'disabled':''} aria-label="이전 페이지" title="이전 페이지">‹</button><span class="spv135PageDots" aria-label="전체 ${list.length}페이지 중 ${state.group+1}페이지">${pageDots}</span><span class="spv135PageCount" aria-live="polite">${state.group+1} / ${list.length}</span><button type="button" data-spv="next-group" ${state.group===list.length-1?'disabled':''} aria-label="다음 페이지" title="다음 페이지">›</button></nav>`;
-    return topNav('cards')+`<div class="spv132DayLine"><span>DAY ${state.day} / 120 · 총 10단어</span><span>← 책장 넘기기 →</span></div>`+
-      `<div id="spv139BookStage" class="spv139BookStage" data-swipe-ignore="true"><div id="spv134GroupViewport" class="spv135BookPage" data-swipe-ignore="true">${groupCard(currentGroup)}</div></div>`+pagination+
-      `<p class="spvFoot130">화면을 좌우로 넘기면 다음 유사어 카드로 이동합니다. 하단 ‘이 수업 시작’은 모든 유사어를 순서대로 연속 재생합니다.</p>`;
+  // DAY navigation is deliberately bounded at 1 and 120 (no wrapping).
+  function canTurnBook(direction){
+    const dir=direction>0?1:-1,list=groups();
+    const groupTarget=state.group+dir;
+    return (groupTarget>=0&&groupTarget<list.length) || (state.day+dir>=1&&state.day+dir<=120);
+  }
+  function renderCards(){
+    const list=groups(),hasContent=state.items.length===10&&list.length>0;
+    state.group=hasContent?Math.max(0,Math.min(list.length-1,state.group)):0;
+    const pageDots=(hasContent?list:[null]).map((_,i)=>`<i class="${i===state.group?'active':''}" aria-hidden="true"></i>`).join('');
+    const nPages=hasContent?list.length:1;
+    const pagination=`<nav class="spv135BookPager" aria-label="유사어 책장 및 DAY 연속 넘기기"><button type="button" data-spv="prev-group" ${canTurnBook(-1)?'':'disabled'} aria-label="${state.group>0?'이전 유사어 카드':'이전 DAY의 마지막 카드'}" title="${state.group>0?'이전 페이지':'이전 DAY'}">‹</button><span class="spv135PageDots" aria-label="전체 ${nPages}페이지 중 ${state.group+1}페이지">${pageDots}</span><span class="spv135PageCount" aria-live="polite">${state.group+1} / ${nPages}</span><button type="button" data-spv="next-group" ${canTurnBook(1)?'':'disabled'} aria-label="${state.group<nPages-1?'다음 유사어 카드':'다음 DAY의 첫 카드'}" title="${state.group<nPages-1?'다음 페이지':'다음 DAY'}">›</button></nav>`;
+    const bookPage=hasContent?groupCard(list[state.group]):`<article class="myStudyCard spv132GroupChunk spv134GroupPage spv141PendingPage" aria-label="DAY ${state.day} 콘텐츠 준비 중"><div class="myStudyNum">SPEAKING VOCA · DAY ${state.day} / 120</div><h3>DAY ${state.day} 콘텐츠 준비 중</h3><p>이 DAY에는 아직 10개 단어가 등록·공개되지 않았습니다.</p><p>좌우 스와이프 또는 아래 화살표로 이전·다음 DAY로 이동할 수 있습니다. 콘텐츠는 준비되는 대로 표시됩니다.</p></article>`;
+    return topNav('cards')+`<div class="spv132DayLine"><span>DAY ${state.day} / 120 · ${hasContent?'총 10단어':'콘텐츠 준비 중'}</span><span>← DAY 1 ~ 120 연속 책장 넘기기 →</span></div>`+
+      `<div id="spv139BookStage" class="spv139BookStage" data-swipe-ignore="true"><div id="spv134GroupViewport" class="spv135BookPage" data-swipe-ignore="true">${bookPage}</div></div>`+pagination+
+      `<p class="spvFoot130">카드 끝에서 계속 넘기면 다음 DAY 첫 카드로, 첫 카드에서 뒤로 넘기면 이전 DAY 마지막 카드로 이동합니다. DAY 1 이전과 DAY 120 이후는 이동하지 않습니다.</p>`;
   }
   function choicesFor(w){const g=groups().find(x=>x.no===Number(w.group_no));let arr=g?[...g.words]:[w];if(arr.length<4){const ids=new Set(arr.map(x=>x.item_id)),other=state.items.find(x=>!ids.has(x.item_id));if(other)arr.push(other)}arr=arr.slice(0,4);const target=arr.findIndex(x=>x.item_id===w.item_id),position=(state.i*3+1)%arr.length;const copy=arr.slice(),chosen=copy.splice(target,1)[0];copy.splice(position,0,chosen);return copy}
   function gradeButtons(){return `<p class="spvPromptTitle130" style="margin-top:14px">내가 직접 말한 결과를 평가해 주세요.</p><div class="spvActions130"><button class="spvBtn130 good" data-spv="rate" data-rate="success">✓ 혼자 성공</button><button class="spvBtn130 review" data-spv="rate" data-rate="review">△ 복습 필요</button><button class="spvBtn130 miss" data-spv="rate" data-rate="miss">× 못함</button></div>`}
@@ -34972,9 +34979,9 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
     else{middle=`<p class="spvPromptTitle130">STEP 3 · 해당 단어를 사용해 영어 문장을 말하세요.</p><div class="spvKorean130 sw5527-prompt">${esc(w.prompt_ko)}</div><p class="spv132TargetWord">목표 단어: <b>${esc(w.word)}</b></p><textarea class="spvField130" id="spvAnswerInput130" rows="3" aria-label="영어 문장 만들기" placeholder="직접 말한 뒤 문장을 입력할 수 있습니다.">${esc(state.answer)}</textarea><div class="spvActions130"><button type="button" class="spvBtn130 primary" data-spv="reveal">기준 문장 비교</button></div>${state.revealed?`<div class="spvAnswer130"><b>${esc(w.sample_answer_en)}</b><p class="spv132Explanation">${esc(w.contrast)}</p></div><div class="spvActions130"><button type="button" class="spvBtn130" data-spv="speak">🔊 기준 문장 듣기</button></div>${gradeButtons()}`:''}`}
     return head+middle+`<div class="spvNav130"><button type="button" data-spv="prev">← 이전</button><button type="button" data-spv="cards">유사어 카드</button><button type="button" data-spv="skip">${state.i===9&&level===2?'결과 보기':'건너뛰기 →'}</button></div></div>`;
   }
-  function render(){const root=body();if(!root)return;if(!state.loaded){root.innerHTML='<div class="spvInfo130">Speaking VOCA DAY 1을 불러오는 중입니다…</div>';return}if(state.items.length!==10){root.innerHTML='<div class="spvInfo130">파일럿 10개 단어를 조회하지 못했습니다. 관리자 로그인과 DB 공개 상태를 확인해 주세요.</div>';return}root.innerHTML=state.view==='quiz'?renderQuiz():renderCards();updateAudioButtons()}
+  function render(){const root=body();if(!root)return;if(!state.loaded){root.innerHTML=`<div class="spvInfo130">Speaking VOCA DAY ${state.day}을 불러오는 중입니다…</div>`;return}if(state.items.length!==10&&state.view==='quiz')state.view='cards';root.innerHTML=state.view==='quiz'?renderQuiz():renderCards();updateAudioButtons()}
   function resetQ(){state.revealed=false;state.answer='';state.choiceSelected='';state.choiceSaved=false;state.pendingEntry=null;state.busy=false}
-  function startQuiz(){stopAudio(true);state.view='quiz';state.i=0;state.stage=0;state.completed=false;resetQ();render();window.scrollTo?.(0,0)}
+  function startQuiz(){if(!state.loaded||state.items.length!==10){status('DAY '+state.day+'은 10개 단어가 아직 준비되지 않았습니다.');return}stopAudio(true);state.view='quiz';state.i=0;state.stage=0;state.completed=false;resetQ();render();window.scrollTo?.(0,0)}
   function next(){resetQ();if(state.stage<2)state.stage++;else if(state.i<state.items.length-1){state.i++;state.stage=0}else state.completed=true;render()}
   function prev(){resetQ();if(state.completed){state.completed=false;state.i=state.items.length-1;state.stage=2}else if(state.stage>0)state.stage--;else if(state.i>0){state.i--;state.stage=2}else{state.view='cards';state.i=-1}render()}
   async function save(rate,answer,advance=true){
@@ -34994,37 +35001,102 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
     }catch(e){state.busy=false;status('DB 저장 미확인: '+String(e?.message||e).slice(0,150)+' · 동일 평가를 다시 확인하세요.');render();return false}
   }
   async function selectChoice(id){if(state.choiceSelected||state.busy)return;const w=current(),chosen=state.items.find(x=>x.item_id===id);if(!w||!chosen)return;state.choiceSelected=id;render();await save(chosen.item_id===w.item_id?'success':'miss',chosen.word,false)}
-  let loadToken=0;
-  async function load(reset=true){const token=++loadToken;state.loaded=false;render();const a=auth();if(!a.authenticated||!a.uid||!window.saywardAuth?.readSpeakingVocaItems){state.loaded=true;state.items=[];render();status('관리자 로그인 후 이용할 수 있습니다.');return}
-    try{const data=await window.saywardAuth.readSpeakingVocaItems(state.day);if(!Array.isArray(data)||data.length!==10)throw Error('DAY '+state.day+'의 10개 단어 조회 실패 · 파일럿 공개 권한 확인');const ids=data.map(x=>x.item_id),rows=await window.saywardAuth.readSpeakingVocaAttempts(ids);if(token!==loadToken)return;state.items=data;state.activeUid=a.uid;state.attempts=rows||[];if(reset){state.view=state.host==='studio'?'quiz':'cards';state.i=state.host==='studio'?0:-1;state.stage=0;state.group=0;state.studied=new Set();state.completed=false;resetQ()}state.loaded=true;render();status('DAY '+state.day+' 유사어 '+groups().length+'그룹 · 10개 단어를 불러왔습니다.')}
-    catch(e){if(token!==loadToken)return;state.items=[];state.loaded=true;render();status('DB 조회 실패: '+String(e?.message||e).slice(0,170))}
+let loadToken=0;
+  async function load(reset=true,initialGroup=0){const token=++loadToken;state.loaded=false;render();const a=auth();if(!a.authenticated||!a.uid||!window.saywardAuth?.readSpeakingVocaItems){state.loaded=true;state.items=[];render();status('관리자 로그인 후 이용할 수 있습니다.');return}
+    try{const data=await window.saywardAuth.readSpeakingVocaItems(state.day);if(!Array.isArray(data)||data.length!==10)throw Error('DAY '+state.day+'의 10개 단어 조회 실패 · 파일럿 공개 권한 확인');const ids=data.map(x=>x.item_id),rows=await window.saywardAuth.readSpeakingVocaAttempts(ids);if(token!==loadToken)return;state.items=data;state.activeUid=a.uid;state.attempts=rows||[];if(reset){state.view=state.host==='studio'?'quiz':'cards';state.i=state.host==='studio'?0:-1;state.stage=0;state.group=initialGroup<0?Math.max(0,groups().length-1):Math.min(initialGroup,Math.max(0,groups().length-1));state.studied=new Set();state.completed=false;resetQ()}state.loaded=true;render();status('DAY '+state.day+' 유사어 '+groups().length+'그룹 · 10개 단어를 불러왔습니다.')}
+    catch(e){if(token!==loadToken)return;state.items=[];state.attempts=[];state.loaded=true;state.view='cards';state.group=0;render();status('DAY '+state.day+' 콘텐츠 미등록/조회 미완료: '+String(e?.message||e).slice(0,140))}
   }
   function useHost(host){state.host=host;status('')}
-  function open(preferred='cards'){stopAudio(true);if(!auth().authenticated){document.querySelector('[data-drawer-action="accountLogin"]')?.click();return}try{window.closeDrawerMenu?.({pushHistory:false})}catch(e){}try{stopAllMyClassPlayback(true)}catch(e){}try{window.saywardStudioAudio?.stop?.()}catch(e){}if($('sw5527PracticePage')?.classList.contains('sw131-word-mode'))showPatternStudio();try{typeof hideStandalonePages==='function'&&hideStandalonePages()}catch(e){}
+  function canResumeDay(day,preferred='cards'){
+    const uid=String(auth().uid||'');
+    return preferred==='cards' && audio.resumeReady && audio.queue.length>0 && audio.cursor<audio.queue.length &&
+      Number(state.day)===Number(day) && !!uid && state.activeUid===uid && state.loaded && state.items.length===10;
+  }
+  function open(preferred='cards',{preserve=false}={}){
+    if(!preserve)stopAudio(true);
+    if(!auth().authenticated){document.querySelector('[data-drawer-action="accountLogin"]')?.click();return Promise.resolve(false)}
+    try{window.closeDrawerMenu?.({pushHistory:false})}catch(e){}
+    try{stopAllMyClassPlayback(true)}catch(e){}
+    try{window.saywardStudioAudio?.stop?.()}catch(e){}
+    if($('sw5527PracticePage')?.classList.contains('sw131-word-mode'))showPatternStudio();
+    try{typeof hideStandalonePages==='function'&&hideStandalonePages()}catch(e){}
     for(const id of ['homePage','dayAppPage','myClassPage','myClassBottom'])$(id)?.classList.add('hidden');
-    $('spvPage132')?.classList.remove('hidden');$('spvPage132')?.setAttribute('aria-hidden','false');$('spvBottom132')?.classList.remove('hidden');useHost('page');state.view=preferred==='quiz'?'quiz':'cards';const meta=$('spvPage132')?.querySelector('.spv132TopMeta span');if(meta)meta.textContent='DAY '+state.day+' / 120 · 10단어';const done=load();window.scrollTo(0,0);return done}
-  function close(){stopAudio(true);loadToken++;$('spvPage132')?.classList.add('hidden');$('spvPage132')?.setAttribute('aria-hidden','true');$('spvBottom132')?.classList.add('hidden');if(typeof goHome==='function')goHome();else $('homePage')?.classList.remove('hidden');window.scrollTo(0,0)}
-  function openDay(day=1,preferred='cards'){
+    $('spvPage132')?.classList.remove('hidden');$('spvPage132')?.setAttribute('aria-hidden','false');
+    $('spvBottom132')?.classList.remove('hidden');useHost('page');state.view=preferred==='quiz'?'quiz':'cards';
+    const meta=$('spvPage132')?.querySelector('.spv132TopMeta span');if(meta)meta.textContent='DAY '+state.day+' / 120 · 10단어';
+    if(preserve && canResumeDay(state.day,preferred)){
+      const currentStep=audio.queue[audio.cursor];
+      if(currentStep)state.group=currentStep.groupIndex;
+      render();status('⏸ 이전 재생 위치에서 이어듣기 준비 · '+(currentStep?.word||''));
+      window.scrollTo(0,0);
+      // Restore the exact WORD card even when the paused segment is KO meaning or an example.
+      if(currentStep)setTimeout(()=>{
+        if(!$('spvPage132')?.classList.contains('hidden')){
+          const wordUnit=[...document.querySelectorAll('#spvPage132 .spv132WordUnit')].find(x=>x.dataset.id===currentStep.itemId);
+          wordUnit?.scrollIntoView?.({behavior:'auto',block:'center'});
+        }
+      },90);
+      return Promise.resolve(true);
+    }
+    const done=load(!preserve);window.scrollTo(0,0);return done;
+  }
+  function close(){
+    // Home is a pause, never a destructive reset of the selected-DAY playback queue.
+    stopAudio(true,false);
+    loadToken++;
+    $('spvPage132')?.classList.add('hidden');$('spvPage132')?.setAttribute('aria-hidden','true');
+    $('spvBottom132')?.classList.add('hidden');
+    if(typeof goHome==='function')goHome();else $('homePage')?.classList.remove('hidden');
+    window.scrollTo(0,0);
+  }
+  function openDay(day=1,preferred='cards',{preserve=false}={}){
     const n=Number(day);if(!Number.isInteger(n)||n<1||n>120)return Promise.resolve(false);
-    state.day=n;
-    return open(preferred);
+    const same=preserve||canResumeDay(n,preferred);
+    if(!same)state.day=n;
+    return open(preferred,{preserve:same});
   }
   async function openSelected(days){
     const chosen=[...new Set((days||[]).map(Number).filter(x=>Number.isInteger(x)&&x>=1&&x<=120))].sort((a,b)=>a-b);
     if(!chosen.length)return false;
-    await openDay(chosen[0],'cards');
+    const uid=String(auth().uid||'');
+    const sameList=chosen.length===playlist.selectedDays.length&&chosen.every((d,i)=>d===playlist.selectedDays[i]);
+    const sameUser=!!uid&&uid===state.activeUid&&(!playlist.userId||playlist.userId===uid);
+    const at=playlist.selectedDays.length?Math.min(playlist.dayIndex,chosen.length-1):0;
+    const currentDay=chosen[at];
+    // A DAY played directly from its card can also resume from Home when its DAY is selected.
+    const sameCursor=sameUser&&canResumeDay(currentDay,'cards') &&
+      (!playlist.selectedDays.length||sameList);
+    const resumeSelection=sameUser&&sameList&&playlist.resumeReady&&playlist.dayIndex<chosen.length;
+    const resuming=sameCursor||resumeSelection;
+    const startAt=resuming?(sameList?playlist.dayIndex:0):0;
+    if(!resuming){
+      stopAudio(true);playlist.selectedDays=chosen;playlist.dayIndex=0;
+      playlist.resumeReady=false;playlist.userId=uid;
+    }else{
+      playlist.selectedDays=chosen;playlist.dayIndex=startAt;
+      playlist.userId=uid;
+    }
+    await openDay(chosen[startAt],'cards',{preserve:resuming&&canResumeDay(chosen[startAt])});
     if(!state.loaded||state.items.length!==10)return false;
-    const token=++playlist.token;playlist.active=true;
+    const token=++playlist.token;playlist.active=true;playlist.resumeReady=false;
     try{
-      for(const day of chosen){
+      for(let idx=startAt;idx<chosen.length;idx++){
+        const day=chosen[idx];
         if(token!==playlist.token)return false;
+        playlist.dayIndex=idx;
         if(state.day!==day){state.day=day;await load(true)}
         if(token!==playlist.token)return false;
         if(state.items.length!==10){status('DAY '+day+'의 10개 단어가 준비되지 않아 건너뛰었습니다.');continue}
-        state.view='cards';state.group=0;render();
+        const resumeHere=idx===startAt&&resuming&&audio.resumeReady&&audio.queue.length>0&&audio.groupMode==='all'&&state.day===day;
+        state.view='cards';
+        if(resumeHere){const nextStep=audio.queue[audio.cursor];state.group=nextStep?.groupIndex||0}
+        else {state.group=0;audio.queue=[];audio.cursor=0;audio.resumeReady=false}
+        render();
         await playGroup('all');
         if(token!==playlist.token)return false;
+        playlist.dayIndex=idx+1;
       }
+      playlist.resumeReady=false;playlist.selectedDays=[];playlist.dayIndex=0;
       status('✓ 선택 DAY 전체 연속 재생 완료');return true;
     }finally{if(token===playlist.token)playlist.active=false}
   }
@@ -35047,41 +35119,51 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
     else if(act==='speak'){const w=current();if(w)void playSingle(w,state.stage===2?'example':'word')}
     else if(act==='speak-word'||act==='speak-example'||act==='speak-meaning'){const w=state.items.find(x=>x.item_id===t.dataset.id);if(w)void playSingle(w,act==='speak-word'?'word':act==='speak-meaning'?'meaning':'example')}
   }
-  let spv139TurnGeneration=0;
-  function switchBookGroup(target,{scroll=true}={}){
+  // v6.4.140: The exact MY / DAY shared page-turn engine is the only swipe renderer.
+  // Manual: MV_SWIPE_STANDARD_254; page buttons and auto playback: mvAutoPlaybackPageTurn255.
+  function commitBookGroup(target,{scroll=true}={}){
     const list=groups();if(target<0||target>=list.length||target===state.group)return false;
-    const dir=target>state.group?1:-1;
-    const previous=$('spv134GroupViewport');
-    const prior=previous?.cloneNode(true);
-    if(prior){prior.removeAttribute('id');prior.setAttribute('aria-hidden','true');prior.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));prior.classList.remove('is-reading');prior.style.transform='';prior.style.transition='';}
-    const generation=++spv139TurnGeneration;
-    spv135PageDirection=dir;state.group=target;render();
-    const stage=$('spv139BookStage'),incoming=$('spv134GroupViewport');
-    if(scroll) incoming?.scrollIntoView?.({behavior:'auto',block:'start'});
-    if(!stage||!incoming||!prior)return true;
-    const reduce=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
-    if(reduce||typeof incoming.animate!=='function')return true;
-    prior.classList.add('spv139Outgoing');stage.appendChild(prior);
-    const opts={duration:440,easing:'cubic-bezier(.22,.74,.21,1)',fill:'both'};
-    const outgoing=prior.animate([
-      {transform:'translateX(0) rotateY(0deg)',opacity:1,filter:'brightness(1)'},
-      {transform:`translateX(${dir>0?'-94%':'94%'}) rotateY(${dir>0?'-32deg':'32deg'})`,opacity:0,filter:'brightness(.82)'}
-    ],opts);
-    const entering=incoming.animate([
-      {transform:`translateX(${dir>0?'95%':'-95%'}) rotateY(${dir>0?'24deg':'-24deg'})`,opacity:.4},
-      {transform:'translateX(0) rotateY(0deg)',opacity:1}
-    ],opts);
-    Promise.allSettled([outgoing.finished,entering.finished]).then(()=>{
-      prior.remove();if(generation===spv139TurnGeneration){incoming.style.transform=''}
-    });
+    state.group=target;render();
+    if(scroll){try{saywardScrollToTop()}catch(e){window.scrollTo(0,0)}}
     return true;
   }
-  function turnBookPage(direction){
+  function switchBookGroup(target,{scroll=true,shared=true}={}){
+    if(target<0||target>=groups().length||target===state.group)return Promise.resolve(false);
+    const dir=target>state.group?1:-1;
+    const commit=()=>commitBookGroup(target,{scroll});
+    const engine=window.mvAutoPlaybackPageTurn255;
+    if(shared&&typeof engine==='function'&&!$('spvPage132')?.classList.contains('hidden')){
+      return engine(commit,dir,$('spvPage132'));
+    }
+    return Promise.resolve(commit());
+  }
+  async function commitBookDay(day,direction){
+    if(day<1||day>120||state.day===day)return false;
+    stopAudio(true); // Paused playback belongs to the old DAY; no cross-DAY stale cursor.
+    state.day=day;state.group=0;state.view='cards';state.loaded=false;
+    const meta=$('spvPage132')?.querySelector('.spv132TopMeta span');
+    if(meta)meta.textContent='DAY '+day+' / 120 · 10단어';
+    await load(true,direction<0?-1:0);
+    try{saywardScrollToTop()}catch(e){window.scrollTo(0,0)}
+    return true;
+  }
+  function turnBookPage(direction,{fromSharedGesture=false}={}){
     if(state.view!=='cards'||!state.loaded||audio.active)return false;
-    const target=Math.max(0,Math.min(groups().length-1,state.group+(direction>0?1:-1)));
-    if(target===state.group)return false;
-    stopAudio(true); // Manual page selection intentionally starts a new play position.
-    return switchBookGroup(target,{scroll:true});
+    const dir=direction>0?1:-1;
+    if(!canTurnBook(dir))return false;
+    const target=state.group+dir,list=groups();
+    if(target>=0&&target<list.length){
+      if(fromSharedGesture)return commitBookGroup(target,{scroll:true});
+      void switchBookGroup(target,{scroll:true,shared:true});return true;
+    }
+    const targetDay=state.day+dir;
+    const commit=()=>{void commitBookDay(targetDay,dir);return true};
+    if(fromSharedGesture)return commit();
+    const engine=window.mvAutoPlaybackPageTurn255;
+    if(typeof engine==='function'&&!$('spvPage132')?.classList.contains('hidden')){
+      void engine(commit,dir,$('spvPage132'));
+    }else commit();
+    return true;
   }
   function init(){
     $('spvHomeOpen130')?.addEventListener('click',()=>open('cards'));
@@ -35092,24 +35174,49 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
     $('spvHome132')?.addEventListener('click',close);
     $('spvQuiz132')?.addEventListener('click',startQuiz);
     $('spvBody130')?.addEventListener('click',onClick);$('spvStudioBody131')?.addEventListener('click',onClick);
-    // One group per page. Horizontal swipe changes group; vertical scrolling remains native.
-    let touchStart=null;
-    $('spvBody130')?.addEventListener('touchstart',e=>{if(e.touches.length!==1||state.view!=='cards'||!e.target.closest?.('#spv139BookStage'))return;const t=e.touches[0];touchStart={x:t.clientX,y:t.clientY};},{passive:true});
-    $('spvBody130')?.addEventListener('touchmove',e=>{
-      if(!touchStart||!e.touches.length||audio.active)return;
-      const t=e.touches[0],dx=t.clientX-touchStart.x,dy=t.clientY-touchStart.y;
-      if(Math.abs(dx)>16&&Math.abs(dx)>Math.abs(dy)*1.3){
-        const page=$('spv134GroupViewport');if(page){page.style.transition='none';page.style.transform=`translateX(${Math.max(-58,Math.min(58,dx*.33))}px) rotateY(${Math.max(-6,Math.min(6,-dx*.06))}deg)`}
+    // Identical swipe mechanics to MY/SORI/OPIC/DAY (v5.3.275 shared engine):
+    // full-screen snapshot, 1:1 finger-follow, velocity, tilt and screen-wide throw.
+    // No SPV-only 58px transform / 440ms animation / independent swipe threshold.
+    let spvTouch=null,spvSuppressClickUntil=0;
+    const swRoot=$('spvBody130');
+    swRoot?.addEventListener('touchstart',e=>{
+      spvTouch=null;
+      if(e.touches.length!==1||state.view!=='cards'||!state.loaded||audio.active||
+          $('spvPage132')?.classList.contains('hidden')||
+          e.target.closest?.('.spv132TwoTabs,.spv135BookPager,input,textarea,select,summary,[contenteditable="true"]'))return;
+      const t=e.touches[0];spvTouch={x:t.clientX,y:t.clientY,locked:false};
+    },{passive:true});
+    swRoot?.addEventListener('touchmove',e=>{
+      if(!spvTouch||e.touches.length!==1||audio.active)return;
+      const t=e.touches[0],dx=t.clientX-spvTouch.x,dy=t.clientY-spvTouch.y;
+      if(!spvTouch.locked&&Math.abs(dx)>=14&&Math.abs(dx)>=Math.abs(dy)*.90){
+        const dir=dx<0?1:-1;
+        if(canTurnBook(dir)){
+          spvTouch.locked=window.MV_SWIPE_STANDARD_254?.begin?.({
+            root:$('spvPage132'),dir,x:spvTouch.x,y:spvTouch.y,
+            onCommit:direction=>turnBookPage(direction,{fromSharedGesture:true})
+          })===true;
+        }
       }
-    },{passive:true});
-    $('spvBody130')?.addEventListener('touchend',e=>{
-      if(!touchStart||state.view!=='cards'||!state.loaded){touchStart=null;return;}
-      const t=e.changedTouches[0],dx=t.clientX-touchStart.x,dy=t.clientY-touchStart.y;touchStart=null;
-      const page=$('spv134GroupViewport');if(page){page.style.transform='';page.style.transition=''}
-      if(Math.abs(dx)<65||Math.abs(dx)<Math.abs(dy)*1.35)return;
-      turnBookPage(dx<0?1:-1);
-    },{passive:true});
-    $('spvBody130')?.addEventListener('touchcancel',()=>{touchStart=null;const page=$('spv134GroupViewport');if(page){page.style.transform='';page.style.transition=''}});
+      if(spvTouch.locked){
+        if(e.cancelable)e.preventDefault();e.stopPropagation();
+        window.MV_SWIPE_STANDARD_254?.move?.(t.clientX,t.clientY);
+      }
+    },{passive:false});
+    function finishSpvSwipe(cancel,e){
+      if(!spvTouch)return;
+      const g=spvTouch;spvTouch=null;
+      if(!g.locked)return;
+      const t=e.changedTouches?.[0];if(t)window.MV_SWIPE_STANDARD_254?.finalPoint?.(t.clientX,t.clientY);
+      e.stopPropagation();
+      if(window.MV_SWIPE_STANDARD_254?.end?.(!!cancel))spvSuppressClickUntil=Date.now()+540;
+    }
+    swRoot?.addEventListener('touchend',e=>finishSpvSwipe(false,e),{passive:true});
+    // Samsung content:// can emit touchcancel after a valid horizontal swipe.
+    swRoot?.addEventListener('touchcancel',e=>finishSpvSwipe(false,e),{passive:true});
+    swRoot?.addEventListener('click',e=>{
+      if(Date.now()<spvSuppressClickUntil){e.preventDefault();e.stopImmediatePropagation()}
+    },true);
     // Desktop mouse drag and keyboard arrows mirror DAY VOCA book-style navigation.
     let mouseStart=null;
     $('spvBody130')?.addEventListener('mousedown',e=>{
@@ -35129,14 +35236,14 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
     });
     $('sw131StudioPattern')?.addEventListener('click',showPatternStudio);
     $('sw131StudioWord')?.addEventListener('click',showWordStudio);
-    document.addEventListener('visibilitychange',()=>{if(document.hidden&&audio.active)stopAudio(true)});
+    document.addEventListener('visibilitychange',()=>{if(document.hidden&&audio.active)stopAudio(true,false)});
     window.addEventListener('pagehide',()=>stopAudio(true));
     window.addEventListener('sayward:auth-out',()=>{if(!$('spvPage132')?.classList.contains('hidden'))close();state.items=[];state.attempts=[];state.activeUid=null;if($('sw5527PracticePage')?.classList.contains('sw131-word-mode'))showPatternStudio()});
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
   window.saywardSpeakingVoca130={open,openDay,openSelected,close,load,openStudio:showWordStudio,backToPattern:showPatternStudio,
     playAll:()=>playGroup('all'),playGroup:()=>playGroup('group'),stopAudio,
-    snapshot:()=>({loaded:state.loaded,count:state.items.length,groupCount:groups().length,group:state.group,day:state.day,host:state.host,view:state.view,playing:audio.active,paused:audio.resumeReady,cursor:audio.cursor,queueLength:audio.queue.length,stats:stats()})};
+    snapshot:()=>({loaded:state.loaded,count:state.items.length,groupCount:groups().length,group:state.group,day:state.day,host:state.host,view:state.view,playing:audio.active,paused:audio.resumeReady,cursor:audio.cursor,queueLength:audio.queue.length,selectedDays:playlist.selectedDays.slice(),selectedCursor:playlist.dayIndex,selectionPaused:playlist.resumeReady,swipeEngine:'MV_SWIPE_STANDARD_254',stats:stats()})};
 })();
 </script>
 <style id="spv133-standard-style">/* Speaking VOCA v6.4.135: 7 standard learning modes, precisely four visible per swipe. */
@@ -35390,4 +35497,5 @@ commitButton.addEventListener('click',()=>{void processOfficialJson(gradeInput.v
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
 })();
 </script>
+<style id="spv141-day-navigation-style">#spvPage132 .spv141PendingPage{min-height:280px;display:flex;flex-direction:column;justify-content:center;gap:12px;background:#f8f9fd!important}#spvPage132 .spv141PendingPage h3{font-size:21px;color:#384b74!important}#spvPage132 .spv141PendingPage p{font-size:14px;line-height:1.7;color:#64748b;margin:0}#spvPage132 .spv135BookPager button:disabled{opacity:.28!important;cursor:default}</style>
 </body></html>
