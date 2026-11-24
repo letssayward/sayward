@@ -1,0 +1,1 @@
+SAYWARD v7.0.6 : Fixed mistakenly prepended raw Wake Lock JS before HTML doctype; restored Wake Lock lifecycle inside Speaking VOCA script. Preserved v7.0.5 default home and v7.0.4 DB MP3 mapping. Replace deployed index.html.

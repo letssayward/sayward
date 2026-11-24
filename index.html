@@ -1,115 +1,15 @@
-      // A selected multi-DAY playlist retains its lock between DAY boundaries.
-      if(!playlist.active)spvStopWake();
-    spvStartWake();
-    spvStopWake();
-  // v7.0.3: Speaking VOCA has a dedicated screen Wake Lock lifecycle.
-  // The legacy DAY/MY Wake Lock is intentionally left unchanged.
-  const spvWake={wanted:false,lock:null,pending:false,seq:0};
-  async function spvRequestWake(){
-    if(!spvWake.wanted||spvWake.pending||document.visibilityState!=='visible')return false;
-    if(spvWake.lock&&!spvWake.lock.released)return true;
-    if(!navigator.wakeLock?.request)return false; // Not supported on some file:// / insecure contexts.
-    const seq=spvWake.seq;
-    spvWake.pending=true;
-    try{
-      const lock=await navigator.wakeLock.request('screen');
-      if(!spvWake.wanted||seq!==spvWake.seq){try{await lock.release()}catch(_){};return false;}
-      spvWake.lock=lock;
-      lock.addEventListener('release',()=>{
-        if(spvWake.lock===lock)spvWake.lock=null;
-        if(spvWake.wanted&&document.visibilityState==='visible')
-          setTimeout(()=>{if(spvWake.wanted)void spvRequestWake()},220);
-      },{once:true});
-      return true;
-    }catch(err){
-      // Browsers may reject the request when the page is not active/secure.
-      return false;
-    }finally{spvWake.pending=false;}
-  }
-  function spvStartWake(){
-    if(!spvWake.wanted){spvWake.wanted=true;spvWake.seq++;}
-    // Called in the original click handler before audio awaits.
-    void spvRequestWake();
-  }
-  function spvStopWake(){
-    spvWake.wanted=false;spvWake.seq++;
-    const lock=spvWake.lock;spvWake.lock=null;
-    if(lock&&!lock.released)void lock.release().catch(()=>{});
-  }
-  document.addEventListener('visibilitychange',()=>{
-    if(document.visibilityState==='visible'&&spvWake.wanted)void spvRequestWake();
-  });
-  window.addEventListener('pageshow',()=>{if(spvWake.wanted)void spvRequestWake()});
-  window.addEventListener('focus',()=>{if(spvWake.wanted)void spvRequestWake()});
-  setInterval(()=>{
-    if(spvWake.wanted && (audio.active||playlist.active) && document.visibilityState==='visible')
-      void spvRequestWake();
-  },4000);
-
-<!-- SAYWARD v6.4.143: Speaking VOCA header tuned — remove pending-content pill, keep title on one line, and enlarge/right-align the DAY badge; includes prior v6.4.142 home swap and always-open contrast blocks. -->
-<!-- SAYWARD v6.4.141: Speaking VOCA sequential card navigation across DAY 1-120, including pending-DAY placeholders; shared book-turn gestures and pager now cross day boundaries. -->
-<!-- SAYWARD v6.4.140: Speaking VOCA full-page book-turn swipe + precise stop/resume cursor; immediate bilingual TTS (EN word → KO meaning → EN example twice), bypass MP3 lookup for new words; shared DB auth/CDN recovery; Speaking VOCA group pages turn by swipe, mouse/keyboard or compact pager; removed group tabs and in-card group-play/quiz buttons; standard bottom controls preserved. -->
-<!-- SAYWARD v6.4.140: Pattern-match answer playback: lower correct pattern twice, reference sentence twice, then options 1-4 twice each. Grade/DB/paraphrase logic unchanged. -->
-<!-- SAYWARD v6.4.127: Pattern-match paraphrase must match the exact displayed source example; prevent cross-variant meaning mismatch. All grading/DB practice unchanged. -->
-<!-- SAYWARD v6.4.126: Show confirmed official Miss focus-registration results (active, new suggested, existing) after Commit/History verification; safe on read-only reporting failure. -->
-<!-- SAYWARD v6.4.125: Pattern match reveals three distractors' official Korean meanings only after answer confirmation. -->
-<!-- SAYWARD v6.4.124: Official grading JSON import accepts explicit empty-string user_answer as a valid non-response; grades and IDs unchanged. -->
-<!-- SAYWARD v6.4.123: Dashboard displays verified recent 30-day learning and focus-time totals; six five-day summary groups and expandable daily details. -->
-<!-- SAYWARD v6.4.122: Add focus-only category in Pattern Studio using verified personal focus IDs, and nonblocking MP3 manifest-miss TTS fallback. -->
-<!-- SAYWARD v6.4.119: Home menu has six persistent modes in a four-tile sliding viewport (DAY / MY / SORI / OPIC / FRIENDS / BUSINESS); no change to study engine. -->
-<!-- SAYWARD v6.4.118: content-fitted 2-row scope selector inside the original-sized home repeat button. Prior v6.4.116 scope behavior is preserved. -->
-<!-- SAYWARD v6.4.116: Relocate repeat scope to home (All / trained sentence patterns / active focus patterns), connect real Supabase focus IDs to canonical playlist, retain existing lesson policy and resume logic. -->
-<!-- SAYWARD v6.4.113: Standardize sentence-level CEFR status labels and refresh stale unrated results. -->
-<!-- SAYWARD v6.4.112: Normalize TTS highlight to spoken text; never paint entire speaking cards during paragraph MP3 playback. -->
-<!-- SAYWARD v6.4.111: Align each next/previous pattern question to the same progress-row viewport position. -->
-<!-- SAYWARD v6.4.109: Update pattern matching prompt to encourage translating Korean to English before selecting a pattern. -->
-<!-- SAYWARD v6.4.108: Fix shared authenticated contentFrom query chain (order/range/item_key) for MY/SORI/OPIC/Friends/Business; preserve JWT/RLS and DB-driven sentences. -->
-<!-- SAYWARD v6.4.104: QA87 resolution release; 48 contrast cards split into pattern-specific candidates; 38 sentence pairs corrected; 1 paraphrase repaired in live Supabase. Frontend inherits validated v6.4.102. -->
-<!-- SAYWARD v6.4.102: semantic Korean/English pair QA gate and pending paraphrase suppression; no CEFR/Stable changes. -->
-<!-- SAYWARD v6.4.102: Number Fluency question swipe, bidirectional Korean/English 4-choice quiz; CEFR preserved. -->
-<!-- SAYWARD v6.4.100: Number Fluency training for MY lesson 25, CEFR + official grading unchanged. -->
-<!-- SAYWARD v6.4.105: Move global drawer menu to the right on voice practice page so the back button is not blocked. -->
-<!-- SAYWARD v6.4.99: Add authenticated DB-backed chapter checkbox filter for pattern sentence/match; preserve CEFR B1-C1 and existing practice logic. -->
-<!-- SAYWARD v6.4.98: Hide redundant learned-sentence pill; retain learned-card styling and compact the study card. -->
-<!-- SAYWARD v6.4.97: Add verified CEFR text labels to pattern match results and sentence speaking, including distinct paraphrase sentences. -->
-<!-- SAYWARD v6.4.96: Align CEFR/favorite with CORRECTION/CHUNK focus pill in one flow header; remove gap-inducing absolute layout. -->
-<!-- SAYWARD v6.4.95: Bold authoritative current CEFR, explicit × for missing/lower stages, and correction-level lookup. -->
-<!-- SAYWARD v6.4.93: Clarify active pattern ID count vs CEFR expansion sentence Bank; keep all existing lesson/grade/CEFR UI and original/history/favorites unchanged. -->
-<!-- SAYWARD v6.4.63: Usable official submission button, revised title; unified official morning/lunch/evening answer submission UI; prior learning behavior retained. -->
-<!-- SAYWARD v6.4.60: Pattern-match audio follows the correct-pattern card, then the official DB sentence card; preserve scroll-follow and order. -->
-<!-- SAYWARD v6.4.60: Restore automatic scroll to the spoken pattern/sentence during MP3 or TTS; keep reordered result cards. -->
-<!-- SAYWARD v6.4.58: Unify duplicate score/forgetting drawer navigation under learning dashboard; preserve DAY score/forget tabs and per-device records. -->
-<!-- SAYWARD v6.4.55: Business course DB transport allowlist and signed-in catalog error state, drawer state count labels. -->
-<!-- SAYWARD v6.4.51: Enable swipe gestures starting on studio choice/action buttons; preserve taps and native scrolling. -->
-<!-- SAYWARD v6.4.48: Focus buttons in results confirm Supabase writes and show errors in-place; admin can focus unpublished drafts. -->
-<!-- SAYWARD v6.4.47: First-tap MP3 for all matching choices and answer feedback; shared curated pattern alias paths. -->
-<!-- SAYWARD v6.4.46: Studio first-pattern MP3 resolves curated Supabase spoken-text aliases. -->
-<!-- SAYWARD v6.4.45: Installable Android PWA; focus existing app via launch_handler; network-only service worker to preserve live data and version updates. -->
-<!-- SAYWARD v6.4.44: background navigation no longer forces recording stop; progressive local checkpoints and downloads/sayword write verification. -->
-<!-- SAYWARD v6.4.44: studio answer confirmation reuses exact pattern MP3 manifest key, with Android gesture priming and TTS-only placeholder normalization. -->
-<!-- SAYWARD v6.4.42: recording background mic guard, 5s IndexedDB checkpoints, user-granted Download/sayword folder and recovery. -->
-<!-- SAYWARD v6.4.41: unify home menu/search into compact dark accessible controls; prevent floating white menu overlay. -->
-<!-- SAYWARD v6.4.40: user-facing data backup/restore menu, action, and legacy import/export script removed; learning data preserved. -->
-<!-- SAYWARD v6.4.40: focus list is an option inside existing pattern sort combobox; no separate manager panel. -->
-<!-- SAYWARD v6.4.37: verified admin previews pending lessons and all their draft items; public approval unchanged. -->
-<!-- SAYWARD v6.4.36: unify in-app version label, update history, release metadata and home badge. -->
-<!-- SAYWARD v6.4.35: single-tap English sentence/pattern audio once; MP3/TTS shared, no grading modifications. -->
-<!-- SAYWARD v6.4.35: diverse practice selection; 70:30 respected, recent pattern cooldown, RLS history + per-user local issued ledger. -->
-<!-- SAYWARD v6.4.35 single index: per-question self-rating results restored; admin requests aligned; five-course dashboard RPC. -->
-<!-- SAYWARD v6.4.35; v6.0 RC2 official baseline + live sentence stats + personal sync -->
-<!-- SAYWARD V5.4.77 · OPIC33 6 PLACES × 6 UNIVERSAL PATTERNS -->
 <!doctype html><html lang="ko"><head>
 <!-- SAYWARD V5.4.77 · OPIC33 6 Places × 6 Universal Patterns -->
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.4 · Learning Dashboard</title>
-<!-- v7.0.4 Speaking VOCA: DB MP3 mapping + admin reconciliation + v7.0.3 screen wake lock -->
-<meta name="sayward-release" content="7.0.4">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.6 · Learning Dashboard</title>
+<!-- v7.0.5 Speaking VOCA first-launch default + DB MP3 mapping + admin reconciliation + wake lock -->
+<meta name="sayward-release" content="7.0.6">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '7.0.4';
+  const release=marker?.content?.trim() || '7.0.6';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -22921,7 +22821,7 @@ function resolveInitialMainMode(){
       return legacy;
     }
   }catch(e){}
-  return 'day';
+  return 'spv';
 }
 function currentMode(){
   const h=home(); if(h?.dataset.cleanMode && MODES.includes(h.dataset.cleanMode)) return h.dataset.cleanMode;
@@ -23104,7 +23004,7 @@ function boot(){
   requestAnimationFrame(()=>swSyncLauncher119(currentMode()));
   placeTodayCard();
   const initialMainMode=resolveInitialMainMode();
-  // Home default contract: first launch => DAY; later launches => last selected MAIN button.
+  // Home default contract: first launch => Speaking VOCA; later launches => last selected MAIN button.
   // Auxiliary FRIENDS never replaces the remembered main-button default.
   if(typeof window.setHomeStudyMode==='function') window.setHomeStudyMode(initialMainMode); else applyMode(initialMainMode);
   syncToday();syncOverallProxy();
@@ -34970,6 +34870,50 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
   const state={items:[],day:1,i:-1,stage:0,revealed:false,answer:'',attempts:[],busy:false,completed:false,loaded:false,host:'page',group:0,view:'cards',quizOrder:[],shuffleQuiz:true,studied:new Set(),choiceSelected:'',choiceSaved:false,pendingEntry:null,activeUid:null};
   const audio={token:0,active:false,groupMode:'all',groupIndex:0,wordIndex:0,queue:[],cursor:0,resumeReady:false};
   const playlist={token:0,active:false,selectedDays:[],dayIndex:0,resumeReady:false,userId:''};
+  // v7.0.3: Speaking VOCA has a dedicated screen Wake Lock lifecycle.
+  // The legacy DAY/MY Wake Lock is intentionally left unchanged.
+  const spvWake={wanted:false,lock:null,pending:false,seq:0};
+  async function spvRequestWake(){
+    if(!spvWake.wanted||spvWake.pending||document.visibilityState!=='visible')return false;
+    if(spvWake.lock&&!spvWake.lock.released)return true;
+    if(!navigator.wakeLock?.request)return false; // Not supported on some file:// / insecure contexts.
+    const seq=spvWake.seq;
+    spvWake.pending=true;
+    try{
+      const lock=await navigator.wakeLock.request('screen');
+      if(!spvWake.wanted||seq!==spvWake.seq){try{await lock.release()}catch(_){};return false;}
+      spvWake.lock=lock;
+      lock.addEventListener('release',()=>{
+        if(spvWake.lock===lock)spvWake.lock=null;
+        if(spvWake.wanted&&document.visibilityState==='visible')
+          setTimeout(()=>{if(spvWake.wanted)void spvRequestWake()},220);
+      },{once:true});
+      return true;
+    }catch(err){
+      // Browsers may reject the request when the page is not active/secure.
+      return false;
+    }finally{spvWake.pending=false;}
+  }
+  function spvStartWake(){
+    if(!spvWake.wanted){spvWake.wanted=true;spvWake.seq++;}
+    // Called in the original click handler before audio awaits.
+    void spvRequestWake();
+  }
+  function spvStopWake(){
+    spvWake.wanted=false;spvWake.seq++;
+    const lock=spvWake.lock;spvWake.lock=null;
+    if(lock&&!lock.released)void lock.release().catch(()=>{});
+  }
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='visible'&&spvWake.wanted)void spvRequestWake();
+  });
+  window.addEventListener('pageshow',()=>{if(spvWake.wanted)void spvRequestWake()});
+  window.addEventListener('focus',()=>{if(spvWake.wanted)void spvRequestWake()});
+  setInterval(()=>{
+    if(spvWake.wanted && (audio.active||playlist.active) && document.visibilityState==='visible')
+      void spvRequestWake();
+  },4000);
+
   const stages=['recognition','recall','production'];
   const stagesKo=['유사어 선택','단어 회상','문장 발화'];
   const body=()=>$(state.host==='studio'?'spvStudioBody131':'spvBody130');
@@ -35009,6 +34953,7 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
   function stopAudio(silent=false,discard=silent){
     const hadPlayback=audio.active;
     audio.token++;audio.active=false;playlist.token++;playlist.active=false;
+    spvStopWake();
     if(discard){audio.queue=[];audio.cursor=0;audio.resumeReady=false;playlist.resumeReady=false}
     else {
       if(audio.queue.length && audio.cursor<audio.queue.length && (hadPlayback||audio.resumeReady))audio.resumeReady=true;
@@ -35079,6 +35024,7 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
       }
     }
     if(!audio.queue.length){status('선택한 반복 항목에 재생할 내용이 없습니다.');return}
+    spvStartWake();
     await window.saywardSpvAudioMap?.preload?.(state.items);
     const token=++audio.token;audio.active=true;audio.resumeReady=false;
     updateAudioButtons();
@@ -35120,6 +35066,8 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
         status(playbackError?'음성 재생 오류 · 이어듣기 가능: '+String(playbackError?.message||playbackError).slice(0,125):finished?'✓ Speaking VOCA 연속 재생 완료':'⏸ 정지 위치에서 이어듣기 가능');
       }
       document.querySelectorAll('.spv132WordUnit.is-reading').forEach(el=>el.classList.remove('is-reading'));
+      // Keep screen awake when the user selected a multi-DAY playlist.
+      if(!playlist.active)spvStopWake();
     }
   }
 
