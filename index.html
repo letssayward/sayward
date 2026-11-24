@@ -3,9 +3,9 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.6 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.7 · Learning Dashboard</title>
 <!-- v7.0.5 Speaking VOCA first-launch default + DB MP3 mapping + admin reconciliation + wake lock -->
-<meta name="sayward-release" content="7.0.6">
+<meta name="sayward-release" content="7.0.7">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -34870,7 +34870,7 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
   const state={items:[],day:1,i:-1,stage:0,revealed:false,answer:'',attempts:[],busy:false,completed:false,loaded:false,host:'page',group:0,view:'cards',quizOrder:[],shuffleQuiz:true,studied:new Set(),choiceSelected:'',choiceSaved:false,pendingEntry:null,activeUid:null};
   const audio={token:0,active:false,groupMode:'all',groupIndex:0,wordIndex:0,queue:[],cursor:0,resumeReady:false};
   const playlist={token:0,active:false,selectedDays:[],dayIndex:0,resumeReady:false,userId:''};
-  // v7.0.3: Speaking VOCA has a dedicated screen Wake Lock lifecycle.
+  // v7.0.7: Speaking VOCA screen Wake Lock + selected-DAY playlist resume.
   // The legacy DAY/MY Wake Lock is intentionally left unchanged.
   const spvWake={wanted:false,lock:null,pending:false,seq:0};
   async function spvRequestWake(){
@@ -34949,16 +34949,19 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
     return `<div class="spv132TwoTabs" role="tablist" aria-label="Speaking VOCA 학습 방식"><button type="button" role="tab" aria-selected="${active==='cards'}" data-spv="cards" class="${active==='cards'?'is-active':''}">📖 유사어 카드</button><button type="button" role="tab" aria-selected="${active==='quiz'}" data-spv="begin" class="${active==='quiz'?'is-active':''}">✍️ 단어 문제</button></div>`}
   function speechRate(){try{return typeof getSpeechRate==='function'?getSpeechRate():.95}catch(e){return .95}}
   function options(){try{return typeof loadAppSettings==='function'?loadAppSettings():{}}catch(e){return {}}}
-  function updateAudioButtons(){const b=$('spvAllPlay132'),g=$('spvGroupRepeat132');if(b){const resume=!audio.active&&audio.resumeReady&&audio.cursor<audio.queue.length;b.innerHTML=audio.active?'⏸<br>이 수업 정지':resume?'▶<br>이어서 재생':'▶<br>이 수업 시작';b.classList.toggle('spv139Resume',resume);b.setAttribute('aria-pressed',String(audio.active))}if(g){g.classList.toggle('is-active',audio.active&&audio.groupMode==='loop-group');g.setAttribute('aria-pressed',String(audio.active&&audio.groupMode==='loop-group'))}}
+  function updateAudioButtons(){const b=$('spvAllPlay132'),g=$('spvGroupRepeat132');if(b){const multiResume=!audio.active&&!playlist.active&&playlist.resumeReady&&playlist.selectedDays.length>0;const resume=!audio.active&&audio.resumeReady&&audio.cursor<audio.queue.length;b.innerHTML=audio.active?'⏸<br>이 수업 정지':multiResume?'▶<br>전체 이어서 재생':resume?'▶<br>이어서 재생':'▶<br>이 수업 시작';b.classList.toggle('spv139Resume',resume);b.setAttribute('aria-pressed',String(audio.active))}if(g){g.classList.toggle('is-active',audio.active&&audio.groupMode==='loop-group');g.setAttribute('aria-pressed',String(audio.active&&audio.groupMode==='loop-group'))}}
   function stopAudio(silent=false,discard=silent){
     const hadPlayback=audio.active;
+    const hadSelectedPlayback=playlist.active||playlist.resumeReady;
+    // Capture the multi-DAY scope BEFORE clearing active flags. Otherwise
+    // background pause loses the chosen 1–120 DAY playlist permanently.
     audio.token++;audio.active=false;playlist.token++;playlist.active=false;
     spvStopWake();
     if(discard){audio.queue=[];audio.cursor=0;audio.resumeReady=false;playlist.resumeReady=false}
     else {
       if(audio.queue.length && audio.cursor<audio.queue.length && (hadPlayback||audio.resumeReady))audio.resumeReady=true;
-      // Keep the chosen DAY and exact voice-segment cursor on Home navigation.
-      if((hadPlayback||playlist.active||playlist.resumeReady) && (audio.resumeReady||playlist.active))playlist.resumeReady=true;
+      if(hadSelectedPlayback && playlist.selectedDays.length && playlist.dayIndex<playlist.selectedDays.length)
+        playlist.resumeReady=true;
     }
     try{window.stopSpeech?.()}catch(e){try{window.speechSynthesis?.cancel()}catch(_){}}
     document.querySelectorAll('.spv132WordUnit.is-reading').forEach(x=>x.classList.remove('is-reading'));
@@ -35227,6 +35230,7 @@ let loadToken=0;
     await opening;
     if(!state.loaded||state.items.length!==10){spvStopWake();return false;}
     const token=++playlist.token;playlist.active=true;playlist.resumeReady=false;
+    updateAudioButtons();
     try{
       for(let idx=startAt;idx<chosen.length;idx++){
         const day=chosen[idx];
@@ -35246,7 +35250,7 @@ let loadToken=0;
       }
       playlist.resumeReady=false;playlist.selectedDays=[];playlist.dayIndex=0;
       status('✓ 선택 DAY 전체 연속 재생 완료');return true;
-    }finally{if(token===playlist.token){playlist.active=false;spvStopWake()}}
+    }finally{if(token===playlist.token){playlist.active=false;updateAudioButtons();spvStopWake()}}
   }
   function showWordStudio(){const page=$('sw5527PracticePage'),panel=$('sw131StudioWordPanel');if(!page||page.classList.contains('hidden'))return;stopAudio(true);useHost('studio');page.classList.add('sw131-word-mode');panel.hidden=false;for(const b of page.querySelectorAll('[data-sw131-mode]'))b.setAttribute('aria-pressed',String(b.dataset.sw131Mode==='word'));try{window.saywardStudioAudio?.stop?.()}catch(e){}state.view='quiz';void load()}
   function showPatternStudio(){const page=$('sw5527PracticePage');if(!page)return;stopAudio(true);page.classList.remove('sw131-word-mode');$('sw131StudioWordPanel').hidden=true;for(const b of page.querySelectorAll('[data-sw131-mode]'))b.setAttribute('aria-pressed',String(b.dataset.sw131Mode==='pattern'))}
@@ -35359,7 +35363,17 @@ let loadToken=0;
     $('spvHomeOpen130')?.addEventListener('click',()=>open('cards'));
     $('spvDrawer130')?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();open('cards')});
     $('spvBack132')?.addEventListener('click',close);
-    $('spvAllPlay132')?.addEventListener('click',()=>{if(audio.active)stopAudio();else {try{window.saywardKokoroMixed?.prime?.('speaking-voca-play')}catch(e){}void playGroup('all')}});
+    $('spvAllPlay132')?.addEventListener('click',()=>{
+      if(audio.active){stopAudio();return}
+      try{window.saywardKokoroMixed?.prime?.('speaking-voca-play')}catch(e){}
+      // An interrupted overall playlist owns this button until it is finished
+      // or explicitly discarded. Reuse its saved DAY list and exact cursor.
+      if(!playlist.active&&playlist.resumeReady&&playlist.selectedDays.length&&
+         (!playlist.userId||playlist.userId===String(auth().uid||''))){
+        void openSelected(playlist.selectedDays.slice());return;
+      }
+      void playGroup('all');
+    });
     $('spvConfig133')?.addEventListener('click',()=>{stopAudio(true);if(typeof openConfiguration==='function')openConfiguration()});
     $('spvHome132')?.addEventListener('click',close);
     $('spvQuiz132')?.addEventListener('click',startQuiz);
@@ -35426,13 +35440,13 @@ let loadToken=0;
     });
     $('sw131StudioPattern')?.addEventListener('click',showPatternStudio);
     $('sw131StudioWord')?.addEventListener('click',showWordStudio);
-    document.addEventListener('visibilitychange',()=>{if(document.hidden&&audio.active)stopAudio(true,false)});
+    document.addEventListener('visibilitychange',()=>{if(document.hidden&&(audio.active||playlist.active))stopAudio(true,false)});
     window.addEventListener('pagehide',()=>stopAudio(true));
     window.addEventListener('sayward:auth-out',()=>{if(!$('spvPage132')?.classList.contains('hidden'))close();state.items=[];state.attempts=[];state.activeUid=null;if($('sw5527PracticePage')?.classList.contains('sw131-word-mode'))showPatternStudio()});
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
   window.saywardSpeakingVoca130={open,openDay,openSelected,close,load,openStudio:showWordStudio,backToPattern:showPatternStudio,
-    playAll:()=>playGroup('all'),playGroup:()=>playGroup('group'),stopAudio,
+    playAll:()=>playlist.resumeReady&&playlist.selectedDays.length?openSelected(playlist.selectedDays.slice()):playGroup('all'),playGroup:()=>playGroup('group'),stopAudio,
     snapshot:()=>({loaded:state.loaded,count:state.items.length,groupCount:groups().length,group:state.group,day:state.day,host:state.host,view:state.view,playing:audio.active,paused:audio.resumeReady,cursor:audio.cursor,queueLength:audio.queue.length,selectedDays:playlist.selectedDays.slice(),selectedCursor:playlist.dayIndex,selectionPaused:playlist.resumeReady,quizOrder:state.quizOrder.slice(),shuffleQuiz:state.shuffleQuiz,wakeLockWanted:spvWake.wanted,wakeLockHeld:!!(spvWake.lock&&!spvWake.lock.released),wakeLockSupported:!!navigator.wakeLock?.request,swipeEngine:'MV_SWIPE_STANDARD_254',stats:stats()})};
 })();
 </script>
