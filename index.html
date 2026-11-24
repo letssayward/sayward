@@ -55,12 +55,12 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.147 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.147">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.1 · Learning Dashboard</title>
+<meta name="sayward-release" content="7.0.1">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '6.4.66';
+  const release=marker?.content?.trim() || '7.0.1';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -4021,8 +4021,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 </section>
 <section class="spvClassSection" aria-label="Speaking VOCA DAY별 학습" style="display:none">
   <div class="sectionHead"><div><b>🗣 Speaking VOCA 선택 학습</b><span class="sectionSub">MY 수업과 같은 Chunk 카드 · 하루 10개 단어 · 총 120 DAY</span></div></div>
-  <div class="studyCourseInfo">하나의 DAY = 유사어 3그룹 · 단어·뜻·뉘앙스·예문 · 공통 반복 재생 · 단어 문제</div>
-  <div id="spvCatalogInfo133" class="spvCatalogInfo133" role="status">관리자 파일럿 DAY를 불러오는 중입니다. 완성되지 않은 DAY는 선택할 수 없습니다.</div>
+  <div id="spvCatalogInfo133" class="spvCatalogInfo133" role="status" aria-live="polite" hidden></div>
   <nav id="spvBatchTabs133" class="spvBatchTabs133" aria-label="Speaking VOCA DAY 20개씩 보기"></nav>
   <div id="spvDayGrid133" class="spvDayGrid133" aria-label="Speaking VOCA DAY별 카드"></div>
 </section>
@@ -13184,6 +13183,14 @@ function mvOpenUpdateHistory(){
       <div class="mvInfoVersionCard"><b>v${window.SAYWARD_RELEASE}</b><span>현재 설치 버전</span></div>
       <section class="mvInfoSection">
         <h3>v${window.SAYWARD_RELEASE}</h3>
+        <ul>
+          <li>✓ Speaking VOCA를 정규 학습 모듈로 추가했습니다. 120 DAY·1,200단어를 유사어 그룹·뜻·뉘앙스·예문으로 학습합니다.</li>
+          <li>✓ 단어 문제는 유사어 선택·단어 회상·문장 발화의 3단계로 구성하고 단어 단위 랜덤 출제 옵션을 지원합니다.</li>
+          <li>✓ Speaking VOCA 카드의 DAY 간 연속 책장 넘김, 음성 재생, 휴대전화 키보드 입력 화면을 개선했습니다.</li>
+          <li>✓ 기존 DAY VOCA를 TOEFL VOCA로 표시하고, Speaking VOCA를 홈 학습 모드에 배치했습니다.</li>
+          <li>✓ Speaking VOCA 헤더와 DAY 목록 UI를 정리하고 이전 학습 기록 및 데이터베이스를 유지합니다.</li>
+        </ul>
+        <h3>v6.4.x 개선 이력</h3>
         <ul><li>✓ 패턴 맞추기 학습 영역에 집중 학습 등록 패턴을 추가했습니다. 공식 패턴의 정답 후보만 집중 등록 ID로 제한하고 객관식 오답 선택지는 전체 공식 패턴에서 보충합니다.</li><li>✓ MP3 파일이 없는 문장은 음성 폴더 전체 조회를 기다리지 않고 TTS로 즉시 대체합니다. 최초 manifest 응답 대기도 최대 450ms로 제한합니다.</li></ul>
         <ul><li>✓ 3줄 메뉴에 아침(15문항)·점심(15문항)·저녁(20문항) 통합 「GPT 활용 공식 학습 답안제출」 메뉴를 추가했습니다. 시간대와 Session ID를 구분해 로그인 계정으로 공식 DB 제출을 요청합니다. 실제 제출 및 채점 확정 여부는 서버 응답 확인이 필요합니다.</li></ul>
          <ul><li>✓ 패턴 맞추기 결과에서 자동 재생 음성의 위치를 정답 패턴·의미 → 공식 DB 기준 문장 카드로 고정했습니다. MP3/TTS 자동 스크롤과 글자 강조를 유지하고 상단의 중복 카드에서는 재생 아이콘을 숨겼습니다.</li></ul>
@@ -35505,9 +35512,7 @@ let loadToken=0;
      if($('homePage')?.dataset.cleanMode!=='spv')return;
      e.preventDefault();e.stopImmediatePropagation();startSelected();
    },true);
-   const refresh=document.createElement('button');refresh.type='button';refresh.id='spvRefresh133';refresh.className='sharedStudySelectBtn spvRefresh133';refresh.textContent='↻ DB 갱신';refresh.style.cssText='font-size:12px;margin:6px 0 0;padding:7px 11px';
-   $('spvCatalogInfo133')?.insertAdjacentElement('beforebegin',refresh);
-   refresh.addEventListener('click',()=>void loadCatalog());
+   // v6.4.148: Home catalog refreshes automatically; redundant manual refresh control removed.
    if($('homePage')?.dataset.cleanMode==='spv')void loadCatalog();
    // Auth is asynchronous on app startup. Refresh the catalog after the
    // signed-in user becomes available without any manual DB-refresh click.
@@ -35602,4 +35607,72 @@ let loadToken=0;
 })();
 </script>
 <style id="spv141-day-navigation-style">#spvPage132 .spv141PendingPage{min-height:280px;display:flex;flex-direction:column;justify-content:center;gap:12px;background:#f8f9fd!important}#spvPage132 .spv141PendingPage h3{font-size:21px;color:#384b74!important}#spvPage132 .spv141PendingPage p{font-size:14px;line-height:1.7;color:#64748b;margin:0}#spvPage132 .spv135BookPager button:disabled{opacity:.28!important;cursor:default}</style>
+
+<style id="spv148-ui-polish">
+/* v6.4.148: Scoped polish — no changes to lessons, data or DB writes. */
+#spvPage132 .myClassShell{max-width:920px}
+#spvPage132 .myClassHeaderRow{
+ display:grid!important;grid-template-columns:43px minmax(0,1fr) auto!important;
+ align-items:center!important;gap:9px!important;
+}
+#spvPage132 .myClassHeaderTitle{min-width:0!important;overflow:hidden!important;padding:0!important}
+#spvPage132 .myClassHeaderTitle b{
+ display:block!important;white-space:nowrap!important;overflow:visible!important;
+ text-overflow:clip!important;font-size:clamp(15px,2.65vw,19px)!important;
+ line-height:1.24!important;letter-spacing:-.035em!important
+}
+#spvPage132 .myClassHeaderTitle span{
+ white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+ font-size:11px!important;line-height:1.45!important;margin-top:5px!important
+}
+#spvPage132 .spv132TopMeta{margin:0!important;padding:0!important;min-width:0!important;display:flex!important;align-items:center!important}
+#spvPage132 .spv132TopMeta span{
+ display:flex!important;white-space:nowrap!important;max-width:none!important;
+ min-width:0!important;min-height:57px!important;box-sizing:border-box!important;
+ padding:11px 17px!important;line-height:1.25!important;
+ font-size:clamp(12px,2.35vw,14px)!important;letter-spacing:-.035em!important;
+ border-radius:18px!important;font-weight:900!important;
+}
+/* Remove duplicate catalog status from visual layout. JS keeps hidden status updated. */
+#homePage .spvClassSection #spvCatalogInfo133,
+#homePage .spvClassSection #spvRefresh133,
+#homePage .spvClassSection .studyCourseInfo{display:none!important}
+#homePage .spvClassSection{margin:9px 0 23px!important}
+#homePage .spvClassSection .sectionHead{margin:6px 0 14px!important}
+#homePage .spvClassSection .sectionHead b{font-size:clamp(16px,3.8vw,19px)!important;line-height:1.3!important;color:#202d50!important}
+#homePage .spvClassSection .sectionHead .sectionSub{display:block;font-size:12px!important;line-height:1.48!important;margin-top:4px!important;color:#72809a!important}
+#homePage .spvBatchTabs133{gap:9px!important;margin:0 0 16px!important}
+#homePage .spvBatchTabs133 button{border-radius:14px!important;min-height:49px!important;font-size:13px!important;border-color:#dce2f0!important;box-shadow:0 2px 5px rgba(24,42,74,.025)!important}
+#homePage .spvBatchTabs133 button.is-active{background:#4052af!important;border-color:#4052af!important;color:#fff!important;box-shadow:0 4px 12px rgba(64,82,175,.17)!important}
+#homePage .spvDayGrid133{gap:11px!important}
+#homePage .spvDayGrid133 .myClassCard{min-height:133px!important;padding:15px 14px!important;border-radius:19px!important;border:1px solid #dbe1ed!important;box-shadow:0 4px 14px rgba(38,55,89,.04)!important}
+#homePage .spvDayGrid133 .myClassCard.myClassChecked{background:#f8f7ff!important;border:2px solid #6555c6!important;padding:14px 13px!important;box-shadow:0 0 0 3px rgba(101,85,198,.10)!important}
+#homePage .spvDayGrid133 .myClassTop{padding-right:32px!important;display:block!important;min-width:0!important}
+#homePage .spvDayGrid133 .myClassTop b{display:block!important;font-size:12px!important;line-height:1.35!important;white-space:normal!important;overflow-wrap:normal!important}
+#homePage .spvDayGrid133 .myClassBadge{display:inline-block!important;font-size:10px!important;line-height:1.15!important;margin:6px 0 0!important;padding:5px 8px!important;border-radius:8px!important}
+#homePage .spvDayGrid133 .myClassTitle{font-size:14px!important;line-height:1.4!important;margin:8px 0!important;min-height:19px!important}
+#homePage .spvDayGrid133 .myClassMeta{gap:5px!important;margin-top:8px!important}
+#homePage .spvDayGrid133 .myClassMeta span{font-size:10px!important;line-height:1.35!important;max-width:100%!important;white-space:normal!important}
+#homePage .spvDayGrid133 .studySelectMini{top:14px!important;right:11px!important}
+#homePage .spvDayGrid133 .studySelectMini input{width:23px!important;height:23px!important}
+@media(max-width:440px){
+ #spvPage132 .myClassShell{padding:11px 10px 26px!important}
+ #spvPage132 .myClassHeaderRow{gap:7px!important;grid-template-columns:40px minmax(0,1fr) auto!important}
+ #spvBack132{width:40px!important;height:46px!important}
+ #spvPage132 .myClassHeaderTitle b{font-size:15px!important;letter-spacing:-.048em!important}
+ #spvPage132 .myClassHeaderTitle span{font-size:10px!important}
+ #spvPage132 .spv132TopMeta span{min-height:55px!important;padding:10px 11px!important;font-size:12px!important;border-radius:16px!important}
+ #homePage .spvDayGrid133 .myClassCard{padding:13px 11px!important}
+ #homePage .spvDayGrid133 .myClassCard.myClassChecked{padding:12px 10px!important}
+ #homePage .spvDayGrid133 .myClassTop b{font-size:11px!important}
+ #homePage .spvDayGrid133 .myClassTitle{font-size:13px!important}
+}
+@media(max-width:365px){
+ #spvPage132 .myClassHeaderRow{gap:5px!important;grid-template-columns:38px minmax(0,1fr) auto!important}
+ #spvPage132 .myClassHeaderTitle b{font-size:14px!important}
+ #spvPage132 .spv132TopMeta span{padding:9px 8px!important;font-size:11px!important}
+ #homePage .spvDayGrid133{gap:8px!important}
+ #homePage .spvDayGrid133 .myClassTop b{font-size:10.5px!important}
+}
+</style>
 </body></html>
