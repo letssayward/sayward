@@ -34811,10 +34811,10 @@ body.spv145-typing #spvPage132 .myClassShell{padding-top:4px!important}
 body.spv145-typing #spvPage132 .spv132QuizCard{margin-top:4px!important;padding-top:12px!important}
 body.spv145-typing #spvPage132 .spv132QuizCard .spvKorean130,
 body.spv145-typing #sw131StudioWordPanel .spv132QuizCard .spvKorean130{
-  position:sticky;top:4px;z-index:4;
+  position:sticky;top:168px;z-index:4;
   background:#fff;color:#253755;
   padding:7px 4px;margin:3px 0 7px;
-  border-radius:8px;scroll-margin-top:8px;
+  border-radius:8px;scroll-margin-top:168px;
 }
 body.spv145-typing #spvPage132 .spv132QuizCard .spv132TargetWord{margin:3px 0 6px!important}
 body.spv145-typing #spvPage132 .spvField130{scroll-margin-top:100px}
@@ -35214,7 +35214,10 @@ let loadToken=0;
     const visual=window.visualViewport;
     const top=visual?visual.offsetTop:0;
     const questionTop=prompt.getBoundingClientRect().top;
-    const targetTop=top+14;
+    // Leave a generous top safe zone below the floating three-line menu on Samsung. 
+    const menu=document.querySelector('.drawerMenuButton:not(.page-hidden)');
+    const menuBottom=menu?.getBoundingClientRect?.().bottom;
+    const targetTop=Math.max(top+168, Number.isFinite(menuBottom)?menuBottom+18:0);
     if(questionTop>targetTop+10 || questionTop<targetTop-10){
       window.scrollBy({top:questionTop-targetTop,behavior:'instant'});
     }
