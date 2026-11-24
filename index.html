@@ -1,3 +1,4 @@
+<!-- SAYWARD v6.4.143: Speaking VOCA header tuned — remove pending-content pill, keep title on one line, and enlarge/right-align the DAY badge; includes prior v6.4.142 home swap and always-open contrast blocks. -->
 <!-- SAYWARD v6.4.141: Speaking VOCA sequential card navigation across DAY 1-120, including pending-DAY placeholders; shared book-turn gestures and pager now cross day boundaries. -->
 <!-- SAYWARD v6.4.140: Speaking VOCA full-page book-turn swipe + precise stop/resume cursor; immediate bilingual TTS (EN word → KO meaning → EN example twice), bypass MP3 lookup for new words; shared DB auth/CDN recovery; Speaking VOCA group pages turn by swipe, mouse/keyboard or compact pager; removed group tabs and in-card group-play/quiz buttons; standard bottom controls preserved. -->
 <!-- SAYWARD v6.4.140: Pattern-match answer playback: lower correct pattern twice, reference sentence twice, then options 1-4 twice each. Grade/DB/paraphrase logic unchanged. -->
@@ -54,8 +55,8 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.141 · Learning Dashboard</title>
-<meta name="sayward-release" content="6.4.141">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v6.4.142 · Learning Dashboard</title>
+<meta name="sayward-release" content="6.4.142">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -1234,7 +1235,7 @@ line-height:1.25 !important;
 
 
 /* ===== STYLE BLOCK 2 id="v534IntegratedStyles" ===== */
-/* v5.3.84 — DAY VOCA / MY CLASS integrated study mode */
+/* v5.3.84 — TOEFL VOCA / MY CLASS integrated study mode */
 .homeStudyModePanel{margin:14px 0 12px;padding:13px;border:1px solid #dbe3f0;background:linear-gradient(180deg,#fff,#f8faff);border-radius:18px;box-shadow:0 6px 18px rgba(15,23,42,.05)}
 .homeStudyModeTitle{font-size:13px;font-weight:950;color:#667085;margin:0 0 9px 2px}
 .homeStudyModeSwitch{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:5px;background:#eef2f7;border-radius:15px}
@@ -3840,13 +3841,13 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 <section id="cleanHomeLauncher" class="cleanHomeLauncher" aria-label="학습 모드 및 전체 반복">
   <div class="swModeViewport119" aria-label="학습 메뉴 7개, 4개씩 표시. 좌우 스와이프로 학습 영역을 전환할 수 있습니다.">
   <div class="cleanModeGrid">
-    <button class="cleanModeCard" type="button" data-clean-mode-button="day" aria-label="DAY VOCA"><span class="swModeIcon"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7567ff"/><stop offset="1" stop-color="#a58aff"/></linearGradient></defs><path d="M8 15c8-3 15-2 24 4v31c-9-6-16-7-24-4z" fill="#fff" stroke="#7c6cf8" stroke-width="3"/><path d="M56 15c-8-3-15-2-24 4v31c9-6 16-7 24-4z" fill="#fff" stroke="#7c6cf8" stroke-width="3"/><path d="M32 19v31" stroke="url(#g1)" stroke-width="4" stroke-linecap="round"/><path d="M13 20c6-1 11 0 16 3M13 27c6-1 11 0 16 3" stroke="#c9c4ff" stroke-width="2" stroke-linecap="round"/><path d="M51 20c-6-1-11 0-16 3M51 27c-6-1-11 0-16 3" stroke="#c9c4ff" stroke-width="2" stroke-linecap="round"/></svg></span><span class="swModeCopy"><b>DAY VOCA</b><small>오늘의 단어로 말문을 열어요.</small></span></button>
+    <button class="cleanModeCard" type="button" data-clean-mode-button="spv" aria-label="Speaking VOCA"><span class="swModeIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><defs><linearGradient id="swg133Spv" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4e5fd7"/><stop offset="1" stop-color="#15b8a2"/></linearGradient></defs><rect x="13" y="10" width="38" height="46" rx="8" fill="url(#swg133Spv)"/><path d="M21 21h22M21 30h16M21 39h20" stroke="#fff" stroke-width="4" stroke-linecap="round"/><circle cx="45" cy="42" r="8" fill="#ebfffa" stroke="#fff" stroke-width="2"/><path d="m42 42 2 2 4-5" fill="none" stroke="#19a38f" stroke-width="2" stroke-linecap="round"/></svg></span><span class="swModeCopy"><b>SPEAKING VOCA</b><small>뜻·뉘앙스 비교 영어</small></span></button>
     <button class="cleanModeCard" type="button" data-clean-mode-button="my" aria-label="MY 수업"><span class="swModeIcon"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4b5ddf"/><stop offset="1" stop-color="#8f6cff"/></linearGradient></defs><path d="M5 24 32 10l27 14-27 14z" fill="url(#g2)"/><path d="M15 31v10c7 8 27 8 34 0V31L32 40z" fill="#5968e8"/><path d="M56 26v16" stroke="#6f5cf5" stroke-width="3" stroke-linecap="round"/><circle cx="56" cy="45" r="3" fill="#8b67ff"/></svg></span><span class="swModeCopy"><b>MY 수업</b><small>나에게 맞춘 수업을 이어가요.</small></span></button>
     <button class="cleanModeCard" type="button" data-clean-mode-button="sori" aria-label="소리 영어"><span class="swModeIcon"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2dd7ff"/><stop offset="1" stop-color="#6a5cff"/></linearGradient></defs><path d="M13 33a19 19 0 0 1 38 0" fill="none" stroke="url(#g3)" stroke-width="7" stroke-linecap="round"/><rect x="8" y="31" width="11" height="21" rx="5" fill="#5a67ef"/><rect x="45" y="31" width="11" height="21" rx="5" fill="#5a67ef"/><path d="M51 47c-3 7-8 9-15 9" fill="none" stroke="#45c7ff" stroke-width="3" stroke-linecap="round"/><circle cx="33" cy="56" r="3" fill="#45c7ff"/></svg></span><span class="swModeCopy"><b>소리 영어</b><small>듣고 따라 말하며 익혀요.</small></span></button>
     <button class="cleanModeCard" type="button" data-clean-mode-button="opic" aria-label="OPIC"><span class="swModeIcon"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8b62ff"/><stop offset="1" stop-color="#e06ad9"/></linearGradient></defs><rect x="14" y="10" width="36" height="44" rx="7" fill="url(#g4)"/><rect x="21" y="17" width="22" height="5" rx="2.5" fill="#fff" opacity=".95"/><circle cx="24" cy="31" r="3" fill="#fff"/><path d="M30 31h12M30 39h12M24 39h1" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="m21 46 3 3 6-7" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="swModeCopy"><b>OPIC</b><small>실전처럼 더 자신 있게.</small></span></button>
     <button class="cleanModeCard" type="button" data-clean-mode-button="friends" aria-label="FRIENDS"><span class="swModeIcon"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="swg119Friends" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#5c7de8"/><stop offset="1" stop-color="#b574f4"/></linearGradient></defs><rect x="12" y="23" width="40" height="31" rx="5" fill="url(#swg119Friends)"/><path d="M12 25h40v8H12z" fill="#e1e6ff"/><path d="m17 25 6 8m7-8 6 8m7-8 6 8" stroke="#7168cd" stroke-width="4"/><path d="m17 16 32-7 3 12-32 7z" fill="#e1e6ff" stroke="#7a76d9" stroke-width="2"/><path d="m23 15 7 10m4-13 7 10" stroke="#7a76d9" stroke-width="3"/><path d="m28 36 12 6-12 6z" fill="#fff"/></svg></span><span class="swModeCopy"><b>FRIENDS</b><small>에피소드로 배우는 영어</small></span></button>
     <button class="cleanModeCard" type="button" data-clean-mode-button="business" aria-label="BUSINESS 영어"><span class="swModeIcon"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="swg119Business" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1ab89c"/><stop offset="1" stop-color="#45a5e7"/></linearGradient></defs><rect x="10" y="22" width="44" height="33" rx="6" fill="url(#swg119Business)"/><path d="M24 21v-6a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v6" fill="none" stroke="#55bda9" stroke-width="5"/><path d="M10 35c9 6 35 6 44 0" fill="none" stroke="#fff" stroke-width="3"/><rect x="28" y="32" width="8" height="8" rx="2" fill="#eafff9" stroke="#159d87"/></svg></span><span class="swModeCopy"><b>BUSINESS</b><small>실무 비즈니스 영어</small></span></button>
-    <button class="cleanModeCard" type="button" data-clean-mode-button="spv" aria-label="Speaking VOCA"><span class="swModeIcon" aria-hidden="true"><svg viewBox="0 0 64 64"><defs><linearGradient id="swg133Spv" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4e5fd7"/><stop offset="1" stop-color="#15b8a2"/></linearGradient></defs><rect x="13" y="10" width="38" height="46" rx="8" fill="url(#swg133Spv)"/><path d="M21 21h22M21 30h16M21 39h20" stroke="#fff" stroke-width="4" stroke-linecap="round"/><circle cx="45" cy="42" r="8" fill="#ebfffa" stroke="#fff" stroke-width="2"/><path d="m42 42 2 2 4-5" fill="none" stroke="#19a38f" stroke-width="2" stroke-linecap="round"/></svg></span><span class="swModeCopy"><b>SPEAKING VOCA</b><small>뜻·뉘앙스 비교 영어</small></span></button>
+    <button class="cleanModeCard" type="button" data-clean-mode-button="day" aria-label="TOEFL VOCA"><span class="swModeIcon"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7567ff"/><stop offset="1" stop-color="#a58aff"/></linearGradient></defs><path d="M8 15c8-3 15-2 24 4v31c-9-6-16-7-24-4z" fill="#fff" stroke="#7c6cf8" stroke-width="3"/><path d="M56 15c-8-3-15-2-24 4v31c9-6 16-7 24-4z" fill="#fff" stroke="#7c6cf8" stroke-width="3"/><path d="M32 19v31" stroke="url(#g1)" stroke-width="4" stroke-linecap="round"/><path d="M13 20c6-1 11 0 16 3M13 27c6-1 11 0 16 3" stroke="#c9c4ff" stroke-width="2" stroke-linecap="round"/><path d="M51 20c-6-1-11 0-16 3M51 27c-6-1-11 0-16 3" stroke="#c9c4ff" stroke-width="2" stroke-linecap="round"/></svg></span><span class="swModeCopy"><b>TOEFL VOCA</b><small>오늘의 단어로 말문을 열어요.</small></span></button>
   </div>
   </div>
   <div class="cleanOverallCard">
@@ -4125,7 +4126,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
     <section class="configSection">
       <div class="configSectionTitle">📘 SAYWARD 사용 방법 · 최신 안내</div>
       <p><b>전체 사용 가이드:</b> 3줄 메뉴 → <b>사용 방법</b>에서 v6.4.63의 학습 흐름과 문장별 순환 출제, 집중 학습, MP3 우선 재생, 음성 녹음 복구를 확인하세요.</p>
-      <details class="usageDetail"><summary>📚 DAY VOCA 시작·반복</summary><div class="usageBody">DAY를 선택하고 단어·뜻·예문 등 반복할 항목을 체크한 뒤 학습을 시작합니다. <b>모르는 단어 선택</b>으로 별표를 표시해 두면 퀴즈의 모르는 단어/틀린 단어 필터에도 반영됩니다. 설정에서 학습 순서, 읽기 횟수와 재생 위치를 관리하세요.</div></details>
+      <details class="usageDetail"><summary>📚 TOEFL VOCA 시작·반복</summary><div class="usageBody">DAY를 선택하고 단어·뜻·예문 등 반복할 항목을 체크한 뒤 학습을 시작합니다. <b>모르는 단어 선택</b>으로 별표를 표시해 두면 퀴즈의 모르는 단어/틀린 단어 필터에도 반영됩니다. 설정에서 학습 순서, 읽기 횟수와 재생 위치를 관리하세요.</div></details>
       <details class="usageDetail"><summary>✍️ 패턴 문장 만들기·패턴 맞추기</summary><div class="usageBody">3줄 메뉴의 <b>패턴 문장 만들기</b>에서 수업 영역·복습/신규 비율·문항 수를 선택합니다. 문장 만들기는 직접 답을 입력하고 패턴 맞추기는 보기에서 정답 패턴을 선택합니다. v6.4.51부터 연결된 예문을 <b>미학습 문장 우선</b>으로 순환하며, 저장된 개별 문장 이력은 공식 학습 상태와 연결되며, 앱 혼자 성공은 48시간 이상 간격의 혼자 성공 5회로 Stable 승급됩니다.</div></details>
       <details class="usageDetail"><summary>🎯 집중 학습 등록과 조회</summary><div class="usageBody">문제 결과에서 <b>집중 학습 등록</b>을 누르고 DB 저장 상태를 확인합니다. 목록 조회는 <b>학습 대시보드 → 패턴 → 학습 패턴 목록 → 정렬 기준 → 🎯 집중 학습 패턴</b>을 이용하세요.</div></details>
       <details class="usageDetail"><summary>🎧 MP3 음성·🎙️ 녹음 저장</summary><div class="usageBody">학습 음성은 MP3 우선, 미제작 또는 재생 실패 시 TTS로 대체됩니다. 음성 녹음 학습은 약 <b>5초 간격 브라우저 임시 저장</b>과 폴더 권한 허용 시 <b>Download/sayword</b> 약 15초 간격 저장을 지원합니다. 백그라운드 녹음은 Android 제약상 항상 지속되지는 않습니다.</div></details>
@@ -4165,7 +4166,7 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
       <div class="configRow"><div class="configCopy"><b>정답·오답 후 자동 넘기기</b><span>켜면 퀴즈 화면의 ‘자동 넘기기 ON’ 상태에서 단어와 예문을 끝까지 읽은 뒤 다음 문제로 이동합니다. 끄면 자동 이동 없이 다음 버튼으로 직접 진행합니다.</span></div><input id="cfgQuizAutoNext" class="configCheck" type="checkbox"></div>
     </section>
     <details class="usageDetail"><summary>🔎 단어 비교 사용법</summary><div class="usageBody">Drawer 메뉴의 <b>단어 비교</b>에서 영어 단어나 한글 뜻을 검색하세요. 마스터에 등록된 유의어와 뜻이 비슷한 학습 단어를 예문과 함께 비교할 수 있습니다. 비교 카드의 단어를 누르면 그 단어를 새 기준으로 계속 탐색합니다.</div></details>
-    <details class="usageDetail"><summary>🔊 학습 모드 음성 설정</summary><div class="usageBody">읽기 속도와 학습 반복 설정을 한곳에서 관리합니다. 예문·패턴·Collocation·유의어 반복 횟수, 단어만 읽기 횟수, 연속 재생 학습 횟수를 같은 섹션에서 설정할 수 있으며 각 값은 서로 독립적으로 적용됩니다.</div></details><details class="usageDetail"><summary>⚙ 단어 읽기와 연속 학습 횟수</summary><div class="usageBody"><b>단어만 읽기 횟수</b>와 <b>연속 재생 학습 횟수</b>는 서로 독립적으로 설정됩니다. 기본값은 각각 <b>3회</b>와 <b>1회</b>입니다. 단어 읽기 횟수는 한 카드에서 영어 단어와 한글 뜻을 읽는 횟수이고, 연속 학습 횟수는 선택한 DAY 전체를 처음부터 끝까지 반복하는 회수입니다.</div></details><details class="usageDetail"><summary>🔤 단어 읽기 모드</summary><div class="usageBody">홈의 <b>자동 읽기 범위</b>에서 <b>단어 읽기</b>를 선택하면 각 카드에서 <b>영어 단어 → 한글 뜻</b>만 Config에서 지정한 횟수만큼 읽고 다음 단어로 이동합니다. 이 상태에서 <b>현재 단어</b>를 누르면 영어 단어와 한글 뜻을 제한 없이 반복합니다. 반복 종료 방식은 선택 학습과 일반 DAY 학습의 규칙을 그대로 따릅니다.</div></details><details class="usageDetail"><summary>🔁 현재 단어 반복</summary><div class="usageBody"><b>DAY별 선택 학습 중</b>에는 현재 단어를 제한 없이 반복합니다. <b>반복 종료</b>를 누르면 현재 읽기를 끝까지 마친 뒤 다음 단어부터 전체 반복 학습을 자연스럽게 이어갑니다.<br><br><b>일반 DAY 학습 중</b>에는 현재 단어만 제한 없이 반복합니다. <b>반복 종료</b>를 누르면 현재 읽기를 끝까지 마친 뒤 그 자리에서 정지합니다.</div></details><details class="usageDetail"><summary>📝 퀴즈 조작과 음성 설정</summary><div class="usageBody">Config의 <b>퀴즈 단어 읽기 횟수</b>에서 1~5회를 선택할 수 있습니다. 퀴즈 화면에서는 왼쪽으로 밀면 다음 문제, 오른쪽으로 밀면 이전 문제로 이동합니다. ☰ 메뉴는 주요 화면에서 열 수 있습니다. 전체 통계는 학습 대시보드에서 확인하고 DAY별 스코어·망각곡선은 DAY VOCA의 하단 탭에서 이용하세요.</div></details><details class="usageDetail" open><summary>🎧 Day Loop Training 사용법</summary><div class="usageBody">
+    <details class="usageDetail"><summary>🔊 학습 모드 음성 설정</summary><div class="usageBody">읽기 속도와 학습 반복 설정을 한곳에서 관리합니다. 예문·패턴·Collocation·유의어 반복 횟수, 단어만 읽기 횟수, 연속 재생 학습 횟수를 같은 섹션에서 설정할 수 있으며 각 값은 서로 독립적으로 적용됩니다.</div></details><details class="usageDetail"><summary>⚙ 단어 읽기와 연속 학습 횟수</summary><div class="usageBody"><b>단어만 읽기 횟수</b>와 <b>연속 재생 학습 횟수</b>는 서로 독립적으로 설정됩니다. 기본값은 각각 <b>3회</b>와 <b>1회</b>입니다. 단어 읽기 횟수는 한 카드에서 영어 단어와 한글 뜻을 읽는 횟수이고, 연속 학습 횟수는 선택한 DAY 전체를 처음부터 끝까지 반복하는 회수입니다.</div></details><details class="usageDetail"><summary>🔤 단어 읽기 모드</summary><div class="usageBody">홈의 <b>자동 읽기 범위</b>에서 <b>단어 읽기</b>를 선택하면 각 카드에서 <b>영어 단어 → 한글 뜻</b>만 Config에서 지정한 횟수만큼 읽고 다음 단어로 이동합니다. 이 상태에서 <b>현재 단어</b>를 누르면 영어 단어와 한글 뜻을 제한 없이 반복합니다. 반복 종료 방식은 선택 학습과 일반 DAY 학습의 규칙을 그대로 따릅니다.</div></details><details class="usageDetail"><summary>🔁 현재 단어 반복</summary><div class="usageBody"><b>DAY별 선택 학습 중</b>에는 현재 단어를 제한 없이 반복합니다. <b>반복 종료</b>를 누르면 현재 읽기를 끝까지 마친 뒤 다음 단어부터 전체 반복 학습을 자연스럽게 이어갑니다.<br><br><b>일반 DAY 학습 중</b>에는 현재 단어만 제한 없이 반복합니다. <b>반복 종료</b>를 누르면 현재 읽기를 끝까지 마친 뒤 그 자리에서 정지합니다.</div></details><details class="usageDetail"><summary>📝 퀴즈 조작과 음성 설정</summary><div class="usageBody">Config의 <b>퀴즈 단어 읽기 횟수</b>에서 1~5회를 선택할 수 있습니다. 퀴즈 화면에서는 왼쪽으로 밀면 다음 문제, 오른쪽으로 밀면 이전 문제로 이동합니다. ☰ 메뉴는 주요 화면에서 열 수 있습니다. 전체 통계는 학습 대시보드에서 확인하고 DAY별 스코어·망각곡선은 TOEFL VOCA의 하단 탭에서 이용하세요.</div></details><details class="usageDetail" open><summary>🎧 Day Loop Training 사용법</summary><div class="usageBody">
 <b>Day Loop Training</b>은 실전 문장 말하기의 마지막 문장까지 학습하면 자동으로 시작됩니다. 해당 Day의 모든 실전 문장을 <b>2단계와 동일하게 50% 이상 가린 상태</b>로 한 화면에 보여주고, 완전한 영어 문장을 반복해서 들려줍니다.<br><br>
 
 <b>① 전체 반복</b><br>
@@ -4189,7 +4190,7 @@ Config의 <b>Day Loop 문장당 반복 횟수</b>에서 1회 / 2회 / 3회 / 5�
     <section class="configSection" id="playbackPositionConfigSection">
       <div class="configSectionTitle">▶ 재생 위치</div>
       <div class="configRow">
-        <div class="configCopy"><b>재생 위치 리셋</b><span>DAY VOCA · MY 수업 · 소리영어 · OPIC · FRIENDS에 저장된 전체 재생 위치를 모두 처음으로 되돌립니다.</span></div>
+        <div class="configCopy"><b>재생 위치 리셋</b><span>TOEFL VOCA · MY 수업 · 소리영어 · OPIC · FRIENDS에 저장된 전체 재생 위치를 모두 처음으로 되돌립니다.</span></div>
         <button id="cfgPlaybackPositionReset" class="homeConfigBtn" type="button">재생 위치 리셋</button>
       </div>
     </section>
@@ -12578,8 +12579,8 @@ function refreshUsageRecommendation(){
     if(p.learned<p.total){nextDay=d;break}
   }
   const items=[];
-  if(due>0)items.push(`DAY VOCA → 망각곡선에서 오늘 복습 대상 ${due}개를 먼저 확인하세요.`);
-  items.push(`새 단어는 1. 학습 → DAY VOCA에서 DAY ${nextDay}부터 이어가세요.`);
+  if(due>0)items.push(`TOEFL VOCA → 망각곡선에서 오늘 복습 대상 ${due}개를 먼저 확인하세요.`);
+  items.push(`새 단어는 1. 학습 → TOEFL VOCA에서 DAY ${nextDay}부터 이어가세요.`);
   if(weak>0||favoriteCount>0){
     items.push(`2. 단어 학습 → 단어 퀴즈에서 오답 ${weak}개와 모르는 단어 ${favoriteCount}개를 복습하세요.`);
   }else{
@@ -12617,7 +12618,7 @@ function prepareSeparatedUsagePage(){
     <section class="usageNewHero">
       <div class="usageNewEyebrow">SAYWARD · v${window.SAYWARD_RELEASE} 사용 가이드</div>
       <h2>듣고, 패턴을 고르고, 직접 말하세요</h2>
-      <p>DAY VOCA · MY 수업 · 소리영어 · OPIC · Friends에서 배운 표현을 문장 만들기와 패턴 맞추기로 응용하고, 취약 문장을 반복 복습합니다.</p>
+      <p>TOEFL VOCA · MY 수업 · 소리영어 · OPIC · Friends에서 배운 표현을 문장 만들기와 패턴 맞추기로 응용하고, 취약 문장을 반복 복습합니다.</p>
       <div class="usageNewFlow"><span>① 수업·패턴 학습</span><b>→</b><span>② 문장·패턴 퀴즈</span><b>→</b><span>③ 말하기·녹음</span><b>→</b><span>④ 복습</span></div>
     </section>
 
@@ -12633,7 +12634,7 @@ function prepareSeparatedUsagePage(){
       <div class="usageNewSectionHead"><span class="usageNewNo">1</span><div><h3>첫 시작과 홈 화면</h3><p>로그인 → 학습 영역 선택 → 원하는 학습 시작</p></div></div>
       <div class="usageNewCards">
         <article class="usageNewCard"><div class="usageNewIcon">🔐</div><div><h4>로그인과 학습 기록</h4><p>상단 3줄 메뉴 → <b>로그인·회원가입</b>으로 계정에 로그인하세요. 공식 패턴, 개인 집중 학습, 앱 문장 학습 기록은 로그인 계정과 연결됩니다. 공개 승인 전 수업은 일반 학습자에게 보이지 않습니다.</p></div></article>
-        <article class="usageNewCard"><div class="usageNewIcon">🏠</div><div><h4>홈 바로가기</h4><p>홈의 <b>DAY VOCA·MY 수업·소리영어·OPIC</b>에서 수업을 선택합니다. <b>Friends</b>와 <b>패턴 문장 만들기</b>는 3줄 메뉴에서도 열 수 있습니다. 돋보기는 통합 검색입니다.</p></div></article>
+        <article class="usageNewCard"><div class="usageNewIcon">🏠</div><div><h4>홈 바로가기</h4><p>홈의 <b>TOEFL VOCA·MY 수업·소리영어·OPIC</b>에서 수업을 선택합니다. <b>Friends</b>와 <b>패턴 문장 만들기</b>는 3줄 메뉴에서도 열 수 있습니다. 돋보기는 통합 검색입니다.</p></div></article>
         <article class="usageNewCard"><div class="usageNewIcon">📲</div><div><h4>홈 화면에 설치해서 실행하기</h4><p>Android Chrome에서 PWA 설치가 가능하다면 <b>앱 설치</b>로 실행하세요. 설치형 앱은 기존 실행 화면을 다시 띄우도록 설정되어 있지만, 브라우저·운영체제가 앱을 종료했다면 새로 시작할 수 있습니다. 단순 URL 바로가기와 동작이 다를 수 있습니다.</p></div></article>
       </div>
     </section>
@@ -12641,7 +12642,7 @@ function prepareSeparatedUsagePage(){
     <section class="usageNewSection">
       <div class="usageNewSectionHead"><span class="usageNewNo">2</span><div><h3>수업 콘텐츠와 전체 반복</h3><p>수업을 먼저 듣고 패턴의 뜻과 쓰임을 익히세요.</p></div></div>
       <div class="usageNewCards">
-        <article class="usageNewCard"><div class="usageNewIcon">📚</div><div><h4>DAY VOCA</h4><p>학습할 DAY를 체크하고 <b>단어·뜻·예문·패러프레이징·추가 표현</b> 중 반복할 항목을 선택하세요. 전체 반복/선택 항목 반복 학습과 DAY별 학습을 사용할 수 있습니다. 모르는 단어를 표시하면 퀴즈·복습 목록에도 연결됩니다.</p></div></article>
+        <article class="usageNewCard"><div class="usageNewIcon">📚</div><div><h4>TOEFL VOCA</h4><p>학습할 DAY를 체크하고 <b>단어·뜻·예문·패러프레이징·추가 표현</b> 중 반복할 항목을 선택하세요. 전체 반복/선택 항목 반복 학습과 DAY별 학습을 사용할 수 있습니다. 모르는 단어를 표시하면 퀴즈·복습 목록에도 연결됩니다.</p></div></article>
         <article class="usageNewCard"><div class="usageNewIcon">🎓</div><div><h4>MY 수업</h4><p>영어 수업에서 추린 <b>핵심 교정·Chunk·말하기·습관</b>을 복습합니다. 화면에서 개별 듣기 또는 수업 전체 재생을 선택하세요.</p></div></article>
         <article class="usageNewCard"><div class="usageNewIcon">🎧</div><div><h4>소리영어 · OPIC · Friends</h4><p>스크립트의 패턴과 대표 문장, 확장 예문을 학습합니다. 새로운 강의는 DB에서 동적으로 표시되고, 공개 설정에 따라 일부 수업은 관리자 승인 후 나타납니다.</p></div></article>
       </div>
@@ -12697,7 +12698,7 @@ function prepareSeparatedUsagePage(){
         <div><b>단어 퀴즈</b><span>단어 맞추기, 유의어·반의어, 단어 말하기, 모르는 단어 선택을 사용합니다.</span></div>
         <div><b>단어 비교</b><span>비슷한 단어·뜻·예문을 검색해 비교합니다.</span></div>
         <div><b>학습 대시보드</b><span>종합·패턴·단어·학습 시간·취약점 및 집중 패턴을 확인합니다.</span></div>
-        <div><b>DAY VOCA 스코어·망각곡선</b><span>단어 DAY 화면 하단의 스코어·망각곡선 탭에서 이 기기의 학습 현황과 오늘 복습할 단어를 확인합니다. 전체 현황은 학습 대시보드에서 통합 조회합니다.</span></div>
+        <div><b>TOEFL VOCA 스코어·망각곡선</b><span>단어 DAY 화면 하단의 스코어·망각곡선 탭에서 이 기기의 학습 현황과 오늘 복습할 단어를 확인합니다. 전체 현황은 학습 대시보드에서 통합 조회합니다.</span></div>
       </div>
       <div class="usageNewTip"><b>패턴과 문장을 구분</b> 공식 패턴의 New / Focus / Learning / Stable 복습 운영과 <b>개별 문장 연습 이력</b>은 별도로 관리됩니다. 기존의 7·14·21·30·40·60일 복습 체계를 유지하면서 문장 다양성을 늘리는 구조입니다.</div>
     </section>
@@ -12705,7 +12706,7 @@ function prepareSeparatedUsagePage(){
     <section class="usageNewSection usageNewLast">
       <div class="usageNewSectionHead"><span class="usageNewNo">✓</span><div><h3>추천 학습 순서</h3><p>상황에 따라 순서를 바꾸거나 짧게 사용해도 됩니다.</p></div></div>
       <div class="usageNewDailyFlow">
-        <b>DAY VOCA 또는 MY·소리영어·OPIC·Friends 수업 듣기</b><span>↓</span>
+        <b>TOEFL VOCA 또는 MY·소리영어·OPIC·Friends 수업 듣기</b><span>↓</span>
         <b>패턴 문장 만들기 + 패턴 맞추기 (미학습 문장 순환)</b><span>↓</span>
         <b>결과 자기평가 · 필요한 패턴 🎯 집중 학습 등록</b><span>↓</span>
         <b>문장 말하기 · 녹음 후 정답 음성과 비교</b><span>↓</span>
@@ -13186,7 +13187,7 @@ function mvOpenUpdateHistory(){
         <ul><li>✓ 패턴 맞추기 학습 영역에 집중 학습 등록 패턴을 추가했습니다. 공식 패턴의 정답 후보만 집중 등록 ID로 제한하고 객관식 오답 선택지는 전체 공식 패턴에서 보충합니다.</li><li>✓ MP3 파일이 없는 문장은 음성 폴더 전체 조회를 기다리지 않고 TTS로 즉시 대체합니다. 최초 manifest 응답 대기도 최대 450ms로 제한합니다.</li></ul>
         <ul><li>✓ 3줄 메뉴에 아침(15문항)·점심(15문항)·저녁(20문항) 통합 「GPT 활용 공식 학습 답안제출」 메뉴를 추가했습니다. 시간대와 Session ID를 구분해 로그인 계정으로 공식 DB 제출을 요청합니다. 실제 제출 및 채점 확정 여부는 서버 응답 확인이 필요합니다.</li></ul>
          <ul><li>✓ 패턴 맞추기 결과에서 자동 재생 음성의 위치를 정답 패턴·의미 → 공식 DB 기준 문장 카드로 고정했습니다. MP3/TTS 자동 스크롤과 글자 강조를 유지하고 상단의 중복 카드에서는 재생 아이콘을 숨겼습니다.</li></ul>
-         <ul><li>✓ 3줄 메뉴에서 중복된 ‘학습 통계’·‘망각곡선’ 바로가기를 제거하고 ‘학습 대시보드’로 통합했습니다. 기존 DAY별 스코어·망각곡선 탭과 기기별 기록은 유지합니다.</li><li>✓ 대시보드 ‘DAY VOCA 망각곡선에서 복습’ 버튼을 기존 메뉴 없이도 직접 동작하도록 연결했습니다.</li></ul>
+         <ul><li>✓ 3줄 메뉴에서 중복된 ‘학습 통계’·‘망각곡선’ 바로가기를 제거하고 ‘학습 대시보드’로 통합했습니다. 기존 DAY별 스코어·망각곡선 탭과 기기별 기록은 유지합니다.</li><li>✓ 대시보드 ‘TOEFL VOCA 망각곡선에서 복습’ 버튼을 기존 메뉴 없이도 직접 동작하도록 연결했습니다.</li></ul>
          <ul><li>✓ 사용 방법을 SAYWARD 전체 학습 가이드로 개편하고 문장별 순환 출제·집중 학습·녹음 자동 저장·PWA·MP3 우선 재생 안내를 추가했습니다.</li><li>✓ 패턴 맞추기·단어 패턴 맞추기에서 선택지·확인·이전·다음 버튼 위를 좌우로 스와이프해도 문제를 이동합니다. 짧은 터치의 기존 버튼 동작과 세로 스크롤은 유지합니다.</li><li>✓ 패턴 맞추기에서 ‘선택한 패턴 확인’을 눌렀을 때 첫 음성도 등록된 패턴 MP3를 우선 재생하도록 수정했습니다. MP3가 없을 때만 자연스러운 문구로 TTS 대체합니다.</li></ul>
         <ul>
           <li>✓ 홈 배너의 3줄 메뉴와 검색 버튼을 독립적인 작은 네이비 버튼으로 교체했습니다. 흰색 메뉴 중복 표시와 태블릿 과대 확대를 방지합니다.</li>
@@ -13204,7 +13205,7 @@ function mvOpenUpdateHistory(){
         <ul>
           <li>✓ 문장학습 배지를 즐겨찾기 버튼 바로 아래로 이동해 카드 상단 정보 배치를 정리했습니다.</li>
           <li>홈 화면의 ‘문장 학습한 패턴’가 전체 학습 반복의 실제 canonical playlist에 적용되도록 수정했습니다.</li>
-          <li>필터 ON 상태의 전체 학습 반복에서는 DAY VOCA를 건너뛰고 MY·소리영어·OPIC·FRIENDS에서 Unified Master의 문장학습 패턴이 연결된 항목만 재생합니다.</li>
+          <li>필터 ON 상태의 전체 학습 반복에서는 TOEFL VOCA를 건너뛰고 MY·소리영어·OPIC·FRIENDS에서 Unified Master의 문장학습 패턴이 연결된 항목만 재생합니다.</li>
         </ul>
         <h3>v5.4.76</h3>
         <ul>
@@ -13304,7 +13305,7 @@ function mvOpenUpdateHistory(){
         <h3>v5.4.19</h3>
         <ul>
           <li>전체 선택 재생을 중간에 멈추면 학습별 마지막 재생 위치를 자동 저장하고, 다음 전체 재생에서 해당 위치부터 이어서 시작합니다.</li>
-          <li>DAY VOCA · MY 수업 · 소리영어 · OPIC · FRIENDS의 재생 위치를 서로 독립적으로 저장합니다. 선택 항목이나 반복 범위가 바뀌면 새 범위는 처음부터 시작합니다.</li>
+          <li>TOEFL VOCA · MY 수업 · 소리영어 · OPIC · FRIENDS의 재생 위치를 서로 독립적으로 저장합니다. 선택 항목이나 반복 범위가 바뀌면 새 범위는 처음부터 시작합니다.</li>
           <li>Config에 재생 위치 리셋 버튼을 추가했습니다. 리셋하면 저장된 전체 재생 위치가 모두 처음으로 돌아갑니다.</li>
         </ul>
       </section>
@@ -13343,7 +13344,7 @@ function mvOpenUpdateHistory(){
         <h3>v5.4.14 CLEAN</h3>
         <ul>
           <li>홈 UI 누적 패치(v5.3.293~310)를 제거하고 홈 화면 소유 코드를 하나로 통합했습니다.</li>
-          <li>DAY VOCA · MY 수업 · 소리영어 · OPIC 전환과 Swipe가 같은 모드 엔진을 사용하도록 정리했습니다.</li>
+          <li>TOEFL VOCA · MY 수업 · 소리영어 · OPIC 전환과 Swipe가 같은 모드 엔진을 사용하도록 정리했습니다.</li>
           <li>DAY 학습 설정 4개 항목을 하나의 컴팩트 설정 박스로 통합했습니다.</li>
           <li>MY 수업·소리영어·OPIC 홈 카드는 컴팩트 2열 규격으로 고정했습니다.</li>
           <li>학습 데이터와 기존 재생·검색·퀴즈·말하기 기능은 그대로 유지했습니다.</li>
@@ -13404,7 +13405,7 @@ function mvOpenAppInfo(){
       <div class="mvInfoVersionCard"><b>v${window.SAYWARD_RELEASE}</b><span>현재 버전</span></div>
       <div class="mvInfoMeta">
         <b>앱</b><span>MY ENGLISH</span>
-        <b>학습 구조</b><span>DAY VOCA · MY 수업 · 소리영어 · OPIC</span>
+        <b>학습 구조</b><span>TOEFL VOCA · MY 수업 · 소리영어 · OPIC</span>
         <b>단어 학습</b><span>단어 퀴즈 · 단어 비교</span>
         <b>문장 말하기</b><span>문장 말하기 연습 · 음성 녹음 학습</span>
         <b>표준화 원칙</b><span>동일 기능은 공통 엔진과 공통 코드 사용</span>
@@ -13785,7 +13786,7 @@ if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded'
     if(!daySection||!mySection||document.getElementById('homeStudyModePanel'))return;
     const panel=document.createElement('section');
     panel.id='homeStudyModePanel';panel.className='homeStudyModePanel';
-    panel.innerHTML=`<div class="homeStudyModeTitle">학습 모드</div><div class="homeStudyModeSwitch"><button id="homeModeDay" class="homeStudyModeBtn active" type="button">📚 DAY VOCA 학습</button><button id="homeModeMy" class="homeStudyModeBtn" type="button">🎯 MY 수업 학습</button></div><div id="homeStudyModeHelp" class="homeStudyModeHelp">기본 모드입니다. 기존 DAY별 학습·DAY별 단어 학습 기능을 그대로 사용합니다.</div>`;
+    panel.innerHTML=`<div class="homeStudyModeTitle">학습 모드</div><div class="homeStudyModeSwitch"><button id="homeModeDay" class="homeStudyModeBtn active" type="button">📚 TOEFL VOCA 학습</button><button id="homeModeMy" class="homeStudyModeBtn" type="button">🎯 MY 수업 학습</button></div><div id="homeStudyModeHelp" class="homeStudyModeHelp">기본 모드입니다. 기존 DAY별 학습·DAY별 단어 학습 기능을 그대로 사용합니다.</div>`;
     mySection.parentNode.insertBefore(panel,mySection);
 
     // MY 수업은 DAY 아래에 계속 쌓지 않고 선택했을 때만 보인다.
@@ -14146,7 +14147,7 @@ targetWords:[],newDay:Number(lessonNo),newNo:order++,
   // Rebind after all original setTimeout(0) handlers have executed.
   setTimeout(()=>{
     initHomeModeSwitch();injectFullRepeatConfig();bindSentenceSourceButtons();rebindMyControls();updateFullRepeatChip();
-    // Default home mode must always be DAY VOCA on a fresh load.
+    // Default home mode must always be TOEFL VOCA on a fresh load.
     setHomeStudyMode('day');
   },30);
 })();
@@ -16354,7 +16355,7 @@ function mvUsageRenewalAudit(){
     version:'5.3.187',
     renewed:content?.dataset?.renewed==='1',
     hasThreeStage:!!content?.querySelector('.usageNewFlow'),
-    hasLearning:content?.textContent?.includes('DAY VOCA')||false,
+    hasLearning:content?.textContent?.includes('TOEFL VOCA')||false,
     hasWordLearning:content?.textContent?.includes('단어 퀴즈')||false,
     hasSentenceSpeaking:content?.textContent?.includes('문장 말하기 연습')||false,
     hasRecording:content?.textContent?.includes('음성 녹음 학습')||false,
@@ -16839,7 +16840,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
         </div>
       </div>
       <div class="homeStudyModeSwitch standardFourModes">
-        <button id="homeModeDay" class="homeStudyModeBtn active" type="button">📚 DAY VOCA</button>
+        <button id="homeModeDay" class="homeStudyModeBtn active" type="button">📚 TOEFL VOCA</button>
         <button id="homeModeMy" class="homeStudyModeBtn" type="button">🎯 MY 수업</button>
         <button id="homeModeSori" class="homeStudyModeBtn" type="button">🎧 소리영어</button>
         <button id="homeModeOpic" class="homeStudyModeBtn" type="button">🎤 OPIC</button>
@@ -16874,7 +16875,7 @@ if(typeof mvDomClearHighlight==='function' && !mvDomClearHighlight.__normalized1
       allRepeatStart.style.opacity=(on||running)?'1':'.45';
       allRepeatStart.style.cursor=(on||running)?'pointer':'default';
       if(running){
-        const names={day:'DAY VOCA',my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'FRIENDS',business:'Business 영어'};
+        const names={day:'TOEFL VOCA',my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'FRIENDS',business:'Business 영어'};
         allRepeatStart.textContent=`⏹ 전체 반복 정지 · ${names[window.MV_ALL_REPEAT_219?.current]||''}`.trim();
       }else{
         allRepeatStart.textContent=on?'▶ 전체 반복 시작':'▶ 체크 후 시작';
@@ -16950,7 +16951,7 @@ allRepeatStart.onclick=()=>{
     const help=document.getElementById('homeStudyModeHelp');
     if(help){
       help.textContent=m==='day'
-        ?'기존 DAY VOCA 학습입니다.'
+        ?'기존 TOEFL VOCA 학습입니다.'
         :m==='my'
           ?'실제 수업에서 나온 내 교정 문장과 Chunk를 반복합니다.'
           :m==='sori'
@@ -17113,7 +17114,7 @@ $('quizNextDay').disabled=true;
 
 
 /* ===== V5.3.189 · SHARED STUDY SELECTION / REPEAT BAR =====
-   One common controller for DAY VOCA / MY / SORI / OPIC / FRIENDS.
+   One common controller for TOEFL VOCA / MY / SORI / OPIC / FRIENDS.
    New study modes must implement only the adapter (items/select/start);
    they must NOT duplicate select-all / clear / selected-repeat UI.
 */
@@ -17165,7 +17166,7 @@ $('quizNextDay').disabled=true;
     bar.innerHTML=`
       <div class="sharedStudySelectHead">
         <div>
-          <b id="sharedStudySelectTitle">📚 DAY VOCA 선택 학습</b>
+          <b id="sharedStudySelectTitle">📚 TOEFL VOCA 선택 학습</b>
           <span id="sharedStudySelectHint">학습할 항목을 체크한 뒤 동일한 공통 버튼으로 반복 학습합니다.</span>
         </div>
         <span id="sharedStudySelectCount" class="sharedStudySelectCount">0 선택</span>
@@ -17520,7 +17521,7 @@ const c=ensureStandardCourseCheckbox(card,'friends',n,`FRIENDS S01E${String(n).p
       start:'선택 에피소드 반복 학습'
     };
     return {
-      title:'📚 DAY VOCA 선택 학습',
+      title:'📚 TOEFL VOCA 선택 학습',
       hint:'체크한 Day를 현재 DAY 학습 범위·반복 설정으로 연속 학습합니다.',
       start:'선택 항목 반복 학습'
     };
@@ -17732,7 +17733,7 @@ const c=ensureStandardCourseCheckbox(card,'friends',n,`FRIENDS S01E${String(n).p
     MV_ALL_REPEAT_209.current=course;
     MV_ALL_REPEAT_209.advancing=false;
     try{
-      const names={day:'DAY VOCA',my:'MY 수업',sori:'소리영어',opic:'OPIC'};
+      const names={day:'TOEFL VOCA',my:'MY 수업',sori:'소리영어',opic:'OPIC'};
       const btn=document.getElementById('homeAllRepeatStart210');
       if(btn){
         btn.textContent=`⏹ 전체 반복 정지 · ${names[course]||course}`;
@@ -17876,7 +17877,7 @@ const c=ensureStandardCourseCheckbox(card,'friends',n,`FRIENDS S01E${String(n).p
     const b=document.getElementById('homeAllRepeatStart210');if(!b)return;
     const checked=!!document.getElementById('homeAllRepeat209')?.checked;
     if(MV_ALL_REPEAT_215.active){
-      const names={day:'DAY VOCA',my:'MY 수업',sori:'소리영어',opic:'OPIC'};
+      const names={day:'TOEFL VOCA',my:'MY 수업',sori:'소리영어',opic:'OPIC'};
       b.disabled=false;b.style.opacity='1';
       b.textContent=`⏹ 전체 반복 정지 · ${names[MV_ALL_REPEAT_215.current]||''}`;
     }else{
@@ -18033,7 +18034,7 @@ window.stopAllRepeat215=stopAllRepeat215;
     const b=document.getElementById('homeAllRepeatStart210');if(!b)return;
     const checked=!!document.getElementById('homeAllRepeat209')?.checked;
     if(MV_ALL_REPEAT_219.active){
-      const names={day:'DAY VOCA',my:'MY 수업',sori:'소리영어',opic:'OPIC'};
+      const names={day:'TOEFL VOCA',my:'MY 수업',sori:'소리영어',opic:'OPIC'};
       b.disabled=false;b.style.opacity='1';
       b.textContent=`⏹ 전체 반복 정지 · ${names[MV_ALL_REPEAT_219.current]||''}`;
     }else{
@@ -18244,7 +18245,7 @@ window.stopAllRepeat219=stopAllRepeat219;
     const q=queue219(startMode,snap);
     if(!q.length){
       if(window.mvSentenceTrainedOnlyEnabled5477?.() || window.swRepeatScopeMode115?.()==='focus'){
-        alert('선택한 패턴 필터를 재생하려면 MY 수업 / 소리영어 / OPIC / FRIENDS에서 수업을 하나 이상 선택해 주세요. 이 모드에서 DAY VOCA는 제외됩니다.');
+        alert('선택한 패턴 필터를 재생하려면 MY 수업 / 소리영어 / OPIC / FRIENDS에서 수업을 하나 이상 선택해 주세요. 이 모드에서 TOEFL VOCA는 제외됩니다.');
       }else{
         alert('전체 반복할 DAY / MY 수업 / 소리영어 / OPIC / FRIENDS 항목을 하나 이상 선택해 주세요.');
       }
@@ -21006,7 +21007,7 @@ setTimeout(refreshSpeakingKo280,0);
 (function(){
 'use strict';
 
-const COURSE_NAMES_281={day:'DAY VOCA',my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'FRIENDS',business:'Business 영어'};
+const COURSE_NAMES_281={day:'TOEFL VOCA',my:'MY 수업',sori:'소리영어',opic:'OPIC',friends:'FRIENDS',business:'Business 영어'};
 const VALID_281=['day','my','sori','opic','friends','business'];
 const MV281=window.MV_PLAYBACK_STANDARD_281={
   version:'5.3.284',
@@ -22847,7 +22848,7 @@ body.mv540HomeVisible #drawerMenuButton{opacity:0!important;visibility:hidden!im
 'use strict';
 if(window.__MV540_CLEAN_HOME__) return;
 window.__MV540_CLEAN_HOME__=true;
-const MODES=['day','my','sori','opic','friends','business','spv'];
+const MODES=['spv','my','sori','opic','friends','business','day'];
 const MAIN_MODES=['day','my','sori','opic','spv'];
 const MAIN_MODE_KEY='mv_mainHomeStudyMode540';
 const scrollByMode={day:0,my:0,sori:0,opic:0,friends:0,business:0,spv:0};
@@ -22873,7 +22874,7 @@ function currentMode(){
   return 'day';
 }
 function setHomeVisibleClass(){document.body.classList.toggle('mv540HomeVisible',homeVisible())}
-/* v6.4.135: seven standard modes displayed in a four-tile sliding viewport.
+/* v6.4.142: seven standard modes displayed in a four-tile sliding viewport; Speaking first, TOEFL seventh.
    Never clone buttons, never change the playback/study engines. */
 let swLauncherFirst119=0;
 function swSyncLauncher119(mode){
@@ -24109,7 +24110,7 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     <div class="sw62-action-card" id="sw64LegacyStatsCard"><strong>기존 학습 통계·망각곡선에서 가져온 핵심 지표</strong><p id="sw64LegacyDetail">기존 DAY 기록 확인 중…</p>
       <div class="sw64-due-grid"><div><small>오늘 복습 (기기별)</small><strong id="sw64LegacyDue">—</strong></div><div><small>내일 예정</small><strong id="sw64LegacySoon">—</strong></div></div>
       <p class="sw62-note">기존 MY VOCA 퀴즈에서 많이 틀린 단어</p><div id="sw64LegacyWeak"></div>
-      <button type="button" id="sw64LegacyReview" disabled>DAY VOCA 망각곡선에서 복습</button><p class="sw62-note">이 기기의 이전 퀴즈 점수·망각곡선 자료입니다. TOEFL 단어 문장 만들기 DB와 합산하지 않습니다. DAY별 스코어·복습은 DAY VOCA 하단 탭 또는 이 복습 버튼에서 계속 이용할 수 있습니다.</p>
+      <button type="button" id="sw64LegacyReview" disabled>TOEFL VOCA 망각곡선에서 복습</button><p class="sw62-note">이 기기의 이전 퀴즈 점수·망각곡선 자료입니다. TOEFL 단어 문장 만들기 DB와 합산하지 않습니다. DAY별 스코어·복습은 TOEFL VOCA 하단 탭 또는 이 복습 버튼에서 계속 이용할 수 있습니다.</p>
     </div>
     <p class="sw62-note">기존 기록에 객관식 정오답 정보가 없는 경우 오답 0회로 단정하지 않고 ‘기록 없음’으로 표시합니다. 문장 생성은 자기평가와 구분합니다.</p>
   </section>
@@ -33222,7 +33223,7 @@ TTS 전환 사유: ${d.fallbackReason||'없음'}
     };
     document.body.append(root);
   };
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{normalizeHeader();init()},{once:true});else {normalizeHeader();init();}
 })();
 </script>
 
@@ -34647,7 +34648,7 @@ margin:0!important;
 .spv131OriginalSentence button span{font-size:13px}
 .spv131OriginalSentence small{display:block;color:#66738a;font-size:12px;line-height:1.7;margin-top:5px}
 .spv131Contrast{font-size:12px;line-height:1.65;color:#596986;border-top:1px solid #eef1f7;margin-top:11px;padding-top:9px}
-.spv131Contrast summary{font-weight:800;color:#475897;cursor:pointer}.spv131Contrast p{margin:6px 0}.spv131Contrast p span{display:inline-block;background:#eff2ff;border:1px solid #e1e7fb;border-radius:7px;margin:2px;padding:3px 6px}
+.spv131Contrast .spv131ContrastTitle{font-weight:850;color:#475897;cursor:default}.spv131Contrast p{margin:6px 0}.spv131Contrast p span{display:inline-block;background:#eff2ff;border:1px solid #e1e7fb;border-radius:7px;margin:2px;padding:3px 6px}
 .spv131CardActions{display:flex;gap:8px;margin-top:15px}.spv131CardActions button{flex:1}
 .spv131Choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:17px 0 10px}
 .spv131Choice{min-height:70px;background:#fff;color:#293967;border:1px solid #cfdaf0;border-radius:13px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;justify-content:center;padding:12px 13px;text-align:left;cursor:pointer}
@@ -34664,12 +34665,16 @@ margin:0!important;
 #spvPage132.myClassPage{min-height:100vh;background:#f7f9fd;color:#1f2c45;padding:0 0 114px;box-sizing:border-box}
 #spvPage132 .myClassShell{max-width:810px;margin:0 auto;padding:14px 13px 30px}
 #spvPage132 .myClassHeader{border-bottom:1px solid #d9e1ed;padding:11px 0 15px;margin:0 0 15px;top:0;z-index:20}
-#spvPage132 .myClassHeaderRow{gap:12px}
-#spvPage132 .myClassHeaderTitle b{font-size:19px;color:#222b54;line-height:1.3}
-#spvPage132 .myClassHeaderTitle span{font-size:12px;color:#65748e;line-height:1.5}
+#spvPage132 .myClassHeaderRow{display:grid;grid-template-columns:43px minmax(0,1fr) auto;align-items:start;column-gap:10px}
+#spvPage132 .myClassHeaderTitle{min-width:0;min-width:160px;flex:unset;padding-right:6px}
+#spvPage132 .myClassHeaderTitle b{display:block;font-size:18px;color:#222b54;line-height:1.2;white-space:nowrap;letter-spacing:-.02em;overflow:hidden;text-overflow:ellipsis}
+#spvPage132 .myClassHeaderTitle span{display:block;font-size:11px;color:#65748e;line-height:1.4;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #spvBack132{width:43px;height:43px;flex-shrink:0;border:1px solid #d8deea;border-radius:13px;background:#fff;color:#273965;font-size:27px;font-weight:650;cursor:pointer;line-height:1}
-.spv132TopMeta{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:11px;color:#61749b;font-size:11px;font-weight:800}
-.spv132TopMeta span{border:1px solid #e0e7f6;background:#eff4fc;border-radius:20px;padding:4px 9px}
+.spv132TopMeta{flex:0 0 auto;display:flex;justify-content:flex-end;align-items:stretch;gap:0;margin-top:0;margin-left:auto;color:#536684;font-size:13px;font-weight:900}
+.spv132TopMeta>*:not(:first-child){display:none!important}
+.spv132TopMeta span{display:inline-flex;align-items:center;justify-content:center;min-height:72px;min-width:156px;max-width:none;text-align:center;border:1px solid #d8e2f3;background:#eef4fc;border-radius:22px;padding:12px 18px;line-height:1.28;box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+@media(max-width:430px){#spvPage132 .myClassHeaderRow{grid-template-columns:43px minmax(0,1fr) auto;column-gap:8px}#spvPage132 .myClassHeaderTitle{min-width:0;padding-right:4px}#spvPage132 .myClassHeaderTitle b{font-size:17px}#spvPage132 .myClassHeaderTitle span{font-size:10.5px}#spvPage132 .spv132TopMeta span{min-width:142px;min-height:70px;padding:12px 16px;font-size:13px}}
+@media(max-width:360px){#spvPage132 .myClassHeaderTitle b{font-size:16px}#spvPage132 .spv132TopMeta span{min-width:132px;padding:10px 14px}}
 #spvPage132 .spv132TwoTabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:10px 0 16px}
 #spvPage132 .spv132TwoTabs button{min-height:52px;background:#fff;color:#4f5e80;border:1px solid #cfd9eb;border-radius:13px;font-size:15px;font-weight:850;cursor:pointer}
 #spvPage132 .spv132TwoTabs button.is-active{background:#4356aa;border-color:#4356aa;color:#fff;box-shadow:0 4px 14px #4558ac26}
@@ -34702,7 +34707,7 @@ margin:0!important;
 #spvPage132 .spv132SentenceButton.myChunkExample{font-size:16px;font-weight:850;line-height:1.6;color:#1f2b42;margin:0;word-break:normal;overflow-wrap:anywhere}
 .spv132Speaker{font-size:13px;opacity:.85}
 #spvPage132 .spv131Contrast{margin-top:9px;padding-top:7px}
-#spvPage132 .spv131Contrast summary{font-size:12px}
+#spvPage132 .spv131Contrast .spv131ContrastTitle{font-size:12px}
 .spv132LocalActions{display:flex;gap:9px;flex-wrap:wrap;margin:10px 0 0}
 .spv132LocalActions .spvBtn130{flex:1 1 165px}
 .spv132AfterCard{display:flex;gap:9px;margin:13px 0}
@@ -34732,7 +34737,7 @@ margin:0!important;
 .spv132Explanation{font-size:12px;color:#61718d;font-weight:500;line-height:1.6}
 .spv132TargetWord{font-size:12px;color:#54618c}
 #spvPage132 #spvToast130{font-size:12px;color:#425b92;line-height:1.5;margin-top:12px}
-@media(max-width:430px){#spvPage132 .myClassShell{padding:11px 11px 28px}#spvPage132 .myStudyCard.spv132GroupChunk{padding:15px 12px}#spvPage132 .spv132GroupChunk h3{font-size:18px}#spvPage132 .spv132CompareItem{grid-template-columns:minmax(75px,.85fr) 1.55fr;gap:1px 8px}#spvPage132 .spv132CompareItem strong{font-size:14px}#spvPage132 .spv132CompareItem span{font-size:12px}#spvPage132 .spv132SentenceButton.myChunkExample{font-size:15px}#spvBottom132 .myClassControlInner{gap:5px;padding-inline:7px}#spvBottom132 .myClassControlBtn{font-size:11px;padding:5px 2px}}
+@media(max-width:430px){#spvPage132 .myClassShell{padding:11px 11px 28px}#spvPage132 .myClassHeaderRow{gap:10px}#spvPage132 .myClassHeaderTitle b{font-size:17px}#spvPage132 .myClassHeaderTitle span{font-size:11px}#spvPage132 .spv132TopMeta span{min-width:116px;max-width:132px;min-height:62px;padding:9px 12px;font-size:12px}#spvPage132 .myStudyCard.spv132GroupChunk{padding:15px 12px}#spvPage132 .spv132GroupChunk h3{font-size:18px}#spvPage132 .spv132CompareItem{grid-template-columns:minmax(75px,.85fr) 1.55fr;gap:1px 8px}#spvPage132 .spv132CompareItem strong{font-size:14px}#spvPage132 .spv132CompareItem span{font-size:12px}#spvPage132 .spv132SentenceButton.myChunkExample{font-size:15px}#spvBottom132 .myClassControlInner{gap:5px;padding-inline:7px}#spvBottom132 .myClassControlBtn{font-size:11px;padding:5px 2px}}
 </style>
 
 
@@ -34744,7 +34749,7 @@ margin:0!important;
 #spvPage132 .spv138MeaningButton:hover{color:#304a89!important}
 </style>
 <style id="spv135-book-turn-style">
-/* v6.4.135: DAY VOCA-like swipe paging; no 1/2/3 group tabs or duplicated local action buttons. */
+/* v6.4.135: TOEFL VOCA-like swipe paging; no 1/2/3 group tabs or duplicated local action buttons. */
 #spvPage132 .spv134GroupTabs, #spvPage132 .spv132LocalActions{display:none!important}
 #spvPage132 .spv135BookPager{display:flex;align-items:center;justify-content:center;gap:14px;margin:12px 0 8px;min-height:42px}
 #spvPage132 .spv135BookPager button{min-width:43px;min-height:43px;border:1px solid #d9dfee;background:#fff;border-radius:50%;font:900 29px/1 system-ui,sans-serif;color:#4254a3;cursor:pointer;padding:0}
@@ -34776,8 +34781,7 @@ margin:0!important;
 <section id="spvPage132" class="myClassPage spvPage132 hidden" aria-label="Speaking VOCA 독립 학습 화면" aria-hidden="true">
  <div class="myClassShell">
   <header class="myClassHeader spv132Header">
-   <div class="myClassHeaderRow"><button type="button" id="spvBack132" aria-label="홈으로 돌아가기">‹</button><div class="myClassHeaderTitle"><b>🗣 Speaking VOCA</b><span>유사어 그룹별 한 페이지 · 발음·뜻·예문 · 단어 문제</span></div></div>
-   <div class="spv132TopMeta"><span>DAY 1 / 120 · 10단어</span><span>미등록 DAY는 콘텐츠 준비 중</span></div>
+   <div class="myClassHeaderRow"><button type="button" id="spvBack132" aria-label="홈으로 돌아가기">‹</button><div class="myClassHeaderTitle"><b>🗣 Speaking VOCA</b><span>유사어 그룹별 한 페이지 · 발음·뜻·예문 · 단어 문제</span></div><div class="spv132TopMeta"><span>DAY 1 / 120 · 10단어</span></div></div>
   </header>
   <div id="spvBody130" role="region" aria-live="polite"><div class="spvInfo130">DAY 1 학습을 준비하고 있습니다…</div></div>
   <p id="spvToast130" class="spvNotice130" role="status" aria-live="polite"></p>
@@ -34791,6 +34795,32 @@ margin:0!important;
   <button id="spvConfig133" class="myClassControlBtn" type="button">⚙️<br>Config</button>
  </div>
 </div>
+
+
+<style id="spv145-keyboard-prompt-visibility">
+/* While the mobile keyboard is visible, prioritize the Korean prompt and answer field. */
+body.spv145-typing #spvPage132 .spv132Header,
+body.spv145-typing #spvPage132 .spv132TwoTabs,
+body.spv145-typing #spvPage132 .spvStatRow130,
+body.spv145-typing #spvPage132 .spv132QuizProgress,
+body.spv145-typing #spvPage132 .spv132ProgressTrack,
+body.spv145-typing #spvPage132 .spv132QuizCard .spvCardHead130,
+body.spv145-typing #spvPage132 .spv132QuizCard .spvStageRow130,
+body.spv145-typing #spvBottom132 {display:none!important}
+body.spv145-typing #spvPage132 .myClassShell{padding-top:4px!important}
+body.spv145-typing #spvPage132 .spv132QuizCard{margin-top:4px!important;padding-top:12px!important}
+body.spv145-typing #spvPage132 .spv132QuizCard .spvKorean130,
+body.spv145-typing #sw131StudioWordPanel .spv132QuizCard .spvKorean130{
+  position:sticky;top:4px;z-index:4;
+  background:#fff;color:#253755;
+  padding:7px 4px;margin:3px 0 7px;
+  border-radius:8px;scroll-margin-top:8px;
+}
+body.spv145-typing #spvPage132 .spv132QuizCard .spv132TargetWord{margin:3px 0 6px!important}
+body.spv145-typing #spvPage132 .spvField130{scroll-margin-top:100px}
+body.spv145-typing #sw131StudioWordPanel .spv132QuizCard .spvCardHead130,
+body.spv145-typing #sw131StudioWordPanel .spv132QuizCard .spvStageRow130{display:none!important}
+</style>
 
 <script id="spv132-module">
 (function(){'use strict';
@@ -34938,7 +34968,7 @@ margin:0!important;
       <div class="spv134IPA">${esc(w.pronunciation_ipa||'발음기호 준비 중')}</div>
       <button class="myStudyKo spv134Meaning spv138MeaningButton" type="button" data-spv="speak-meaning" data-id="${esc(w.item_id)}" aria-label="${esc(w.word)} 한국어 뜻 재생">${esc(w.meaning_ko)} <span class="spv138MeaningSpeaker" aria-hidden="true">🔊</span></button>
       <div class="spv132ExampleBlock swStudySentencePrimary"><div class="spv134ExampleLabel">첫 번째 예문</div><button class="spv132SentenceButton myChunkExample" type="button" data-spv="speak-example" data-id="${esc(w.item_id)}" aria-label="${esc(w.word)} 예문 재생">${esc(w.example_en)} <span class="spv132Speaker" aria-hidden="true">🔊</span></button><div class="myStudyKo spv134ExampleKo">${esc(w.example_ko)}</div></div>
-      <details class="spv131Contrast spv134Extra"><summary>표현 차이 · 함께 쓰는 단어</summary><p>${esc(w.contrast)}</p><p>${(w.collocations||[]).map(x=>`<span>${esc(x)}</span>`).join(' ')}</p></details>
+      <section class="spv131Contrast spv134Extra" aria-label="표현 차이 · 함께 쓰는 단어"><div class="spv131ContrastTitle">표현 차이 · 함께 쓰는 단어</div><p>${esc(w.contrast)}</p><p>${(w.collocations||[]).map(x=>`<span>${esc(x)}</span>`).join(' ')}</p></section>
     </section>`).join('');
     return `<article class="myStudyCard spv132GroupChunk spv134GroupPage" id="spvGroupCard132-${group.no}" aria-label="그룹 ${group.no} 학습 페이지">
       <div class="myStudyNum">SPEAKING VOCA · GROUP ${group.no} / ${groups().length}</div>
@@ -34979,7 +35009,7 @@ margin:0!important;
     else{middle=`<p class="spvPromptTitle130">STEP 3 · 해당 단어를 사용해 영어 문장을 말하세요.</p><div class="spvKorean130 sw5527-prompt">${esc(w.prompt_ko)}</div><p class="spv132TargetWord">목표 단어: <b>${esc(w.word)}</b></p><textarea class="spvField130" id="spvAnswerInput130" rows="3" aria-label="영어 문장 만들기" placeholder="직접 말한 뒤 문장을 입력할 수 있습니다.">${esc(state.answer)}</textarea><div class="spvActions130"><button type="button" class="spvBtn130 primary" data-spv="reveal">기준 문장 비교</button></div>${state.revealed?`<div class="spvAnswer130"><b>${esc(w.sample_answer_en)}</b><p class="spv132Explanation">${esc(w.contrast)}</p></div><div class="spvActions130"><button type="button" class="spvBtn130" data-spv="speak">🔊 기준 문장 듣기</button></div>${gradeButtons()}`:''}`}
     return head+middle+`<div class="spvNav130"><button type="button" data-spv="prev">← 이전</button><button type="button" data-spv="cards">유사어 카드</button><button type="button" data-spv="skip">${state.i===9&&level===2?'결과 보기':'건너뛰기 →'}</button></div></div>`;
   }
-  function render(){const root=body();if(!root)return;if(!state.loaded){root.innerHTML=`<div class="spvInfo130">Speaking VOCA DAY ${state.day}을 불러오는 중입니다…</div>`;return}if(state.items.length!==10&&state.view==='quiz')state.view='cards';root.innerHTML=state.view==='quiz'?renderQuiz():renderCards();updateAudioButtons()}
+  function render(){document.body.classList.remove('spv145-typing');++spv145FocusTicket;const root=body();if(!root)return;if(!state.loaded){root.innerHTML=`<div class="spvInfo130">Speaking VOCA DAY ${state.day}을 불러오는 중입니다…</div>`;normalizeHeader();return}if(state.items.length!==10&&state.view==='quiz')state.view='cards';root.innerHTML=state.view==='quiz'?renderQuiz():renderCards();normalizeHeader();updateAudioButtons()}
   function resetQ(){state.revealed=false;state.answer='';state.choiceSelected='';state.choiceSaved=false;state.pendingEntry=null;state.busy=false}
   function startQuiz(){if(!state.loaded||state.items.length!==10){status('DAY '+state.day+'은 10개 단어가 아직 준비되지 않았습니다.');return}stopAudio(true);state.view='quiz';state.i=0;state.stage=0;state.completed=false;resetQ();render();window.scrollTo?.(0,0)}
   function next(){resetQ();if(state.stage<2)state.stage++;else if(state.i<state.items.length-1){state.i++;state.stage=0}else state.completed=true;render()}
@@ -35006,6 +35036,11 @@ let loadToken=0;
     try{const data=await window.saywardAuth.readSpeakingVocaItems(state.day);if(!Array.isArray(data)||data.length!==10)throw Error('DAY '+state.day+'의 10개 단어 조회 실패 · 파일럿 공개 권한 확인');const ids=data.map(x=>x.item_id),rows=await window.saywardAuth.readSpeakingVocaAttempts(ids);if(token!==loadToken)return;state.items=data;state.activeUid=a.uid;state.attempts=rows||[];if(reset){state.view=state.host==='studio'?'quiz':'cards';state.i=state.host==='studio'?0:-1;state.stage=0;state.group=initialGroup<0?Math.max(0,groups().length-1):Math.min(initialGroup,Math.max(0,groups().length-1));state.studied=new Set();state.completed=false;resetQ()}state.loaded=true;render();status('DAY '+state.day+' 유사어 '+groups().length+'그룹 · 10개 단어를 불러왔습니다.')}
     catch(e){if(token!==loadToken)return;state.items=[];state.attempts=[];state.loaded=true;state.view='cards';state.group=0;render();status('DAY '+state.day+' 콘텐츠 미등록/조회 미완료: '+String(e?.message||e).slice(0,140))}
   }
+  function normalizeHeader(){
+    const wrap=$('spvPage132')?.querySelector('.spv132TopMeta');
+    if(!wrap)return;
+    [...wrap.children].slice(1).forEach(el=>el.remove());
+  }
   function useHost(host){state.host=host;status('')}
   function canResumeDay(day,preferred='cards'){
     const uid=String(auth().uid||'');
@@ -35023,7 +35058,7 @@ let loadToken=0;
     for(const id of ['homePage','dayAppPage','myClassPage','myClassBottom'])$(id)?.classList.add('hidden');
     $('spvPage132')?.classList.remove('hidden');$('spvPage132')?.setAttribute('aria-hidden','false');
     $('spvBottom132')?.classList.remove('hidden');useHost('page');state.view=preferred==='quiz'?'quiz':'cards';
-    const meta=$('spvPage132')?.querySelector('.spv132TopMeta span');if(meta)meta.textContent='DAY '+state.day+' / 120 · 10단어';
+    normalizeHeader();const meta=$('spvPage132')?.querySelector('.spv132TopMeta span');if(meta)meta.textContent='DAY '+state.day+' / 120 · 10단어';
     if(preserve && canResumeDay(state.day,preferred)){
       const currentStep=audio.queue[audio.cursor];
       if(currentStep)state.group=currentStep.groupIndex;
@@ -35165,7 +35200,45 @@ let loadToken=0;
     }else commit();
     return true;
   }
+
+  // v6.4.145: Android/One UI keyboard should not cover the Korean prompt.
+  // These are focus-only viewport adjustments; DB, answers, grading and card swipes stay untouched.
+  let spv145FocusTicket=0;
+  function spv145AlignPrompt(){
+    const field=document.activeElement;
+    if(!field||field.id!=='spvAnswerInput130')return;
+    const card=field.closest('.spv132QuizCard');
+    const prompt=card?.querySelector('.spvKorean130');
+    if(!prompt)return;
+    // Align the question above the input, after Android resizes the visual viewport.
+    const visual=window.visualViewport;
+    const top=visual?visual.offsetTop:0;
+    const questionTop=prompt.getBoundingClientRect().top;
+    const targetTop=top+14;
+    if(questionTop>targetTop+10 || questionTop<targetTop-10){
+      window.scrollBy({top:questionTop-targetTop,behavior:'instant'});
+    }
+  }
+  function spv145OnFocus(e){
+    if(e.target?.id!=='spvAnswerInput130'||state.stage===0)return;
+    document.body.classList.add('spv145-typing');
+    const ticket=++spv145FocusTicket;
+    requestAnimationFrame(()=>{if(ticket===spv145FocusTicket)spv145AlignPrompt()});
+    setTimeout(()=>{if(ticket===spv145FocusTicket)spv145AlignPrompt()},180);
+    setTimeout(()=>{if(ticket===spv145FocusTicket)spv145AlignPrompt()},480);
+  }
+  function spv145OnBlur(e){
+    if(e.target?.id!=='spvAnswerInput130')return;
+    ++spv145FocusTicket;
+    document.body.classList.remove('spv145-typing');
+  }
+
   function init(){
+    for(const id of ['spvBody130','spvStudioBody131']){
+      $(id)?.addEventListener('focusin',spv145OnFocus);
+      $(id)?.addEventListener('focusout',spv145OnBlur);
+    }
+    window.visualViewport?.addEventListener('resize',()=>{if(document.body.classList.contains('spv145-typing'))requestAnimationFrame(spv145AlignPrompt)});
     $('spvHomeOpen130')?.addEventListener('click',()=>open('cards'));
     $('spvDrawer130')?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();open('cards')});
     $('spvBack132')?.addEventListener('click',close);
@@ -35217,7 +35290,7 @@ let loadToken=0;
     swRoot?.addEventListener('click',e=>{
       if(Date.now()<spvSuppressClickUntil){e.preventDefault();e.stopImmediatePropagation()}
     },true);
-    // Desktop mouse drag and keyboard arrows mirror DAY VOCA book-style navigation.
+    // Desktop mouse drag and keyboard arrows mirror TOEFL VOCA book-style navigation.
     let mouseStart=null;
     $('spvBody130')?.addEventListener('mousedown',e=>{
       if(e.button!==0||!e.target.closest('#spv134GroupViewport')||e.target.closest('button, input, textarea, summary, a'))return;
@@ -35464,7 +35537,7 @@ let loadToken=0;
         if(my?.error)throw new Error('MY_'+String(my.error.code||'ERROR').slice(0,45));
         if(course?.error)throw new Error('COURSE_'+String(course.error.code||'ERROR').slice(0,45));
         if(!Array.isArray(day))throw new Error('DAY_UNEXPECTED_RESPONSE');
-        message.textContent='✅ MY수업·소리영어/OPIc/Friends·DAY VOCA 공통 DB 연결 정상. 각 수업의 DB 갱신을 눌러 주세요.';
+        message.textContent='✅ MY수업·소리영어/OPIc/Friends·TOEFL VOCA 공통 DB 연결 정상. 각 수업의 DB 갱신을 눌러 주세요.';
         login.hidden=true;return;
       }catch(e){
         const code=String(e?.message||'FAILED').slice(0,95);
@@ -35486,7 +35559,7 @@ let loadToken=0;
     if(snap.authenticated){box.hidden=true;tried=false;return;}
     if(snap.phase==='initializing'){box.hidden=true;return;}
     box.hidden=false;login.hidden=false;
-    msg.textContent='현재 DB 학습 계정에 로그인되어 있지 않습니다. MY수업·소리영어·DAY VOCA·Speaking VOCA의 최신 내용을 불러오려면 로그인해 주세요.';
+    msg.textContent='현재 DB 학습 계정에 로그인되어 있지 않습니다. MY수업·소리영어·TOEFL VOCA·Speaking VOCA의 최신 내용을 불러오려면 로그인해 주세요.';
   }
   // Catch a DB refresh attempted before authentication rather than silently failing.
   document.addEventListener('click',e=>{
