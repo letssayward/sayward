@@ -55,9 +55,9 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.2 · Learning Dashboard</title>
-<!-- v7.0.2 Speaking VOCA: manifest MP3 first (en and ko), fallback TTS, legacy lesson audio unchanged -->
-<meta name="sayward-release" content="7.0.2">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.3 · Learning Dashboard</title>
+<!-- v7.0.3 Speaking VOCA: screen wake lock during continuous playback; MP3/TTS and prior lessons unchanged -->
+<meta name="sayward-release" content="7.0.3">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -34846,6 +34846,50 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
   const state={items:[],day:1,i:-1,stage:0,revealed:false,answer:'',attempts:[],busy:false,completed:false,loaded:false,host:'page',group:0,view:'cards',quizOrder:[],shuffleQuiz:true,studied:new Set(),choiceSelected:'',choiceSaved:false,pendingEntry:null,activeUid:null};
   const audio={token:0,active:false,groupMode:'all',groupIndex:0,wordIndex:0,queue:[],cursor:0,resumeReady:false};
   const playlist={token:0,active:false,selectedDays:[],dayIndex:0,resumeReady:false,userId:''};
+  // v7.0.3: Speaking VOCA has a dedicated screen Wake Lock lifecycle.
+  // The legacy DAY/MY Wake Lock is intentionally left unchanged.
+  const spvWake={wanted:false,lock:null,pending:false,seq:0};
+  async function spvRequestWake(){
+    if(!spvWake.wanted||spvWake.pending||document.visibilityState!=='visible')return false;
+    if(spvWake.lock&&!spvWake.lock.released)return true;
+    if(!navigator.wakeLock?.request)return false; // Not supported on some file:// / insecure contexts.
+    const seq=spvWake.seq;
+    spvWake.pending=true;
+    try{
+      const lock=await navigator.wakeLock.request('screen');
+      if(!spvWake.wanted||seq!==spvWake.seq){try{await lock.release()}catch(_){};return false;}
+      spvWake.lock=lock;
+      lock.addEventListener('release',()=>{
+        if(spvWake.lock===lock)spvWake.lock=null;
+        if(spvWake.wanted&&document.visibilityState==='visible')
+          setTimeout(()=>{if(spvWake.wanted)void spvRequestWake()},220);
+      },{once:true});
+      return true;
+    }catch(err){
+      // Browsers may reject the request when the page is not active/secure.
+      return false;
+    }finally{spvWake.pending=false;}
+  }
+  function spvStartWake(){
+    if(!spvWake.wanted){spvWake.wanted=true;spvWake.seq++;}
+    // Called in the original click handler before audio awaits.
+    void spvRequestWake();
+  }
+  function spvStopWake(){
+    spvWake.wanted=false;spvWake.seq++;
+    const lock=spvWake.lock;spvWake.lock=null;
+    if(lock&&!lock.released)void lock.release().catch(()=>{});
+  }
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='visible'&&spvWake.wanted)void spvRequestWake();
+  });
+  window.addEventListener('pageshow',()=>{if(spvWake.wanted)void spvRequestWake()});
+  window.addEventListener('focus',()=>{if(spvWake.wanted)void spvRequestWake()});
+  setInterval(()=>{
+    if(spvWake.wanted && (audio.active||playlist.active) && document.visibilityState==='visible')
+      void spvRequestWake();
+  },4000);
+
   const stages=['recognition','recall','production'];
   const stagesKo=['유사어 선택','단어 회상','문장 발화'];
   const body=()=>$(state.host==='studio'?'spvStudioBody131':'spvBody130');
@@ -34885,6 +34929,7 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
   function stopAudio(silent=false,discard=silent){
     const hadPlayback=audio.active;
     audio.token++;audio.active=false;playlist.token++;playlist.active=false;
+    spvStopWake();
     if(discard){audio.queue=[];audio.cursor=0;audio.resumeReady=false;playlist.resumeReady=false}
     else {
       if(audio.queue.length && audio.cursor<audio.queue.length && (hadPlayback||audio.resumeReady))audio.resumeReady=true;
@@ -34955,6 +35000,7 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
     }
     if(!audio.queue.length){status('선택한 반복 항목에 재생할 내용이 없습니다.');return}
     const token=++audio.token;audio.active=true;audio.resumeReady=false;
+    spvStartWake();
     updateAudioButtons();
     try{window.saywardStudioAudio?.stop?.()}catch(_e){}
     let playbackError=null;
@@ -34994,6 +35040,8 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
         status(playbackError?'음성 재생 오류 · 이어듣기 가능: '+String(playbackError?.message||playbackError).slice(0,125):finished?'✓ Speaking VOCA 연속 재생 완료':'⏸ 정지 위치에서 이어듣기 가능');
       }
       document.querySelectorAll('.spv132WordUnit.is-reading').forEach(el=>el.classList.remove('is-reading'));
+      // A selected multi-DAY playlist retains its lock between DAY boundaries.
+      if(!playlist.active)spvStopWake();
     }
   }
 
@@ -35146,8 +35194,12 @@ let loadToken=0;
       playlist.selectedDays=chosen;playlist.dayIndex=startAt;
       playlist.userId=uid;
     }
-    await openDay(chosen[startAt],'cards',{preserve:resuming&&canResumeDay(chosen[startAt])});
-    if(!state.loaded||state.items.length!==10)return false;
+    // Open synchronously, then request the lock before the first await while the
+    // selected-learning button is still in its user gesture call stack.
+    const opening=openDay(chosen[startAt],'cards',{preserve:resuming&&canResumeDay(chosen[startAt])});
+    spvStartWake();
+    await opening;
+    if(!state.loaded||state.items.length!==10){spvStopWake();return false;}
     const token=++playlist.token;playlist.active=true;playlist.resumeReady=false;
     try{
       for(let idx=startAt;idx<chosen.length;idx++){
@@ -35168,7 +35220,7 @@ let loadToken=0;
       }
       playlist.resumeReady=false;playlist.selectedDays=[];playlist.dayIndex=0;
       status('✓ 선택 DAY 전체 연속 재생 완료');return true;
-    }finally{if(token===playlist.token)playlist.active=false}
+    }finally{if(token===playlist.token){playlist.active=false;spvStopWake()}}
   }
   function showWordStudio(){const page=$('sw5527PracticePage'),panel=$('sw131StudioWordPanel');if(!page||page.classList.contains('hidden'))return;stopAudio(true);useHost('studio');page.classList.add('sw131-word-mode');panel.hidden=false;for(const b of page.querySelectorAll('[data-sw131-mode]'))b.setAttribute('aria-pressed',String(b.dataset.sw131Mode==='word'));try{window.saywardStudioAudio?.stop?.()}catch(e){}state.view='quiz';void load()}
   function showPatternStudio(){const page=$('sw5527PracticePage');if(!page)return;stopAudio(true);page.classList.remove('sw131-word-mode');$('sw131StudioWordPanel').hidden=true;for(const b of page.querySelectorAll('[data-sw131-mode]'))b.setAttribute('aria-pressed',String(b.dataset.sw131Mode==='pattern'))}
@@ -35355,7 +35407,7 @@ let loadToken=0;
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
   window.saywardSpeakingVoca130={open,openDay,openSelected,close,load,openStudio:showWordStudio,backToPattern:showPatternStudio,
     playAll:()=>playGroup('all'),playGroup:()=>playGroup('group'),stopAudio,
-    snapshot:()=>({loaded:state.loaded,count:state.items.length,groupCount:groups().length,group:state.group,day:state.day,host:state.host,view:state.view,playing:audio.active,paused:audio.resumeReady,cursor:audio.cursor,queueLength:audio.queue.length,selectedDays:playlist.selectedDays.slice(),selectedCursor:playlist.dayIndex,selectionPaused:playlist.resumeReady,quizOrder:state.quizOrder.slice(),shuffleQuiz:state.shuffleQuiz,swipeEngine:'MV_SWIPE_STANDARD_254',stats:stats()})};
+    snapshot:()=>({loaded:state.loaded,count:state.items.length,groupCount:groups().length,group:state.group,day:state.day,host:state.host,view:state.view,playing:audio.active,paused:audio.resumeReady,cursor:audio.cursor,queueLength:audio.queue.length,selectedDays:playlist.selectedDays.slice(),selectedCursor:playlist.dayIndex,selectionPaused:playlist.resumeReady,quizOrder:state.quizOrder.slice(),shuffleQuiz:state.shuffleQuiz,wakeLockWanted:spvWake.wanted,wakeLockHeld:!!(spvWake.lock&&!spvWake.lock.released),wakeLockSupported:!!navigator.wakeLock?.request,swipeEngine:'MV_SWIPE_STANDARD_254',stats:stats()})};
 })();
 </script>
 <style id="spv133-standard-style">/* Speaking VOCA v6.4.135: 7 standard learning modes, precisely four visible per swipe. */
