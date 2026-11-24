@@ -1,3 +1,51 @@
+      // A selected multi-DAY playlist retains its lock between DAY boundaries.
+      if(!playlist.active)spvStopWake();
+    spvStartWake();
+    spvStopWake();
+  // v7.0.3: Speaking VOCA has a dedicated screen Wake Lock lifecycle.
+  // The legacy DAY/MY Wake Lock is intentionally left unchanged.
+  const spvWake={wanted:false,lock:null,pending:false,seq:0};
+  async function spvRequestWake(){
+    if(!spvWake.wanted||spvWake.pending||document.visibilityState!=='visible')return false;
+    if(spvWake.lock&&!spvWake.lock.released)return true;
+    if(!navigator.wakeLock?.request)return false; // Not supported on some file:// / insecure contexts.
+    const seq=spvWake.seq;
+    spvWake.pending=true;
+    try{
+      const lock=await navigator.wakeLock.request('screen');
+      if(!spvWake.wanted||seq!==spvWake.seq){try{await lock.release()}catch(_){};return false;}
+      spvWake.lock=lock;
+      lock.addEventListener('release',()=>{
+        if(spvWake.lock===lock)spvWake.lock=null;
+        if(spvWake.wanted&&document.visibilityState==='visible')
+          setTimeout(()=>{if(spvWake.wanted)void spvRequestWake()},220);
+      },{once:true});
+      return true;
+    }catch(err){
+      // Browsers may reject the request when the page is not active/secure.
+      return false;
+    }finally{spvWake.pending=false;}
+  }
+  function spvStartWake(){
+    if(!spvWake.wanted){spvWake.wanted=true;spvWake.seq++;}
+    // Called in the original click handler before audio awaits.
+    void spvRequestWake();
+  }
+  function spvStopWake(){
+    spvWake.wanted=false;spvWake.seq++;
+    const lock=spvWake.lock;spvWake.lock=null;
+    if(lock&&!lock.released)void lock.release().catch(()=>{});
+  }
+  document.addEventListener('visibilitychange',()=>{
+    if(document.visibilityState==='visible'&&spvWake.wanted)void spvRequestWake();
+  });
+  window.addEventListener('pageshow',()=>{if(spvWake.wanted)void spvRequestWake()});
+  window.addEventListener('focus',()=>{if(spvWake.wanted)void spvRequestWake()});
+  setInterval(()=>{
+    if(spvWake.wanted && (audio.active||playlist.active) && document.visibilityState==='visible')
+      void spvRequestWake();
+  },4000);
+
 <!-- SAYWARD v6.4.143: Speaking VOCA header tuned — remove pending-content pill, keep title on one line, and enlarge/right-align the DAY badge; includes prior v6.4.142 home swap and always-open contrast blocks. -->
 <!-- SAYWARD v6.4.141: Speaking VOCA sequential card navigation across DAY 1-120, including pending-DAY placeholders; shared book-turn gestures and pager now cross day boundaries. -->
 <!-- SAYWARD v6.4.140: Speaking VOCA full-page book-turn swipe + precise stop/resume cursor; immediate bilingual TTS (EN word → KO meaning → EN example twice), bypass MP3 lookup for new words; shared DB auth/CDN recovery; Speaking VOCA group pages turn by swipe, mouse/keyboard or compact pager; removed group tabs and in-card group-play/quiz buttons; standard bottom controls preserved. -->
@@ -55,13 +103,13 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.3 · Learning Dashboard</title>
-<!-- v7.0.3 Speaking VOCA: screen wake lock during continuous playback; MP3/TTS and prior lessons unchanged -->
-<meta name="sayward-release" content="7.0.3">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.4 · Learning Dashboard</title>
+<!-- v7.0.4 Speaking VOCA: DB MP3 mapping + admin reconciliation + v7.0.3 screen wake lock -->
+<meta name="sayward-release" content="7.0.4">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '7.0.2';
+  const release=marker?.content?.trim() || '7.0.4';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -23984,6 +24032,15 @@ window.mvSentenceTrainedAudit5476=function(){const txt=document.documentElement.
     <div id="sw5536ProgressLoginNotice" hidden role="status"><strong>문장 학습 현황을 보려면 로그인해 주세요.</strong><p>로그인한 계정의 공식 학습 기록과 앱 자체 연습 결과만 표시합니다.</p><button id="sw5536GoLogin" type="button">로그인 화면 열기</button></div>
     <div id="swSbSigned" hidden>
       
+<section id="swSpvMp3Admin" class="p2-card" hidden style="margin:12px 0;padding:15px;border:1px solid #cbd5e1;border-radius:14px;background:#fff">
+  <h3 style="margin:0 0 8px">🎧 Speaking VOCA · MP3 연결 관리</h3>
+  <p class="p2-note">Supabase Storage의 실제 MP3 파일과 DB 연결을 대조합니다. 재생은 DB 경로를 우선 사용하며, 파일 합성이나 삭제는 하지 않습니다.</p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0">
+    <button id="swSpvMp3Audit" type="button">🔍 연결 상태 조회</button>
+    <button id="swSpvMp3Repair" type="button">🔧 누락 연결 복구</button>
+  </div>
+  <p id="swSpvMp3Status" class="p2-status" role="status" aria-live="polite">관리자 로그인 후 연결 상태를 조회하세요.</p>
+</section>
 <section id="sw5513ApprovalPanel" hidden class="sw5513-approvals" aria-label="사용자 가입 승인">
   <h3>👥 가입 승인 · 사용자별 MP3 제공</h3>
   <p class="p2-note">이름·이메일·가입 상태를 확인한 뒤 승인하거나 거절할 수 있습니다. 활성 회원의 MP3 음성 제공을 개별 설정합니다. OFF 회원은 기존 TTS를 사용합니다.</p>
@@ -34838,6 +34895,73 @@ body.spv145-typing #sw131StudioWordPanel .spv132QuizCard .spvStageRow130{display
 .spv147QuizOptions small{font-size:11px;line-height:1.45;color:#62718a}
 body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131StudioWordPanel .spv147QuizOptions{display:none!important}
 </style>
+<script id="sw704DbMp3Spv">
+(function(){'use strict';
+ const cache=new Map();
+ const key=t=>String(t||'').normalize('NFC').trim().replace(/\\s+/gu,' ');
+ const client=()=>window.saywardAuth?.getClient?.();
+ const auth=()=>window.saywardAuth?.snapshot?.();
+ let owner='';
+ function guard(){
+   const s=auth();const uid=s?.authenticated&&s?.uid?String(s.uid):'';
+   if(uid!==owner){cache.clear();owner=uid;}
+   return !!uid;
+ }
+ async function preload(items){
+   if(!guard())return false;
+   const sb=client();if(!sb)return false;
+   const texts=[...new Set((items||[]).flatMap(w=>[w.word,w.meaning_ko,w.example_en]).map(key).filter(Boolean))];
+   if(!texts.length)return true;
+   const missing=texts.filter(t=>!cache.has(t));
+   if(!missing.length)return true;
+   const {data,error}=await sb.from('sayward_spv_audio_map').select('text_key,audio_path').in('text_key',missing);
+   if(error){console.warn('SPV DB MP3 mapping read:',error.message);return false;}
+   for(const t of missing)cache.set(t,'');
+   for(const item of data||[])if(/^audio\/[a-z][a-z0-9_-]{1,31}\/[a-f0-9]{24}\.mp3$/.test(item.audio_path||''))cache.set(key(item.text_key),item.audio_path);
+   return true;
+ }
+ async function find(text){
+   const k=key(text);if(!k||!guard())return '';
+   if(!cache.has(k))await preload([{word:k}]);
+   return cache.get(k)||'';
+ }
+ function refresh(){cache.clear();owner='';window.saywardKokoroMixed?.refresh?.();}
+ window.saywardSpvAudioMap={preload,find,get:t=>cache.get(key(t))||'',refresh,stats:()=>({cached:cache.size,available:[...cache.values()].filter(Boolean).length})};
+ window.addEventListener('sayward:auth-out',refresh);
+ window.addEventListener('sayward:auth-role',refresh);
+
+ function hasAdmin(){const a=auth();return !!(a?.authenticated&&a?.role==='admin'&&client());}
+ const panel=()=>document.getElementById('swSpvMp3Admin');
+ const info=()=>document.getElementById('swSpvMp3Status');
+ let busy=false;
+ function visible(){
+   const el=panel();if(!el)return;
+   el.hidden=!hasAdmin();
+ }
+ async function audit(apply){
+   if(busy||!hasAdmin())return;
+   if(apply&&!confirm('실제 MP3가 있는 경우에만 DB 연결을 복구합니다. 기존 파일은 삭제하지 않습니다. 실행할까요?'))return;
+   busy=true;const el=info(),btns=[document.getElementById('swSpvMp3Audit'),document.getElementById('swSpvMp3Repair')];
+   btns.forEach(b=>{if(b)b.disabled=true});
+   if(el)el.textContent=apply?'Storage MP3 연결 복구 중…':'Storage MP3 연결 상태 조회 중…';
+   try{
+     const {data,error}=await client().rpc('sayward_spv_rebuild_audio_map',{p_apply:!!apply});
+     if(error)throw error;
+     if(apply)refresh();
+     if(el)el.textContent='전체 '+data.total+'건 · Storage 확인 '+data.found+'건 · 실제 MP3 없음 '+data.missing+'건 · DB 등록 '+data.db_mapped+'건'+(apply?' · 신규 연결 '+data.inserted+'건 · 경로 갱신 '+data.updated+'건':' (조회만 수행)');
+   }catch(e){if(el)el.textContent='연결 확인 실패: '+String(e?.message||e).slice(0,200)}
+   finally{busy=false;btns.forEach(b=>{if(b)b.disabled=false})}
+ }
+ document.addEventListener('click',e=>{
+   if(e.target?.closest?.('#swSpvMp3Audit'))void audit(false);
+   if(e.target?.closest?.('#swSpvMp3Repair'))void audit(true);
+ });
+ window.addEventListener('sayward:auth-state',visible);
+ const observer=new MutationObserver(visible);
+ const start=()=>{const p=document.getElementById('p2Panel');if(p)observer.observe(p,{attributes:true,attributeFilter:['class']});visible()};
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
+</script>
 <script id="spv132-module">
 (function(){'use strict';
   if(window.__SPV132__)return; window.__SPV132__=true;
@@ -34846,50 +34970,6 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
   const state={items:[],day:1,i:-1,stage:0,revealed:false,answer:'',attempts:[],busy:false,completed:false,loaded:false,host:'page',group:0,view:'cards',quizOrder:[],shuffleQuiz:true,studied:new Set(),choiceSelected:'',choiceSaved:false,pendingEntry:null,activeUid:null};
   const audio={token:0,active:false,groupMode:'all',groupIndex:0,wordIndex:0,queue:[],cursor:0,resumeReady:false};
   const playlist={token:0,active:false,selectedDays:[],dayIndex:0,resumeReady:false,userId:''};
-  // v7.0.3: Speaking VOCA has a dedicated screen Wake Lock lifecycle.
-  // The legacy DAY/MY Wake Lock is intentionally left unchanged.
-  const spvWake={wanted:false,lock:null,pending:false,seq:0};
-  async function spvRequestWake(){
-    if(!spvWake.wanted||spvWake.pending||document.visibilityState!=='visible')return false;
-    if(spvWake.lock&&!spvWake.lock.released)return true;
-    if(!navigator.wakeLock?.request)return false; // Not supported on some file:// / insecure contexts.
-    const seq=spvWake.seq;
-    spvWake.pending=true;
-    try{
-      const lock=await navigator.wakeLock.request('screen');
-      if(!spvWake.wanted||seq!==spvWake.seq){try{await lock.release()}catch(_){};return false;}
-      spvWake.lock=lock;
-      lock.addEventListener('release',()=>{
-        if(spvWake.lock===lock)spvWake.lock=null;
-        if(spvWake.wanted&&document.visibilityState==='visible')
-          setTimeout(()=>{if(spvWake.wanted)void spvRequestWake()},220);
-      },{once:true});
-      return true;
-    }catch(err){
-      // Browsers may reject the request when the page is not active/secure.
-      return false;
-    }finally{spvWake.pending=false;}
-  }
-  function spvStartWake(){
-    if(!spvWake.wanted){spvWake.wanted=true;spvWake.seq++;}
-    // Called in the original click handler before audio awaits.
-    void spvRequestWake();
-  }
-  function spvStopWake(){
-    spvWake.wanted=false;spvWake.seq++;
-    const lock=spvWake.lock;spvWake.lock=null;
-    if(lock&&!lock.released)void lock.release().catch(()=>{});
-  }
-  document.addEventListener('visibilitychange',()=>{
-    if(document.visibilityState==='visible'&&spvWake.wanted)void spvRequestWake();
-  });
-  window.addEventListener('pageshow',()=>{if(spvWake.wanted)void spvRequestWake()});
-  window.addEventListener('focus',()=>{if(spvWake.wanted)void spvRequestWake()});
-  setInterval(()=>{
-    if(spvWake.wanted && (audio.active||playlist.active) && document.visibilityState==='visible')
-      void spvRequestWake();
-  },4000);
-
   const stages=['recognition','recall','production'];
   const stagesKo=['유사어 선택','단어 회상','문장 발화'];
   const body=()=>$(state.host==='studio'?'spvStudioBody131':'spvBody130');
@@ -34929,7 +35009,6 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
   function stopAudio(silent=false,discard=silent){
     const hadPlayback=audio.active;
     audio.token++;audio.active=false;playlist.token++;playlist.active=false;
-    spvStopWake();
     if(discard){audio.queue=[];audio.cursor=0;audio.resumeReady=false;playlist.resumeReady=false}
     else {
       if(audio.queue.length && audio.cursor<audio.queue.length && (hadPlayback||audio.resumeReady))audio.resumeReady=true;
@@ -34949,7 +35028,8 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
   async function speakVoca(text,lang,preferred){
     if(!String(text||'').trim())return;
     if(!canSpeakVoca())throw Error('브라우저의 음성 합성(TTS)을 사용할 수 없습니다. 삼성/Google TTS 설정을 확인해 주세요.');
-    return window.speakOne(text,speechRate(),lang,preferred,{spv:true});
+    const dbPath=await window.saywardSpvAudioMap?.find?.(text).catch(()=> '')||'';
+    return window.speakOne(text,speechRate(),lang,preferred,{spv:true,audioPath:dbPath});
   }
   async function playSingle(w,kind){
     stopAudio(true);
@@ -34999,8 +35079,8 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
       }
     }
     if(!audio.queue.length){status('선택한 반복 항목에 재생할 내용이 없습니다.');return}
+    await window.saywardSpvAudioMap?.preload?.(state.items);
     const token=++audio.token;audio.active=true;audio.resumeReady=false;
-    spvStartWake();
     updateAudioButtons();
     try{window.saywardStudioAudio?.stop?.()}catch(_e){}
     let playbackError=null;
@@ -35040,8 +35120,6 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
         status(playbackError?'음성 재생 오류 · 이어듣기 가능: '+String(playbackError?.message||playbackError).slice(0,125):finished?'✓ Speaking VOCA 연속 재생 완료':'⏸ 정지 위치에서 이어듣기 가능');
       }
       document.querySelectorAll('.spv132WordUnit.is-reading').forEach(el=>el.classList.remove('is-reading'));
-      // A selected multi-DAY playlist retains its lock between DAY boundaries.
-      if(!playlist.active)spvStopWake();
     }
   }
 
@@ -35116,7 +35194,7 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
   async function selectChoice(id){if(state.choiceSelected||state.busy)return;const w=current(),chosen=state.items.find(x=>x.item_id===id);if(!w||!chosen)return;state.choiceSelected=id;render();await save(chosen.item_id===w.item_id?'success':'miss',chosen.word,false)}
 let loadToken=0;
   async function load(reset=true,initialGroup=0){const token=++loadToken;state.loaded=false;render();const a=auth();if(!a.authenticated||!a.uid||!window.saywardAuth?.readSpeakingVocaItems){state.loaded=true;state.items=[];render();status('관리자 로그인 후 이용할 수 있습니다.');return}
-    try{const data=await window.saywardAuth.readSpeakingVocaItems(state.day);if(!Array.isArray(data)||data.length!==10)throw Error('DAY '+state.day+'의 10개 단어 조회 실패 · 파일럿 공개 권한 확인');const ids=data.map(x=>x.item_id),rows=await window.saywardAuth.readSpeakingVocaAttempts(ids);if(token!==loadToken)return;state.items=data;state.activeUid=a.uid;state.attempts=rows||[];if(reset){state.view=state.host==='studio'?'quiz':'cards';state.i=state.host==='studio'?0:-1;state.stage=0;state.group=initialGroup<0?Math.max(0,groups().length-1):Math.min(initialGroup,Math.max(0,groups().length-1));buildQuizOrder();state.studied=new Set();state.completed=false;resetQ()}state.loaded=true;render();status('DAY '+state.day+' 유사어 '+groups().length+'그룹 · 10개 단어를 불러왔습니다.')}
+    try{const data=await window.saywardAuth.readSpeakingVocaItems(state.day);if(!Array.isArray(data)||data.length!==10)throw Error('DAY '+state.day+'의 10개 단어 조회 실패 · 파일럿 공개 권한 확인');const ids=data.map(x=>x.item_id),rows=await window.saywardAuth.readSpeakingVocaAttempts(ids);if(token!==loadToken)return;state.items=data;state.activeUid=a.uid;state.attempts=rows||[];if(reset){state.view=state.host==='studio'?'quiz':'cards';state.i=state.host==='studio'?0:-1;state.stage=0;state.group=initialGroup<0?Math.max(0,groups().length-1):Math.min(initialGroup,Math.max(0,groups().length-1));buildQuizOrder();state.studied=new Set();state.completed=false;resetQ()}state.loaded=true;void window.saywardSpvAudioMap?.preload?.(state.items);render();status('DAY '+state.day+' 유사어 '+groups().length+'그룹 · 10개 단어를 불러왔습니다.')}
     catch(e){if(token!==loadToken)return;state.items=[];state.attempts=[];state.loaded=true;state.view='cards';state.group=0;render();status('DAY '+state.day+' 콘텐츠 미등록/조회 미완료: '+String(e?.message||e).slice(0,140))}
   }
   function normalizeHeader(){
