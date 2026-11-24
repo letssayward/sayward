@@ -55,12 +55,13 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.1 · Learning Dashboard</title>
-<meta name="sayward-release" content="7.0.1">
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.2 · Learning Dashboard</title>
+<!-- v7.0.2 Speaking VOCA: manifest MP3 first (en and ko), fallback TTS, legacy lesson audio unchanged -->
+<meta name="sayward-release" content="7.0.2">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
-  const release=marker?.content?.trim() || '7.0.1';
+  const release=marker?.content?.trim() || '7.0.2';
   window.SAYWARD_RELEASE=release;
   window.MV_APP_VERSION=release;
   window.APP_VERSION=release;
@@ -33064,7 +33065,7 @@ for(const f of data){if(validVoice(String(f?.name||'')))voices.add(f.name);}
    return match;
  }
  async function playFile(text,rate,lang,element,ticket,verifiedAudioPath=''){
-   if(!/^en(?:-|$)/i.test(lang||'en-US')){fallbackReason='NOT_ENGLISH';return false;}
+   if(!/^(en|ko)(?:-|$)/i.test(lang||'en-US')){fallbackReason='UNSUPPORTED_MP3_LANGUAGE';return false;}
    if(!await checkAccess()){fallbackReason=auth()?'MP3_PERMISSION_DISABLED_OR_CHECK_FAILED':'NOT_AUTHENTICATED';return false;}
    const path=(verifiedAudioPath&&validPath(verifiedAudioPath))?verifiedAudioPath:await findPath(text);
    if(ticket!==generation)return true;
@@ -33116,7 +33117,7 @@ for(const f of data){if(validVoice(String(f?.name||'')))voices.add(f.name);}
      const spoken=typeof options?.ttsText==='string'&&options.ttsText.trim()?options.ttsText:text;
      return initialSpeak.call(this,spoken,actualRate,lang,element);
    }
-   if(norm(text)&&/^en(?:-|$)/i.test(lang||'en-US')){
+   if(norm(text)&&(/^en(?:-|$)/i.test(lang||'en-US') || (options?.spv===true && /^ko(?:-|$)/i.test(lang||'')))){
      let ok=false;try{ok=await playFile(text,actualRate,lang,element,ticket,options?.audioPath||'');}catch(e){console.warn('[SAYWARD Kokoro]',String(e?.message||e).slice(0,100));}
      if(ticket!==generation)return;if(ok)return;
    }
@@ -34903,7 +34904,7 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
   async function speakVoca(text,lang,preferred){
     if(!String(text||'').trim())return;
     if(!canSpeakVoca())throw Error('브라우저의 음성 합성(TTS)을 사용할 수 없습니다. 삼성/Google TTS 설정을 확인해 주세요.');
-    return window.speakOne(text,speechRate(),lang,preferred,{skipMp3:true});
+    return window.speakOne(text,speechRate(),lang,preferred,{spv:true});
   }
   async function playSingle(w,kind){
     stopAudio(true);
@@ -35187,7 +35188,7 @@ let loadToken=0;
     else if(act==='reveal'){state.answer=$('spvAnswerInput130')?.value||'';state.revealed=true;render()}
     else if(act==='rate'){void save(t.dataset.rate,$('spvAnswerInput130')?.value||state.answer)}
     else if(act==='speak'){const w=current();if(w)void playSingle(w,state.stage===2?'example':'word')}
-    else if(act==='speak-word'||act==='speak-example'||act==='speak-meaning'){const w=state.items.find(x=>x.item_id===t.dataset.id);if(w)void playSingle(w,act==='speak-word'?'word':act==='speak-meaning'?'meaning':'example')}
+    else if(act==='speak-word'||act==='speak-example'||act==='speak-meaning'){try{window.saywardKokoroMixed?.prime?.('speaking-voca-tap')}catch(e){}const w=state.items.find(x=>x.item_id===t.dataset.id);if(w)void playSingle(w,act==='speak-word'?'word':act==='speak-meaning'?'meaning':'example')}
   }
   // v6.4.140: The exact MY / DAY shared page-turn engine is the only swipe renderer.
   // Manual: MV_SWIPE_STANDARD_254; page buttons and auto playback: mvAutoPlaybackPageTurn255.
@@ -35280,7 +35281,7 @@ let loadToken=0;
     $('spvHomeOpen130')?.addEventListener('click',()=>open('cards'));
     $('spvDrawer130')?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();open('cards')});
     $('spvBack132')?.addEventListener('click',close);
-    $('spvAllPlay132')?.addEventListener('click',()=>{if(audio.active)stopAudio();else void playGroup('all')});
+    $('spvAllPlay132')?.addEventListener('click',()=>{if(audio.active)stopAudio();else {try{window.saywardKokoroMixed?.prime?.('speaking-voca-play')}catch(e){}void playGroup('all')}});
     $('spvConfig133')?.addEventListener('click',()=>{stopAudio(true);if(typeof openConfiguration==='function')openConfiguration()});
     $('spvHome132')?.addEventListener('click',close);
     $('spvQuiz132')?.addEventListener('click',startQuiz);
