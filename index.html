@@ -3,7 +3,7 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.9 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.10 · Learning Dashboard</title>
 <!-- v7.0.5 Speaking VOCA first-launch default + DB MP3 mapping + admin reconciliation + wake lock -->
 <meta name="sayward-release" content="7.0.9">
 <script id="sayward-version-source">
@@ -3720,6 +3720,26 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 #myClassPage .swStudySentence .myStudyActions{margin-top:8px}
 #myClassPage .swStudySentenceWarning,#myClassPage .swStudySentenceMissing{font-size:12px;color:#9a3412;background:#fff7ed;border-radius:10px;padding:10px}
 @media(max-width:540px){#myClassPage .swStudySentence{padding:10px}}
+</style>
+
+<style id="spv710-voice-settings-style">
+#homePage[data-clean-mode="spv"] #sharedStudyRepeatParts206{gap:7px!important;padding:10px 12px!important}
+#homePage[data-clean-mode="spv"] #sharedStudyRepeatParts206 .rp206Title{display:none!important}
+#homePage[data-clean-mode="spv"] #sharedStudyRepeatParts206 .rp206Checks{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+#homePage[data-clean-mode="spv"] #sharedStudyRepeatParts206 .rp206Checks label{font-size:11px!important;white-space:normal!important;line-height:1.25}
+#homePage[data-clean-mode="spv"] #sharedStudyRepeatParts206 .rp206Checks label:last-child{grid-column:1/-1}
+#homePage[data-clean-mode="spv"] #sharedStudyStart{font-size:12px!important}
+.spv710VoicePicker{border:1px solid #bdc9e5;border-radius:10px;background:#eef3ff;color:#233f72;font-weight:800;font-size:12px;padding:7px 10px;align-self:flex-start}
+#spv710VoiceModal{position:fixed;z-index:999999;inset:0;background:#09122ab8;display:none;justify-content:center;align-items:center;padding:15px;color:#1d3059}
+.spv710ModalCard{background:white;border-radius:18px;max-width:490px;width:100%;max-height:88vh;overflow:auto;padding:18px;box-shadow:0 20px 60px #0004}
+.spv710ModalTitle{display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:18px}
+.spv710ModalTitle button{border:0;background:#eef0fa;border-radius:8px;padding:5px 12px}
+.spv710ModalCard p{font-size:12px;line-height:1.6;color:#5a6882}
+.spv710Voices>div{display:flex;justify-content:space-between;align-items:center;gap:6px;border:1px solid #e2e7f0;border-radius:11px;margin:7px 0;padding:10px}
+.spv710Voices label{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:12px;min-width:0}
+.spv710Voices button,.spv710ModalActions button{background:#495cbd;color:white;padding:9px 11px;border:0;border-radius:9px;font-size:12px;font-weight:700}
+.spv710ModalActions{display:flex;gap:9px;justify-content:flex-end;padding-top:12px}
+@media(max-width:520px){#homePage[data-clean-mode="spv"] #sharedStudySelectBar .sharedStudySelectActions{grid-template-columns:1fr 1fr!important}#homePage[data-clean-mode="spv"] #sharedStudyRepeatParts206{grid-column:1/-1!important;grid-row:2!important}#homePage[data-clean-mode="spv"] #sharedStudyStart{grid-column:1/-1!important;grid-row:3!important}}
 </style>
 </head><body>
 
@@ -17469,7 +17489,7 @@ const c=ensureStandardCourseCheckbox(card,'friends',n,`FRIENDS S01E${String(n).p
       hint:'OPIC 학습 세트는 Chunk → 핵심 답변 → 말하기 순서로, MY 수업과 동일한 공통 엔진을 사용합니다.',
       start:'선택 항목 반복 학습'
     };
-    if(mode==='spv')return {title:'🗣 Speaking VOCA 선택 학습',hint:'20 DAY씩 탐색 · 학습 가능한 DAY를 선택한 뒤 공통 전체 재생으로 듣습니다.',start:'▶ 선택 DAY 전체 재생'};
+    if(mode==='spv')return {title:'🗣 Speaking VOCA 선택 학습',hint:'DAY를 선택하고 영어 단어·한글 뜻 / 예문 / 한국어 해설 중 원하는 항목을 재생합니다.',start:'▶ 선택 DAY 듣기'};
     if(mode==='business')return {title:'💼 Business 영어 선택 학습',hint:'소리영어와 동일한 표준 화면으로 PT 영어의 Chunk → 핵심 표현 → 발표 말하기를 반복합니다.',start:'선택 강의 반복 학습'};
     if(mode==='friends')return {
       title:'🎬 FRIENDS 에피소드 선택 학습',
@@ -17492,7 +17512,7 @@ const c=ensureStandardCourseCheckbox(card,'friends',n,`FRIENDS S01E${String(n).p
     friends:{items:[['chunks','Chunk'],['corrections','핵심 문장'],['speaking','말하기']],defaults:['chunks','corrections','speaking']},
     business:{items:[['chunks','Chunk'],['corrections','핵심 표현'],['speaking','발표 말하기'],['habits','학습 Point']],defaults:['chunks','corrections','speaking']},
     opic:{items:[['corrections','핵심 교정'],['chunks','Chunk'],['speaking','말하기']],defaults:['corrections','chunks','speaking']},
-    spv:{items:[['word','영어 단어·한글 뜻'],['example','예문']],defaults:['word','example']}
+    spv:{items:[['word','영어 단어·한글 뜻'],['example','예문'],['narration','한국어 해설']],defaults:['word','example']}
   };
   function studyRepeatPartsKey206(mode){return `mv_repeatParts206_${mode}`}
   function studyRepeatParts206(mode){
@@ -17512,7 +17532,11 @@ const c=ensureStandardCourseCheckbox(card,'friends',n,`FRIENDS S01E${String(n).p
   function renderStudyRepeatParts206(mode){
     const box=document.getElementById('sharedStudyRepeatParts206');if(!box)return;
     const cfg=STUDY_REPEAT_PARTS_206[mode]||STUDY_REPEAT_PARTS_206.day,picked=studyRepeatParts206(mode);
-    box.innerHTML=`<div class="rp206Title">반복 항목</div><div class="rp206Checks">${cfg.items.map(([k,t])=>`<label><input type="checkbox" data-rp206="${k}" ${picked.includes(k)?'checked':''}>${t}</label>`).join('')}</div>`;
+    box.innerHTML=`<div class="rp206Title">${mode==='spv'?'재생 항목 선택':'반복 항목'}</div><div class="rp206Checks">${cfg.items.map(([k,t])=>`<label><input type="checkbox" data-rp206="${k}" ${picked.includes(k)?'checked':''}>${t}</label>`).join('')}</div>`;
+    if(mode==='spv'){
+      const b=document.createElement('button');b.type='button';b.className='spv710VoicePicker';b.textContent='🎙 해설 목소리 비교';
+      b.onclick=()=>window.saywardSpvNarratorVoicePreview?.();box.appendChild(b);
+    }
     box.querySelectorAll('input[data-rp206]').forEach(c=>c.onchange=()=>{
       let now=[...box.querySelectorAll('input[data-rp206]:checked')].map(x=>x.dataset.rp206);
       if(!now.length){c.checked=true;now=[c.dataset.rp206]}
@@ -17544,7 +17568,7 @@ const c=ensureStandardCourseCheckbox(card,'friends',n,`FRIENDS S01E${String(n).p
     const myDbRefresh=document.getElementById('swMyHomeDbRefresh');
     if(myDbRefresh)myDbRefresh.hidden=mode!=='my';
     if(hint)hint.textContent=copy.hint;
-    if(start)start.textContent=allRepeatEnabled209()?'선택 항목 반복 학습':copy.start;
+    if(start)start.textContent=mode==='spv'?'▶ 선택 DAY 듣기':allRepeatEnabled209()?'선택 항목 반복 학습':copy.start;
     if(count)count.textContent=`${selectedCount(mode)} 선택`;
     if(mode==='sori'){
       const saved=new Set(readJson(STUDY_SELECT_KEYS.sori,[1]).map(Number));
@@ -34870,8 +34894,47 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
   const state={items:[],day:1,i:-1,stage:0,revealed:false,answer:'',attempts:[],busy:false,completed:false,loaded:false,host:'page',group:0,view:'cards',quizOrder:[],shuffleQuiz:true,studied:new Set(),choiceSelected:'',choiceSaved:false,pendingEntry:null,activeUid:null};
   const audio={token:0,active:false,groupMode:'all',groupIndex:0,wordIndex:0,queue:[],cursor:0,resumeReady:false};
   const playlist={token:0,active:false,selectedDays:[],dayIndex:0,resumeReady:false,userId:''};
-  // v7.0.9: Authenticated read-only Korean group lessons; separate from word/example audio.
+  // v7.0.10: Authenticated read-only Korean group lessons; separate from word/example audio.
   const narration={lessons:new Map(),selected:new Set([1,2,3]),active:false,token:0,queue:[],cursor:0,error:'',loading:false,day:0};
+  // v7.0.10 Korean narration voice preview. Browser voices are previews;
+  // production MP3 voices are selected separately in Windows sample tool.
+  const KO_VOICE_KEY='sayward_spv_narrator_browser_voice_v710';
+  function selectedKoVoice(){try{return localStorage.getItem(KO_VOICE_KEY)||''}catch(_){return ''}}
+  function koreanVoices(){return (window.speechSynthesis?.getVoices?.()||[]).filter(v=>/^ko(?:[-_]|$)/i.test(v.lang||''))}
+  async function speakSelectedKoNarration(text){
+    const name=selectedKoVoice(),voice=koreanVoices().find(v=>v.voiceURI===name||v.name===name);
+    if(!voice)return window.speakOne(text,speechRate(),'ko-KR',null,{skipMp3:true,spv:true});
+    return new Promise((resolve,reject)=>{
+      const ut=new SpeechSynthesisUtterance(text);
+      ut.lang='ko-KR';ut.voice=voice;ut.rate=Math.max(.75,Math.min(1.15,speechRate()));
+      let done=false;const finish=(err)=>{if(done)return;done=true;err?reject(err):resolve()};
+      ut.onend=()=>finish();ut.onerror=e=>finish(new Error(e.error||'TTS 재생 실패'));
+      try{window.speechSynthesis.cancel();window.speechSynthesis.speak(ut)}catch(e){finish(e)}
+    });
+  }
+  const samplePhrase='안녕하세요. 오늘은 비슷한 영어 표현의 차이를 알아보겠습니다. 첫 번째 표현은 상황에 따라 의미가 달라질 수 있습니다.';
+  function previewVoice(name){
+    const v=koreanVoices().find(x=>x.voiceURI===name||x.name===name);
+    if(!v)return;
+    try{window.speechSynthesis.cancel()}catch(_){ }
+    const u=new SpeechSynthesisUtterance(samplePhrase);u.lang='ko-KR';u.voice=v;u.rate=.94;
+    window.speechSynthesis.speak(u);
+  }
+  function openNarratorVoicePanel(){
+    let overlay=document.getElementById('spv710VoiceModal');
+    if(!overlay){overlay=document.createElement('div');overlay.id='spv710VoiceModal';document.body.appendChild(overlay)}
+    const voices=koreanVoices(),saved=selectedKoVoice();
+    overlay.innerHTML=`<div class="spv710ModalCard" role="dialog" aria-modal="true" aria-label="한국어 해설 음성 선택"><div class="spv710ModalTitle">🎙 한국어 해설 목소리 미리듣기 <button type="button" data-spv710="close">✕</button></div><p>단어 뜻을 읽는 기기의 한국어 TTS 음성도 비교할 수 있습니다. 여기서 선택한 목소리는 앱의 즉시 듣기에만 적용됩니다. 제작용 MP3는 별도 음성 샘플을 고른 뒤 생성하세요.</p><div class="spv710Voices">${voices.length?voices.map((v,i)=>`<div><label><input type="radio" name="spv710v" value="${esc(v.voiceURI||v.name)}" ${saved===(v.voiceURI||v.name)?'checked':''}><b>${esc(v.name)}</b> <small>${v.localService?'기기 설치':'온라인 제공'}</small></label><button type="button" data-spv710="preview" data-voice="${esc(v.voiceURI||v.name)}">▶ 샘플 듣기</button></div>`).join(''):'이 기기에서 사용 가능한 한국어 음성이 하나도 발견되지 않았습니다. 삼성/Google TTS 음성팩을 확인해 주세요.'}</div><div class="spv710ModalActions"><button type="button" data-spv710="default">기본 목소리</button><button type="button" data-spv710="save">선택 적용</button></div></div>`;
+    overlay.style.display='flex';
+    overlay.onclick=e=>{
+      const b=e.target.closest('[data-spv710]');if(!b)return;
+      if(b.dataset.spv710==='close'){window.speechSynthesis?.cancel();overlay.style.display='none'}
+      if(b.dataset.spv710==='preview')previewVoice(b.dataset.voice);
+      if(b.dataset.spv710==='default'){try{localStorage.removeItem(KO_VOICE_KEY)}catch(_){};overlay.style.display='none'}
+      if(b.dataset.spv710==='save'){const v=overlay.querySelector('[name="spv710v"]:checked')?.value;if(v){try{localStorage.setItem(KO_VOICE_KEY,v)}catch(_){}}overlay.style.display='none'}
+    };
+  }
+  window.saywardSpvNarratorVoicePreview=openNarratorVoicePanel;
   function narrationButtonLabel(){return narration.active?'⏸ 해설 정지':narration.queue.length&&narration.cursor<narration.queue.length?'▶ 해설 이어듣기':'▶ 선택 해설 재생'}
   function stopNarration(discard=false){
     const wasActive=narration.active;
@@ -34937,7 +35000,7 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
         if(state.group!==item.group-1){state.group=item.group-1;render()}
         status(`🎓 GROUP ${item.group} 한국어 해설 재생 중 · 중지하면 현재 문장부터 이어듣습니다.`);
         // Direct browser TTS avoids a network MP3 wait before user activation.
-        await window.speakOne(item.text,speechRate(),'ko-KR',null,{skipMp3:true,spv:true});
+        await speakSelectedKoNarration(item.text);
         if(ticket!==narration.token||!narration.active)break;
         narration.cursor++;
       }
@@ -34951,7 +35014,7 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
     }
   }
 
-  // v7.0.9: Speaking VOCA narration playback + selected-DAY playlist resume.
+  // v7.0.10: Speaking VOCA narration playback + selected-DAY playlist resume.
   // The legacy DAY/MY Wake Lock is intentionally left unchanged.
   const spvWake={wanted:false,lock:null,pending:false,seq:0};
   async function spvRequestWake(){
@@ -35104,6 +35167,10 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
       const parts=typeof window.studyRepeatParts206==='function'?window.studyRepeatParts206('spv'):['word','example'];
       const start=mode==='all'?0:state.group;
       audio.queue=[];audio.cursor=0;audio.groupMode=mode;
+      const addNarration=parts.includes('narration');
+      if(addNarration && (narration.loading||!narration.lessons.size)){
+        await loadNarration(state.day,loadToken,String(auth().uid||''));
+      }
       for(let idx=start;idx<(mode==='all'?list.length:start+1);idx++){
         const group=list[idx];if(!group)continue;
         for(let j=0;j<group.words.length;j++){
@@ -35114,6 +35181,11 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
           }
           if(parts.includes('example'))for(let r=0;r<sentenceRepeats;r++)
             audio.queue.push({groupIndex:idx,wordIndex:j,itemId:w.item_id,word:w.word,kind:'example',repeat:r,text:w.example_en,lang:'en-US'});
+        }
+        if(addNarration){
+          const lesson=narration.lessons.get(group.no);
+          if(lesson?.script_ko)for(const text of narrationChunks(lesson.script_ko))
+            audio.queue.push({groupIndex:idx,wordIndex:0,itemId:group.words[0]?.item_id,word:'GROUP '+group.no,kind:'narration',repeat:0,text,lang:'ko-KR'});
         }
       }
     }
@@ -35138,10 +35210,11 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
         unit?.classList.add('is-reading');
         // Scroll only when a new word begins; scrolling each example hides the page-turn effect.
         if(step.kind==='word')unit?.scrollIntoView?.({behavior:'smooth',block:'center'});
-        const label=step.kind==='word'?'단어':step.kind==='meaning'?'한글 뜻':`예문 ${step.repeat+1}/${sentenceRepeats}`;
+        const label=step.kind==='word'?'단어':step.kind==='meaning'?'한글 뜻':step.kind==='narration'?'한국어 해설':`예문 ${step.repeat+1}/${sentenceRepeats}`;
         status(`🔊 그룹 ${list[step.groupIndex]?.no||step.groupIndex+1} · ${step.wordIndex+1}/${list[step.groupIndex]?.words.length||1} · ${w.word} · ${label}`);
         const target=step.kind==='word'?unit?.querySelector('.spv132WordButton'):step.kind==='meaning'?unit?.querySelector('.spv134Meaning'):unit?.querySelector('.spv132SentenceButton');
-        await speakVoca(step.text,step.lang,target);
+        if(step.kind==='narration')await speakSelectedKoNarration(step.text);
+        else await speakVoca(step.text,step.lang,target);
         if(token!==audio.token||!audio.active)break; // On stop, replay interrupted segment, not the whole lesson.
         audio.cursor++; // Advance only after this exact audio segment completes.
         if(step.kind==='example' && audio.cursor<audio.queue.length){
@@ -35198,7 +35271,7 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
     const pagination=`<nav class="spv135BookPager" aria-label="유사어 책장 및 DAY 연속 넘기기"><button type="button" data-spv="prev-group" ${canTurnBook(-1)?'':'disabled'} aria-label="${state.group>0?'이전 유사어 카드':'이전 DAY의 마지막 카드'}" title="${state.group>0?'이전 페이지':'이전 DAY'}">‹</button><span class="spv135PageDots" aria-label="전체 ${nPages}페이지 중 ${state.group+1}페이지">${pageDots}</span><span class="spv135PageCount" aria-live="polite">${state.group+1} / ${nPages}</span><button type="button" data-spv="next-group" ${canTurnBook(1)?'':'disabled'} aria-label="${state.group<nPages-1?'다음 유사어 카드':'다음 DAY의 첫 카드'}" title="${state.group<nPages-1?'다음 페이지':'다음 DAY'}">›</button></nav>`;
     const bookPage=hasContent?groupCard(list[state.group]):`<article class="myStudyCard spv132GroupChunk spv134GroupPage spv141PendingPage" aria-label="DAY ${state.day} 콘텐츠 준비 중"><div class="myStudyNum">SPEAKING VOCA · DAY ${state.day} / 120</div><h3>DAY ${state.day} 콘텐츠 준비 중</h3><p>이 DAY에는 아직 10개 단어가 등록·공개되지 않았습니다.</p><p>좌우 스와이프 또는 아래 화살표로 이전·다음 DAY로 이동할 수 있습니다. 콘텐츠는 준비되는 대로 표시됩니다.</p></article>`;
     return topNav('cards')+`<div class="spv132DayLine"><span>DAY ${state.day} / 120 · ${hasContent?'총 10단어':'콘텐츠 준비 중'}</span><span>← DAY 1 ~ 120 연속 책장 넘기기 →</span></div>`+
-      (hasContent?narrationToolbar(list):'')+`<div id="spv139BookStage" class="spv139BookStage" data-swipe-ignore="true"><div id="spv134GroupViewport" class="spv135BookPage" data-swipe-ignore="true">${bookPage}</div></div>`+pagination+
+      `<div id="spv139BookStage" class="spv139BookStage" data-swipe-ignore="true"><div id="spv134GroupViewport" class="spv135BookPage" data-swipe-ignore="true">${bookPage}</div></div>`+pagination+
       `<p class="spvFoot130">카드 끝에서 계속 넘기면 다음 DAY 첫 카드로, 첫 카드에서 뒤로 넘기면 이전 DAY 마지막 카드로 이동합니다. DAY 1 이전과 DAY 120 이후는 이동하지 않습니다.</p>`;
   }
   function choicesFor(w){const g=groups().find(x=>x.no===Number(w.group_no));let arr=g?[...g.words]:[w];if(arr.length<4){const ids=new Set(arr.map(x=>x.item_id)),other=state.items.find(x=>!ids.has(x.item_id));if(other)arr.push(other)}arr=arr.slice(0,4);const target=arr.findIndex(x=>x.item_id===w.item_id),position=(state.i*3+1)%arr.length;const copy=arr.slice(),chosen=copy.splice(target,1)[0];copy.splice(position,0,chosen);return copy}
@@ -35881,7 +35954,7 @@ let loadToken=0;
 .spv708NotSelected{opacity:.58;}
 @media(max-width:370px){.spv708StageChoices{gap:4px}.spv708StageChoices label{padding:7px 2px;gap:3px;}}
 
-/* v7.0.9: Korean teacher narration sourced from sayward_spv_group_lessons */
+/* v7.0.10: Korean teacher narration sourced from sayward_spv_group_lessons */
 .spv709LessonToolbar{margin:12px 0 15px;padding:14px;border:1px solid #c9d6f2;border-radius:17px;background:#f1f5ff;box-shadow:0 3px 14px rgba(35,65,125,.07);color:#172b56}
 .spv709LessonHeader{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;font-size:16px}
 .spv709LessonHeader small,.spv709LessonInfo{font-size:12px;color:#4e638b}
