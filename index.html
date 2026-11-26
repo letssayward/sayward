@@ -3,9 +3,9 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.12 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.17 · Learning Dashboard</title>
 <!-- v7.0.5 Speaking VOCA first-launch default + DB MP3 mapping + admin reconciliation + wake lock -->
-<meta name="sayward-release" content="7.0.9">
+<meta name="sayward-release" content="7.0.17">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -3747,6 +3747,21 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 #spvPage132 .spv711SiblingWord{max-width:100%;overflow-wrap:anywhere}
 #spvPage132 .spv711SiblingWord.is-current{color:#263b92;font-weight:950;background:#e4e8ff;border-radius:5px;padding:1px 5px;outline:1px solid #c6cced}
 #spvPage132 .spv711Divider{color:#a6afc8;font-weight:400}
+</style>
+<style id="spv717-all-day-sibling-standard">
+/* Standard across DAY 1-120: always show the full semantic group above EACH word card. */
+#spvPage132 .spv132WordUnit.spv134WordBox > .spv717GroupWords {
+  display:flex!important;align-items:center;flex-wrap:wrap;gap:3px 6px;
+  width:100%;max-width:100%;box-sizing:border-box;
+  margin:0 0 13px!important;padding:0 0 10px!important;
+  border-bottom:1px solid rgba(95,111,163,.25)!important;
+  color:#596787;font-size:clamp(11px,2.8vw,13px);font-weight:700;
+  line-height:1.65;white-space:normal;overflow-wrap:anywhere;
+}
+#spvPage132 .spv717GroupWordsLabel{font-size:10px;letter-spacing:.015em;color:#71809e;font-weight:750;margin-right:3px}
+#spvPage132 .spv717GroupWord{font:inherit;white-space:normal;overflow-wrap:anywhere}
+#spvPage132 .spv717GroupWord.is-current{font-weight:950;color:#293f96;background:#e2e7ff;border:1px solid #c1caed;border-radius:6px;padding:1px 5px}
+#spvPage132 .spv717GroupDot{color:#a2abc3;font-weight:400}
 </style>
 </head><body>
 
@@ -34919,6 +34934,27 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
       try{window.speechSynthesis.cancel();window.speechSynthesis.speak(ut)}catch(e){finish(e)}
     });
   }
+  // v7.0.16: Block legacy Korean narration path until a different voice is uploaded and linked.
+  // Narration is a GROUP audio asset, NOT a word/meaning MP3.
+  // The authenticated group lesson row is the only source for its exact MP3 path.
+  function spvNarrationMp3Ready(lesson){
+    return !!(lesson && lesson.audio_status==='ready' && /^audio\/ko_kr_[a-z0-9_]+\/[a-f0-9]{24}\.mp3$/.test(lesson.audio_path||'') && !/^audio\/ko_kr_sunhineural\//.test(lesson.audio_path||''));
+  }
+  function spvNarratorLabel(lesson){
+    if(/^audio\/ko_kr_sunhineural\//.test(lesson?.audio_path||''))return '이전 SunHi MP3 차단 · 선택한 한국어 TTS 재생';
+    if(!spvNarrationMp3Ready(lesson))return '새 MP3 미연결 · 한국어 TTS';
+    const voice=String(lesson.audio_path).split('/')[1].replace(/^ko_kr_/,'');
+    return voice==='sunhineural'?'기존 SunHi 음성 연결 중':('연결 MP3 · '+voice);
+  }
+  async function spvPlayNarrationAsset(lesson,text,mp3Full){
+    if(mp3Full && spvNarrationMp3Ready(lesson)){
+      // Explicit audioPath bypasses the generic manifest and its obsolete caches.
+      // If signed MP3 fails, the existing speech system falls back to Korean TTS.
+      return window.speakOne(lesson.script_ko,speechRate(),'ko-KR',null,
+        {spv:true,audioPath:lesson.audio_path});
+    }
+    return speakSelectedKoNarration(text);
+  }
   const samplePhrase='안녕하세요. 오늘은 비슷한 영어 표현의 차이를 알아보겠습니다. 첫 번째 표현은 상황에 따라 의미가 달라질 수 있습니다.';
   function previewVoice(name){
     const v=koreanVoices().find(x=>x.voiceURI===name||x.name===name);
@@ -34979,12 +35015,14 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
       <div class="spv709LessonHeader"><strong>🎓 AI 선생님 한국어 해설</strong><small>DAY ${state.day} · ${narration.lessons.size}/${list.length}그룹 대본</small></div>
       <div class="spv709LessonChoices">${list.map(g=>`<label><input type="checkbox" data-spv="narration-select" data-group="${g.no}" ${narration.selected.has(g.no)?'checked':''}><span>GROUP ${g.no} · ${esc(g.title)}</span></label>`).join('')}</div>
       <div class="spv709LessonActions"><button type="button" data-spv="narration-play" class="spv709LessonPlay" ${count&&!narration.loading?'':'disabled'}>${narrationButtonLabel()}</button><button type="button" data-spv="narration-reset" ${narration.active||narration.queue.length?'':'disabled'}>■ 처음부터</button></div>
-      <small class="spv709LessonInfo" role="status">${narration.loading?'해설 대본 조회 중…':narration.error?esc(narration.error):'선택된 그룹의 설명만 순서대로 재생합니다. MP3가 없어도 한국어 TTS로 들을 수 있습니다.'}</small>
+      <small class="spv709LessonInfo" role="status">${narration.loading?'해설 대본 조회 중…':narration.error?esc(narration.error):'선택 해설의 최신 DB 연결 MP3를 우선 재생합니다. '+list.map(g=>'G'+g.no+': '+spvNarratorLabel(narration.lessons.get(g.no))).join(' / ')}</small>
     </section>`;
   }
   async function playNarration(){
     if(narration.active){stopNarration();render();status('⏸ 한국어 해설 일시정지 · 현재 설명부터 이어듣기');return}
     if(narration.loading){status('해설 대본을 불러오는 중입니다.');return}
+    await loadNarration(state.day,loadToken,String(auth().uid||'')); // refresh MP3 path after voice replacement
+    if(narration.error){status(narration.error);return}
     if(!canSpeakVoca()){status('기기의 한국어 TTS를 사용할 수 없습니다.');return}
     if(!narration.queue.length||narration.cursor>=narration.queue.length){
       narration.queue=[];narration.cursor=0;
@@ -34992,7 +35030,8 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
         if(!narration.selected.has(group.no))continue;
         const lesson=narration.lessons.get(group.no);
         if(!lesson?.script_ko)continue;
-        for(const text of narrationChunks(lesson.script_ko))narration.queue.push({group:group.no,text});
+        if(spvNarrationMp3Ready(lesson))narration.queue.push({group:group.no,text:lesson.script_ko,mp3Full:true});
+        else for(const text of narrationChunks(lesson.script_ko))narration.queue.push({group:group.no,text,mp3Full:false});
       }
     }
     if(!narration.queue.length){status(narration.error||'선택한 그룹의 한국어 해설이 없습니다.');return}
@@ -35005,9 +35044,12 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
       while(ticket===narration.token&&narration.active&&narration.cursor<narration.queue.length){
         const item=narration.queue[narration.cursor];
         if(state.group!==item.group-1){state.group=item.group-1;render()}
+        const previous=narration.cursor>0?narration.queue[narration.cursor-1]:null;
+        revealPlayingNarration(item.group-1,{scroll:!previous||previous.group!==item.group});
         status(`🎓 GROUP ${item.group} 한국어 해설 재생 중 · 중지하면 현재 문장부터 이어듣습니다.`);
-        // Direct browser TTS avoids a network MP3 wait before user activation.
-        await speakSelectedKoNarration(item.text);
+        const lesson=narration.lessons.get(item.group);
+        status(`🎓 GROUP ${item.group} · ${spvNarratorLabel(lesson)}`);
+        await spvPlayNarrationAsset(lesson,item.text,item.mp3Full);
         if(ticket!==narration.token||!narration.active)break;
         narration.cursor++;
       }
@@ -35162,6 +35204,22 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
     finally{el?.classList.remove('is-reading')}
   }
   function pause(ms){return new Promise(resolve=>setTimeout(resolve,ms))}
+  // v7.0.14: expose the existing Korean script before narration starts.
+  // The script is rendered from DB unchanged, and only the matching group's details open.
+  function revealPlayingNarration(groupIndex,{scroll=true}={}){
+    if(state.view!=='cards')return;
+    const group=groups()[groupIndex];
+    if(!group)return;
+    const card=$('spvGroupCard132-'+group.no);
+    const details=card?.querySelector('details.spv709LessonText');
+    if(!details)return;
+    if(!details.open)details.open=true;
+    details.classList.add('spv714NarrationActive');
+    if(scroll){
+      const target=details.querySelector('summary')||details;
+      try{target.scrollIntoView({behavior:'smooth',block:'center'})}catch(_){ }
+    }
+  }
   async function playGroup(mode){
     if(!state.loaded||state.items.length!==10)return;
     if(state.host!=='page'){open('cards');return}
@@ -35175,11 +35233,24 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
       const start=mode==='all'?0:state.group;
       audio.queue=[];audio.cursor=0;audio.groupMode=mode;
       const addNarration=parts.includes('narration');
-      if(addNarration && (narration.loading||!narration.lessons.size)){
+      if(addNarration){
         await loadNarration(state.day,loadToken,String(auth().uid||''));
+      }
+      if(addNarration && (narration.error || !list.slice(start,mode==='all'?list.length:start+1).every(g=>narration.lessons.get(g.no)?.script_ko))){
+        status('한국어 해설을 불러오지 못해 연속 재생을 시작하지 않았습니다. '+(narration.error||'그룹 대본 누락'));
+        return;
       }
       for(let idx=start;idx<(mode==='all'?list.length:start+1);idx++){
         const group=list[idx];if(!group)continue;
+        // Narration FIRST for every group when selected in Home playback options.
+        if(addNarration){
+          const lesson=narration.lessons.get(group.no);
+          if(lesson?.script_ko){
+            const mp3Full=spvNarrationMp3Ready(lesson);
+            const textParts=mp3Full?[lesson.script_ko]:narrationChunks(lesson.script_ko);
+            for(const text of textParts)audio.queue.push({groupIndex:idx,wordIndex:0,itemId:group.words[0]?.item_id,word:'GROUP '+group.no,kind:'narration',repeat:0,text,lang:'ko-KR',mp3Full});
+          }
+        }
         for(let j=0;j<group.words.length;j++){
           const w=group.words[j];
           if(parts.includes('word')){
@@ -35188,11 +35259,6 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
           }
           if(parts.includes('example'))for(let r=0;r<sentenceRepeats;r++)
             audio.queue.push({groupIndex:idx,wordIndex:j,itemId:w.item_id,word:w.word,kind:'example',repeat:r,text:w.example_en,lang:'en-US'});
-        }
-        if(addNarration){
-          const lesson=narration.lessons.get(group.no);
-          if(lesson?.script_ko)for(const text of narrationChunks(lesson.script_ko))
-            audio.queue.push({groupIndex:idx,wordIndex:0,itemId:group.words[0]?.item_id,word:'GROUP '+group.no,kind:'narration',repeat:0,text,lang:'ko-KR'});
         }
       }
     }
@@ -35220,7 +35286,13 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
         const label=step.kind==='word'?'단어':step.kind==='meaning'?'한글 뜻':step.kind==='narration'?'한국어 해설':`예문 ${step.repeat+1}/${sentenceRepeats}`;
         status(`🔊 그룹 ${list[step.groupIndex]?.no||step.groupIndex+1} · ${step.wordIndex+1}/${list[step.groupIndex]?.words.length||1} · ${w.word} · ${label}`);
         const target=step.kind==='word'?unit?.querySelector('.spv132WordButton'):step.kind==='meaning'?unit?.querySelector('.spv134Meaning'):unit?.querySelector('.spv132SentenceButton');
-        if(step.kind==='narration')await speakSelectedKoNarration(step.text);
+        if(step.kind==='narration'){
+          const previous=audio.cursor>0?audio.queue[audio.cursor-1]:null;
+          revealPlayingNarration(step.groupIndex,{scroll:!previous||previous.kind!=='narration'||previous.groupIndex!==step.groupIndex});
+          const lesson=narration.lessons.get(list[step.groupIndex]?.no);
+          status(`🎓 GROUP ${list[step.groupIndex]?.no} · ${spvNarratorLabel(lesson)}`);
+          await spvPlayNarrationAsset(lesson,step.text,step.mp3Full);
+        }
         else await speakVoca(step.text,step.lang,target);
         if(token!==audio.token||!audio.active)break; // On stop, replay interrupted segment, not the whole lesson.
         audio.cursor++; // Advance only after this exact audio segment completes.
@@ -35282,8 +35354,17 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
     for(const [a,b] of merged){html+=esc(raw.slice(cursor,a))+'<strong class="spv712NarrationEmphasis">'+esc(raw.slice(a,b))+'</strong>';cursor=b;}
     return html+esc(raw.slice(cursor));
   }
-  function groupCard(group){const words=group.words.map((w,j)=>`<section class="spv132WordUnit spv134WordBox" data-id="${esc(w.item_id)}" aria-label="${esc(w.word)} 단어 학습 카드">
-      <div class="spv711SiblingStrip" aria-label="같은 그룹 유사어 전체">${group.words.map((peer,k)=>`<span class="spv711SiblingWord ${k===j?'is-current':''}" ${k===j?'aria-current="true"':''}>${esc(peer.word)}</span>`).join('<span class="spv711Divider" aria-hidden="true">·</span>')}</div>
+  // v7.0.17: group-based, DAY-independent semantic word strip.
+  function spv717GroupStrip(group,currentItemId){
+    const peers=(group?.words||[]).filter(peer=>String(peer?.word||'').trim());
+    if(!peers.length)return '';
+    return `<div class="spv717GroupWords" role="group" aria-label="같은 유사어 그룹의 전체 단어"><span class="spv717GroupWordsLabel">유사어</span>${peers.map((peer,k)=>{
+      const active=String(peer.item_id)===String(currentItemId);
+      return `${k?'<span class="spv717GroupDot" aria-hidden="true">·</span>':''}<span class="spv717GroupWord${active?' is-current':''}"${active?' aria-current="true"':''}>${esc(peer.word)}</span>`;
+    }).join('')}</div>`;
+  }
+  function groupCard(group){const words=group.words.map((w,j)=>`<section class="spv132WordUnit spv134WordBox" data-id="${esc(w.item_id)}" data-spv-group="${group.no}" aria-label="${esc(w.word)} 단어 학습 카드">
+      ${spv717GroupStrip(group,w.item_id)}
       <div class="spv134WordHead"><span class="spv134WordIndex">WORD ${j+1} / ${group.words.length}</span><span class="spv134WordLevel">${esc(w.pos)} · ${esc(w.level_target)}</span></div>
       <button class="spv132WordButton myChunkPattern spv134MainWord" type="button" data-spv="speak-word" data-id="${esc(w.item_id)}" aria-label="${esc(w.word)} 영어 발음과 한국어 뜻 재생">${esc(w.word)} <span class="spv134Speaker" aria-hidden="true">🔊</span></button>
       <div class="spv134IPA">${esc(w.pronunciation_ipa||'발음기호 준비 중')}</div>
@@ -35297,7 +35378,7 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
       <div class="spv132CompareList"><div class="spv132CompareTitle">🔍 유사어의 뜻과 뉘앙스 먼저 비교</div>
       ${group.words.map(w=>`<div class="spv132CompareItem"><strong>${esc(w.word)}</strong><span>${esc(w.meaning_ko)}</span><small>${esc(w.nuance_ko)}</small></div>`).join('')}</div>
       <p class="spv132Distinction">💡 ${esc(group.hint)}</p>
-      <details class="spv709LessonText"><summary>📖 AI 선생님 한국어 해설 대본 보기</summary><p>${spvNarrationRichText(narration.lessons.get(group.no)?.script_ko|| (narration.loading?'해설을 불러오는 중입니다.':narration.error||'해설 대본이 준비되지 않았습니다.'),group)}</p></details>
+      <details class="spv709LessonText"><summary>📖 AI 선생님 한국어 해설 대본 보기 · ${esc(spvNarratorLabel(narration.lessons.get(group.no)))}</summary><p>${spvNarrationRichText(narration.lessons.get(group.no)?.script_ko|| (narration.loading?'해설을 불러오는 중입니다.':narration.error||'해설 대본이 준비되지 않았습니다.'),group)}</p></details>
       <div class="spv132SentencesTitle">🔊 영어 단어 → 한글 뜻 → 영어 예문 ${Math.max(1,Math.min(5,Number(options().myClassSentenceRepeat)||2))}회 → 다음 유사어</div>
       <div class="spv132GroupSentences">${words}</div>
     </article>`}
@@ -35331,7 +35412,21 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
     else{middle=`<p class="spvPromptTitle130">STEP 3 · 해당 단어를 사용해 영어 문장을 말하세요.</p><div class="spvKorean130 sw5527-prompt">${esc(w.prompt_ko)}</div><p class="spv132TargetWord">목표 단어: <b>${esc(w.word)}</b></p><textarea class="spvField130" id="spvAnswerInput130" rows="3" aria-label="영어 문장 만들기" placeholder="직접 말한 뒤 문장을 입력할 수 있습니다.">${esc(state.answer)}</textarea><div class="spvActions130"><button type="button" class="spvBtn130 primary" data-spv="reveal">기준 문장 비교</button></div>${state.revealed?`<div class="spvAnswer130"><b>${esc(w.sample_answer_en)}</b><p class="spv132Explanation">${esc(w.contrast)}</p></div><div class="spvActions130"><button type="button" class="spvBtn130" data-spv="speak">🔊 기준 문장 듣기</button></div>${gradeButtons()}`:''}`}
     return head+middle+`<div class="spvNav130"><button type="button" data-spv="prev">← 이전</button><button type="button" data-spv="cards">유사어 카드</button><button type="button" data-spv="skip">${state.i===state.items.length-1&&level===lastStage()?'결과 보기':'건너뛰기 →'}</button></div></div>`;
   }
-  function render(){document.body.classList.remove('spv145-typing');++spv145FocusTicket;const root=body();if(!root)return;if(!state.loaded){root.innerHTML=`<div class="spvInfo130">Speaking VOCA DAY ${state.day}을 불러오는 중입니다…</div>`;normalizeHeader();return}if(state.items.length!==10&&state.view==='quiz')state.view='cards';root.innerHTML=state.view==='quiz'?renderQuiz():renderCards();normalizeHeader();updateAudioButtons()}
+  // v7.0.17: ensure all visible word cards have the same group vocabulary header,
+  // including later DAYs and redraws after playback/page changes.
+  function spv717EnsureAllCardStrips(root){
+    if(state.view!=='cards'||!root)return;
+    const byGroup=new Map(groups().map(g=>[Number(g.no),g]));
+    root.querySelectorAll('.spv132WordUnit.spv134WordBox').forEach(card=>{
+      if(card.querySelector(':scope > .spv717GroupWords'))return;
+      const group=byGroup.get(Number(card.getAttribute('data-spv-group')||state.group+1));
+      if(!group)return;
+      const holder=document.createElement('div');
+      holder.innerHTML=spv717GroupStrip(group,card.getAttribute('data-id'));
+      if(holder.firstElementChild)card.prepend(holder.firstElementChild);
+    });
+  }
+  function render(){document.body.classList.remove('spv145-typing');++spv145FocusTicket;const root=body();if(!root)return;if(!state.loaded){root.innerHTML=`<div class="spvInfo130">Speaking VOCA DAY ${state.day}을 불러오는 중입니다…</div>`;normalizeHeader();return}if(state.items.length!==10&&state.view==='quiz')state.view='cards';root.innerHTML=state.view==='quiz'?renderQuiz():renderCards();spv717EnsureAllCardStrips(root);normalizeHeader();updateAudioButtons()}
   function resetQ(){state.revealed=false;state.answer='';state.choiceSelected='';state.choiceSaved=false;state.pendingEntry=null;state.busy=false}
   function startQuiz(){if(!state.loaded||state.items.length!==10){status('DAY '+state.day+'은 10개 단어가 아직 준비되지 않았습니다.');return}stopAudio(true);state.view='quiz';buildQuizOrder();state.i=0;state.stage=firstStage();state.completed=false;resetQ();render();window.scrollTo?.(0,0)}
   function next(){resetQ();const following=nextStageOf(state.stage);if(following!==undefined)state.stage=following;else if(state.i<state.items.length-1){state.i++;state.stage=firstStage()}else state.completed=true;render()}
@@ -35598,6 +35693,34 @@ let loadToken=0;
     $('spvHome132')?.addEventListener('click',close);
     $('spvQuiz132')?.addEventListener('click',startQuiz);
     $('spvBody130')?.addEventListener('click',onClick);$('spvStudioBody131')?.addEventListener('click',onClick);
+    // v7.0.14: horizontal swipes on the Speaking VOCA *word quiz*.
+    // Swipe left = next selected stage/word; swipe right = previous.
+    // Tap targets and text inputs are excluded to keep typing and rating reliable.
+    for(const quizRootId of ['spvBody130','spvStudioBody131']){
+      const quizRoot=$(quizRootId);if(!quizRoot)continue;
+      let quizGesture=null;
+      quizRoot.addEventListener('touchstart',e=>{
+        quizGesture=null;
+        if(state.view!=='quiz'||!state.loaded||state.busy||state.pendingEntry||e.touches.length!==1)return;
+        if(quizRootId==='spvBody130'&&$('spvPage132')?.classList.contains('hidden'))return;
+        if(quizRootId==='spvStudioBody131'&&!$('sw5527PracticePage')?.classList.contains('sw131-word-mode'))return;
+        if(e.target.closest?.('input,textarea,select,button,a,label,summary,[contenteditable="true"]'))return;
+        const t=e.touches[0],vw=window.innerWidth||document.documentElement.clientWidth;
+        if(t.clientX<24||t.clientX>vw-24)return; // protect Android back gesture
+        quizGesture={x:t.clientX,y:t.clientY,at:Date.now()};
+      },{passive:true});
+      quizRoot.addEventListener('touchend',e=>{
+        const g=quizGesture;quizGesture=null;
+        if(!g||state.view!=='quiz'||state.busy||state.pendingEntry)return;
+        const t=e.changedTouches?.[0];if(!t)return;
+        const dx=t.clientX-g.x,dy=t.clientY-g.y;
+        if(Math.abs(dx)<65||Math.abs(dx)<Math.abs(dy)*1.4)return;
+        if(dx<0){if(!state.completed)next()}
+        else prev();
+        // Existing next()/prev() keeps selected-stage order and leaves DB grades untouched.
+      },{passive:true});
+      quizRoot.addEventListener('touchcancel',()=>{quizGesture=null},{passive:true});
+    }
     // Identical swipe mechanics to MY/SORI/OPIC/DAY (v5.3.275 shared engine):
     // full-screen snapshot, 1:1 finger-follow, velocity, tilt and screen-wide throw.
     // No SPV-only 58px transform / 440ms animation / independent swipe threshold.
@@ -35919,6 +36042,12 @@ let loadToken=0;
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
 })();
 </script>
+<style id="spv714-quiz-narration-style">
+#spvPage132 .spv714NarrationActive {border-color:#8091d1;background:#f5f7ff;box-shadow:0 0 0 1px rgba(82,104,194,.18)}
+#spvPage132 .spv714NarrationActive > summary {color:#354aa1}
+#spvPage132 .spv132QuizCard {touch-action:pan-y}
+#sw131StudioWordPanel .spv132QuizCard {touch-action:pan-y}
+</style>
 <style id="spv141-day-navigation-style">#spvPage132 .spv141PendingPage{min-height:280px;display:flex;flex-direction:column;justify-content:center;gap:12px;background:#f8f9fd!important}#spvPage132 .spv141PendingPage h3{font-size:21px;color:#384b74!important}#spvPage132 .spv141PendingPage p{font-size:14px;line-height:1.7;color:#64748b;margin:0}#spvPage132 .spv135BookPager button:disabled{opacity:.28!important;cursor:default}</style>
 
 <style id="spv148-ui-polish">
@@ -36016,5 +36145,37 @@ let loadToken=0;
 .spv709LessonText p{margin:10px 0 1px;white-space:pre-wrap;line-height:1.75;color:#2d3750}
 @media(max-width:490px){.spv709LessonChoices{grid-template-columns:1fr}.spv709LessonChoices label{padding:7px 9px;font-size:13px}}
 .spv712NarrationEmphasis{font-weight:800;color:#192b52}
+</style>
+
+<style id="spv713-compact-day-cards">
+/* v7.0.14: compact DAY picker; retain DAY title, checkbox, selection behavior. */
+#homePage .spvDayGrid133 { gap:8px!important; }
+#homePage .spvDayGrid133 .myClassCard,
+#homePage .spvDayGrid133 .myClassCard.myClassChecked {
+  height:84px!important; min-height:84px!important; max-height:84px!important;
+  padding:10px 9px!important; overflow:hidden!important;
+  border-radius:14px!important; box-sizing:border-box!important;
+}
+#homePage .spvDayGrid133 .myClassTop { padding-right:32px!important; margin:0!important; min-height:0!important; height:auto!important; }
+#homePage .spvDayGrid133 .myClassTop b {
+  font-size:11px!important; line-height:1.25!important;
+  white-space:nowrap!important; overflow:hidden!important; text-overflow:ellipsis!important;
+}
+#homePage .spvDayGrid133 .myClassBadge,
+#homePage .spvDayGrid133 .myClassMeta { display:none!important; }
+#homePage .spvDayGrid133 .myClassTitle {
+  display:-webkit-box!important; -webkit-box-orient:vertical!important; -webkit-line-clamp:2!important;
+  max-height:37px!important; min-height:0!important; overflow:hidden!important;
+  font-size:13px!important; line-height:1.35!important;
+  margin:10px 28px 0 0!important; padding:0!important;
+}
+#homePage .spvDayGrid133 .studySelectMini {top:10px!important;right:9px!important;}
+#homePage .spvDayGrid133 .studySelectMini input {width:21px!important;height:21px!important;}
+@media(max-width:365px){
+  #homePage .spvDayGrid133 .myClassCard,
+  #homePage .spvDayGrid133 .myClassCard.myClassChecked{height:80px!important;min-height:80px!important;max-height:80px!important;padding:9px 7px!important}
+  #homePage .spvDayGrid133 .myClassTop b{font-size:10px!important}
+  #homePage .spvDayGrid133 .myClassTitle{font-size:12px!important;margin-top:9px!important}
+}
 </style>
 </body></html>
