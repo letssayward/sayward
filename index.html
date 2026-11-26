@@ -3,7 +3,7 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.10 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.12 · Learning Dashboard</title>
 <!-- v7.0.5 Speaking VOCA first-launch default + DB MP3 mapping + admin reconciliation + wake lock -->
 <meta name="sayward-release" content="7.0.9">
 <script id="sayward-version-source">
@@ -3740,6 +3740,13 @@ body.mvSwipeActive246{overscroll-behavior:none!important}
 .spv710Voices button,.spv710ModalActions button{background:#495cbd;color:white;padding:9px 11px;border:0;border-radius:9px;font-size:12px;font-weight:700}
 .spv710ModalActions{display:flex;gap:9px;justify-content:flex-end;padding-top:12px}
 @media(max-width:520px){#homePage[data-clean-mode="spv"] #sharedStudySelectBar .sharedStudySelectActions{grid-template-columns:1fr 1fr!important}#homePage[data-clean-mode="spv"] #sharedStudyRepeatParts206{grid-column:1/-1!important;grid-row:2!important}#homePage[data-clean-mode="spv"] #sharedStudyStart{grid-column:1/-1!important;grid-row:3!important}}
+</style>
+<style id="spv711-sibling-strip">
+/* v7.0.12: compact, repeated similar-word strip on every individual word card */
+#spvPage132 .spv711SiblingStrip{display:flex;align-items:center;flex-wrap:wrap;gap:3px 5px;max-width:100%;margin:0 0 12px;padding:0 0 9px;border-bottom:1px solid rgba(98,109,158,.20);font-size:clamp(10px,2.7vw,12px);line-height:1.5;font-weight:700;color:#65708e;overflow-wrap:anywhere}
+#spvPage132 .spv711SiblingWord{max-width:100%;overflow-wrap:anywhere}
+#spvPage132 .spv711SiblingWord.is-current{color:#263b92;font-weight:950;background:#e4e8ff;border-radius:5px;padding:1px 5px;outline:1px solid #c6cced}
+#spvPage132 .spv711Divider{color:#a6afc8;font-weight:400}
 </style>
 </head><body>
 
@@ -35238,7 +35245,45 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
     }
   }
 
+  // v7.0.12: visual-only emphasis; narration source and TTS remain unmodified.
+  function spvNarrationRichText(script,group){
+    const raw=String(script||'');
+    if(!raw)return '';
+    const marks=[];
+    const add=(start,end)=>{if(start>=0&&end>start&&end<=raw.length)marks.push([start,end]);};
+    const escapeRe=v=>String(v).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const terms=[...new Set((group?.words||[]).map(w=>String(w.word||'').trim()).filter(Boolean))].sort((a,b)=>b.length-a.length);
+    for(const word of terms){
+      const re=new RegExp('(^|[^A-Za-z])('+escapeRe(word)+')(?=$|[^A-Za-z])','gi');
+      let m;
+      while((m=re.exec(raw))!==null){
+        const at=m.index+m[1].length;
+        add(at,at+m[2].length);
+        // Bold the Korean definition following the first headword mention.
+        const rest=raw.slice(at+m[2].length);
+        const def=rest.match(/^\s*(?:은|는|이란|란)\s*([^.!?\n]{5,72})(?=[.!?\n]|$)/);
+        if(def){
+          const definition=def[1];
+          if(/(?:입니다|뜻입니다|상태입니다|의미입니다|말합니다|느낌입니다|것입니다|표현입니다|가리킵니다)$/.test(definition.trim())){
+            const where=at+m[2].length+def[0].indexOf(definition);
+            add(where,where+definition.length);
+          }
+        }
+      }
+    }
+    // The closing contrast is the most important nuance to retain.
+    const summary=/정리하면[^.!?\n]{12,165}[.!?]?/g;
+    let match;while((match=summary.exec(raw))!==null){add(match.index,match.index+match[0].length);}
+    if(!marks.length)return esc(raw);
+    marks.sort((a,b)=>a[0]-b[0]||b[1]-a[1]);
+    const merged=[];
+    for(const [a,b] of marks){const prev=merged[merged.length-1];if(prev&&a<=prev[1])prev[1]=Math.max(b,prev[1]);else merged.push([a,b]);}
+    let html='',cursor=0;
+    for(const [a,b] of merged){html+=esc(raw.slice(cursor,a))+'<strong class="spv712NarrationEmphasis">'+esc(raw.slice(a,b))+'</strong>';cursor=b;}
+    return html+esc(raw.slice(cursor));
+  }
   function groupCard(group){const words=group.words.map((w,j)=>`<section class="spv132WordUnit spv134WordBox" data-id="${esc(w.item_id)}" aria-label="${esc(w.word)} 단어 학습 카드">
+      <div class="spv711SiblingStrip" aria-label="같은 그룹 유사어 전체">${group.words.map((peer,k)=>`<span class="spv711SiblingWord ${k===j?'is-current':''}" ${k===j?'aria-current="true"':''}>${esc(peer.word)}</span>`).join('<span class="spv711Divider" aria-hidden="true">·</span>')}</div>
       <div class="spv134WordHead"><span class="spv134WordIndex">WORD ${j+1} / ${group.words.length}</span><span class="spv134WordLevel">${esc(w.pos)} · ${esc(w.level_target)}</span></div>
       <button class="spv132WordButton myChunkPattern spv134MainWord" type="button" data-spv="speak-word" data-id="${esc(w.item_id)}" aria-label="${esc(w.word)} 영어 발음과 한국어 뜻 재생">${esc(w.word)} <span class="spv134Speaker" aria-hidden="true">🔊</span></button>
       <div class="spv134IPA">${esc(w.pronunciation_ipa||'발음기호 준비 중')}</div>
@@ -35252,7 +35297,7 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
       <div class="spv132CompareList"><div class="spv132CompareTitle">🔍 유사어의 뜻과 뉘앙스 먼저 비교</div>
       ${group.words.map(w=>`<div class="spv132CompareItem"><strong>${esc(w.word)}</strong><span>${esc(w.meaning_ko)}</span><small>${esc(w.nuance_ko)}</small></div>`).join('')}</div>
       <p class="spv132Distinction">💡 ${esc(group.hint)}</p>
-      <details class="spv709LessonText"><summary>📖 AI 선생님 한국어 해설 대본 보기</summary><p>${esc(narration.lessons.get(group.no)?.script_ko|| (narration.loading?'해설을 불러오는 중입니다.':narration.error||'해설 대본이 준비되지 않았습니다.'))}</p></details>
+      <details class="spv709LessonText"><summary>📖 AI 선생님 한국어 해설 대본 보기</summary><p>${spvNarrationRichText(narration.lessons.get(group.no)?.script_ko|| (narration.loading?'해설을 불러오는 중입니다.':narration.error||'해설 대본이 준비되지 않았습니다.'),group)}</p></details>
       <div class="spv132SentencesTitle">🔊 영어 단어 → 한글 뜻 → 영어 예문 ${Math.max(1,Math.min(5,Number(options().myClassSentenceRepeat)||2))}회 → 다음 유사어</div>
       <div class="spv132GroupSentences">${words}</div>
     </article>`}
@@ -35970,5 +36015,6 @@ let loadToken=0;
 .spv709LessonText summary{font-size:14px;font-weight:700;cursor:pointer;color:#374a83}
 .spv709LessonText p{margin:10px 0 1px;white-space:pre-wrap;line-height:1.75;color:#2d3750}
 @media(max-width:490px){.spv709LessonChoices{grid-template-columns:1fr}.spv709LessonChoices label{padding:7px 9px;font-size:13px}}
+.spv712NarrationEmphasis{font-weight:800;color:#192b52}
 </style>
 </body></html>
