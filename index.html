@@ -3,9 +3,9 @@
 
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.21 · Learning Dashboard</title>
+<meta http-equiv="Expires" content="0"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content"><title>SAYWARD v7.0.22 · Learning Dashboard</title>
 <!-- v7.0.5 Speaking VOCA first-launch default + DB MP3 mapping + admin reconciliation + wake lock -->
-<meta name="sayward-release" content="7.0.20">
+<meta name="sayward-release" content="7.0.22">
 <script id="sayward-version-source">
 (function(){
   const marker=document.querySelector('meta[name="sayward-release"]');
@@ -34934,17 +34934,17 @@ body.spv145-typing #spvPage132 .spv147QuizOptions,body.spv145-typing #sw131Studi
       try{window.speechSynthesis.cancel();window.speechSynthesis.speak(ut)}catch(e){finish(e)}
     });
   }
-  // v7.0.16: Block legacy Korean narration path until a different voice is uploaded and linked.
-  // Narration is a GROUP audio asset, NOT a word/meaning MP3.
-  // The authenticated group lesson row is the only source for its exact MP3 path.
+  // v7.0.22: The Korean meaning and Korean group-narration MP3 both use
+  // ko-KR-SunHiNeural in the current Supabase database. Do NOT block the
+  // group's existing SunHi MP3: the previous block forced a different device TTS.
+  // Narration is a GROUP asset; its exact MP3 path comes from the DB lesson row.
   function spvNarrationMp3Ready(lesson){
-    return !!(lesson && lesson.audio_status==='ready' && /^audio\/ko_kr_[a-z0-9_]+\/[a-f0-9]{24}\.mp3$/.test(lesson.audio_path||'') && !/^audio\/ko_kr_sunhineural\//.test(lesson.audio_path||''));
+    return !!(lesson && lesson.audio_status==='ready' && /^audio\/ko_kr_[a-z0-9_]+\/[a-f0-9]{24}\.mp3$/.test(lesson.audio_path||''));
   }
   function spvNarratorLabel(lesson){
-    if(/^audio\/ko_kr_sunhineural\//.test(lesson?.audio_path||''))return '이전 SunHi MP3 차단 · 선택한 한국어 TTS 재생';
-    if(!spvNarrationMp3Ready(lesson))return '새 MP3 미연결 · 한국어 TTS';
+    if(!spvNarrationMp3Ready(lesson))return '해설 MP3 미연결 · 한국어 TTS 대체 재생';
     const voice=String(lesson.audio_path).split('/')[1].replace(/^ko_kr_/,'');
-    return voice==='sunhineural'?'기존 SunHi 음성 연결 중':('연결 MP3 · '+voice);
+    return voice==='sunhineural'?'한글 뜻과 같은 SunHi MP3 재생':('연결 MP3 · '+voice);
   }
   async function spvPlayNarrationAsset(lesson,text,mp3Full){
     if(mp3Full && spvNarrationMp3Ready(lesson)){
